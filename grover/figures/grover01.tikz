@@ -1,0 +1,8 @@
+﻿\begin{tikzpicture}[node distance=4cm, every edge/.style={draw,very thick,->}]
+     \node(E){$\ket\phi$};
+     \node[right of=E](F){$O_f\ket\phi$};
+     \node[right of=F](G){$G\ket\phi = S_{\psi_H}(O_f\ket\phi)$};
+     \draw (E) edge[red] node[above]{$O_f$} (F);
+     \draw (F) edge[red] node[above]{$S_{\psi_H}$} (G);
+     \draw (E.south) edge[red, bend right=20] node[below]{$G$} (G.south);       
+\end{tikzpicture}

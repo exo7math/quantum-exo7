@@ -1,0 +1,26 @@
+﻿\begin{tikzpicture}[scale=1,
+  level distance=2.5cm,
+  edge from parent path=  {(\tikzparentnode.east)  -- +(1,0) -- (\tikzchildnode.west)},
+  level 1/.style={sibling distance=2cm},
+  level 2/.style={sibling distance=1cm},
+]
+  \node{01}[grow=right,thick] 
+    child {node {11}
+      child {node {10}
+        child {node {11} child {node {01}} }
+        child {node {10} child {node {00}}}
+       }
+   }
+    child {node {01}
+      child {node {01}
+        child {node {$-01$} child {node {$-11$}} }
+        child {node {00} child {node {10}}}
+       }
+   }
+  ;
+
+\draw[dotted] (1.,1.25) -- ++ (0,-3.5) node[below]{$H$} ;
+\draw[dotted] (3.75,1.25) -- ++ (0,-3.5) node[below]{$CNOT$} ;
+\draw[dotted] (6.,1.25) -- ++ (0,-3.5) node[below]{$H$} ;
+\draw[dotted] (8.75,1.75) -- ++ (0,-4) node[below]{$X$} ;
+\end{tikzpicture}

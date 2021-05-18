@@ -1,0 +1,13 @@
+\begin{tikzpicture}
+
+\node[draw,minimum height=1cm, align=center] (P) at (0,0){NAND};
+
+\node(O) at (-3,0){};
+
+\draw (O) -- ++(1.5,0) -- ++(0,0.3) -- ($(P.west)+(0,0.3)$);
+\draw (O) -- ++(1.5,0) -- ++(0,-0.3) -- ($(P.west)+(0,-0.3)$);
+\node (out) at (2.5,0) {};
+\draw[->,>=latex](P.east) -- (out);
+
+\node at (0,-1){\bf \'Equivalent porte NOT};
+\end{tikzpicture}

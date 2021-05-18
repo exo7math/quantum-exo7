@@ -1,0 +1,23 @@
+﻿%\usepackage{tikzsymbols}
+\begin{tikzpicture}[scale=1]
+
+\filldraw[very thick,fill=gray!10]  (0,0) rectangle ++(5,3);
+
+
+\node[scale=6] at (1.5,1.5) {\Cat};
+
+\begin{scope}[xshift=2.7cm,yshift=0.4cm,scale=0.6]
+\draw[thick,red] (1,2) -- ++(0,-1) -- ++(-0.5,-1) -- ++(2,0) -- ++(-0.5,1) -- ++(0,1);
+\draw[thick,red,decorate,decoration={snake, segment length=1mm, amplitude=0.1mm}] (1,1.5)--(2,1.5) ;
+\node[scale=1.5,red] at (1.5,0.5) {\NiceReapey};
+\end{scope}
+
+
+% https://tex.stackexchange.com/questions/349960/
+\begin{scope}[blue,xshift=4.25cm,yshift=2.25cm,scale=0.1]
+\fill (0,0) circle (0.5);
+\foreach \ang in {0,120,240}{
+        \draw[thick,rotate around={\ang:(0,0)}] (0,0) ellipse (4 and 1); 
+};
+\end{scope}
+\end{tikzpicture}

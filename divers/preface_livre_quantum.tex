@@ -1,0 +1,194 @@
+
+\pagestyle{empty}\thispagestyle{empty}
+\vspace*{\fill}
+\vspace*{5ex}
+\begin{center}
+	\fontsize{40}{40}\selectfont
+	\textsc{quantum}
+	
+	\vspace*{1ex}
+	\textsc{\fontsize{24}{24}\selectfont 
+	Un peu de mathématiques  \\[-1.5ex]
+	pour l'informatique quantique
+	}
+	
+	\vspace*{2ex}
+	
+	%\fontsize{32}{32}\selectfont
+	\Large
+	\textsc{arnaud bodin}
+
+\end{center}
+\vfill
+\begin{center}
+	\Large
+	\textsc{algorithmes \  et \  mathématiques}
+\end{center}
+\begin{center}
+	\LogoExoSept{2}
+\end{center}
+
+\clearemptydoublepage
+%\clearpage
+
+\thispagestyle{empty}
+
+\vspace*{\fill}
+\section*{Un peu de mathématiques pour l'informatique quantique}
+
+%---------------------------
+%{\large\textbf{Introduction}}
+
+Les ordinateurs quantiques sont parmi nous ! Enfin presque\ldots{}
+Dans ce livre vous découvrirez l'informatique quantique et apprendrez à programmer sur un vrai ordinateur quantique.
+Même s'ils sont encore balbutiants et ne sont pas disponibles chez vous, vous avez accès en ligne à des machines quantiques pour tester de petits programmes. 
+
+\smallskip
+
+La physique quantique est l'une des révolutions du vingtième siècle. Cela reste une matière difficile à étudier et encore plus à comprendre tant certains phénomènes quantiques contredisent notre perception du monde physique classique. Cependant la théorie quantique est validée par de nombreuses expériences et a des applications dans notre quotidien.
+
+\smallskip
+
+Depuis quelques années il existe des ordinateurs quantiques effectuant des calculs sur des \og{}qubits\fg{}.
+Un qubit stocke l'information quantique : soit l'information $0$, notée $\ket0$, soit l'information $1$, notée $\ket1$, soit d'une certaine manière les deux en même temps ! Un qubit correspond à l'état d'une particule qui peut osciller entre un état au repos et un état excité.
+
+\smallskip
+
+C'est là qu'interviennent les mathématiques ! La physique quantique est difficile à comprendre et les ordinateurs quantiques sont compliqués à réaliser mais heureusement les mathématiques nécessaires pour s'initier à l'informatique quantique sont simples.
+Par exemple un qubit s'exprime en fait par l'expression mathématique :
+$$\alpha\ket0 + \beta\ket1.$$
+C'est cette combinaison des deux états $\ket0$ et $\ket1$ qu'on vulgarise par la phrase mystérieuse \og{}prendre à la fois la valeur $0$ et la valeur $1$\fg{}. Il est cependant délicat de trouver un sens physique à cette superposition dans le monde classique et c'est encore plus ardu de maîtriser une particule qui réalise un qubit.  
+Les mathématiques sont le langage idéal pour exprimer la physique et l'informatique quantique. Nous expliquons ici les notions (superposition, intrication, non-clonage quantique,\ldots{}) comme des concepts mathématiques en se permettant de s'affranchir de l'univers physique délicat qui se cache derrière.
+
+\smallskip
+
+Ce livre offre une introduction douce à l'informatique quantique et aux mathématiques afin d'être en mesure de présenter l'algorithme de Shor. Cet algorithme a fait découvrir au monde la révolution que pourrait apporter un ordinateur quantique. Les communications sur internet sont pour la plupart sécurisées par un chiffrement qui repose sur la difficulté de factoriser de très grands entiers, même avec des ordinateurs très puissants. L'algorithme de Shor montre que sur un ordinateur quantique (plus gros que ceux qui existent actuellement) ce problème deviendrait simple à résoudre.
+
+\smallskip
+
+Pour démarrer l'étude de l'informatique quantique avec ce livre, vous n'avez pas besoin de connaître la physique quantique, vous n'avez pas non plus besoin de compétences avancées en programmation (un peu de \Python).
+Les mathématiques de ce cours sont d'un niveau première année d'études supérieures, avec des incursions vers la deuxième année. Toutes les notions de bases sont introduites, en particulier les nombres complexes jouent un rôle important (d'ailleurs les nombre $\alpha$ et $\beta$ ci-dessus sont des nombres complexes) ainsi que les vecteurs et les matrices.
+% mais évidemment si vous êtes déjà familier avec certaines c'est un avantage. 
+
+L'informatique quantique est un monde déconcertant mais bien réel. À vous de le découvrir !
+
+
+  
+
+\bigskip
+\vspace*{\fill}
+\begin{center}
+L'intégralité des codes \Python{} ainsi que tous les fichiers sources sont sur la page \emph{GitHub} d'Exo7 :\\
+\href{https://github.com/exo7math/}{\og{}GitHub : Exo7\fg{}}.
+\end{center}
+
+
+
+%\vspace*{\fill}
+
+
+%\newpage
+\cleardoublepage
+\thispagestyle{empty}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+\tableofcontents
+
+\cleardoublepage
+\section*{Résumé des chapitres}
+
+
+\newcommand{\titrechapitre}[1]{{\textbf{#1}}\nopagebreak}
+\newcommand{\descriptionchapitre}[1]{%
+\smallskip\hfill
+\begin{minipage}{0.95\textwidth}\small#1\end{minipage}\medskip\smallskip}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Découverte de l'informatique quantique}
+
+\descriptionchapitre{Ce chapitre donne un aperçu des calculs avec les qubits et est une introduction détaillée des chapitres suivants dans lesquels plusieurs notions seront revues : nombres complexes, vecteurs, matrices, portes logiques, physique quantique. Ce chapitre se termine par une application assez difficile : le codage super-dense.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Utiliser un ordinateur quantique (avec Qiskit)}
+
+\descriptionchapitre{Le but est de programmer des circuits quantiques et de simuler les résultats. Mais nous allons aussi utiliser un véritable ordinateur quantique.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Nombres complexes}
+
+\descriptionchapitre{Les nombres complexes sont les coefficients naturels des qubits. Nous détaillons les calculs avec les nombres complexes ainsi que sur les qubits.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Vecteurs et matrices}
+
+\descriptionchapitre{Un qubit est un vecteur et les opérations sur les qubits sont codées par des matrices. Nous étudions ici le calcul sur les vecteurs, les matrices et leur lien avec les qubits.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Informatique classique}
+
+\descriptionchapitre{Nous rappelons quelques principes de base du fonctionnement d'un ordinateur classique avec les notions de bits, de portes logiques et de complexité d'un algorithme.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Physique quantique}
+
+\descriptionchapitre{L'objectif est de comprendre les notions de base de la physique quantique.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Téléportation quantique}
+
+\descriptionchapitre{La téléportation quantique permet de transmettre un qubit d'un point $A$ à un point $B$.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Un premier algorithme quantique}
+
+\descriptionchapitre{Nous commençons par étudier une version simple de l'algorithme de Deutsch--Jozsa afin de nous familiariser avec les objets, les techniques et les types d'algorithmes que nous découvrirons dans la seconde partie du livre.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Portes quantiques}
+
+\descriptionchapitre{Nous approfondissons nos connaissances théoriques des portes quantiques en étudiant ce qu'elles peuvent réaliser (ou pas !).}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Algorithme de Deutsch--Jozsa}
+
+\descriptionchapitre{Nous expliquons et prouvons l'algorithme de Deutsch--Jozsa dans le cas général. C'est notre premier algorithme quantique qui supplante les algorithmes classiques et c'est aussi l'occasion d'introduire plusieurs notions utiles pour la suite.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Algorithme de Grover}
+
+\descriptionchapitre{L'algorithme de Grover est un algorithme de recherche d'un élément dans une liste qui est plus efficace que les algorithmes classiques. Son principe est simple, même si sa mise en \oe uvre est un peu complexe. L'algorithme de Grover ne fournit pas un résultat sûr à $100$ \%, mais une réponse qui a de grandes chances d'être la bonne.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Arithmétique}
+
+\descriptionchapitre{La sécurité des communications sur internet est basée sur l'arithmétique et en particulier sur le système de cryptographie RSA qui repose sur la difficulté de factoriser de très grands entiers avec un ordinateur classique. Nous présentons dans ce chapitre les notions essentielles d'arithmétique afin de comprendre plus tard l'algorithme de Shor qui permet de factoriser rapidement un entier à l'aide d'un ordinateur quantique.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Algorithme de Shor}
+
+\descriptionchapitre{Nous détaillons le circuit et les calculs qui permettent une factorisation rapide des entiers à l'aide d'un ordinateur quantique.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Compléments d'arithmétique}
+
+\descriptionchapitre{Nous apportons des compléments à l'algorithme de Shor en étudiant chacune des hypothèses.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Transformée de Fourier discrète}
+
+\descriptionchapitre{Nous revenons sur l'outil principal de l'algorithme de Shor : la transformée de Fourier. Nous expliquons comment elle est construite, comment la réaliser par un circuit quantique et quelles sont ses autres applications.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Cryptographie quantique}
+
+\descriptionchapitre{Nous étudions le protocole BB84 qui permet le partage d'un secret commun entre deux personnes grâce à la physique quantique.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Code correcteur}
+
+\descriptionchapitre{Lors de la transmission d'un qubit il peut y avoir des erreurs. Les codes correcteurs permettent de détecter et corriger ces erreurs.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titrechapitre{Avantage quantique}
+
+\descriptionchapitre{Quand est-ce qu'un ordinateur quantique sera plus performant qu'un ordinateur classique ?}

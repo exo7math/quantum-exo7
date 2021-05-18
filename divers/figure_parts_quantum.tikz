@@ -1,0 +1,29 @@
+﻿\begin{tikzpicture}
+
+% From front picture Tikz/pgf manual by Till Tantau
+\def\nodeshadowed[#1]#2;{
+  \node[scale=2,above, #1]{#2};
+  \node[scale=2,above, #1,yscale=-1,scope fading=south,opacity=0.4]{#2};
+%  \node[scale=2,left,#1,xscale=-1,scope fading=east,opacity=0.4]{#2};
+% \node[scale=2,right,#1,xscale=-1,scope fading=west,opacity=0.4]{#2};
+}
+
+% \nodeshadowed[at={(5,2  )},yslant=0.1]{\Huge Ti{\emph{k}}Z};
+
+% part number
+ \def\k{4}
+
+% binary notation
+\ifnum \k=0 \def\bink{0}\fi;
+\ifnum \k=1 \def\bink{1}\fi;
+\ifnum \k=2 \def\bink{0.1}\fi;
+\ifnum \k=3 \def\bink{1.1}\fi;
+\ifnum \k=4 \def\bink{1.0.0}\fi;
+
+% ket version
+\def\bbink{\raisebox{0pt}{$|$}\bink\raisebox{1pt}{$\rangle$}};
+
+% \node[scale=2] at (0,0) {\bink};
+\nodeshadowed[at={(0,0)},yslant=0.1]{\Huge \bbink};
+
+\end{tikzpicture}  

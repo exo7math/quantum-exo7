@@ -1,0 +1,18 @@
+﻿\begin{tikzpicture}
+
+  \node (P) at (0,0){$A$};
+  \draw (-2,-3) rectangle (2,3);
+  
+ \foreach \y in {0.2,0.4,...,2.8}{
+    \draw (-2,\y) -- ++(-2,0);
+    \draw (2,\y) -- ++(2,0);
+    \draw (-2,-\y) -- ++(-2,0);
+    \draw (2,-\y) -- ++(2,0);
+};
+
+  \draw[|-|,thick, blue] (-4.5,0.2) -- (-4.5,2.8) node[midway,left]{$\ket\psi$};
+  \draw[|-|,thick, blue] (4.5,0.2) -- (4.5,2.8) node[midway,right]{$\ket\psi$};
+  \draw[|-|,thick, blue] (-4.5,-0.2) -- (-4.5,-2.8) node[midway,left]{$\ket{0}^{\otimes n}$};
+  \draw[|-|,thick, blue] (4.5,-0.2) -- (4.5,-2.8) node[midway,right]{$\ket\psi$};
+
+\end{tikzpicture}

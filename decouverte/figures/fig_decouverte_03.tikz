@@ -1,0 +1,15 @@
+\begin{tikzpicture}[scale=2]
+
+\draw[-,>=latex, very thick,gray] (-1,0)--(4,0) node[below] {$\alpha\in\mathbb{C}$};
+\draw[-,>=latex, very thick, gray] (0,-1)--(0,3) node[left] {$\beta\in\mathbb{C}$};
+
+\draw[->,>=latex,red,ultra thick] (0,0) -- ++(1,0) node[below]{$\ket0=\begin{pmatrix}1\\0\end{pmatrix}$};
+\draw[->,>=latex,red,ultra thick] (0,0) -- ++(0,1) node[left]{$\ket1=\begin{pmatrix}0\\1\end{pmatrix}$};
+
+\draw[->,>=latex,red,ultra thick] (0,0) -- ++(3,2) node[right]{$\ket\psi=\begin{pmatrix}\alpha\\\beta\end{pmatrix}$};
+
+\draw[dashed] (3,2)--(3,0) node[below]{$\alpha$};
+\draw[dashed] (3,2)--(0,2) node[left]{$\beta$};
+
+%\node at (0,0) [below left] {$(0,0)$};
+\end{tikzpicture}

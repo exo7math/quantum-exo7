@@ -1,0 +1,10 @@
+﻿\begin{tikzpicture}[scale=1,level distance=2cm,edge from parent path=
+  {(\tikzparentnode.east)  -- +(0.5,0) -- (\tikzchildnode.west)}]
+  \node{root}[grow=right] 
+    child {node {left}}
+    child {node {right}
+      child {node {child}
+          child{node{gran-child}}}
+      child {node {child}}
+    };
+\end{tikzpicture}

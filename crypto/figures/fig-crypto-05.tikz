@@ -1,0 +1,13 @@
+﻿\begin{tikzpicture}[scale=1]
+
+\node (A) at (-4,0) {\bf Alice};
+\node (B) at (4,0) {\bf Bob};
+
+
+\draw[->,>=latex,line width=4pt,green!70!black] (A) to[bend left=20] (B);
+
+
+
+\node (E) at (0,-2) {\bf \`Eve};
+\draw[line width=2pt,red,decorate,decoration=snake] (E) to node[midway, right,black]{interception} (0,0.5);
+\end{tikzpicture}

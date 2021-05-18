@@ -1,0 +1,1286 @@
+\documentclass[11pt,class=report,crop=false]{standalone}
+\usepackage[screen]{../python}
+
+
+
+\begin{document}
+
+
+%====================================================================
+\chapitre{Découverte de l'informatique quantique}
+%====================================================================
+
+
+\objectifs{Plongeons directement au c\oe ur de l'informatique quantique en abordant la notion de qubit et les circuits quantiques fondamentaux.}
+
+\objectifs{Ce chapitre donne un aperçu des calculs avec les qubits et est une introduction détaillée des chapitres suivants dans lesquels plusieurs notions seront revues : nombres complexes, vecteurs, matrices, portes logiques, physique quantique. Ce chapitre se termine par une application assez difficile : le codage super-dense.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Un qubit}
+
+Pour un ordinateur classique l'unité d'information est le \defi{bit} représenté soit par $0$, soit par 
+$1$. Avec plusieurs bits on peut coder un entier, par exemple $19$ est codé en binaire par $1.0.0.1.1$ ; on peut aussi coder des caractères, par exemple le code ASCII de \og{}A\fg{} est $1.0.0.0.0.0.1$.
+
+%--------------------------------------------------------------------
+\subsection{Un qubit est un vecteur}
+
+En informatique quantique on part aussi de deux \defi{états quantiques de base}\index{etat quantique@état quantique} :
+$$\ket{0} \qquad \text{ et } \qquad \ket{1}.$$
+La notation est un peu bizarre (elle sera justifiée ultérieurement).
+En fait $\ket{0}$ et $\ket{1}$ sont deux vecteurs :
+$$\ket{0} = \begin{pmatrix}1\\0\end{pmatrix} \qquad \text{ et } \qquad \ket{1} = \begin{pmatrix}0\\1\end{pmatrix}.$$
+Ces deux vecteurs forment une base orthonormée du plan.
+
+\myfigure{1}{
+  \tikzinput{fig_decouverte_01}\qquad\qquad
+  \tikzinput{fig_decouverte_02}
+} 
+
+  
+
+
+\bigskip
+
+Ce qui est nouveau et fondamental est que l'on peut \defi{superposer}\index{superposition} ces deux états $\ket0$ et $\ket1$.
+Un \defi{qubit}\index{qubit!definition@définition} est un \defi{état quantique} obtenu par combinaison linéaire :
+\mybox{$\ket{\psi} = \alpha \ket{0} + \beta \ket{1}$}
+
+Ainsi, un qubit est représenté par un vecteur :
+$$\ket{\psi} = \begin{pmatrix}\alpha\\\beta\end{pmatrix}.$$
+En effet :
+$$\ket{\psi} = \alpha \ket{0} + \beta \ket{1} = \alpha \begin{pmatrix}1\\0\end{pmatrix}  + \beta \begin{pmatrix}0\\1\end{pmatrix}
+= \begin{pmatrix}\alpha\\\beta\end{pmatrix}.$$
+
+
+
+\textbf{Vocabulaire.}
+\begin{itemize}
+  \item Les états $\ket0$ et $\ket1$ se lisent \og{}ket zéro\fg{} et \og{}ket un\fg{} (\og{}ket\fg{} se prononce comme le mot \og{}quête\fg{}).\index{ket}
+  \item $\psi$ est la lettre grecque \og{}psi\fg{}, ainsi $\ket\psi$ se lit \og{}ket psi\fg{}.
+%  \item Le coefficient $\alpha$ s'appelle aussi \defi{l'amplitude} de $\ket0$, et $\beta$ est l'amplitude de $\ket1$.
+\end{itemize}
+
+
+\bigskip
+Là où cela se complique un peu, c'est que les coefficients $\alpha$ et $\beta$ ne sont pas des nombres réels mais des nombres complexes : 
+\mybox{$\alpha \in \Cc$ \quad  et \quad $\beta \in \Cc$}
+Ainsi $\ket{\psi}$ est un vecteur de $\Cc^2$, défini par ses deux coordonnées complexes $\alpha$ et $\beta$. 
+
+\myfigure{0.7}{
+  \tikzinput{fig_decouverte_03}
+} 
+
+
+
+Sur la figure ci-dessus, on a représenté un vecteur à coordonnées complexes comme un vecteur du plan. Cette figure aide à la compréhension mais ne correspond pas tout à fait à la réalité. Comme chacun des axes correspond à une coordonnée complexe (de dimension $2$), un dessin réaliste nécessiterait quatre dimensions. 
+
+\begin{exemple}
+\sauteligne
+\begin{itemize}
+  \item $\ket\psi = (3+4\ii)\ket0 + (2-8\ii)\ket1$. On rappelle que $\ii$ est le nombre complexe tel que $\ii^2=-1$.
+  \item $\ket\psi = \frac{1}{\sqrt2} \ket0 + \frac{\ii}{\sqrt2}\ket1$.
+  \item On peut superposer des états par addition, par exemple :
+  $$\big( 2\ket0+(1+\ii)\ket1\big) + \big( \ii\ket0+(2-3\ii)\ket1\big)
+  = (2+\ii)\ket0+(3-2\ii)\ket1,$$
+  ce qui correspond à additionner deux vecteurs :
+  $$\begin{pmatrix}2\\1+\ii\end{pmatrix}+ \begin{pmatrix}\ii\\2-3\ii\end{pmatrix}
+  =\begin{pmatrix}2+\ii\\3-2\ii\end{pmatrix}.$$
+\end{itemize}
+\end{exemple}
+
+\begin{remarque*}
+\sauteligne
+\begin{itemize}
+  \item Si on souhaitait définir $\ket{\psi}$ uniquement avec des nombres réels, alors on pourrait écrire $\alpha = \alpha_1+\ii \alpha_2$, $\beta = \beta_1+\ii \beta_2$ et dire qu'un état quantique est défini par $4$ nombres réels $\alpha_1$, $\alpha_2$, $\beta_1$, $\beta_2$. Cependant ce n'est pas le bon état d'esprit pour la suite.
+  
+  \item Attention $\ket{0}$ n'est pas le vecteur nul $\left(\begin{smallmatrix}0\\0\end{smallmatrix}\right)$, mais bien le vecteur 
+  $\left(\begin{smallmatrix}1\\0\end{smallmatrix}\right)$.
+  
+\end{itemize}
+\end{remarque*}
+
+
+%--------------------------------------------------------------------
+\subsection{Norme}
+
+\textbf{États de norme $1$.} On va principalement considérer les états $\ket\psi = \alpha\ket0+\beta\ket1$ dont la \defi{norme est égale à~$1$}, c'est-à-dire :
+\mybox{$|\alpha|^2 + |\beta|^2 = 1$}
+où $|\alpha|$ et $|\beta|$ sont les modules des coefficients complexes.
+On rappelle que si $z = a+\ii b$ est un nombre complexe (avec $a,b\in\Rr$), alors son \defi{module} $|z|$ est le nombre réel positif défini par $|z|^2 = a^2+b^2$.
+
+\begin{exemple}
+\sauteligne
+\begin{itemize}
+
+  \item $\ket\psi = \frac{1}{\sqrt2} \ket0 + \frac{\ii}{\sqrt2}\ket1$.  
+  Alors 
+  $$|\alpha|^2 + |\beta|^2 = \left|\frac{1}{\sqrt2}\right|^2+\left|\frac{\ii}{\sqrt2}\right|^2
+  = \frac12+\frac12 = 1.$$
+  Ainsi cet état $\ket\psi$ est bien de norme $1$.
+  
+  \item $\ket\psi = (3+4\ii)\ket0 + (2-8\ii)\ket1$.
+   $$|\alpha|^2 + |\beta|^2 = |3+4\ii|^2 + |2-8\ii|^2 = 25 + 68 = 93.$$
+   Ainsi la norme de $\ket\psi$ est $\sqrt{|\alpha|^2 + |\beta|^2} = \sqrt{93}$ et
+   n'est pas égale à $1$. En divisant par la norme, on transforme facilement $\ket\psi$ en un état $\ket{\psi'}$ de norme $1$ :
+   $$\ket{\psi'} = \frac{3+4\ii}{\sqrt{93}}  \ket0 + \frac{2-8\ii}{\sqrt{93}}\ket1.$$
+\end{itemize}
+\end{exemple}
+
+\begin{remarque*}
+On peut schématiser de façon imparfaite les états de norme $1$ par le dessin du cercle ci-dessous.
+
+\myfigure{1}{
+  \tikzinput{fig_decouverte_04}
+} 
+
+Cependant ceci est un dessin où l'on considère que les coefficients $\alpha$ et $\beta$ sont des nombres réels, ce qui n'est pas le cas en général. La \og{}sphère de Bloch\fg{} fournira une représentation plus fidèle, voir le chapitre \og{}Nombres complexes\fg{}.
+\end{remarque*}
+
+
+%--------------------------------------------------------------------
+\subsection{Mesure et probabilité}
+
+Un des aspects fondamentaux mais troublants de la physique quantique est que l'on ne peut pas mesurer les coefficients $\alpha$ et $\beta$ de l'état quantique $\ket \psi = \alpha \ket0+\beta\ket1$.
+Partons d'un état quantique de norme $1$ :
+$$\ket \psi = \alpha \ket0+\beta\ket1 \qquad \text{ avec } \quad |\alpha|^2 + |\beta|^2 = 1.$$
+La \defi{mesure}\index{mesure} de l'état quantique $\ket\psi$ va renvoyer l'un des bits classiques $0$ ou $1$:
+\mybox{
+\begin{itemize}
+  \item $0$ avec une probabilité $|\alpha|^2$
+  \item $1$ avec une probabilité $|\beta|^2$
+\end{itemize}  
+}
+
+Noter que, comme nous sommes partis d'un état de norme $1$, nous avons bien 
+la somme des probabilités $|\alpha|^2+|\beta|^2$ qui vaut $1$.
+
+
+\begin{exemple}
+Considérons l'état quantique :
+$$\ket \psi = \frac{1-\ii}{\sqrt3} \ket 0 + \frac{1+2\ii}{\sqrt{15}}\ket 1.$$
+Alors 
+$$|\alpha|^2 = \left|\frac{1-\ii}{\sqrt3} \right|^2 = \frac{2}{3}$$
+et 
+$$|\beta|^2 = \left|\frac{1+2\ii}{\sqrt{15}} \right|^2 = \frac{5}{15} = \frac13.$$
+On a bien $|\alpha|^2 + |\beta|^2 = 1$.
+Si on mesure $\ket \psi$ alors on obtient $0$ avec une probabilité $\frac23$ et $1$ avec une probabilité $\frac13$.
+
+Autrement dit, si je peux répéter $100$ fois l'expérience \og{}je prépare l'état initial $\ket \psi$, puis je le mesure\fg{}, alors pour environ $66$ cas sur $100$ j'obtiendrai pour mesure $0$ et pour environ  $33$ cas sur $100$ j'obtiendrai~$1$.
+\end{exemple}
+
+La mesure d'un état quantique $\ket \psi$ le perturbe de façon irrémédiable. C'est un phénomène physique appelé \og{}réduction du paquet d'ondes\fg{}. Si la mesure a donné le bit $0$, alors l'état $\ket \psi$ est devenu $\ket 0$, si la mesure a donné le bit $1$ alors $\ket \psi$ est devenu $\ket 1$. Autrement dit, une fois qu'il est mesuré, un qubit ne sert plus à grand chose !
+
+
+
+
+\begin{remarque*}
+Bien évidemment la mesure de $\ket 0$ donne $0$ avec une probabilité $1$ (l'événement est presque sûr). De même la mesure de $\ket 1$ donne $1$ avec une probabilité $1$.
+Dans ce cours nous faisons le choix qu'une mesure renvoie un bit classique $0$ ou $1$. Une autre convention serait de décider qu'une mesure renvoie un des états de base $\ket0$ ou $\ket1$.
+\end{remarque*}
+
+
+\bigskip
+
+\mybox{
+\begin{minipage}{0.9\textwidth}
+\textbf{Bilan.}
+On retient qu'à partir d'un état $\ket \psi = \alpha \ket0+\beta\ket1$ avec $\alpha,\beta \in \Cc$ tels que $|\alpha|^2 + |\beta|^2 = 1$ :
+\begin{itemize}
+  \item on ne peut pas mesurer les coefficients $\alpha$ et $\beta$ ;
+  \item la mesure de $\ket \psi$ renvoie soit $0$ avec une probabilité $|\alpha|^2$, soit $1$ avec une probabilité $|\beta|^2$ ;
+  \item la mesure transforme le qubit $\ket \psi$ en $\ket 0$ ou en $\ket 1$, les coefficients $\alpha$ et $\beta$ ont disparu après mesure.
+\end{itemize}
+\end{minipage}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Porte avec une entrée}
+
+Un ordinateur quantique produit des qubits et leur applique des transformations, qui dans un circuit s'appellent des \og{}portes\fg{}.\index{porte} Nous commençons par transformer un seul qubit. 
+
+%--------------------------------------------------------------------
+\subsection{Porte X}
+
+La porte \mygate{X}\index{porte!X}\index{porte!NOT} s'appelle aussi porte \mygate{NON} (ou \mygate{NOT}) et est la transformation qui échange les deux états quantiques de base :
+$$\ket 0 \xmapsto{\quad\mygate{X}\quad} \ket 1 \quad \text{ et } \quad \ket 1 \xmapsto{\quad\mygate{X}\quad} \ket 0$$
+
+
+\myfigure{1}{
+  \tikzinput{fig_decouverte_05}\qquad\qquad
+  \tikzinput{fig_decouverte_06}
+} 
+
+
+La transformation est de plus linéaire, ce qui fait que la porte \mygate{X} échange les deux coefficients d'un état quantique :
+$$\ket\psi = \alpha  \ket 0 + \beta \ket 1 \xmapsto{\quad\mygate{X}\quad} \beta  \ket 0 + \alpha \ket 1.$$
+
+Par exemple l'état $\ket \psi = 2\ket0 + (1-\ii)\ket1$
+est transformé par la porte \mygate{X} en l'état $\mygate{X}(\ket \psi) 
+= (1-\ii)\ket0 + 2\ket1$.
+
+
+En termes de vecteurs cette transformation s'écrit :
+$$\begin{pmatrix}1\\0\end{pmatrix} \xmapsto{\quad\mygate{X}\quad} \begin{pmatrix}0\\1\end{pmatrix}
+\qquad\qquad  \begin{pmatrix}0\\1\end{pmatrix} \xmapsto{\quad\mygate{X}\quad} \begin{pmatrix}1\\0\end{pmatrix}
+\qquad\qquad  \begin{pmatrix}\alpha\\\beta\end{pmatrix} \xmapsto{\quad\mygate{X}\quad} \begin{pmatrix}\beta\\\alpha\end{pmatrix}
+$$
+
+La matrice de la porte \mygate{X} est donc :
+$$X = \begin{pmatrix}0&1\\1&0\end{pmatrix}$$
+car 
+$$\begin{pmatrix}0&1\\1&0\end{pmatrix}
+\begin{pmatrix}\alpha\\\beta\end{pmatrix}
+= \begin{pmatrix}\beta\\\alpha\end{pmatrix}.$$
+
+
+\emph{Note.} La notion de matrice n'est pas indispensable pour ce premier chapitre, elle sera développée dans le chapitre \og{}Vecteurs et matrices\fg{}.
+ 
+%--------------------------------------------------------------------
+\subsection{Porte H de Hadamard}
+
+La porte \mygate{H}\index{porte!H}\index{porte!de Hadamard} de Hadamard est la transformation linéaire définie par :
+$$\ket 0 \xmapsto{\quad\mygate{H}\quad} \frac1{\sqrt2} \big(\ket0+\ket1\big) \qquad \text{ et } \qquad \ket 1 \xmapsto{\quad\mygate{H}\quad} \frac1{\sqrt2} \big(\ket0-\ket1\big).$$
+
+Ainsi, si $\ket\psi = \alpha  \ket 0 + \beta \ket 1$
+alors 
+$$H(\ket\psi) 
+= \alpha\frac1{\sqrt2} \big(\ket0+\ket1\big) + \beta\frac1{\sqrt2}\big(\ket0-\ket1\big).$$
+On regroupe les coefficients selon les termes $\ket0$ et $\ket1$, pour obtenir :
+$$\mygate{H}(\ket\psi) 
+= \frac{\alpha+\beta}{\sqrt2} \ket0+  \frac{\alpha-\beta}{\sqrt2}\ket1.$$
+
+Par exemple l'état $\ket \psi = \ii\ket0 + (2+\ii) \ket 1$ est transformé en
+$\mygate{H}(\ket\psi) = \frac{2+2\ii}{\sqrt2}\ket0- \frac{2}{\sqrt2}\ket1$.
+
+
+
+En termes de vecteurs cette transformation s'écrit sur les vecteurs de base :
+$$\begin{pmatrix}1\\0\end{pmatrix} \xmapsto{\quad\mygate{H}\quad} \frac1{\sqrt2}\begin{pmatrix}1\\1\end{pmatrix}
+\qquad\qquad \begin{pmatrix}0\\1\end{pmatrix} \xmapsto{\quad\mygate{H}\quad} \frac1{\sqrt2}\begin{pmatrix}1\\-1\end{pmatrix}$$
+
+
+La matrice de la porte \mygate{H} est donc :
+$$H = \frac1{\sqrt2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}$$
+  car la multiplication
+  $$\frac1{\sqrt2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}
+\begin{pmatrix}\alpha\\\beta\end{pmatrix}$$
+redonne bien le vecteur correspondant à $\mygate{H}(\ket\psi)$.
+
+Géométriquement la base $(\ket0,\ket1)$ est transformée en une autre base orthonormée $(H(\ket0),H(\ket1))$.
+
+
+\myfigure{1}{
+  \tikzinput{fig_decouverte_07}\qquad\qquad
+  \tikzinput{fig_decouverte_08}
+} 
+
+\emph{Remarque.} Il est fréquent de rencontrer les notations suivantes :
+$$\ket+ = \frac1{\sqrt2} (\ket0+\ket1) \qquad \text{ et  } \qquad \ket- = \frac1{\sqrt2} (\ket0-\ket1)$$ 
+même si nous éviterons de les utiliser ici.
+
+%--------------------------------------------------------------------
+\subsection{Mesure}
+
+C'est un élément fondamental d'un circuit quantique. C'est le seul moment où l'on peut obtenir une information sur un état quantique $\ket\psi$, mais c'est aussi la fin du qubit, car la mesure ne renvoie que $0$ ou $1$ et perturbe irrémédiablement l'état quantique.
+
+% Une porte qui mesure se note $m$ ou bien par un symbole de cadran.
+
+
+
+%--------------------------------------------------------------------
+\subsection{Exemples de circuit}
+
+Un \defi{circuit}\index{circuit quantique} est composé d'une succession de portes. Il se lit de gauche à droite.
+
+\begin{exemple}
+Voici un circuit composé d'une porte \mygate{X} (c'est-à-dire une porte \mygate{NON}) suivie d'une porte mesure symbolisée par un petit cadran.
+
+{\LARGE
+$$
+\Qcircuit @C=1em @R=1em {
+& \gate{X} & \meter & \qwa \\
+}
+$$
+}
+
+\begin{itemize}
+  \item Si l'entrée est $\ket0$, alors $X(\ket0)=\ket1$, la sortie mesurée vaut donc $1$ (avec une probabilité $1$) :
+{\large
+$$
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket0} & \gate{X} & \meter & \rstick{1} \qwa  \\
+}
+$$
+}
+  \item Par contre si l'entrée est $\ket1$, alors $X(\ket1)=\ket0$ et la sortie mesurée vaut $0$ :
+{\large
+$$
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket1} & \gate{X} & \meter & \rstick{0} \qwa  \\
+}
+$$
+}
+
+  \item Si l'entrée est l'état $\ket\psi = \alpha\ket0+\beta\ket1$ (avec $|\alpha|^2+|\beta|^2=1$), alors $X(\ket\psi) = \beta\ket0+\alpha\ket1$.
+La mesure donne donc $0$ avec une probabilité $|\beta|^2$ et $1$ avec une probabilité $|\alpha|^2$.
+{\large
+$$
+\Qcircuit @C=1em @R=1em {
+\lstick{\alpha\ket0+\beta\ket1} & \gate{X} & \meter & \rstick{0 \text{ ou } 1} \qwa  \\
+}
+$$
+}
+\end{itemize}
+\end{exemple}
+
+
+
+\begin{exemple}
+Ce circuit est formé d'une porte \mygate{H} de Hadamard, suivi d'une mesure :
+{\LARGE
+$$
+\Qcircuit @C=1em @R=1em {
+& \gate{H} & \meter & \qwa \\
+}
+$$
+}
+
+\begin{itemize}
+  \item Si l'entrée est $\ket0$, alors $H(\ket0)=\frac1{\sqrt2}\ket0+\frac1{\sqrt2}\ket1$, la mesure donne donc le bit $0$ avec une probabilité $\frac12$ et le bit $1$ avec une probabilité $\frac12$.
+  \item Si l'entrée est $\ket1$, alors $H(\ket1)=\frac1{\sqrt2}\ket0-\frac1{\sqrt2}\ket1$ et les mesures conduisent aux mêmes résultats que précédemment.
+  \item Par contre si l'entrée est $\ket\psi = \frac1{\sqrt2}\ket0+\frac1{\sqrt2}\ket1$, alors :
+  \begin{align*}
+  H(\ket\psi) 
+    &= H\left(\frac1{\sqrt2}\ket0 + \frac1{\sqrt2}\ket1\right) \\
+    &= \frac1{\sqrt2}H(\ket0)  \ + \  \frac1{\sqrt2}H(\ket1) \\
+    &= \frac1{\sqrt2} \frac1{\sqrt2} (\ket0+\ket1) + \frac1{\sqrt2}\frac1{\sqrt2} (\ket0-\ket1)\\
+    &= \frac12 \ket0 + \frac12 \ket0 + \frac12 \ket1 - \frac12 \ket1\\
+    &= \ket0
+  \end{align*}
+  Ainsi pour cette entrée, le circuit renvoie, après mesure, $0$ avec une quasi-certitude.
+  
+  \item Exercice : trouver $\ket\psi$ tel que la mesure donne $1$ avec une quasi-certitude.
+\end{itemize}
+\end{exemple}
+
+
+%--------------------------------------------------------------------
+\subsection{Portes X, Y et Z de Pauli}
+
+\index{porte!X}
+\index{porte!Y}
+\index{porte!Z}
+\index{porte!de Pauli}
+
+Nous avons déjà rencontré la porte \mygate{X} (dite aussi porte \mygate{NOT}), qui fait partie d'une famille de trois portes, dites \defi{portes de Pauli}. Les voici définies par leur action sur les états quantiques de base $\ket0$ et $\ket1$, et également par leur matrice.
+
+\textbf{Porte \mygate{X}}
+$$
+{\LARGE
+\Qcircuit @C=1em @R=1em {
+& \gate{X} & \qw \\
+}}
+\qquad\qquad
+\left\lbrace
+\begin{array}{l}
+\ket 0 \mapsto \ket 1 \\
+\ket 1 \mapsto \ket 0
+\end{array}\right.
+\qquad\qquad
+X = \begin{pmatrix}0&1\\1&0\end{pmatrix}
+$$
+
+\textbf{Porte \mygate{Y}}
+$$
+{\LARGE
+\Qcircuit @C=1em @R=1em {
+& \gate{Y} & \qw \\
+}}
+\qquad\qquad
+\left\lbrace
+\begin{array}{l}
+\ket 0 \mapsto \ii\ket 1 \\
+\ket 1 \mapsto -\ii\ket 0
+\end{array}\right.
+\qquad\qquad
+Y = \begin{pmatrix}0&-\ii\\\ii&0\end{pmatrix}
+$$
+
+\textbf{Porte \mygate{Z}}
+$$
+{\LARGE
+\Qcircuit @C=1em @R=1em {
+& \gate{Z} & \qw \\
+}}
+\qquad\qquad
+\left\lbrace
+\begin{array}{l}
+\ket 0 \mapsto \ket0 \\
+\ket 1 \mapsto -\ket1
+\end{array}\right.
+\qquad\qquad
+Z = \begin{pmatrix}1&0\\0&-1\end{pmatrix}
+$$
+
+\begin{exercicecours}
+\index{porte!racNOT@$\sqrt{CNOT}$}
+On considère la porte $\mygate{\sqrt{NOT}}$ définie par
+$$
+{\large
+\Qcircuit @C=1em @R=1em {
+& \gate{\sqrt{NOT}} & \qw \\
+}}
+\qquad\qquad
+\left\lbrace
+\begin{array}{l}
+\ket 0 \mapsto \frac{1+\ii}2\ket0 + \frac{1-\ii}2\ket1 \\
+\ket 1 \mapsto \frac{1-\ii}2\ket0 + \frac{1+\ii}2\ket1
+\end{array}\right.
+\qquad \text{ c'est-à-dire }\qquad
+M = \frac12\begin{pmatrix}1+\ii&1-\ii\\1-\ii&1+\ii\end{pmatrix}
+$$
+\begin{enumerate}
+  \item Pour l'entrée $\ket0$, que donne une mesure après la porte $\sqrt{NOT}$ ? Même question avec $\ket1$.
+  $$
+  \Qcircuit @C=1em @R=1em {
+  \lstick{\ket0} & \gate{\sqrt{NOT}} & \meter & \rstick{?} \qwa  \\
+  }
+  \qquad\qquad\qquad\qquad\qquad
+  \Qcircuit @C=1em @R=1em {
+  \lstick{\ket1} & \gate{\sqrt{NOT}} &  \meter & \rstick{?} \qwa  \\
+  }
+  $$  
+
+%  
+  \item Pour l'entrée $\ket\psi = \frac12\ket0 + i\frac{\sqrt3}{2}\ket1$, que donne la sortie après la porte $\sqrt{NOT}$ ? Que donne ensuite une mesure ?
+  $$
+  \Qcircuit @C=1em @R=1em {
+  \lstick{\ket\psi} & \gate{\sqrt{NOT}} & \rstick{?} \qwa  \\
+  }
+  \qquad\qquad\qquad\qquad\qquad
+  \Qcircuit @C=1em @R=1em {
+  \lstick{\ket\psi} & \gate{\sqrt{NOT}} &  \meter & \rstick{?} \qwa  \\
+  }
+  $$  
+  
+  
+  \item Montrer que le circuit suivant, qui consiste à enchaîner deux portes $\sqrt{NOT}$, équivaut à une seule porte \mygate{NOT} (notée aussi porte $X$).
+  $$
+  \Qcircuit @C=1em @R=1em {
+  & \gate{\sqrt{NOT}} & \gate{\sqrt{NOT}} &  \qw  \\
+  }
+  \qquad=\qquad
+  \Qcircuit @C=1em @R=1em {
+   & \gate{NOT} &  \qw  \\
+  }
+  $$    
+  Autrement dit, il s'agit de montrer que :
+  $$\mygate{\sqrt{NOT}}\big( \mygate{\sqrt{NOT}}(\ket\psi) \big) = \mygate{NOT}(\ket\psi)$$
+    
+  \emph{Indication.} On peut faire les calculs avec un qubit général $\ket\psi = \alpha\ket0+\beta\ket1$. Mais on peut aussi seulement vérifier que cette affirmation est vraie pour les deux états de bases $\ket0$ et $\ket1$, ce qui est suffisant par linéarité. Une autre technique serait d'utiliser les matrices.
+  
+  
+\end{enumerate}
+
+\end{exercicecours}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Les $2$-qubits}
+
+\index{qubit!deuxqubit@$2$-qubit}
+
+Nous allons maintenant réunir deux qubits pour obtenir un $2$-qubit. C'est la version  quantique de l'union de deux bits.
+
+%--------------------------------------------------------------------
+\subsection{Superposition}
+
+\index{superposition}
+
+Deux qubits réunis sont dans un état quantique $\ket\psi$, appelé \defi{$2$-qubit}, défini par la superposition :
+\mybox{$\ket\psi =
+\alpha \ket{0.0} + \beta\ket{0.1} + \gamma\ket{1.0} + \delta \ket{1.1}$}
+où $\alpha,\beta,\gamma,\delta \in \Cc$, avec souvent la convention de normalisation :
+$$|\alpha|^2+|\beta|^2+|\gamma|^2+|\delta|^2=1.$$
+
+La mesure d'un $2$-qubit, donne deux bits classiques :
+\begin{itemize}
+  \item $0.0$ avec probabilité $|\alpha|^2$,
+  \item $0.1$ avec probabilité $|\beta|^2$,
+  \item $1.0$ avec probabilité $|\gamma|^2$,
+  \item $1.1$ avec probabilité $|\delta|^2$.      
+\end{itemize}
+
+Notons déjà la différence remarquable avec l'informatique classique : avec deux bits classiques, on encode un seul des quatre états $0.0$, $0.1$, $1.0$ ou $1.1$, mais avec 
+un $2$-qubit on encode en quelque sorte les quatre états en même temps !
+
+Que représentent $\ket{0.0}$, $\ket{0.1}$,\ldots{} ? Il s'agit de nouveaux vecteurs d'une base mais cette fois en dimension $4$ :
+$$
+\ket{0.0} = \begin{pmatrix}1\\0\\0\\0\end{pmatrix} \qquad 
+\ket{0.1} = \begin{pmatrix}0\\1\\0\\0\end{pmatrix} \qquad 
+\ket{1.0} = \begin{pmatrix}0\\0\\1\\0\end{pmatrix} \qquad 
+\ket{1.1} = \begin{pmatrix}0\\0\\0\\1\end{pmatrix} \qquad 
+$$
+Ainsi $\ket\psi$ est un vecteur de $\Cc^4$ :
+$$\ket\psi = 
+\alpha \begin{pmatrix}1\\0\\0\\0\end{pmatrix}+
+\beta \begin{pmatrix}0\\1\\0\\0\end{pmatrix} +
+\gamma \begin{pmatrix}0\\0\\1\\0\end{pmatrix} + 
+\delta \begin{pmatrix}0\\0\\0\\1\end{pmatrix}
+= \begin{pmatrix}\alpha\\\beta\\\gamma\\\delta\end{pmatrix}.$$
+
+\begin{exemple}
+$$\ket\psi =
+\frac1{\sqrt6} \ket{0.0} + \frac\ii{\sqrt6}\ket{1.0} +  \frac{1+\ii}{\sqrt3}\ket{1.1}$$
+est un $2$-qubit de norme $1$.
+Sa mesure donne :
+\begin{itemize}
+  \item $0.0$ avec probabilité $1/6$,
+  \item $0.1$ avec probabilité $0$,
+  \item $1.0$ avec probabilité $1/6$,
+  \item $1.1$ avec probabilité $2/3$.      
+\end{itemize}
+
+\end{exemple}
+
+
+On peut aussi noter les états de base par des formules de multiplications :
+$$
+\ket{0.0} = \ket0 \cdot \ket 0
+\qquad
+\ket{0.1} = \ket0 \cdot \ket 1
+\qquad
+\ket{1.0} = \ket1 \cdot \ket 0
+\qquad
+\ket{1.1} = \ket1 \cdot \ket 1
+$$
+
+On note aussi ce produit par le symbole $\otimes$ : 
+$$\ket{0.1} = \ket0 \otimes \ket 1 = \begin{array}{c}\ket0\\\otimes\\\ket1\end{array}$$
+
+
+
+%--------------------------------------------------------------------
+\subsection{Porte CNOT}
+
+\index{porte!CNOT}
+
+La porte $CNOT$ est une porte qui prend en entrée deux qubits et renvoie deux qubits en sortie.
+{\LARGE
+$$
+\Qcircuit @C=1em @R=1em {
+& \ctrl{1} &  \qw \\
+& \targ &  \qw
+}
+$$
+}
+Voici la règle sur les quatre états quantiques de bases :
+$$
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket0} & \ctrl{1} & \rstick{\ket0} \qwa \\
+\lstick{\ket0} & \targ & \rstick{\ket0} \qwa 
+}
+\qquad\qquad\qquad\qquad
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket0} & \ctrl{1} & \rstick{\ket0} \qwa \\
+\lstick{\ket1} & \targ & \rstick{\ket1} \qwa 
+}
+\qquad\qquad\qquad\qquad
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket1} & \ctrl{1} & \rstick{\ket1} \qwa \\
+\lstick{\ket0} & \targ & \rstick{\ket1} \qwa 
+}
+\qquad\qquad\qquad\qquad
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket1} & \ctrl{1} & \rstick{\ket1} \qwa \\
+\lstick{\ket1} & \targ & \rstick{\ket0} \qwa 
+}
+$$
+
+\medskip
+
+Autrement dit le premier qubit reste inchangé.
+C'est différent pour le second qubit :
+\begin{itemize}
+\item si le premier qubit est $\ket0$ alors le second qubit est inchangé,
+\item si le premier qubit est $\ket1$ alors le second qubit est changé  selon la règle d'une porte \mygate{X} : $\ket0\mapsto\ket1$ et $\ket1\mapsto\ket0$.
+\end{itemize}
+On peut interpréter cette porte comme une instruction \og{}si \ldots{}, sinon \ldots\fg{} : si le premier qubit est $\ket0$ faire ceci, sinon faire cela.
+
+Voici la règle reformulée avec la notation des $2$-qubits :
+$$
+\ket{0.0} \xmapsto{\quad\mygate{CNOT}\quad} \ket{0.0} \qquad
+\ket{0.1} \xmapsto{\quad\mygate{CNOT}\quad} \ket{0.1} \qquad
+\ket{1.0} \xmapsto{\quad\mygate{CNOT}\quad} \ket{1.1} \qquad
+\ket{1.1} \xmapsto{\quad\mygate{CNOT}\quad} \ket{1.0}
+$$
+
+Voici cette même règle présentée à l'aide de vecteurs :
+$$
+\begin{pmatrix}1\\0\\0\\0\end{pmatrix} \mapsto  \begin{pmatrix}1\\0\\0\\0\end{pmatrix} \qquad
+\begin{pmatrix}0\\1\\0\\0\end{pmatrix} \mapsto \begin{pmatrix}0\\1\\0\\0\end{pmatrix} \qquad
+\begin{pmatrix}0\\0\\1\\0\end{pmatrix} \mapsto \begin{pmatrix}0\\0\\0\\1\end{pmatrix}  \qquad
+\begin{pmatrix}0\\0\\0\\1\end{pmatrix} \mapsto\begin{pmatrix}0\\0\\1\\0\end{pmatrix}  \qquad
+$$
+La matrice de la transformation de \mygate{CNOT} est donc la matrice $4\times4$ :
+$$M = 
+\left(\begin{array}{cc|cc}
+1&0&0&0\\
+0&1&0&0\\ \hline
+0&0&0&1\\
+0&0&1&0\\
+\end{array}\right).$$
+La porte \mygate{CNOT} transforme un vecteur représentant un $2$-qubit par multiplication par cette matrice $M$ :
+$$\begin{pmatrix}\alpha\\\beta\\\gamma\\\delta\end{pmatrix} 
+\xmapsto{\quad\mygate{CNOT}\quad}
+ \begin{pmatrix}
+ 1&0&0&0\\
+ 0&1&0&0\\ 
+ 0&0&0&1\\
+ 0&0&1&0\\
+ \end{pmatrix} 
+ \begin{pmatrix}\alpha\\\beta\\\gamma\\\delta\end{pmatrix}
+ = \begin{pmatrix}\alpha\\\beta\\\delta\\\gamma\end{pmatrix}.
+$$
+
+%\begin{exemple}
+%Calculons la sortie d'une porte \mygate{CNOT} lorsque l'entrée est formée des deux qubits $\ket{\psi_1} = \ket0-2\ket1$ et $\ket{\psi_2} = 3\ket0+5\ket1$.
+%$$\large
+%\Qcircuit @C=1em @R=1em {
+%\lstick{\ket0-2\ket1} & \ctrl{1} & \rstick{?} \qwa \\
+%\lstick{3\ket0+5\ket1} & \targ & \rstick{?} \qwa
+%}
+%$$
+%On sépare l'état $\ket{\psi_1}$ en $\ket0$ et $-2\ket1$ et on regarde séparément leur action,  :
+%$$\large
+%\Qcircuit @C=1em @R=1em {
+%\lstick{\ket0} & \ctrl{1} & \rstick{\ket0} \qwa \\
+%\lstick{3\ket0+5\ket1} & \targ & \rstick{3\ket0+5\ket1} \qwa
+%}
+%\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad
+%\Qcircuit @C=1em @R=1em {
+%\lstick{-2\ket1} & \ctrl{1} & \rstick{-2\ket1} \qwa \\
+%\lstick{3\ket0+5\ket1} & \targ & \rstick{5\ket0+3\ket1} \qwa
+%}
+%$$
+%
+%\end{exemple}
+
+%--------------------------------------------------------------------
+\subsection{L'état de Bell}
+\label{ssec:bellstate}
+
+À l'aide de la porte \mygate{CNOT} nous allons obtenir un des états les plus importants pour deux qubits : l'\defi{état de Bell}\index{etat de Bell@état de Bell} :
+\mybox{$\ket{\Phi^+} = \frac1{\sqrt2} \ket{0.0} + \frac1{\sqrt2} \ket{1.1}$}
+
+Une mesure de cet état conduit à :
+\begin{itemize}
+  \item $0.0$ avec une probabilité $\frac12$,
+  \item $1.1$ avec une probabilité $\frac12$,
+  \item les deux autres sorties $0.1$ et $1.0$ ayant une probabilité nulle.
+\end{itemize}
+
+\begin{remarque*}
+En physique quantique il est toujours aventureux de faire des analogies avec le monde tel qu'on le connaît. Permettons-nous un petit écart :
+\begin{itemize}
+  \item Un qubit, c'est un peu comme une pièce de monnaie lancée en l'air. Tant que la pièce tourne dans l'air, \og{}pile\fg{} et \og{}face\fg{} ont les mêmes chances de se produire. Ce n'est que lorsque la pièce est retombée que l'on peut lire le résultat
+  (c'est la partie \og{}mesure\fg{}) et ensuite le résultat est définitivement figé à \og{}pile\fg{} ou bien à \og{}face\fg{}.
+  
+  \item Un $2$-qubit, c'est-à-dire la réunion de deux qubits, c'est comme deux pièces de monnaie en train d'être lancées en l'air en même temps. Les quatre résultats 
+  \og{}pile/pile\fg{},  \og{}pile/face\fg{},  \og{}face/pile\fg{} ou encore  \og{}face/face\fg{} sont possibles.
+  
+  \item L'état de Bell, c'est comme deux pièces liées entre elles lancées en l'air. 
+  Le résultat ne peut être que \og{}pile/pile\fg{} ou bien \og{}face/face\fg{}.
+  Ce phénomène s'appelle \og{}l'intrication quantique\fg{}\index{intrication quantique}.
+\myfigure{1}{
+  \tikzinput{fig_decouverte_14}
+}
+\end{itemize}
+
+\end{remarque*}
+
+\textbf{Obtention de l'état de Bell.}
+
+Considérons le circuit suivant, composé d'une porte de Hadamard, suivie d'une porte \mygate{CNOT} :
+{\LARGE
+$$
+\Qcircuit @C=1em @R=1em {
+& \gate{H} & \ctrl{1} &  \qw \\
+& \qw & \targ &  \qw
+}
+$$
+}
+
+Alors, à partir de l'entrée $\ket{0.0}$, l'état de Bell $\ket{\Phi^+}$ est obtenu en sortie.
+$$\begin{array}{c}\ket0\\\otimes\\\ket0\end{array} \qquad 
+\raise3ex\hbox{
+\Qcircuit @C=1em @R=1.5em {
+ & \gate{H} & \ctrl{1} &  \qwa \\
+ & \qw & \targ &  \qwa
+}
+}
+\qquad
+\frac1{\sqrt2}\begin{array}{c}\ket0\\\otimes\\\ket0\end{array}
+\ + \ \ \frac1{\sqrt2}\begin{array}{c}\ket1\\\otimes\\\ket0\end{array}
+$$
+
+Reprenons le calcul en détails (en adoptant la notation verticale) à partir de l'entrée
+$$\ket{0.0} = \begin{array}{c}\ket0\\\otimes\\\ket0\end{array}$$
+Tout d'abord le premier qubit (celui du haut) passe par une porte $H$, le second qubit reste inchangé :
+$$
+\begin{array}{c}\ket0\\\otimes\\\ket0\end{array}
+ \raisebox{3ex}{$\xmapsto{\quad\mygate{H}\quad}$}
+\begin{array}{c}H(\ket0)\\\otimes\\\ket0\end{array}
+= \begin{array}{c}\frac1{\sqrt2}\ket0+\frac1{\sqrt2}\ket1\\\otimes\\\ket0\end{array}
+= \frac1{\sqrt2}\begin{array}{c}\ket0\\\otimes\\\ket0\end{array}
+\ +\ \ \frac1{\sqrt2}\begin{array}{c}\ket1\\\otimes\\\ket0\end{array}$$
+Ensuite ce résultat intermédiaire passe par la porte \mygate{CNOT}. On regarde d'abord indépendamment les deux termes de la somme obtenue :
+$$\begin{array}{c}\ket0\\\otimes\\\ket0\end{array} \xmapsto{\quad\mygate{CNOT}\quad} \begin{array}{c}\ket0\\\otimes\\\ket0\end{array}
+\qquad \text{ et } \qquad
+\begin{array}{c}\ket1\\\otimes\\\ket0\end{array} \xmapsto{\quad\mygate{CNOT}\quad} \begin{array}{c}\ket1\\\otimes\\\ket1\end{array}$$
+
+Ainsi par linéarité, la porte \mygate{CNOT} a pour action :
+$$\begin{array}{c}H(\ket0)\\\otimes\\\ket0\end{array}
+\xmapsto{\quad\mygate{CNOT}\quad} \frac1{\sqrt2}\begin{array}{c}\ket0\\\otimes\\\ket0\end{array}
++ \frac1{\sqrt2}\begin{array}{c}\ket1\\\otimes\\\ket1\end{array}$$
+qui est bien l'état de Bell $\ket{\Phi^+}$.
+
+\begin{exercicecours}
+Reprenons le même circuit :
+{\large
+$$
+\Qcircuit @C=1em @R=1em {
+& \gate{H} & \ctrl{1} &  \qw \\
+& \qw & \targ &  \qw
+}
+$$
+}
+\begin{enumerate}
+  \item Quelle est la sortie produite pour l'entrée $\ket{1.0}$ ?
+  
+  \item Trouver où insérer une porte \mygate{X} dans le circuit, de sorte que l'entrée 
+  $\ket{0.0}$ conduise à la sortie $\frac1{\sqrt2} \ket{0.1} + \frac1{\sqrt2} \ket{1.0}$.
+
+\end{enumerate}  
+\end{exercicecours}
+
+
+
+
+%--------------------------------------------------------------------
+\subsection{Calculs algébriques avec un ou deux qubits}
+\label{ssec:calculs}
+
+\index{qubit!calculs}
+
+Il faut savoir faire des calculs algébriques avec les qubits, même si pour vraiment comprendre ces opérations il faudra attendre le produit tensoriel qui sera expliqué dans le chapitre \og{}Vecteurs et matrices\fg{}.
+
+\medskip
+
+\textbf{Addition.}
+
+L'addition se fait coefficient par coefficient et ne pose pas de problème, par exemple
+si 
+$$\ket\phi = (1+3\ii)\ket0 + 2\ii\ket1 \qquad \text{ et } \qquad
+\ket\psi = 3\ket0 + (1-\ii) \ket1$$
+alors
+$$\ket\phi + \ket\psi  = (4+3\ii)\ket0 + (1+\ii)\ket1.$$
+Ou encore pour des $2$-qubits :
+$$\big(\ket{1.0}+\ket{0.1}\big) + \big(\ket{1.0}-\ket{0.1}\big) = 2\ket{1.0}.$$
+
+\medskip
+
+\textbf{Multiplication.}
+
+On peut multiplier deux $1$-qubits pour obtenir un $2$-qubit. Les calculs se font comme des calculs algébriques à l'aide des règles de bases $\ket0 \cdot \ket 0 = \ket{0.0}$, $\ket0 \cdot \ket 1 = \ket{0.1}$,\ldots
+
+Par exemple :
+\begin{align*}
+\big(3\ket0 + 2\ii\ket1\big)\cdot\big((1+\ii)\ket0-\ket1\big)
+=\quad&  3(1+\ii)\ket0\cdot\ket0 \   - \  3\ket0\cdot\ket1 \   + \   2\ii(1+\ii)\ket1\cdot\ket0 \   - \  2\ii\ket1\cdot\ket1 \\
+=\quad& (3+3\ii)\ket{0.0} \ - \  3\ket{0.1} \   + \   (-2+2\ii)\ket{1.0} \   - \   2\ii\ket{1.1}.
+\end{align*}
+On a utilisé l'identité $\ii^2 = -1$ et fait attention que la multiplication des \og{}ket\fg{} n'est pas commutative : $\ket0\cdot\ket1 \neq \ket1\cdot\ket0$.
+En particulier on a la relation $(k\ket a)\cdot \ket b = \ket a\cdot (k\ket b) = k \ket{a.b}$ pour $k\in \Cc$.
+Cette relation a été utilisée précédemment sans le dire pour la porte $\mygate{CNOT}$ :
+$\left(\frac1{\sqrt2}\ket0\right)\cdot \ket0 = \frac1{\sqrt2} \ket{0.0}$.
+
+On a aussi la relation de développement/factorisation $\ket{(a+b).c} = \ket{a.c} + \ket{b.c}$. Par exemple : $\ket{(0+1).1} = \ket{0.0}+\ket{0.1}$.
+
+
+\bigskip
+\textbf{Norme.}
+\index{qubit!norme}
+\begin{itemize}
+  \item Pour un nombre réel $x$,  $|x|$ est sa valeur absolue.
+  \item Pour un nombre complexe $z=a+\ii b$, $|z|=\sqrt{a^2+b^2}$ est son module.
+  \item Pour un qubit $\ket\psi = \alpha\ket0+\beta\ket1$, $\|\psi\| = \sqrt{|\alpha|^2+|\beta|^2}$ est sa norme.
+  \item Pour un 2-qubit $\ket\psi = \alpha\ket{0.0}+\beta\ket{0.1}+\gamma\ket{1.0}+\delta\ket{1.1}$, sa norme est $\|\psi\| = \sqrt{|\alpha|^2+|\beta|^2+|\gamma|^2+|\delta|^2}$.
+  \item La normalisation d'un qubit $\ket\psi$ est $\frac{\ket\psi}{\|\psi\|}$ qui  est un qubit de norme $1$.
+\end{itemize}
+
+\begin{exercicecours}
+Soit $\ket\phi = \frac{1}{\sqrt3}\ket0 +\frac{\sqrt2}{\sqrt3}\ii\ket1$ et $\ket \psi = \frac{2+\ii}{\sqrt{10}}\ket0 - \frac{1}{\sqrt2}\ket1$.
+Calculer la norme de $\ket \phi$, $\ket \psi$, $\ket\phi+\ket\psi$ et $\ket\phi\cdot\ket\psi$.
+
+Conclusion : on note que la somme de deux qubits de norme $1$ n'est pas nécessairement de norme $1$, par contre le produit de deux qubits de norme $1$ est encore un qubit de norme $1$.
+\end{exercicecours}
+
+
+\begin{exercicecours}
+Dans une porte \mygate{CNOT} les deux entrées ne jouent pas des rôles symétriques.
+{\large
+$$
+\Qcircuit @C=1em @R=1em {
+& \ctrl{1} &  \qw \\
+& \targ &  \qw
+}
+\qquad\raisebox{-1.6ex}{\LARGE $\neq$}\qquad
+\Qcircuit @C=1em @R=1em {
+& \targ &  \qw \\
+& \ctrl{-1} &  \qw
+}
+$$
+}
+
+Sur la figure à droite, est dessinée une porte \mygate{CNOT} renversée pour laquelle c'est le premier qubit qui change (ou non) en fonction du second qubit.
+
+Cependant on peut construire la porte \mygate{CNOT} renversée  à partir de la porte \mygate{CNOT} classique et de quatre portes \mygate{H} de Hadamard.
+
+Montrer que les circuits suivants sont équivalents : 
+{\large
+$$
+\Qcircuit @C=1em @R=1em {
+& \gate{H} & \ctrl{1} & \gate{H} & \qw \\
+& \gate{H} & \targ & \gate{H} & \qw
+}
+\qquad\raisebox{-2ex}{\LARGE =}\qquad
+\Qcircuit @C=1em @R=1em {
+& \targ &  \qw \\
+& \ctrl{-1} &  \qw
+}
+$$
+}
+
+\emph{Indication.} Il suffit de vérifier que l'affirmation est vraie pour les quatre états de base $\ket{0.0}$, $\ket{0.1}$, $\ket{1.0}$, $\ket{1.1}$.
+
+\end{exercicecours}
+
+\bigskip
+\textbf{La porte \mygate{CNOT}.}
+\index{porte!CNOT}
+Revisitons la porte \mygate{CNOT} d'une manière un peu plus abstraite. La transformation associée à cette porte s'écrit aussi :
+$$\ket{x.y} \xmapsto{\quad\mygate{CNOT}\quad} \ket{x.y \oplus x}$$
+c'est-à-dire :
+{\large$$
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket x} & \ctrl{1} & \rstick{\ket x} \qwa \\
+\lstick{\ket y} & \targ & \rstick{\ket {x\oplus y}} \qwa 
+}
+$$
+}
+
+\smallskip
+où $x$ et $y$ ont pour valeurs $0$ ou $1$
+et où \og{}$\oplus$\fg{} représente l'addition usuelle sur un bit (comme une porte \mygate{XOR}) :
+$$0\oplus 0 = 0\qquad 1\oplus0=1 \qquad 0\oplus1 = 1 \quad \text{ et } \quad 1\oplus1 = 0.$$
+
+Par exemple :
+$$\mygate{CNOT}(\ket{1.1}) = \ket{1.(1\oplus1)} = \ket{1.0}.$$
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Plus de qubits}
+
+%--------------------------------------------------------------------
+\subsection{Circuit quantique}
+
+D'une façon générale, le regroupement de plusieurs qubits conduit à un \og{}$n$-qubit\fg{}.
+Voici le schéma de principe d'un circuit quantique :
+\begin{itemize}
+  \item en entrée : $n$ qubits dont la superposition représente un $n$-qubit ;
+  \item une succession de portes quantiques, chacune agissant sur un ou plusieurs qubits ;
+  \item le circuit est terminé par un certain nombre de mesures, qui renvoient des bits classiques.
+\end{itemize}
+
+
+\myfigure{0.8}{
+  \tikzinput{fig_decouverte_09}
+} 
+
+
+%--------------------------------------------------------------------
+\subsection{Les $n$-qubits}
+
+Un \defi{$n$-qubit}\index{qubit!nqubit@$n$-qubit} est un état quantique :
+$$\ket\psi = \alpha_0 \ket{0.0\ldots0.0} + \alpha_1\ket{0.0\ldots0.1} + \cdots + \alpha_{2^n-1} \ket{1.1\ldots1.1}.$$
+
+\begin{itemize}
+  \item 
+Un $n$-qubit possède donc $2^n$ coefficients. C'est toute la puissance de l'informatique quantique : la réunion de $n$ qubits conduit à la superposition 
+de $2^n$ états de base. Travailler avec un $n$-qubit correspond à travailler sur tous les $2^n$ $n$-bits classiques $0.0\ldots0.0$, $0.0\ldots0.1$, \ldots, $1.1\ldots1.1$ en même temps, alors que l'informatique classique ne s'occupe que d'un seul $n$-bit à la fois.
+
+Par exemple, l'écriture d'un $3$-qubit est la superposition de $8$-états de base :
+$$\ket\psi = 
+\alpha_0\ket{0.0.0}+
+\alpha_1\ket{0.0.1}+
+\alpha_2\ket{0.1.0}+
+\alpha_3\ket{0.1.1}+
+\alpha_4\ket{1.0.0}+
+\alpha_5\ket{1.0.1}+
+\alpha_6\ket{1.1.0}+
+\alpha_7\ket{1.1.1}.
+$$
+
+
+  \item Un $n$-qubit correspond donc au vecteur :
+$$\begin{pmatrix}\alpha_0\\\alpha_1\\\vdots\\\alpha_{2^n-1}\end{pmatrix} \in \Cc^{2^n}$$
+
+  \item On impose souvent la condition de normalisation $\sum_{i=0}^{2^n-1} |\alpha_i|^2 = 1$.
+  
+  \item La mesure d'un $n$-qubit de norme $1$ produit un $n$-bit classique : $0.0\ldots0.0$ avec la probabilité $|\alpha_0|^2$, $0.0\ldots0.1$ avec la probabilité $|\alpha_1|^2$,\ldots, $1.1\ldots1.1$ avec la probabilité $|\alpha_{2^n-1}|^2$.
+ 
+\end{itemize}
+
+
+
+\begin{exercicecours}
+Voici un exemple de circuit avec $3$ qubits en entrée.
+
+{\Large
+$$
+\Qcircuit @C=1em @R=1em {
+& \gate{X} & \ctrl{1} & \ctrl{2} & \qw      & \qwa \\
+& \qw      & \targ    & \qw      & \gate{H} & \qwa \\
+& \qw      & \qw      & \targ    & \qw      & \qwa \\
+}
+$$
+}
+
+Pour chacune des entrées, correspondant à un état de base $\ket{0.0.0}$, $\ket{0.0.1}$,\ldots,$\ket{1.1.1}$, calculer la sortie produite.
+
+\emph{Exemple.} Pour $\ket{0.0.0}$ la sortie est $\frac{1}{\sqrt2}\ket{1.0.1}-\frac{1}{\sqrt2}\ket{1.1.1}$.
+\end{exercicecours}
+
+\begin{exercicecours}
+La \defi{porte de Toffoli}\index{porte!de Toffoli} est un exemple de porte qui nécessite $3$ qubits en entrée.
+Si l'état des deux premiers qubits est $\ket1$ alors la porte échange $\ket0$ et $\ket1$ pour le troisième qubit, sinon elle conserve le troisième qubit. C'est une généralisation de la porte \mygate{CNOT} qui se note aussi \mygate{CCNOT}.
+Autrement dit, si $(x,y) \neq (1,1)$ alors :
+$$
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket x} & \ctrl{1} & \rstick{\ket x} \qwa \\
+\lstick{\ket y} & \ctrl{1} & \rstick{\ket y} \qwa \\
+\lstick{\ket z} & \targ    & \rstick{\ket z} \qwa 
+}
+$$
+
+Mais pour le cas particulier $x=1$ et $y=1$ :
+{\large
+$$
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket 1} & \ctrl{1} & \rstick{\ket 1} \qwa \\
+\lstick{\ket 1} & \ctrl{1} & \rstick{\ket 1} \qwa \\
+ \lstick{\ket z} & \targ    & \rstick{X(\ket z)} \qwa 
+}
+$$
+}
+
+
+
+
+On suppose que les qubits en entrée sont :
+\begin{itemize}
+  \item $\ket{\psi_1} = \ket0+\ket1$
+  \item $\ket{\psi_2} = \ket0+2\ii\ket1$
+  \item $\ket{\psi_3} = 2\ket0-3\ket1$
+\end{itemize}
+Calculer les trois qubits de sortie.
+
+\emph{Indication.} 
+On pourra commencer en développant $\ket{\psi_1} \cdot \ket{\psi_2} \cdot \ket{\psi_3}$ (voir la section \ref{ssec:calculs}).
+
+% \emph{Note.} Pour simplifier les calculs, les qubits ne sont ici pas normalisés.
+
+\emph{Note.} La matrice associée à la porte de Toffoli est la matrice $8\times8$ suivante :
+$$M = 
+\left(\begin{array}{cc|cc|cc|cc}
+1&0&0&0&0&0&0&0\\
+0&1&0&0&0&0&0&0\\ \hline
+0&0&1&0&0&0&0&0\\
+0&0&0&1&0&0&0&0\\ \hline
+0&0&0&0&1&0&0&0\\
+0&0&0&0&0&1&0&0\\ \hline
+0&0&0&0&0&0&0&1\\
+0&0&0&0&0&0&1&0\\
+\end{array}\right).$$
+
+\end{exercicecours}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Communication par codage super-dense}
+
+\index{codage super-dense}
+Le codage super-dense est un protocole quantique permettant à deux personnes d'échanger de l'information.
+
+%--------------------------------------------------------------------
+\subsection{Motivation}
+
+On commence par une situation très simple.
+
+
+\textbf{Transmission.}
+Alice souhaite envoyer un message à Bob, par exemple \og{}Noir\fg{} codé par $0$ ou \og{}Blanc\fg{} codé par $1$. Elle peut envoyer le qubit $\ket0$ à Bob qui le mesure, obtient $0$ et sait donc que le message est \og{}Noir\fg{}. Si Alice envoie le qubit $\ket{1}$ à Bob, sa mesure donne $1$ et le message est \og{}Blanc\fg{}.
+
+\myfigure{1}{
+  \tikzinput{fig_decouverte_10}
+} 
+
+Avec cette technique, un seul bit classique d'information est transmis pour chaque qubit envoyé. Ne pourrait-on pas mieux faire ?
+
+\bigskip
+\textbf{Interception.}
+De plus cette technique n'est pas sûre, si l'espionne Ève intercepte le qubit transmis, alors elle peut mesurer le qubit sans changer son état. Elle récupère l'information et Bob ne s'aperçoit de rien !
+
+\myfigure{0.8}{
+  \tikzinput{fig_decouverte_11}
+} 
+
+En effet, mesurer le qubit $\ket0$ donne $0$ mais ne change pas son état, idem pour le qubit $\ket1$. Ce ne serait pas le cas pour les autres états. Lorsque, par exemple, le qubit
+$\ket\psi = \frac1{\sqrt2}(\ket0+\ket1)$ est mesuré en $0$ ou $1$ (une chance sur deux), il change d'état en $\ket0$ ou en $\ket1$.
+
+
+\myfigure{0.9}{
+  \tikzinput{fig_decouverte_12}
+} 
+
+
+
+\emph{Note.} Alice, Bob et Ève (pour \emph{eavesdropper}, espionne) sont les noms habituels utilisés en cryptographie !
+
+%%--------------------------------------------------------------------
+%\subsection{Un protocole avec deux qubits}
+%
+%[[à virer ???]]
+%Nous allons voir un protocole un peu plus compliqué qui met en jeu deux qubits. Il ne répond pas totalement aux problèmes soulevés ci-dessus mais aide à comprendre l'idée du codage super-dense qui sera expliqué après.
+%
+%\begin{itemize}
+%  \item \emph{Objectif.} Alice veut toujours transmettre une information classique à Bob, \og{}Noir/0\fg{} ou \og{}Blanc/1\fg{}.
+%
+%  \item \emph{Préparation.} Un personne extérieure, Charlie prépare un $2$-qubit $\ket\psi$ dans l'état initial $\ket\psi = \ket{0.0}$ (ensuite on pourra aussi avoir $\ket\psi = \ket{1.1}$). On va plutôt noter ce qubit $\ket\psi = \ket{0_A.0_B}$ car ce $2$-qubit est ensuite séparé en deux $1$-qubit : le premier qubit $\ket{0_A}$ est envoyé à Alice, le second qubit $\ket{0_B}$ est envoyé à Bob.
+%
+%  \item \emph{Codage d'Alice.} Alice reçoit sont qubit, si elle souhaite transmettre l'information \og{}Noir/0\fg{} alors elle ne change pas le qubit $\ket{0_A} \mapsto \ket{0_A}$, si elle souhaite transmettre l'information \og{}Blanc/1\fg{} alors elle applique une porte \mygate{X} qui change l'état  $\ket{0_A} \mapsto \ket{1_A}$.
+%  
+%  \item \emph{Décodage de Bob.} Bob reçoit deux qubits : le qubit  $\ket{0_A}$ ou $\ket{1_A}$ provenant d'Alice, et le qubit $\ket{0_B}$ directement transmis pr Charlie.
+%  Bob mesure les deux qubits. Si les deux qubits coïncident cela signifie qu'Alice a transmis l'information  \og{}Noir/0\fg{}, par contre si les qubits sont différents c'est qu'Alice a changé son qubit et donc qu'elle transmet l'information \og{}Blanc/1\fg{}.
+%  
+%  \item \emph{Avec une autre préparation.} Imaginons que Charlie ait préparer l'état initial $\ket\psi=\ket{1_A.1.B}$, alors notre protocole fonctionne toujours ! Si Bob reçoit $\ket{1_A}$ et $\ket{1_B}$, c'est qu'Alice n'a pas modifié son qubit et donc que le message est \og{}Noir/0\fg{}, si Bob reçoit $\ket{0_A}$ et $\ket{1_B}$, c'est qu'Alice a modifié son qubit car elle veut transmettre le message \og{}Blanc/1\fg{}. On note que l'information n'est pas vraiment contenu dans le qubit, mais que Bob obtient l'information grâce à la réponse à \og{}est-ce que les deux qubits sont identiques ou différents ?\fg{}.
+%  
+%  \item \emph{Préparation aléatoire.} À partir de maintenant Charlie prépare aléatoirement l'état $\ket\psi = \ket{0.0}$ ou l'état $\ket\psi=\ket{1_A.1.B}$. Le protocole fonctionne !
+%  
+%  \item \emph{Interception.} Si Eve intercepte le qubit qu'envoie Alice vers Bob, alors cela peut être 
+%  $\ket{0_A}$ ou $\ket{1_A}$ mais celui ne donne aucune information sur l'information \og{}Noir/0\fg{} ou 
+%  \og{}Blanc/1\fg{} que Alice transmet. De même si elle intercepte le qubit qu'envoie Charlie à Bob, alors Eve ne peut rien conclure. Il faudrait qu'Eve intercepte les deux canaux en même temps pour pirater l'information.
+%  
+%\end{itemize}
+
+
+
+%--------------------------------------------------------------------
+\subsection{Schéma général du protocole}
+
+Le reste de la section est consacrée au protocole appelé \og{}codage super-dense\fg{}.
+Alice souhaite transmettre de façon sécurisée à Bob une information constituée de deux bits classiques, en envoyant un seul qubit.
+
+Voici les trois étapes de ce protocole :
+\begin{enumerate}
+  \item préparation de l'état de Bell,
+  \item codage de l'information par Alice,
+  \item décodage par Bob.
+\end{enumerate}
+
+\myfigure{0.9}{
+  \tikzinput{fig_decouverte_13}
+} 
+
+%--------------------------------------------------------------------
+\subsection{Préparation de l'état de Bell}
+Le protocole commence par un travail de préparation externe : une troisième personne, Charlie, prépare l'état de Bell. 
+
+C'est très facile : partant de l'état quantique $\ket{0.0}$, l'action d'une porte \mygate{H} suivi d'une porte \mygate{CNOT} conduit à l'état de Bell :
+$$\ket{\Phi^+} = \frac1{\sqrt2} \ket{0.0} + \frac1{\sqrt2} \ket{1.1}.$$
+
+
+$$\begin{array}{c}\ket0\\\otimes\\\ket0\end{array} \qquad 
+\raise3ex\hbox{
+\Qcircuit @C=1em @R=1.5em {
+ & \gate{H} & \ctrl{1} &  \qwa \\
+ & \qw & \targ &  \qwa
+}
+}
+\qquad
+\frac1{\sqrt2}\begin{array}{c}\ket0\\\otimes\\\ket0\end{array}
++ \frac1{\sqrt2}\begin{array}{c}\ket1\\\otimes\\\ket0\end{array}
+= \ket{\Phi^+}
+$$
+
+Les calculs ont été expliqués dans la section \ref{ssec:bellstate},
+les voici refaits rapidement :
+%, en oubliant volontairement les coefficients $\sqrt2$ pour alléger l'écriture juste sur cette ligne :
+$$\ket{0.0} \xmapsto{\quad\mygate{H}\quad} \ket{\tfrac{1}{\sqrt2}(0+1).0} = \tfrac{1}{\sqrt2}(\ket{0.0}+\ket{1.0})  \xmapsto{\quad\mygate{CNOT}\quad} \tfrac{1}{\sqrt2}(\ket{0.0}+\ket{1.1})$$
+
+
+Pour clarifier l'exposé et distinguer ce qui est à destination d'Alice et ce qui est à destination de Bob, on note l'état de Bell sous la forme :
+%(et on remet les coefficients $\sqrt2$) :
+$$\ket{\Phi^+} = \frac1{\sqrt2} \ket{0_A.0_B} + \frac1{\sqrt2} \ket{1_A.1_B}.$$
+Ensuite Charlie envoie :
+\begin{itemize}
+  \item un premier qubit $\ket{\psi_A} = \frac1{\sqrt2} \ket{0_A} + \frac1{\sqrt2} \ket{1_A}$ à Alice,
+  \item un second qubit $\ket{\psi_B} = \frac1{\sqrt2} \ket{0_B} + \frac1{\sqrt2} \ket{1_B}$ à Bob.
+\end{itemize}
+
+\medskip
+
+\textbf{Intrication quantique.}
+\index{intrication quantique}
+Attention ces deux qubits $\ket{\psi_A}$ et $\ket{\psi_B}$ sont \defi{intriqués}, c'est-à-dire liés entre eux, même une fois séparés. 
+Si on mesure $\ket{\psi_A}$ et que l'on obtient $0$, alors la mesure de $\ket{\psi_B}$ donne aussi $0$ et, bien entendu, si la mesure de $\ket{\psi_A}$ donne $1$ alors la mesure de $\ket{\psi_B}$ donne aussi $1$.
+
+Cela s'explique par le fait que ces deux qubits sont issus de l'état de Bell, qui lors de sa mesure ne peut conduire qu'à $0.0$ ou $1.1$.
+L'intrication quantique est un des aspects les plus troublants de la mécanique quantique. Deux particules intriquées, même distantes, continuent de partager des propriétés communes.
+
+%--------------------------------------------------------------------
+\subsection{Transformation d'Alice}
+
+Alice souhaite envoyer un des quatre messages suivants à Bob, codés chacun par une couleur ou deux bits classiques.
+\begin{itemize}
+  \item \og{}Noir\fg{} ou $0.0$,
+  \item \og{}Rouge\fg{} ou $0.1$,  
+  \item \og{}Bleu\fg{} ou $1.0$,
+  \item \og{}Blanc\fg{} ou $1.1$.
+\end{itemize}
+
+Elle reçoit de Charlie le qubit $\ket{\psi_A} = \frac1{\sqrt2} \ket{0_A} + \frac1{\sqrt2} \ket{1_A}$
+et lui applique une des quatre transformations en fonction de l'information qu'elle souhaite transmettre :
+\begin{itemize}
+  \item Si elle veut transmettre l'information \og{}Noir/$0.0$\fg{} elle applique l'identité \mygate{I} (elle ne fait rien conserve $\ket{\psi_A}$).
+  \item Si elle veut transmettre \og{}Rouge/$0.1$\fg{}, elle applique la porte \mygate{X} à $\ket{\psi_A}$.
+  \item Si elle veut transmettre \og{}Bleu/$1.0$\fg{}, elle applique la porte \mygate{Z} à $\ket{\psi_A}$.
+  \item Si elle veut transmettre \og{}Blanc/$1.1$\fg{}, elle applique la porte \mygate{X}, suivie de la porte \mygate{Z}  à $\ket{\psi_A}$.
+\end{itemize}
+
+Ensuite elle transmet le qubit transformé $\ket{\psi'_A}$ à Bob.
+
+
+\myfigure{0.9}{
+  \tikzinput{fig_decouverte_15}
+} 
+
+
+
+%--------------------------------------------------------------------
+\subsection{Décodage de Bob}
+
+Bob reçoit deux qubits :
+\begin{itemize}
+  \item le qubit transformé $\ket{\psi'_A}$ envoyé par Alice,
+  \item le qubit $\ket{\psi_B} = \frac1{\sqrt2} \ket{0_B} + \frac1{\sqrt2} \ket{1_B}$ préparé par Charlie.
+\end{itemize}
+Mais attention, ces deux qubits sont toujours liés par intrication.
+
+Bob a suffisamment d'informations pour retrouver le message d'Alice. Dans la pratique, il applique une porte \mygate{CNOT} suivi d'une porte \mygate{H} (c'est l'opération inverse de la préparation de Charlie). Puis Bob mesure les deux qubits. Nous allons vérifier que la mesure redonne exactement l'information que voulait transmettre Alice :  $0.0$, $0.1$, $1.0$, $1.1$ (pour Noir, Rouge, Bleu, Blanc).
+
+\myfigure{0.7}{
+  \tikzinput{fig_decouverte_16}
+} 
+
+Voici le circuit quantique du décodage de Bob :
+{\large
+$$
+\Qcircuit @C=1em @R=1.5em {
+ & \ctrl{1}& \gate{H} & \meter & \qwa \\
+ & \targ   & \qw      & \meter & \qwa
+}
+$$
+}
+
+%Pour la preuve nous allons de nouveau oublier les coefficients $\sqrt2$.
+On reprend pour chaque cas le codage d'Alice et le décodage de Bob.
+Ainsi Alice reçoit le qubit 
+$\ket{\psi_A} = \tfrac{1}{\sqrt2}(\ket{0_A} + \ket{1_A})$. Elle applique ensuite une transformation.
+
+\bigskip
+\textbf{Cas de \og{}Noir/$0.0$\fg{}.}
+Dans ce cas Alice ne fait rien (porte identité \mygate{I} sur le premier qubit), 
+elle envoie donc directement $\ket{\psi_A} = \tfrac{1}{\sqrt2}(\ket{0_A} + \ket{1_A})$ à Bob.
+Bob reçoit aussi $\ket{\psi_B} = \tfrac{1}{\sqrt2}(\ket{0_B} +  \ket{1_B})$ de Charlie. 
+Mais n'oublions pas que ces deux qubits sont intriqués. Ainsi Bob
+a en main le $2$-qubit $\tfrac{1}{\sqrt2}(\ket{0_A.0_B} + \ket{1_A.1_B})$.
+Il applique ensuite une porte \mygate{CNOT} :
+$$\tfrac{1}{\sqrt2}(\ket{0_A.0_B} + \ket{1_A.1_B})
+\xmapsto{\quad\mygate{CNOT}\quad} \mygate{CNOT}(\tfrac{1}{\sqrt2}\ket{0_A.0_B}) + \mygate{CNOT}(\tfrac{1}{\sqrt2}\ket{1_A.1_B})
+= \tfrac{1}{\sqrt2}\ket{0_A.0_B} + \tfrac{1}{\sqrt2}\ket{1_A.0_B}.$$
+Bob continue et applique une porte \mygate{H} sur le premier qubit (indexé par $A$) :
+$$\xmapsto{\quad\mygate{H_A}\quad} \tfrac{1}{\sqrt2}\ket{\tfrac{1}{\sqrt2}(0_A+1_A).0_B} + \tfrac{1}{\sqrt2}\ket{\tfrac{1}{\sqrt2}(0_A-1_A).0_B}
+= \tfrac{1}{2}(\ket{0_A.0_B}+\ket{1_A.0_B}+\ket{0_A.0_B}-\ket{1_A.0_B})
+= \ket{0_A.0_B}.$$
+Il ne reste plus que la mesure qui donne bien évidemment $0.0$, ce qui est exactement le message d'Alice.
+
+
+\bigskip
+\textbf{Cas de \og{}Rouge/$0.1$\fg{}.}
+Alice applique la porte \mygate{X} au premier qubit de l'état de Bell,
+elle transforme son qubit $\tfrac{1}{\sqrt2}(\ket{0_A} + \ket{1_A})$ en $\tfrac{1}{\sqrt2}(\ket{1_A} + \ket{0_A})$.
+Mais pour l'état de Bell $\tfrac{1}{\sqrt2}(\ket{0_A.0_B} + \ket{1_A.1_B})$ initial, cette transformation
+correspond au nouvel état $\tfrac{1}{\sqrt2}(\ket{1_A.0_B} + \ket{0_A.1_B})$.
+Ainsi Bob reçoit le $2$-qubit $\ket{\psi} = \tfrac{1}{\sqrt2}(\ket{1_A.0_B} + \ket{0_A.1_B})$.
+Bob applique une porte  \mygate{CNOT}, suivie d'une porte \mygate{H} sur le premier qubit:
+$$\tfrac{1}{\sqrt2}(\ket{1_A.0_B} + \tfrac{1}{\sqrt2}\ket{0_A.1_B}) 
+\xmapsto{\quad\mygate{CNOT}\quad}  \tfrac{1}{\sqrt2}\ket{1_A.1_B}+\tfrac{1}{\sqrt2}\ket{0_A.1_B}
+\xmapsto{\quad\mygate{H}_A\quad} \tfrac{1}{2}\ket{(0_A-1_A).1_B} + \tfrac{1}{2}\ket{(0_A+1_A).1_B}
+= \ket{0_A.1_B}.$$
+Ainsi Bob mesure $0.1$ ce qui est le message d'Alice.
+
+\bigskip
+\textbf{Cas de \og{}Bleu/$1.0$\fg{}.}
+Alice applique la porte \mygate{Z} au premier qubit de l'état de Bell,
+Bob reçoit donc $\ket{\psi} = \tfrac{1}{\sqrt2}(\ket{0_A.0_B} - \ket{1_A.1_B})$.
+Bob applique une porte  \mygate{CNOT}, suivie d'une porte \mygate{H} sur le premier qubit:
+$$\tfrac{1}{\sqrt2}(\ket{0_A.0_B} - \ket{1_A.1_B}) 
+\xmapsto{\quad\mygate{CNOT}\quad}  \tfrac{1}{\sqrt2}\ket{0_A.0_B} - \tfrac{1}{\sqrt2}\ket{1_A.0_B}
+\xmapsto{\quad\mygate{H}_A\quad} \tfrac{1}{2}\ket{(0_A+1_A).0_B} - \tfrac{1}{2}\ket{(0_A-1_A).0_B}
+= \ket{1_A.0_B}.$$
+Ainsi Bob mesure $1.0$ ce qui est le message d'Alice.
+
+
+\bigskip
+\textbf{Cas de \og{}Blanc/$1.1$\fg{}.}
+À partir de l'état de Bell, 
+Alice applique la porte \mygate{X} sur le premier qubit, ce qui donne
+$\tfrac{1}{\sqrt2}(\ket{1_A.0_B} + \ket{0_A.1_B})$, puis une porte \mygate{Z} sur le premier qubit.
+ Ainsi Bob reçoit $\ket{\psi} = \tfrac{1}{\sqrt2}(-\ket{1_A.0_B} + \ket{0_A.1_B})$.
+Bob applique une porte  \mygate{CNOT}, suivie d'une porte \mygate{H} sur le premier qubit:
+$$\tfrac{1}{\sqrt2}(-\ket{1_A.0_B} + \ket{0_A.1_B})
+\xmapsto{\quad\mygate{CNOT}\quad}  -\tfrac{1}{\sqrt2}\ket{1_A.1_B}+\tfrac{1}{\sqrt2}\ket{0_A.1_B}
+\xmapsto{\quad\mygate{H}_A\quad} -\tfrac{1}{2}\ket{(0_A-1_A).1_B} + \tfrac{1}{2}\ket{(0_A+1_A).1_B}
+= \ket{1_A.1_B}.$$
+Ainsi Bob mesure $1.1$ ce qui est le message d'Alice.
+
+
+
+
+%--------------------------------------------------------------------
+\subsection{Bilan}
+
+Alice transmet une information composée de deux bits à Bob, mais elle ne lui a envoyé qu'un seul qubit (même si Bob reçoit globalement deux qubits).
+De plus c'est un protocole de transmission sécurisé. En effet, si Ève intercepte le qubit qu'Alice envoie à Bob alors elle ne peut en tirer aucune information  car ce qubit est de la forme $\frac{1}{\sqrt2}(\pm\ket{0} \pm \ket1)$ et donc sa mesure donne $0$ ou $1$ et ne permet pas à Ève de conclure quoi que ce soit sur l'information que souhaitait transmettre Alice.
+
+
+% [[TODO Exercice cours Trouver protocole ou Alice envoie 00/11 à Bob et si Eve intercepte alors proba 1/2 que mesure donne 1.0 ou 0.1, donc Bob sait que canal est compromis.]]
+
+
+\end{document}

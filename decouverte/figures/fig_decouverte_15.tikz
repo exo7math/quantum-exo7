@@ -1,0 +1,44 @@
+\begin{tikzpicture}[scale=1]
+
+% \node[rectangle,draw] at (-3,2) {
+% \begin{tabular}{c}
+% \it Information \\
+% Noir $=0.0$\\
+% Rouge $=0.1$\\
+% Bleu $=1.0$\\
+% Blanc $=1.1$\\
+% \end{tabular}
+% };
+
+
+\node (B1) at (0,0) {\bf Charlie};
+
+\node[rectangle,draw] (B2) at (8,0) {
+Selon
+\begin{tabular}{l}
+Noir $=0.0$\\
+Rouge $=0.1$\\
+Bleu $=1.0$\\
+Blanc $=1.1$\\
+\end{tabular}
+alors
+\begin{tabular}{l}
+porte $I$\\
+porte $X$\\
+porte $Z$\\
+portes $X$ puis $Z$\\
+\end{tabular}
+};
+\node[above =2ex of B2] {\bf Alice};
+
+
+\draw[->,>=latex,line width=2pt,green!70!black] (B1) to node  [midway, above left,black]{$\ket{\psi_A}$} (B2);
+
+\node (B3) at (16,0) {\bf Bob};
+
+
+
+\draw[->,>=latex,line width=2pt,green!70!black] (B2) to node[midway, above,black]{$\ket{\psi'_A}$}  (B3);
+
+
+\end{tikzpicture}

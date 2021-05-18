@@ -1,0 +1,36 @@
+\begin{tikzpicture}[scale=1]
+
+\begin{scope}[xshift=-4cm]
+\node[left] (A) at (-2,0) {$\ket0$};
+\node[right] (B) at (2,0){$\ket0$};
+\draw[red!20,ultra thick] (A)--(B);
+
+\node[draw] (M) at (0,0) {Mesure}; 
+
+\draw[->,>=latex,red,ultra thick] (A)--(M)--(B);
+\draw[->,>=latex,green!70!black,ultra thick] (M) -- +(0,-1) node[below,black] {bit $0$};
+\end{scope}
+
+\begin{scope}[xshift=4cm]
+\node[left] (A) at (-2,0) {$\ket1$};
+\node[right] (B) at (2,0){$\ket1$};
+\draw[red!20,ultra thick] (A)--(B);
+
+\node[draw] (M) at (0,0) {Mesure}; 
+
+\draw[->,>=latex,red,ultra thick] (A)--(M)--(B);
+\draw[->,>=latex,green!70!black,ultra thick] (M) -- +(0,-1) node[below,black] {bit $1$};
+\end{scope}
+
+\begin{scope}[xshift=0cm,yshift=-3cm]
+\node[left] (A) at (-2,0) {$\ket\psi = \alpha\ket0+\beta\ket 1$};
+\node[right, red](B) at (2,0){$\ket0$ ou $\ket 1$};
+\draw[red!20,ultra thick] (A)--(B);
+
+\node[draw] (M) at (0,0) {Mesure}; 
+
+\draw[->,>=latex,red,ultra thick] (A)--(M)--(B);
+\draw[->,>=latex,green!70!black,ultra thick] (M) -- +(0,-1) node[below,black] {bit $0$ ou $1$};
+\end{scope}
+
+\end{tikzpicture}

@@ -1,0 +1,59 @@
+﻿\begin{tikzpicture}
+
+\begin{scope}
+\node at (0,-2) {\bf Alice};
+
+\begin{scope}[scale=1.5,xshift=-0.7cm]
+% from https://tex.stackexchange.com/questions/128298/
+\def\mylen{1cm}
+\coordinate (A) at (0,0);
+\coordinate (B) at (1.41\mylen,-\mylen);
+\clip 
+  ([xshift=-0.5\pgflinewidth,yshift=0.5\pgflinewidth]A) --   
+  ([xshift=0.5\pgflinewidth,yshift=0.5\pgflinewidth]A-|B) -- 
+  ([xshift=0.5\pgflinewidth,yshift=-0.5\pgflinewidth]B) -- 
+  ([xshift=-0.5\pgflinewidth,yshift=-0.5\pgflinewidth]B-|A) -- 
+  ([xshift=-0.5\pgflinewidth,yshift=0.5\pgflinewidth]A);
+\draw[thick,fill=gray!20,line cap=rect]
+  (A) -- (A-|B) -- (B) -- (B-|A) -- (A); 
+\draw[thick]
+  (B-|A) -- (0.705\mylen,-.3\mylen) -- (B);
+\draw[thick,fill=gray!30,rounded corners=15pt] 
+  (A) -- (0.705\mylen,-0.6\mylen) -- (A-|B);
+%\node[anchor=north]   at ($ (A)!0.5!(B|-A) $ ) {\parbox{\mylen}{\centering\Text}};
+\draw[thick] (A) -- (B|-A);
+\end{scope}
+
+\filldraw[very thick,fill=red!50,scale=1.3,rotate=30]  (-0.35,-0.25) rectangle ++(1,1.4);
+
+\end{scope}
+
+\begin{scope}[xshift=12cm]
+\node at (0,-2) {\bf Bob};
+
+\begin{scope}[scale=1.5,xshift=-0.7cm]
+% from https://tex.stackexchange.com/questions/128298/
+\def\mylen{1cm}
+\coordinate (A) at (0,0);
+\coordinate (B) at (1.41\mylen,-\mylen);
+\clip 
+  ([xshift=-0.5\pgflinewidth,yshift=0.5\pgflinewidth]A) --   
+  ([xshift=0.5\pgflinewidth,yshift=0.5\pgflinewidth]A-|B) -- 
+  ([xshift=0.5\pgflinewidth,yshift=-0.5\pgflinewidth]B) -- 
+  ([xshift=-0.5\pgflinewidth,yshift=-0.5\pgflinewidth]B-|A) -- 
+  ([xshift=-0.5\pgflinewidth,yshift=0.5\pgflinewidth]A);
+\draw[thick,fill=gray!20,line cap=rect]
+  (A) -- (A-|B) -- (B) -- (B-|A) -- (A); 
+\draw[thick]
+  (B-|A) -- (0.705\mylen,-.3\mylen) -- (B);
+\draw[thick,fill=gray!30,rounded corners=15pt] 
+  (A) -- (0.705\mylen,-0.6\mylen) -- (A-|B);
+%\node[anchor=north]   at ($ (A)!0.5!(B|-A) $ ) {\parbox{\mylen}{\centering\Text}};
+\draw[thick] (A) -- (B|-A);
+\end{scope}
+
+\filldraw[very thick,fill=blue!50,scale=1.3,rotate=-30]  (-0.75,-0.15) rectangle ++(1,1.4);
+
+\end{scope}
+
+\end{tikzpicture}

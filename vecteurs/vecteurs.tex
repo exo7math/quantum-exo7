@@ -1,0 +1,1282 @@
+\documentclass[11pt,class=report,crop=false]{standalone}
+\usepackage[screen]{../python}
+
+
+\begin{document}
+
+
+%====================================================================
+\chapitre{Vecteurs et matrices}
+%====================================================================
+
+\objectifs{Un qubit est un vecteur et les opérations sur les qubits sont codées par des matrices. Nous étudions ici le calcul sur les vecteurs, les matrices et leur lien avec les qubits.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Vecteurs}
+
+
+%--------------------------------------------------------------------
+\subsection{Vecteurs du plan}
+
+On commence par la notion de vecteur du plan.
+Un \defi{vecteur du plan} est la donnée de deux nombres réels, noté :
+$$\vec u = \begin{pmatrix}x_1 \\ x_2\end{pmatrix} \qquad \text{ avec } x_1,x_2 \in \Rr.$$
+On peut additionner deux vecteurs :
+$$\vec u = \begin{pmatrix}x_1 \\ x_2\end{pmatrix} \qquad 
+\vec v = \begin{pmatrix}y_1 \\ y_2\end{pmatrix}
+ \qquad \text{ alors } \quad \vec u+\vec v = \begin{pmatrix}x_1+y_1 \\ x_2+y_2\end{pmatrix}.$$
+On peut multiplier un vecteur par un coefficient réel $\lambda$ :
+$$\vec u = \begin{pmatrix}x_1 \\ x_2\end{pmatrix} \qquad
+\lambda \cdot \vec v = \begin{pmatrix}\lambda x_1 \\ \lambda x_2\end{pmatrix}.$$
+
+\myfigure{1}{
+\tikzinput{fig-vecteurs-01}
+}
+
+Le \defi{vecteur nul} a toutes ses coordonnées nulles :
+$$\vec 0 = \begin{pmatrix}0 \\ 0\end{pmatrix}$$
+
+La \defi{norme}\index{norme} (ou \defi{longueur}) d'un vecteur est :
+$$\| \vec u \| = \sqrt{x_1^2+x_2^2}$$
+
+
+
+%--------------------------------------------------------------------
+\subsection{Vecteurs à coefficients complexes}
+
+Nous généralisons la notion précédente : le nombre $n$ de coefficients n'est pas limité à $2$ et ceux-ci sont maintenant des nombres complexes (et non plus des nombres réels). 
+
+Notons $\Kk$ un corps, qui pour nous sera $\Kk=\Rr$ ou $\Kk=\Cc$.
+Fixons $n\ge1$ un entier. 
+Un \defi{vecteur} de taille $n$ à coefficients dans $\Kk$ s'écrit :
+$$u = \begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix} \quad \text{ avec } x_1,x_2,\ldots,x_n \in \Kk.$$
+
+Noter qu'à partir de maintenant on n'utilise plus la notation avec une flèche au-dessus du nom du vecteur.
+
+L'addition de deux vecteurs :
+$$u = \begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix} \qquad 
+v = \begin{pmatrix}y_1\\y_2\\\vdots\\y_n\end{pmatrix}
+ \qquad \text{ alors } u+v =\begin{pmatrix}x_1+y_1\\x_2+y_2\\\vdots\\x_n+y_n\end{pmatrix}.$$
+
+Le \defi{vecteur nul} est :
+$$\begin{pmatrix}0\\0\\\vdots\\0\end{pmatrix}$$
+
+Nous allons voir plusieurs multiplications associées à des vecteurs.
+Pour l'instant on définit seulement la multiplication par un scalaire $k\in\Kk$ :
+$$u = \begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix}
+\qquad\qquad
+k \cdot u = \begin{pmatrix}kx_1 \\ kx_2 \\\vdots \\kx_n\end{pmatrix}.$$ 
+
+
+\emph{Rappels.} 
+Pour un nombre complexe $x$, on note $x^*$ son conjugué. Si $x$ est un nombre réel alors $x^* = x$.
+
+Le \defi{vecteur dual}\index{vecteur dual} d'un vecteur $u$ est un vecteur de même taille, dont les coefficients sont les conjugués de ceux de $u$, et qui est écrit sous la forme d'un vecteur ligne :
+$$u = \begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix}
+\qquad\qquad
+u^* = \begin{pmatrix}x_1^*& x_2^*& \cdots &x_n^*\end{pmatrix}.$$
+
+
+\begin{exemple}
+$$u = \begin{pmatrix}1+\ii\\\ii\\2\\3-4\ii\end{pmatrix}
+\qquad\qquad
+u^* = \begin{pmatrix}1-\ii&-\ii&2&3+4\ii\end{pmatrix}.$$
+\end{exemple}
+
+%--------------------------------------------------------------------
+\subsection{Qubit sous forme de vecteur}
+
+Un qubit est un vecteur, ses coefficients sont des nombres complexes et sa taille est toujours
+une puissance de $2$.
+Un $1$-qubit est un vecteur de taille $2$:
+$$\ket\psi = \begin{pmatrix}x_1 \\ x_2 \end{pmatrix}
+\qquad \text{ avec } x_1,x_2 \in \Cc.$$
+
+Plus généralement un $n$-qubit est un vecteur de taille $2^n$ :
+
+$$\ket\psi = \begin{pmatrix}x_1 \\ \vdots \\ x_{2^n} \end{pmatrix}
+\qquad \text{ avec } x_1,\ldots,x_{2^n} \in \Cc.$$
+
+Le dual du vecteur $\ket\psi$ sera noté $\bra{\psi}$ :
+
+\mybox{$\displaystyle\bra{\psi} = \ket\psi^* = \begin{pmatrix}x_1^*& x_2^*& \cdots &x_{2^n}^*\end{pmatrix}$}
+
+On rappelle que la notation $\ket\psi$ se lit \og{}ket psi\fg{}.\index{ket}
+La notation $\bra\psi$ se lit \og{}bra psi\fg{}.\index{bra}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Produit scalaire}
+
+%--------------------------------------------------------------------
+\subsection{Produit scalaire hermitien}
+
+Nous allons définir une opération qui, à partir de deux vecteurs, donne un scalaire (c'est-à-dire un nombre complexe si $\Kk=\Cc$ ou un nombre réel si $\Kk=\Rr$).
+
+Soient $$u = \begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix} \qquad 
+v = \begin{pmatrix}y_1\\y_2\\\vdots\\y_n\end{pmatrix}.$$
+
+Le \defi{produit scalaire hermitien}\index{produit scalaire} des deux vecteurs $u$ et $v$ est défini par :
+\mybox{$\displaystyle \braket{u}{v} = \sum_{i=1}^n x_i^* \cdot y_i$}
+Autrement dit :
+$$\braket{u}{v} = x_1^* \cdot y_1 + x_2^* \cdot y_2 + \cdots + x_n^* \cdot y_n.$$
+
+\begin{proposition}
+Le produit scalaire hermitien est linéaire par rapport au terme de droite et anti-linéaire par rapport au terme de gauche :
+$$\braket{u}{v_1 + v_2} = \braket{u}{v_1} + 
+\braket{u}{v_2}
+\qquad\qquad
+\braket{u_1 + u_2}{v} = \braket{u_1}{v} + 
+\braket{u_2}{v}$$
+et pour $\lambda \in \Cc$:
+\mybox{$\displaystyle
+\braket{u}{\lambda v} = \lambda \braket{u}{v}
+\quad \text{ et } \quad \braket{ \lambda u}{v} = \lambda^* \braket{u}{v}
+$}
+
+Enfin :
+\mybox{$\braket{v}{u} = \braket{u}{v}^*$}
+\end{proposition}
+
+Notez bien le coefficient $\lambda^*$ obtenu par anti-linéarité par rapport au terme de gauche.
+\begin{exemple}
+\begin{align*}
+& \braket{(1+\ii)u_1 + (4+2\ii) u_2}{ \ii v_1 + (1-2\ii) v_2}  \\
+  &=  
+\ii\braket{(1+\ii)u_1 + (4+2\ii) u_2}{ v_1}
++(1-2\ii)\braket{(1+\ii)u_1 + (4+2\ii) u_2}{v_2} \quad \text{linéarité à droite} \\
+  &=  
+\ii(1-\ii)\braket{u_1}{v_1}
++\ii(4-2\ii)\braket{u_2}{v_1}
++(1-2\ii)(1-\ii)\braket{u_1}{v_2}
++(1-2\ii)(4-2\ii)\braket{u_2}{v_2}
+\text{anti-linéarité à gauche} \\
+\end{align*}
+\end{exemple}
+
+%--------------------------------------------------------------------
+\subsection{Norme}
+
+\index{norme}
+
+La \defi{norme} du vecteur $u = \left(\begin{smallmatrix}x_1\\\vdots\\x_n\end{smallmatrix}\right)$, notée $\|u\|$, est
+définie par :
+\mybox{$\displaystyle
+\|u\| = \sqrt{\sum_{i=1}^n |x_i|^2}
+$}
+
+Autrement dit :
+$$\|u\|^2 = |x_1|^2 + |x_2|^2 + \cdots + |x_n|^2.$$
+C'est un nombre réel positif.
+
+
+On rappelle que $|z|$, le module du nombre complexe $z=a+\ii b$, est un nombre réel positif, et que :
+$$|z|^2 = a^2+b^2 =  z^* \cdot z.$$
+
+On peut donc récrire la norme à l'aide du produit scalaire hermitien :
+$$\|u\| = \sqrt{\braket{u}{u}}.$$
+
+On retient aussi :
+\mybox{$\displaystyle \|u\|^2 = \braket{u}{u}$}
+
+
+%--------------------------------------------------------------------
+\subsection{Vecteurs orthogonaux}
+
+\textbf{Rappel sur le produit scalaire réel.}
+Pour deux vecteurs du plan, le produit scalaire correspond à une mesure de l'angle entre les deux vecteurs. En effet, on a la formule :
+$$\braket{u}{v} = \| u \| \cdot \| v \| \cdot \cos(\theta)$$
+où $\theta$ est l'angle entre les vecteurs $u$ et $v$.
+
+\myfigure{1}{
+\tikzinput{fig-vecteurs-02}
+}
+
+
+On dit que deux vecteurs du plan sont \defi{orthogonaux} si $\theta = \pm \frac\pi2 \pmod{2\pi}$.
+Ainsi deux vecteurs du plan sont orthogonaux si et seulement si leur produit scalaire est nul :
+$$\braket{u}{v} = 0.$$
+
+\myfigure{1}{
+\tikzinput{fig-vecteurs-03}
+}
+
+
+\bigskip
+\textbf{Cas général.}
+On utilise le produit scalaire hermitien pour définir la notion d'orthogonalité pour des vecteurs quelconques. 
+Deux vecteurs $u$ et $v$ de $\Kk^n$ sont \defi{orthogonaux}
+si leur produit scalaire hermitien est nul :
+$$\braket{u}{v} = 0.$$
+
+
+Exemple : le qubit $\ket 0 = \left(\begin{smallmatrix}1\\0\end{smallmatrix}\right)$ et le qubit $\ket 1 = \left(\begin{smallmatrix}0\\1\end{smallmatrix}\right)$ sont des qubits orthogonaux.
+
+\bigskip
+\textbf{Qubits orthogonaux et sphère de Bloch.}
+Considérons deux qubits $\ket\psi$ et $\ket{\psi'}$ écrits sous forme normalisée 
+$$\ket{\psi} \equiv \cos\left(\frac\theta2\right)\ket0+ \sin\left(\frac\theta2\right)e^{\ii\phi}\ket1 
+= \begin{pmatrix}\cos\left(\frac\theta2\right) \\ \sin\left(\frac\theta2\right)e^{\ii\phi}\end{pmatrix}
+$$
+$$\ket{\psi'} \equiv \cos\left(\frac{\theta'}2\right)\ket0+ \sin\left(\frac{\theta'}2\right)e^{\ii\phi'}\ket1
+= \begin{pmatrix}\cos\left(\frac{\theta'}2\right) \\ \sin\left(\frac{\theta'}2\right)e^{\ii\phi'}\end{pmatrix}
+$$
+
+Sous quelles conditions ces qubits sont-ils orthogonaux ?
+On exclut le cas $\theta=0$, qui correspond au qubit $\ket0$,
+car le seul qubit orthogonal à $\ket0$ est $\ket1$ (à équivalence près).
+Pour la même raison on exclut le cas $\theta=\pi$, qui correspond au qubit $\ket1$.
+Ainsi on a 
+$$0<\theta,\theta'<\pi \quad \text{ et } \quad -\pi < \phi,\phi' \le \pi.$$
+
+On calcule leur produit scalaire hermitien :
+\begin{align*}
+\braket{\psi}{\psi'}
+&= \cos\left(\frac\theta2\right) \cdot \cos\left(\frac{\theta'}2\right)
++ \sin\left(\frac\theta2\right)e^{-\ii\phi} \cdot \sin\left(\frac{\theta'}2\right)e^{\ii\phi'} \\
+&= \cos\left(\frac\theta2\right)\cos\left(\frac{\theta'}2\right)
++ \sin\left(\frac\theta2\right)\sin\left(\frac{\theta'}2\right)e^{\ii(\phi'-\phi)}
+\end{align*}
+
+Avant d'être nul, ce produit scalaire doit être un nombre réel.
+Bien sûr, les sinus et les cosinus sont des nombres réels, 
+mais il faut aussi que $e^{\ii(\phi'-\phi)}$ soit un nombre réel.
+Or 
+$$e^{\ii(\phi'-\phi)} \in \Rr \iff \phi'-\phi \equiv 0 \pmod{2\pi} \text{ ou } \phi'-\phi \equiv \pi \pmod{2\pi}.$$
+En effet, on a  $e^{\ii\alpha} = 1$ si et seulement si $\alpha \equiv 0 \pmod{2\pi}$,
+et  $e^{\ii\alpha} = -1$ si et seulement si $\alpha \equiv \pi \pmod{2\pi}$.
+
+Premier cas : $\phi'-\phi \equiv 0 \pmod{2\pi}$. Alors $\phi=\phi'$, et
+\begin{align*}
+\braket{\psi}{\psi'} = 0
+\iff& \cos\left(\frac\theta2\right)\cos\left(\frac{\theta'}2\right)
++ \sin\left(\frac\theta2\right)\sin\left(\frac{\theta'}2\right) = 0 \\
+\iff& \cos\left(\frac\theta2-\frac{\theta'}2\right) = 0 \\
+\iff& \frac\theta2-\frac{\theta'}2 = \frac\pi2 \pmod{\pi} \\
+\iff& \theta-\theta' = \pi \pmod{2\pi} \\
+\end{align*}
+Mais cette dernière égalité est impossible car $0<\theta<\pi$ et $0<\theta'<\pi$, donc $-\pi<\theta-\theta'<\pi$.
+Le premier cas ne conduit donc à aucune solution.
+
+Second cas : $\phi'-\phi \equiv \pi \pmod{2\pi}$. Alors $\phi'=\phi+\pi \pmod{2\pi}$, et alors 
+\begin{align*}
+\braket{\psi}{\psi'} = 0 
+\iff& \cos\left(\frac\theta2\right)\cos\left(\frac{\theta'}2\right)
+- \sin\left(\frac\theta2\right)\sin\left(\frac{\theta'}2\right) = 0 \\
+\iff& \cos\left(\frac\theta2+\frac{\theta'}2\right) = 0 \\
+\iff& \frac\theta2+\frac{\theta'}2 = \frac\pi2 \pmod{\pi} \\
+%\iff& \theta+\theta' = \pi \pmod{2\pi} \\
+\iff& \theta' = \pi - \theta \pmod{2\pi} \\
+\end{align*}
+
+Nous avons obtenu une solution : le qubit de représentation $(\theta',\phi') = (\pi-\theta,\phi+\pi)$ est orthogonal au qubit de représentation $(\theta,\phi)$.
+Géométriquement le qubit $\ket{\psi'}$ est antipodal au qubit $\ket{\psi}$ sur la sphère de Bloch. Autrement dit, l'un s'obtient de l'autre par la symétrie centrale centrée à l'origine.
+Noter que c'est aussi valide pour $\ket0$ et $\ket1$.
+
+On retient :
+\mybox{Deux $1$-qubits sont orthogonaux si, et seulement si, ils sont antipodaux sur la sphère de Bloch.}
+\index{sphere de Bloch@sphère de Bloch}
+
+\myfigure{1}{
+\tikzinput{fig-bloch}
+}
+
+
+%--------------------------------------------------------------------
+\subsection{Inégalité de Cauchy-Schwarz}
+
+Terminons par l'énoncé d'une inégalité importante. 
+\begin{theoreme}[Inégalité de Cauchy-Schwarz]
+~
+\mybox{$\displaystyle \left|\braket{u}{v}\right| \le \| u \| \cdot \| v \|$}
+\end{theoreme}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Produit tensoriel de vecteurs}
+
+%--------------------------------------------------------------------
+\subsection{Définition}
+
+Soient 
+$$
+u = \begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix} \in \Kk^n
+\qquad\text{ et }\qquad
+v = \begin{pmatrix}y_1\\y_2\\\vdots\\y_m\end{pmatrix} \in \Kk^m.
+$$
+
+Le \defi{produit tensoriel}\index{produit tensoriel} de $u$ par $v$, noté $u \otimes v$, est le vecteur de $\Kk^{nm}$ défini par :
+$$
+u \otimes v
+= \begin{pmatrix}
+x_1 \begin{pmatrix}y_1\\ \vdots\\y_m\end{pmatrix}\\
+x_2\begin{pmatrix}y_1\\ \vdots\\y_m\end{pmatrix}\\
+\vdots\\
+\vdots\\
+x_n\begin{pmatrix}y_1\\\vdots\\y_m\end{pmatrix}\end{pmatrix}
+= 
+\begin{pmatrix}
+x_1 y_1\\\vdots\\x_1 y_m\\x_2 y_1\\\vdots\\x_2 y_m\\\vdots\\\vdots
+\\x_n y_1\\\vdots\\x_n y_m\end{pmatrix}
+$$
+
+Autrement dit, on  prend des copies du vecteur $v$, et chaque copie est multipliée par une coordonnée du vecteur $u$.
+
+Par exemple :
+$$\begin{pmatrix}a\\b\end{pmatrix}\otimes\begin{pmatrix}c\\d\end{pmatrix}
+= \begin{pmatrix}a\begin{pmatrix}c\\d\end{pmatrix}\\b\begin{pmatrix}c\\d\end{pmatrix}\end{pmatrix}
+= \begin{pmatrix}ac\\ad\\bc\\bd\end{pmatrix}$$
+
+En général $u \otimes v \neq v \otimes u$ :
+$$\begin{pmatrix}1\\2\end{pmatrix} \otimes \begin{pmatrix}3\\4\\5\end{pmatrix}
+= \begin{pmatrix}3\\4\\5\\6\\8\\10\end{pmatrix}
+\qquad\qquad
+\begin{pmatrix}3\\4\\5\end{pmatrix} \otimes \begin{pmatrix}1\\2\end{pmatrix}
+= \begin{pmatrix}3\\6\\4\\8\\5\\10\end{pmatrix}$$
+
+
+%--------------------------------------------------------------------
+\subsection{Propriétés}
+
+\begin{proposition}
+Le produit tensoriel est linéaire à gauche et à droite :
+$$(\lambda u) \otimes v = \lambda (u \otimes v) = u \otimes (\lambda v) \qquad \lambda\in\Cc$$
+$$(u_1+u_2) \otimes v = u_1 \otimes v \  + \  u_2 \otimes v$$
+$$u \otimes (v_1+v_2) = u \otimes v_1 \ + \  u \otimes v_2$$
+\end{proposition}
+
+\begin{exemple}
+On développe l'expression $(u_1+u_2)\otimes(v_1+v_2)$ en deux temps :
+\begin{align*}
+(u_1+u_2)\otimes(v_1+v_2) 
+  &= u_1 \otimes(v_1+v_2) \  + \ u_2\otimes(v_1+v_2)  \quad \text{linéarité à gauche} \\
+  &= u_1 \otimes v_1 \  +u_1 \otimes v_2 \  + \ u_2\otimes v_1 + \ u_2\otimes v_2  \quad \text{linéarité à droite} \\
+\end{align*}
+\end{exemple}
+
+
+%--------------------------------------------------------------------
+\subsection{Produit de qubits}
+
+\index{qubit!produit}
+
+Si $\ket\phi$ est un $n$-qubit et $\ket\psi$ est un $m$-qubit, alors
+le \defi{produit} de $\ket\phi \cdot \ket\psi$ est défini par le produit tensoriel :
+\mybox{$\ket\phi \cdot \ket\psi = \ket \phi \otimes \ket \psi$}
+
+On rappelle que 
+$$\ket0 = \begin{pmatrix}1\\0\end{pmatrix}
+\qquad\qquad \ket1 = \begin{pmatrix}0\\1\end{pmatrix}$$
+
+Ainsi :
+$$\ket{0.0} = \ket0 \cdot \ket0 =   \begin{pmatrix}1\\0\end{pmatrix} \otimes \begin{pmatrix}1\\0\end{pmatrix} = \begin{pmatrix}1\\0\\0\\0\end{pmatrix}
+\qquad\qquad
+\ket{0.1} = \ket0 \cdot \ket1 =   \begin{pmatrix}1\\0\end{pmatrix} \otimes \begin{pmatrix}0\\1\end{pmatrix} = \begin{pmatrix}0\\1\\0\\0\end{pmatrix}$$
+
+$$\ket{1.0} = \ket1 \cdot \ket0 =   \begin{pmatrix}0\\1\end{pmatrix} \otimes \begin{pmatrix}1\\0\end{pmatrix} = \begin{pmatrix}0\\0\\1\\0\end{pmatrix}
+\qquad\qquad
+\ket{1.1} = \ket1 \cdot \ket1 =   \begin{pmatrix}0\\1\end{pmatrix} \otimes \begin{pmatrix}0\\1\end{pmatrix} = \begin{pmatrix}0\\0\\0\\1\end{pmatrix}$$
+
+
+\begin{exemple}
+Voyons comment calculer le produit $\ket\phi \cdot \ket\psi$ dans le cas où :
+$$\ket\phi = (1+2\ii)\ket0 + \ii\ket1\qquad
+\ket\psi = 2\ket0 + (3-4\ii)\ket1$$
+
+\begin{enumerate}
+  \item \emph{Calcul tensoriel.} Nous revenons à la définition vectorielle des qubits.
+  
+\begin{align*}
+\ket \phi \otimes \ket \psi
+  &= \left((1+2\ii)\begin{pmatrix}1\\0\end{pmatrix} + \ii\begin{pmatrix}0\\1\end{pmatrix}\right) \otimes \left(2\begin{pmatrix}1\\0\end{pmatrix} + (3-4\ii)\begin{pmatrix}0\\1\end{pmatrix}\right)  \\
+  &=  (1+2\ii)\begin{pmatrix}1\\0\end{pmatrix} \otimes 2\begin{pmatrix}1\\0\end{pmatrix} 
+  + (1+2\ii)\begin{pmatrix}1\\0\end{pmatrix} \otimes (3-4\ii)\begin{pmatrix}0\\1\end{pmatrix}
+  + \ii\begin{pmatrix}0\\1\end{pmatrix} \otimes 2\begin{pmatrix}1\\0\end{pmatrix} 
+  + \ii\begin{pmatrix}0\\1\end{pmatrix} \otimes   (3-4\ii)\begin{pmatrix}0\\1\end{pmatrix} \\
+  &= 2(1+2\ii) \ket{0.0} + (1+2\ii)(3-4\ii)\ket{0.1} + 2\ii\ket{1.0}+ (4+3\ii)\ket{1.1} \\
+\end{align*}
+  
+    
+  \item \emph{Calcul formel.} C'est la technique vue dans le chapitre \og{}Découverte de l'informatique quantique\fg{}. C'est en fait le même calcul que précédemment, mais sans revenir aux vecteurs :
+\begin{align*}
+\ket \phi \otimes \ket \psi
+  &= \big((1+2\ii)\ket0 + \ii\ket1\big) \otimes \big(2\ket0 + (3-4\ii)\ket1\big)  \\
+  &=  (1+2\ii)\ket0 \otimes 2\ket0 
+  + (1+2\ii)\ket0 \otimes (3-4\ii)\ket1
+  + \ii\ket1 \otimes 2\ket0 
+  + \ii\ket1 \otimes   (3-4\ii)\ket1 \\
+  &= 2(1+2\ii) \ket{0.0} + (1+2\ii)(3-4\ii)\ket{0.1} + 2\ii\ket{1.0}+ (4+3\ii)\ket{1.1} \\
+\end{align*}
+\end{enumerate}    
+
+On note l'intérêt de la notation $\ket{\cdot}$ qui permet d'écrire les calculs de façon condensée, mais il faut bien comprendre que la justification théorique qui nous permet cette écriture est le calcul tensoriel sur les vecteurs.
+  
+\end{exemple}
+
+%--------------------------------------------------------------------
+\subsection{Intrication quantique}
+
+\index{intrication quantique}
+
+\begin{definition}
+\sauteligne
+\begin{itemize}
+  \item Un $2$-qubit $\ket\phi$ est \defi{non intriqué} s'il existe deux $1$-qubits $\ket{\psi_1}$ et $\ket{\psi_2}$ tels que :
+$$\ket\phi = \ket{\psi_1} \cdot \ket{\psi_2}.$$
+  \item S'il n'existe aucun $\ket{\psi_1}$
+et $\ket{\psi_2}$ tels que $\ket\phi = \ket{\psi_1} \cdot \ket{\psi_2}$, alors
+le qubit $\ket\phi$ est dit \defi{intriqué}.
+\end{itemize}
+\end{definition}
+
+\begin{exemple}
+Le $2$-qubit $\ket\phi$ suivant n'est pas intriqué :
+$$\ket\phi = \ket{0.0} - \ket{0.1} + \ket{1.0} - \ket{1.1}.$$
+
+En effet si on pose :
+$$\ket{\psi_1} = \ket0+\ket1 \qquad \ket{\psi_2} = \ket0-\ket1$$
+alors
+$$\ket{\psi_1}\cdot \ket{\psi_2} = (\ket0+\ket1) \cdot (\ket0-\ket1)
+= \ket{0.0} - \ket{0.1} + \ket{1.0} - \ket{1.1} = \ket\phi.$$
+\end{exemple}
+
+
+\begin{exemple}
+L'état de Bell $\ket{\Phi^+}$ est intriqué :
+$$\ket{\Phi^+} = \frac1{\sqrt2} \ket{0.0} + \frac1{\sqrt2} \ket{1.1}$$
+
+
+\emph{Preuve.} Supposons par l'absurde que $\ket{\Phi^+}$ ne soit pas intriqué, alors il existerait 
+$\ket{\psi_1}=\alpha\ket0+\beta\ket1$
+et $\ket{\psi_2}=\alpha'\ket0+\beta'\ket1$
+tels que $\ket{\Phi^+} = \ket{\psi_1} \cdot \ket{\psi_2}$, où $\alpha$, $\beta$, $\alpha'$, $\beta'$ sont des nombres complexes.
+
+D'une part, on aurait :
+$$\ket{\Phi^+} 
+= \ket{\psi_1} \cdot \ket{\psi_2}
+= \alpha\alpha'\ket{0.0} + \alpha\beta'\ket{0.1}
++ \beta\alpha'\ket{1.0} + \beta\beta'\ket{1.1} 
+.$$
+
+Mais d'autre part $\ket{\Phi^+} = \frac1{\sqrt2} \ket{0.0} + \frac1{\sqrt2} \ket{1.1}$.
+Par identification des coefficients on obtient :
+$$
+\left\{\begin{array}{rcl}
+\alpha\alpha' &=& \frac1{\sqrt2} \\
+\beta\beta'&=& \frac1{\sqrt2}\\
+\end{array}\right.
+\qquad \text{ et   } \qquad
+\left\{\begin{array}{rcl}
+\alpha\beta'&=&0\\
+\beta\alpha'&=&0\\
+\end{array}\right..$$
+Les équations de gauche impliquent que $\alpha$, $\beta$, $\alpha'$ et $\beta'$ sont tous non nuls, ce qui contredit les équations de droite.
+Ainsi notre hypothèse de départ est nécessairement fausse, ce qui implique qu'il ne peut exister de tels $\ket{\psi_1}$ et $\ket{\psi_2}$, c'est-à-dire que le qubit $\ket{\Phi^+}$ est intriqué.
+\end{exemple}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Matrices}
+
+
+Nous allons voir les notions de base concernant les matrices. 
+Nous nous concentrons en particulier sur les matrices de taille $2\times 2$.
+
+%--------------------------------------------------------------------
+\subsection{Définition}
+
+Une \defi{matrice} est un tableau de nombres représenté de la manière suivante :
+$$A=\begin{pmatrix}
+a_{1,1}& a_{1,2}& \dots & a_{1,j}& \dots & a_{1,p}\cr
+a_{2,1}& a_{2,2}& \dots & a_{2,j}& \dots &a_{2,p}\cr
+\dots & \dots & \dots & \dots & \dots & \dots \cr
+a_{i,1}& a_{i,2} & \dots & a_{i,j}& \dots &a_{i,p} \cr
+\dots & \dots & \dots & \dots & \dots & \dots \cr
+a_{n,1}& a_{n,2}& \dots & a_{n,j}& \dots & a_{n,p}\cr
+\end{pmatrix}
+\quad \text{ ou } \quad
+A= \big(a_{i,j}\big)_{\substack{1\leq i \leq n \\ 1\leq j \leq p}}
+\quad \text{ ou } \quad
+\big(a_{i,j}\big).
+$$
+
+
+Les $a_{i,j}$ seront pour nous des nombres réels ou des nombres complexes. 
+On note $M_{n,p}(\Kk)$ les matrices de taille $n\times p$ à coefficients dans $\Kk$.
+
+Par exemple :
+
+$$ A  =  \left(
+ \begin{array}{ccc}
+1+\ii & -2\ii & 5\\
+\ii & 0  & 1+7\ii
+\end{array}
+\right) \in M_{2,3}(\Cc),$$
+$A$ est une matrice $2\times 3$ à coefficients complexes.
+
+Si $n=p$ (même nombre de lignes que de colonnes), la matrice est dite 
+\defi{matrice carrée}\index{matrice!carrée}.
+On note $M_{n}(\Kk)$ au lieu de $M_{n,n}(\Kk)$.
+Dans ce cas les éléments $a_{1,1}, a_{2,2}, \ldots, a_{n,n}$ forment la \defi{diagonale principale} de la matrice :
+
+  \[
+\begin{pmatrix}
+ {\color{myred}a_{1,1}} & a_{1,2} & \dots & a_{1,n}\\
+ a_{2,1} & {\color{myred}a_{2,2}} & \dots & a_{2,n}\\
+ \vdots& \vdots & {\color{myred}\ddots}  & \vdots\\
+ a_{n,1} & a_{n,2} & \dots & {\color{myred}a_{n,n}}
+\end{pmatrix}
+ .\]
+
+On retrouve des cas particuliers déjà rencontrés. 
+\begin{itemize}
+  \item  Une matrice qui n'a qu'une seule ligne ($n=1$) est appelée \defi{matrice ligne}
+  ou \defi{vecteur ligne}. On la note
+$$A=\begin{pmatrix}
+a_{1,1}& a_{1,2}&  \ldots & a_{1,p}\cr
+\end{pmatrix}.$$
+
+  \item De même, une matrice qui n'a qu'une seule colonne ($p=1$) est appelée \defi{matrice
+colonne} ou \defi{vecteur colonne}. On la note
+$$A=\begin{pmatrix}
+a_{1,1}\cr
+a_{2,1}\cr
+\enspace \vdots \hfill \cr
+a_{n,1}\cr
+\end{pmatrix}.$$
+
+\end{itemize}
+
+
+\begin{definition}[Somme de deux matrices]
+Soient $A$ et $B$ deux matrices ayant la même taille $n\times p$.
+Leur \defi{somme} $C=A+B$ est la matrice de taille $n\times p$ définie par
+\[c_{ij}=a_{ij}+b_{ij}\]
+pour $1\le i \le n$ et $1 \le j \le p$.
+\end{definition}
+
+En d'autres termes, on somme coefficients à coefficients.
+
+Remarque : on note indifféremment $a_{ij}$ ou $a_{i,j}$
+pour les coefficients de la matrice $A$.
+
+
+
+$$\text{Si} \qquad
+A  =  \begin{pmatrix}
+3+\ii & -2\\
+1 & 7\ii
+\end{pmatrix}
+\qquad \text{et} \qquad
+B = \begin{pmatrix}
+-2 & 5+2\ii \\
+3\ii & -\ii
+    \end{pmatrix}
+\qquad \text{alors} \qquad A + B = \begin{pmatrix}
+1+\ii &3+2\ii\\
+1+3\ii & 6\ii
+\end{pmatrix}.
+$$
+
+La matrice de taille $n\times p$ dont tous les coefficients sont des zéros
+est appelée la \defi{matrice nulle} et est notée $0_{n,p}$ ou plus simplement $0$.
+Dans le calcul matriciel, la matrice nulle joue le rôle du nombre $0$ pour les réels, c'est l'élément neutre pour l'addition.
+
+%--------------------------------------------------------------------
+\subsection{Produit de matrices}
+
+
+\begin{definition}[Produit de deux matrices]
+\index{matrice!produit}
+Soient $A=(a_{ij})$ une matrice $n\times p$ et $B=(b_{ij})$ une matrice $p\times q$.
+Alors le produit $C=AB$ est une matrice $n\times q$ dont les coefficients $c_{ij}$
+sont définis par :
+\mybox{$\displaystyle
+c_{ij} = \sum_{k=1}^p a_{ik}b_{kj}
+$}
+où $1\le i \le n$ et $1\le j \le q$.
+\end{definition}
+
+On peut écrire le coefficient général de façon plus développée, à savoir :
+$$c_{ij}=a_{i1}b_{1j}+a_{i2}b_{2j}+ \dots +
+a_{ik}b_{kj}+ \dots + a_{ip}b_{pj}.$$
+
+
+Il est commode de disposer les calculs de la
+façon suivante :
+
+$$\begin{array}{ccl}
+&\begin{pmatrix}
+&&&{\color{myred}\times}&&\\
+&&&{\color{myred}\times}&&\\
+\hphantom{-}&\hphantom{-}&\hphantom{-}&{\color{myred}\times}&\hphantom{-}&\hphantom{-}\\
+&&&{\color{myred}\times}&&
+\end{pmatrix}&\leftarrow B\\
+A\to\begin{pmatrix}
+&&&\\
+&&&\\
+{\color{myred}\times}&{\color{myred}\times}&{\color{myred}\times}&{\color{myred}\times}\\
+&&&
+\end{pmatrix}
+&\begin{pmatrix}
+&&&|&&\\
+&&&|&&\\
+-&-&-&{\color{blue}c_{ij}}&\hphantom{-}&\hphantom{-}\\
+&&&&&
+\end{pmatrix}&\leftarrow AB\\
+\end{array}
+$$
+
+
+Avec cette disposition, on considère d'abord la ligne
+de la matrice $A$ située à gauche du coefficient que l'on veut
+calculer (ligne numéro $i$ représentée par des ${\color{myred}\times}$ dans $A$)
+et aussi la colonne de la matrice $B$ située au-dessus du coefficient
+que l'on veut calculer (colonne numéro $j$ représentée par des ${\color{myred}\times}$ dans $B$).
+On calcule le produit du premier coefficient de la ligne par le premier coefficient
+de la colonne ($a_{i1} \times b_{1j}$), que l'on ajoute au produit du deuxième coefficient de la ligne par le deuxième coefficient
+de la colonne ($a_{i2} \times b_{2j}$), que l'on ajoute au produit du troisième\ldots
+
+
+
+%---------------------------------------------------------------
+\subsection{Exemples}
+
+\begin{exemple}
+$$A =\begin{pmatrix}
+1 & 2 & 3\cr
+2 & 3 & 4\cr
+\end{pmatrix}\qquad B =
+\begin{pmatrix}
+1&2\cr
+-1&1 \cr
+1&1\cr
+\end{pmatrix}
+$$
+
+
+On dispose d'abord le produit correctement (à gauche) : la matrice obtenue
+est de taille $2\times2$.
+Puis on calcule chacun des coefficients,
+en commençant par le premier coefficient $c_{11} = 1\times 1\ +\ 2\times(-1)\ +\ 3\times1=2$ (au milieu),
+puis les autres (à droite).
+
+$$\begin{array}{cc}
+  &  \begin{pmatrix}
+1&2\cr
+-1&1 \cr
+1&1\cr
+\end{pmatrix} \\
+\begin{pmatrix}
+1 & 2 & 3\cr
+2 & 3& 4\cr
+\end{pmatrix}
+   &\!\!
+ \begin{pmatrix} c_{11} & c_{12} \\ c_{21} & c_{22} \end{pmatrix}
+  \end{array}
+   \quad
+ \begin{array}{cc}
+  & \begin{pmatrix}
+{\color{myred}1}&2\cr
+{\color{myred}-1}&1 \cr
+{\color{myred}1}&1\cr
+\end{pmatrix}  \\
+\begin{pmatrix}
+{\color{myred}1} & {\color{myred}2} & {\color{myred}3}\cr
+2 & 3& 4\cr
+\end{pmatrix}
+   &\!\! \begin{pmatrix} {\color{blue}2} & c_{12} \\ c_{21} & c_{22} \end{pmatrix}
+  \end{array}
+  \quad
+ \begin{array}{cc}
+  &
+\begin{pmatrix}
+1&2\cr
+-1&1 \cr
+1&1\cr
+\end{pmatrix}\\
+\begin{pmatrix}
+1 & 2 & 3\cr
+2 & 3& 4\cr
+\end{pmatrix}
+   &\!\! \begin{pmatrix} 2 & 7 \cr 3 & 11 \end{pmatrix}
+  \end{array}
+ $$
+
+
+\end{exemple}
+
+
+La matrice carrée suivante s'appelle la \defi{matrice identité}\index{matrice!identité} :
+ \[
+ I_n = \left(
+ \begin{array}{cccc}
+1 & 0 & \dots & 0\\
+0& 1& \dots & 0\\
+ \vdots& \vdots & \ddots  & \vdots\\
+0 & 0 & \dots &1
+\end{array}
+\right).
+ \]
+
+Ses éléments diagonaux sont égaux à $1$ et tous ses autres éléments sont égaux à $0$.
+Elle se note $I_n$ ou simplement $I$.
+Dans le calcul matriciel, la matrice identité joue un rôle
+analogue à celui du nombre $1$ pour les réels.
+C'est l'élément neutre pour la multiplication. En
+d'autres termes :
+
+\begin{proposition}
+Si $A$ est une matrice $n \times p$, alors
+$$ I_n \cdot A = A \qquad \text{et} \qquad A \cdot I_p = A.$$
+\end{proposition}
+
+
+%---------------------------------------------------------------
+\subsection{Matrice inverse, déterminant}
+
+\begin{definition}[Matrice inverse]
+\index{matrice!inverse}
+Soit $A$ une matrice  carrée de taille $n \times n$. S'il existe une matrice carrée
+$B$ de taille $n \times n$ telle que
+$$ AB = I\qquad \text{et} \qquad BA = I,$$
+on dit que $A$ est \defi{inversible}. 
+On appelle $B$ l'\defi{inverse de $A$} et on la note $A^{-1}$.
+\end{definition}
+
+Considérons le cas d'une matrice $2\times 2$ :
+$A = \begin{pmatrix}
+ a & b\\
+ c & d
+\end{pmatrix}.
+$
+\begin{proposition}
+Soit $A = \begin{pmatrix}
+ a & b\\
+ c & d
+\end{pmatrix}
+$.
+Si $ad - bc \not= 0$,  alors $A$ est inversible et
+\mybox{$A^{-1} = \dfrac{1}{ad-bc} \begin{pmatrix}
+d & -b\\
+ -c & a
+\end{pmatrix}$}
+\end{proposition}
+
+Le nombre $ad-bc \in \Kk$ s'appelle le \defi{déterminant}\index{matrice!determiannt@déterminant} de la matrice $A \in M_2(\Kk)$.
+
+Plus généralement pour une matrice carrée $A \in M_n(\Kk)$, il existe
+un scalaire $\det(A) \in \Kk$, appelé \defi{déterminant} de $A$ tel que :
+\begin{itemize}
+  \item si $\det(A)\neq0$ alors la matrice $A$ est inversible ;
+  \item $\det(AB) = \det(A) \cdot \det(B)$ ;
+  \item $\det(I) = 1$ ;
+  \item $\det(A^{-1}) = 1/\det(A)$, si $A$ est inversible.
+\end{itemize}
+
+Nous admettons ces propriétés et nous n'expliquons pas ici comment calculer le déterminant en général.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Matrice adjointe}
+
+Une matrice adjointe est la version complexe d'une matrice transposée.
+
+%---------------------------------------------------------------
+\subsection{La transposition}
+
+On commence par rappeler que la transposition est une opération qui transforme une matrice : les lignes de $A$ deviennent les colonnes de $A^T$.
+
+Voici une matrice $A$ de taille $n\times p$ et sa \defi{matrice transposée}\index{matrice!transposee@transposée} notée $A^T$ qui est de taille $p \times n$ :
+$$
+A = \left(
+\begin{array}{cccc}
+a_{11} & a_{12} & \dots & a_{1p}\\
+a_{21} & a_{22} & \dots & a_{2p}\\
+\vdots & \vdots &&\vdots\\
+a_{n1} & a_{n2} & \dots & a_{np}
+\end{array}\right)
+\qquad\qquad
+A^T = \left(
+\begin{array}{cccc}
+a_{11} & a_{21} & \dots & a_{n1}\\
+a_{12} & a_{22} & \dots & a_{n2}\\
+\vdots & \vdots &&\vdots\\
+a_{1p} & a_{2p} &\dots & a_{np}
+\end{array}\right)\, .
+$$
+
+Autrement dit : le coefficient à la place $(i,j)$ de $A^T$  est $a_{ji}$.
+
+
+%--------------------------------------------------------------------
+\subsection{Matrice adjointe}
+
+Nos matrices ont des coefficients complexes, la matrice adjointe s'obtient par transposition et conjugaison complexe.
+On rappelle que si $a\in\Cc$, alors $a^*$ est le conjugué.
+
+\begin{definition}
+On appelle \defi{matrice adjointe}\index{matrice!adjointe} de $A$, de taille $n\times p$, la matrice $A^*$ de taille $p \times n$
+définie par :
+$$
+A^* = \left(
+\begin{array}{cccc}
+a_{11}^* & a_{21}^* & \dots & a_{n1}^*\\
+a_{12}^* & a_{22}^* & \dots & a_{n2}^*\\
+\vdots & \vdots &&\vdots\\
+a_{1p}^* & a_{2p}^* &\dots & a_{np}^*
+\end{array}\right)\, .
+$$
+\end{definition}
+
+
+\begin{exemple}
+$$A = \begin{pmatrix}
+1+\ii & 2+\ii\\
+3+\ii & 4+\ii\\
+5+\ii & 6+\ii\\
+\end{pmatrix}
+\qquad\qquad
+A^* = \begin{pmatrix}
+1-\ii & 3-\ii & 5-\ii\\
+2-\ii & 4-\ii & 6-\ii\\
+\end{pmatrix}
+$$
+\end{exemple}
+
+Nous avons déjà vu le cas des vecteurs : l'adjoint d'un vecteur colonne est un vecteur ligne, et réciproquement.
+$$u = \begin{pmatrix}x_1\\ \vdots \\ x_n\end{pmatrix}\qquad\qquad
+u^* = \begin{pmatrix}x_1^* & \cdots & x_n^*\end{pmatrix}$$
+$$v = \begin{pmatrix}x_1 & \cdots & x_n\end{pmatrix}\qquad\qquad
+v^* = \begin{pmatrix}x_1^*\\ \vdots \\ x_n^*\end{pmatrix}$$
+
+\begin{proposition}
+  Pour deux matrices $A$ et $B$ de tailles respectives
+  $n \times p$ et $p \times m$ : ~
+\mybox{$(A^*)^* = A \qquad \qquad (AB)^* = B^* A^*$}
+\end{proposition}
+
+La relation $(A^*)^*=A$ signifie  que l'adjointe de l'adjointe est la matrice elle-même.
+C'est déjà le cas pour la transposition et aussi la conjugaison complexe.
+
+On va prouver la seconde assertion $(AB)^* = B^* A^*$. Notez bien l'inversion de l'ordre, que l'on rencontre déjà pour les inverses $(AB)^{-1} = B^{-1}A^{-1}$.
+On rappelle aussi que l'ordre d'un produit de matrices est important, car en général $AB \neq BA$.
+
+
+\begin{proof}
+On va faire la preuve pour les matrices $2\times2$ uniquement.
+Soient :
+$$A = \begin{pmatrix}a&b\\c&d\end{pmatrix}
+\qquad
+B = \begin{pmatrix}\alpha&\beta\\\gamma&\delta\end{pmatrix}.$$
+Alors
+$$AB = \begin{pmatrix}
+a\alpha+b\gamma & a\beta+b\delta \\
+c\alpha+d\gamma & c\beta+d\delta \\ 
+\end{pmatrix}
+\qquad\qquad
+(AB)^* = \begin{pmatrix}
+a^*\alpha^*+b^*\gamma^* & c^*\alpha^*+d^*\gamma^* \\
+a^*\beta^*+b^*\delta^* & c^*\beta^*+d^*\delta^* \\ 
+\end{pmatrix}.
+$$
+
+Et d'autre part 
+$$A^* = \begin{pmatrix}a^*&c^*\\b^*&d^*\end{pmatrix}
+\qquad
+B^* = \begin{pmatrix}\alpha^*&\gamma^*\\\beta^*&\delta^*\end{pmatrix}
+\qquad
+B^* A^* = \begin{pmatrix}
+a^*\alpha^*+b^*\gamma^* & c^*\alpha^*+d^*\gamma^* \\
+a^*\beta^*+b^*\delta^* & c^*\beta^*+d^*\delta^* \\ 
+\end{pmatrix}$$
+On a bien $(AB)^* = B^* A^*$.
+\end{proof}
+
+%--------------------------------------------------------------------
+\subsection{Notation bra-ket}
+
+\index{bra}
+\index{ket}
+
+On rappelle la notation \og{}ket\fg{} $\ket\psi$
+et la notation \og{}bra\fg{} $\bra\phi$. En posant :
+
+$$\ket\psi = \begin{pmatrix}y_1 \\ \vdots \\ y_{n} \end{pmatrix}
+\qquad\quad \text{ et } \qquad\quad 
+\ket\phi = \begin{pmatrix}x_1 \\ \vdots \\ x_{n} \end{pmatrix}
+$$
+alors
+$$
+\bra{\phi} = \ket\phi^* = \begin{pmatrix}x_1^*& \cdots &x_{n}^*\end{pmatrix}.$$
+
+
+
+Calculons le produit de matrices $\bra{\phi} \times \ket{\psi}$  : 
+$$\bra{\phi} \times \ket{\psi}
+= \begin{pmatrix}x_1^*& \cdots &x_{n}^*\end{pmatrix} \begin{pmatrix}y_1 \\ \vdots \\ y_{n} \end{pmatrix} = x_1^*y_1+ \cdots x_n^*y_n = \braket{\phi}{\psi}.$$
+
+C'est le produit d'un vecteur ligne par un vecteur colonne qui donne une matrice de taille $1\times 1$, qu'on identifie à un nombre complexe.
+
+Ce calcul justifie la notation \og{}bra-ket\fg{} : le produit $\bra{\phi} \times \ket{\psi}$
+correspond au produit scalaire hermitien $\braket{\phi}{\psi}$.
+Ainsi la notation \og{}bra-ket\fg{} est un jeu de mots associé au \og{}bracket\fg{} du produit scalaire hermitien (\emph{bracket} signifie crochet).
+
+
+%--------------------------------------------------------------------
+\subsection{Produit scalaire hermitien}
+
+\index{produit scalaire}
+
+\begin{proposition}
+~
+\mybox{$\braket{Au}{v} = \braket{u}{A^* v}$}
+\end{proposition}
+
+\begin{proof}
+Nous faisons la preuve uniquement pour les matrices de taille $2\times 2$.
+$$A = \begin{pmatrix}a&b\\c&d\end{pmatrix}
+\qquad A^* = \begin{pmatrix}a^*&c^*\\b^*&d^*\end{pmatrix}
+\qquad u = \begin{pmatrix}x_1\\x_2\end{pmatrix}
+\qquad v = \begin{pmatrix}y_1\\y_2\end{pmatrix}
+$$
+$$Au = \begin{pmatrix}
+ax_1+bx_2\\
+cx_1+dx_2 \\
+\end{pmatrix}
+\qquad 
+\braket{Au}{v} = (ax_1+bx_2)^*y_1 + (cx_1+dx_2)^*y_2$$
+
+$$A^* v = \begin{pmatrix}
+a^*y_1+c^*y_2\\
+b^*y_1+d^*y_2 \\
+\end{pmatrix}
+\qquad 
+\braket{u}{A^*v} = x_1^*(a^*y_1+c^*y_2) + x_2^*(b^*y_1+d^*y_2)$$
+
+Ainsi 
+$$\braket{Au}{v} = a^*x_1^*y_1 +b^*x_2^*y_1 + c^*x_1^*y_2+d^*x_2^*y_2
+= \braket{u}{A^*v}.$$
+\end{proof}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Matrice unitaire}
+
+On travaille souvent avec des qubits de norme $1$.
+Les portes logiques transforment les qubits, mais doivent tout de même transformer un qubit $\ket\phi$ de norme $1$ en un qubit $\ket\psi$ de norme $1$.
+
+Lorsque cette transformation est linéaire et s'écrit $A\ket\phi =\ket\psi$, la matrice $A$ est d'un type particulier : c'est une matrice unitaire. Dans ce chapitre les exemples seront des matrices $2\times 2$. On retrouvera le cas général dans le chapitre \og{}Portes quantiques\fg{}.
+
+
+%--------------------------------------------------------------------
+\subsection{Définition}
+
+\begin{definition}
+Une matrice $A \in M_n$ est \defi{unitaire}\index{matrice!unitaire} si :
+\mybox{$A^* A = I$}
+On note $U_n$ l'ensemble des matrices unitaires de taille $n \times n$.
+\end{definition}
+
+Si $A$ est une matrice unitaire alors on a 
+$$A^{-1} = A^* \qquad \text{ et  }\qquad A A^* = I.$$
+
+\begin{exemple}
+Les matrices de Pauli sont les matrices unitaires suivantes :
+$$
+X = \begin{pmatrix}0&1\\1&0\end{pmatrix}
+\qquad
+Y = \begin{pmatrix}0&-\ii\\\ii&0\end{pmatrix}
+\qquad
+Z = \begin{pmatrix}1&0\\0&-1\end{pmatrix}
+$$
+Vérifier que l'on a bien $A^*A=I$. De plus pour ces exemples on a $A^*=A$.
+\end{exemple}
+
+La propriété fondamentale des matrices unitaires est qu'elles préservent le produit scalaire hermitien.
+\begin{proposition}
+Si $A$ est une matrice unitaire alors
+\mybox{$\braket{Au}{Av} = \braket{u}{v}$}
+\end{proposition}
+
+En termes de vecteurs du plan, cela signifie que l'angle entre deux vecteurs est préservé par l'action d'une matrice unitaire.
+
+\myfigure{1}{
+\tikzinput{fig-vecteurs-04}
+}
+
+\begin{proof}
+$$
+\braket{Au}{Av} 
+= \braket{u}{A^*Av}
+= \braket{u}{v}
+$$
+\end{proof}
+
+
+%--------------------------------------------------------------------
+\subsection{Matrice unitaire de dimension 2}
+
+Soit $A = \begin{pmatrix}a&b\\c&d\end{pmatrix}$
+de taille $2\times2$.
+Notons cette matrice à l'aide de ses vecteurs colonnes :
+$$A = \begin{pmatrix}u & v\end{pmatrix}
+\qquad\text{ avec }\qquad
+u = \begin{pmatrix}a\\c\end{pmatrix},\quad v = \begin{pmatrix}b\\d\end{pmatrix}.$$
+
+\begin{proposition}
+\label{prop:unitaire}
+La matrice $A$ est unitaire si et seulement si les vecteurs $(u,v)$ forment une base orthonormale, c'est-à-dire satisfont les conditions :
+$$\|u\|=1,\quad \|v\|=1 \qquad \text{ et } \qquad \braket{u}{v} = 0.$$
+\end{proposition}
+
+\begin{proof}
+$$A = \begin{pmatrix}a&b\\c&d\end{pmatrix}\qquad
+A^* = \begin{pmatrix}a^*&c^*\\b^*&d^*\end{pmatrix}$$
+$$A^*A = \begin{pmatrix}
+aa^* + cc^* & ba^* + dc^* \\
+ab^* + cd^* & bb^* + dd^* \\
+\end{pmatrix}$$
+
+Si $A$ est une matrice unitaire alors 
+$$A^*A = I = \begin{pmatrix}1&0\\0&1\end{pmatrix}.$$
+On identifie les coefficients :
+$$
+\left\{
+\begin{array}{l}
+aa^* + cc^* = 1 \\
+bb^* + dd^* = 1 \\
+a^*b + c^*d = 0 \\
+\end{array}
+\right.
+\qquad
+\text{ donc }
+\qquad
+\left\{
+\begin{array}{l}
+\|u\|^2 = |a|^2+|c|^2 = 1 \\
+\|v\|^2 =  |b|^2+|d|^2 = 1 \\
+\braket{u}{v} = a^*b + c^*d = 0 \\
+\end{array}
+\right.$$
+
+On n'utilise pas l'égalité $ab^* + cd^*=0$ qui est en fait $(a^*b + c^*d)^* = 0$.
+
+Réciproquement, si on a les égalités $\|u\|=1$, $\|v\|=1$ et $\braket{u}{v} = 0$, alors les coefficients de $A^*A$ sont les coefficients de l'identité.
+\end{proof}
+
+\begin{exemple}
+La matrice suivante est unitaire :
+$$
+U(\theta,\phi,\lambda) = \begin{pmatrix}
+\cos\left(\frac\theta2\right)  &  -\sin\left(\frac\theta2\right)e^{\ii\lambda}\\
+\sin\left(\frac\theta2\right)e^{\ii\phi} & \cos\left(\frac\theta2\right)e^{\ii(\phi+\lambda)}\\
+\end{pmatrix}.$$
+
+On vérifie que les deux vecteurs verticaux formant cette matrice sont de norme $1$ et orthogonaux.
+
+
+Cette transformation est disponible sous la forme d'une porte quantique.
+{\Large
+$$
+\Qcircuit @C=1em @R=1em {
+& \gate{U_3(\theta,\phi,\lambda)} &  \qw \\
+}
+$$
+}
+
+\end{exemple}
+
+
+\begin{proposition}
+L'ensemble des matrices unitaires forme un groupe pour la multiplication.
+En particulier si $A, B \in U_n$ alors $AB \in U_n$ et $A^{-1} \in U_n$.
+\end{proposition}
+
+\begin{proof}
+Soient $A, B \in U_n$.
+$$(AB)^*(AB) = (B^*A^*)(AB) = B^*(A^*A)B = B^*IB = B^*B =I.$$
+De même, comme $A^{-1} = A^*$ : 
+$$(A^{-1})^*A^{-1} = (A^*)^* A^* = AA^* = I.$$
+\end{proof}
+
+
+%--------------------------------------------------------------------
+\subsection{Longueur préservée}
+
+Une matrice unitaire préserve les longueurs, autrement dit si $A$ est une matrice unitaire
+et $u$ un vecteur alors $\|Au\| = \|u\|$.
+En fait cette particularité caractérise les matrices unitaires.
+\begin{proposition}
+Soit $A \in M_2$.
+La matrice $A$ est unitaire si et seulement pour tout vecteur $u$, on a 
+$$\|Au\| = \|u\|.$$
+\end{proposition}
+
+
+\myfigure{1}{
+\tikzinput{fig-vecteurs-05}
+}
+
+\begin{proof}~
+\begin{itemize}
+  \item Sens $\Rightarrow$.
+$$
+\|Au\|^2 
+= \braket{Au}{Au} 
+= \braket{u}{A^*Au} 
+= \braket{u}{u} 
+= \|u\|^2.
+$$
+
+  \item Sens $\Leftarrow$.
+
+Notons la matrice $A$ sous la forme de ses vecteurs colonnes $A = \begin{pmatrix}u & v\end{pmatrix}$ 
+et supposons qu'elle préserve les longueurs. Nous allons utiliser la caractérisation de la proposition \ref{prop:unitaire}.
+
+\begin{itemize}
+  \item Comme $A \left(\begin{smallmatrix}1\\0\end{smallmatrix}\right) = u$ et que $A$ préserve les longueurs alors 
+$$\left\| A\left(\begin{smallmatrix}1\\0\end{smallmatrix}\right) \right\| = \left\| \left(\begin{smallmatrix}1\\0\end{smallmatrix}\right) \right\| \qquad \text{ donc} \qquad \|u\| = 1.$$
+
+  \item De même $A \left(\begin{smallmatrix}0\\1\end{smallmatrix}\right) = v$, donc $\|v\| = 1$.
+
+  \item D'une part $A \left(\begin{smallmatrix}1\\1\end{smallmatrix}\right) = u+v$,
+  donc $\|u+v\| = \sqrt2$.
+  Ainsi :
+  \begin{align*}
+  \|u+v\|^2 = 2 
+   &\implies \braket{u+v}{u+v} = 2 \\
+   &\implies \braket{u}{u+v} + \braket{v}{u+v} = 2 \\
+   &\implies \braket{u}{u} + \braket{u}{v} +\braket{v}{u} +\braket{v}{v} = 2 \\
+   &\implies \|u\|^2 + \braket{u}{v} + (\braket{u}{v})^* + \|v\|^2 = 2 \quad \text{ mais } \|u\|^2=1 \text{ et } \|v\|^2=1\\
+   &\implies 2\Re\big( \braket{u}{v} \big) = 0 \quad \text{ sachant que } z+z^* = 2\Re(z) \\
+  \end{align*}
+
+  \item D'autre part $A \left(\begin{smallmatrix}1\\\ii\end{smallmatrix}\right) = u+\ii v$,
+  donc $\|u+\ii v\| = \sqrt2$.
+  Ainsi :
+  \begin{align*}
+  \|u+ \ii v\|^2 = 2 
+   &\implies \braket{u+\ii v}{u+\ii v} = 2 \\
+   &\implies \braket{u}{u+\ii v} + \braket{\ii v}{u+\ii v} = 2 \\
+   &\implies \braket{u}{u} + \ii\braket{u}{v} -\ii\braket{v}{u} +\braket{v}{v} = 2 \\
+   &\implies \|u\|^2 + \ii\braket{u}{v} - \ii(\braket{u}{v})^* + \|v\|^2 = 2 \\
+   &\implies 2\ii\Im\big( \braket{u}{v} \big) = 0 \quad \text{ sachant que } z-z^* = 2\Im(z)\\
+  \end{align*}
+  
+  \item On a prouvé que la partie réelle et la partie imaginaire de $\braket{u}{v}$ sont nulles. Ainsi $\braket{u}{v} = 0$.
+  
+  \item On a donc $\|u\|=1$, $\|v\|=1$ et $\braket{u}{v}=0$, alors par la proposition \ref{prop:unitaire}, la matrice $A = \begin{pmatrix}u & v\end{pmatrix}$ est unitaire.
+\end{itemize}
+\end{itemize}
+\end{proof}
+
+
+
+%--------------------------------------------------------------------
+\subsection{Matrice spéciale unitaire}
+
+Parmi les matrices unitaires, celles dont le déterminant vaut $1$ sont particulièrement intéressantes.
+
+\begin{definition}
+Une matrice $A \in M_n$ est \defi{spéciale unitaire}\index{matrice!speciale unitaire@spéciale unitaire} si elle est unitaire (c'est-à-dire $A^* A = I$) et de déterminant $1$: 
+$$\det(A) = 1.$$ 
+On note $SU_n$ l'ensemble des matrices spéciales unitaires de taille $n \times n$.
+\end{definition}
+
+\emph{Exemple.} Les matrices de Pauli (voir l'exemple plus haut) ne sont \emph{pas} unitaires car de déterminant $-1$, par contre en multipliant tous les coefficient par $\ii$, on obtient un déterminant $+1$, donc $\ii X, \ii Y, \ii Z \in SU_2$.
+
+\begin{proposition}
+L'ensemble des matrices spéciales unitaires forme un groupe pour la multiplication.
+En particulier si $A, B \in SU_n$ alors $AB \in SU_n$ et $A^{-1} \in SU_n$.
+\end{proposition}
+
+\begin{proof}
+On sait déjà que $AB$ et $A^{-1}$ sont des matrices unitaires et que de plus
+$\det(AB) = \det(A)\det(B) = 1$ et $\det(A^{-1}) = \frac{1}{\det(A)} = 1$.
+\end{proof}
+
+Dans le cas de matrices de taille $2\times2$, nous décrivons l'ensemble des matrices de $SU_2$.
+\begin{proposition}
+Une matrice spéciale unitaire de taille $2\times 2$, s'écrit sous la forme
+$$A = \begin{pmatrix}\alpha&-\beta^*\\\beta&\alpha^*\end{pmatrix}
+\qquad\text{ avec }  \alpha,\beta\in \Cc \ \text { tels que } \ |\alpha|^2 + |\beta|^2 = 1.$$
+\end{proposition}
+
+
+\begin{proof}
+Tout d'abord comme $A \in SU_2$ alors en particulier $A \in U_2$.
+D'après la proposition \ref{prop:unitaire},
+$A$ s'écrit sous la forme de ses vecteurs colonnes :
+$$A = \begin{pmatrix}u & v\end{pmatrix}\qquad
+\|u\|=1 \qquad \|v\|=1 \qquad \braket{u}{v} = 0.$$
+Notons $u = \begin{pmatrix}\alpha\\\beta\end{pmatrix}$. 
+Comme $\|u\|=1$ alors $|\alpha|^2 + |\beta|^2 = 1$.
+Notons $v = \begin{pmatrix}\gamma\\\delta\end{pmatrix}$. 
+Comme $u$ et $v$ sont orthogonaux, car $\braket{u}{v} = 0$,
+alors $\alpha^* \gamma + \beta^*\delta=0$.
+Cela implique $\alpha^* \gamma = -\beta^*\delta$.
+Si $\alpha\neq0$, on pose $\lambda = \frac{\delta}{\alpha^*}$. 
+On a alors $\gamma = - \frac{\delta\beta^*}{\alpha^*} = - \lambda \beta^*$ et $\delta = \lambda \alpha^*$. (Si $\alpha = 0$ alors on a nécessairement $\beta\neq0$ donc $\delta=0$ et on a encore une relation $\gamma = - \lambda \beta^*$ et $\delta = \lambda \alpha^*$ avec $\lambda = - \frac{\gamma}{\beta^*}$).
+
+Donc la matrice $A$ s'écrit :
+$$A = \begin{pmatrix}\alpha&-\lambda\beta^*\\\beta&\lambda\alpha^*\end{pmatrix}.$$
+
+Or 
+$$\det(A) = \lambda \alpha\alpha^* + \lambda\beta\beta^*
+= \lambda ( |\alpha|^2 + |\beta|^2 ) = \lambda.$$
+Comme $\det(A)=1$, alors $\lambda=1$.
+Ainsi :
+$$A = \begin{pmatrix}\alpha&-\beta^*\\\beta&\alpha^*\end{pmatrix}
+\qquad \text{ avec }  \ |\alpha|^2 + |\beta|^2 = 1.$$
+\end{proof}
+
+
+
+
+%\begin{exericecours}
+%Montrer que si $A$ est une matrice spéciale unitaire, alors son inverse $A^{-1}$ l'est aussi.
+%\end{exercicecours}
+
+
+Terminons par une propriété, dite de \defi{transitivité}. On peut transformer un vecteur en n'importe quel autre vecteur par une matrice spéciale unitaire, à condition ques ces deux vecteurs aient la même longueur.
+\begin{proposition}
+Soient $u \in \Cc^2$ et $v \in \Cc^2$ deux vecteurs avec $\|u\|=\|v\|$.
+Il existe une matrice $A \in SU_2$ telle que $Au=v$.
+\end{proposition}
+Une telle matrice $A$ n'est pas unique.
+
+\emph{Application.} Si $\ket\phi$ et $\ket\psi$ sont de norme $1$, alors il existe
+$A \in SU_2$ telle que $\ket\psi = A \ket\phi$.
+
+\begin{proof}
+Sans perte de généralité on suppose $\|u\|=\|v\| = 1$.
+
+\emph{Étape 1.} Il existe $B \in SU_2$ telle que $B \left(\begin{smallmatrix}1\\0\end{smallmatrix}\right) = u$.
+En effet, si on note $u = \left(\begin{smallmatrix}\alpha\\\beta\end{smallmatrix}\right)$
+avec $\alpha, \beta \in \Cc$.
+Alors posons :
+$$B = \begin{pmatrix}\alpha&-\beta^*\\\beta&\alpha^*\end{pmatrix}$$
+Comme $\|u\|^2 = |\alpha|^2 + |\beta|^2 = 1$, c'est bien une matrice spéciale unitaire : $B\in SU_2$.
+
+Comme $B \in SU_2$, alors $B^{-1} \in SU_2$ et vérifie $B^{-1}u = \left(\begin{smallmatrix}1\\0\end{smallmatrix}\right)$.
+
+\emph{Étape 2.} On reprend la construction de la première étape pour construire cette fois 
+$C \in SU_2$ telle que $C \left(\begin{smallmatrix}1\\0\end{smallmatrix}\right) = v$.
+
+\emph{Étape 3.} La matrice $A = CB^{-1}$ convient.
+En effet, comme $B, C \in SU_2$ alors $CB^{-1} \in SU_2$ et 
+$$Au = (CB^{-1})u = C(B^{-1}u) = C\left(\begin{smallmatrix}1\\0\end{smallmatrix}\right) = v.$$
+\end{proof}
+
+
+
+\bigskip
+\bigskip
+ 	\emph{Note.} Certains passages de ce chapitre sont extraits du chapitre \og{}Matrice\fg{} du livre \og{}Algèbre\fg{} d'Exo7.
+\end{document}

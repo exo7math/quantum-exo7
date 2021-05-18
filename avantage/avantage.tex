@@ -1,0 +1,221 @@
+\documentclass[11pt,class=report,crop=false]{standalone}
+\usepackage[screen]{../python}
+
+
+\begin{document}
+
+
+%====================================================================
+\chapitre{Avantage quantique}
+%====================================================================
+
+
+\objectifs{Quand est-ce qu'un ordinateur quantique sera plus performant qu'un ordinateur classique ?}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{L'avantage quantique}
+
+
+%--------------------------------------------------------------------
+\subsection{Une définition ?}
+
+L'\defi{avantage quantique}\index{avantage quantique}\index{suprematie quantique@suprématie quantique} c'est deux choses : un ordinateur quantique et un problème à résoudre. Cet ordinateur quantique sait résoudre ce problème alors qu'aucun ordinateur classique ne peut le faire en temps raisonnable.
+
+\medskip
+
+\begin{itemize}
+  \item La notion d'avantage quantique est un peu floue : par exemple, est-ce que le problème à résoudre doit être utile ou pas ? 
+Ce que signifie résoudre un problème est clair : l'ordinateur quantique renvoie la bonne réponse en un temps raisonnable (disons en quelques heures ou quelques jours), mais il n'est pas clair de prouver qu'aucun algorithme ne peut résoudre ce même problème sur un ordinateur classique (peut-être qu'un bon algorithme n'a pas encore été trouvé).
+
+  \item Certaines compagnies affirment avoir déjà dépassé le cap. Le consensus étant que cet avantage sera atteint durant la décennie 2020.
+
+  \item Le terme \og{}avantage quantique\fg{} est maintenant préféré à \og{}suprématie quantique\fg{}. 
+Outre l'aspect moins vindicatif du terme \og{}avantage\fg{}, à moyenne échéance, il est probable que les ordinateurs classiques et les ordinateurs quantiques cohabiteront ; on peut en effet imaginer que les ordinateurs classiques délégueront certaines tâches complexes aux ordinateurs quantiques.
+\end{itemize}
+
+
+\medskip
+
+D'autres définitions sont à inventer pour mesurer l'efficacité d'un ordinateur quantique et comparer les technologies mises en \oe uvre en tenant compte du nombre de qubits, des connexions entre ces qubits, du nombre de portes implémentées, du taux d'erreurs\ldots
+
+
+%--------------------------------------------------------------------
+\subsection{Factorisation}
+
+\index{factorisation d'un entier}
+
+La factorisation des grands entiers est une bonne illustration.
+Rappelons qu'étant donné un entier il s'agit de lui trouver deux facteurs tels que $n=p\times q$. Tout d'abord c'est un problème utile, car la sécurité de nombreuses communications repose sur ce problème.
+
+\medskip
+
+\textbf{Ordinateurs classiques.} 
+Les meilleurs algorithmes actuels sur des ordinateurs classiques permettent de factoriser des entiers jusqu'à $250$ chiffres ($800$ bits) (voir le chapitre \og{}Arithmétique\fg{}). Les calculs se font sur des centaines d'ordinateurs en parallèle et prennent plusieurs semaines.
+La complexité  de ces algorithmes de factorisation augmente de manière exponentielle avec le nombre de bits. 
+La recommandation  minimale pour la longueur d'une clé RSA\index{chiffrement!RSA} sûre est actuellement de $2048$ bits ($600$ chiffres). Une telle factorisation est hors de portée de tous les ordinateurs et algorithmes actuels pour encore plusieurs années.
+
+\medskip
+
+\textbf{Ordinateurs quantiques.} 
+L'algorithme de Shor\index{algorithme de Shor} démontre théoriquement l'avantage des ordinateurs quantiques car il permet de factoriser rapidement des grands entiers.
+
+En 2020 les ordinateurs quantiques possèdent jusqu'à 50 qubits et savent factoriser des entiers à $5$ chiffres ($14$ bits). Pour factoriser un entier de $2048$ bits en quelques heures, il faudrait une machine quantique à $20$ millions de qubits, ce qui ne sera pas atteint avant une ou deux décennies !
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Simulation d'un ordinateur quantique}
+
+\index{circuit quantique}
+
+Les ordinateurs quantiques sont fondamentalement différents des ordinateurs classiques, cependant certains circuits quantiques simples peuvent être réalisés de façon efficace sur un ordinateur classique.
+
+\index{theoreme de Gottesman--Knill@théorème de Gottesman--Knill}
+\index{porte!X}
+\index{porte!Y}
+\index{porte!Z}
+\index{porte!de Pauli}
+\index{porte!CNOT}
+\index{porte!S}
+\index{porte!phase}
+\index{porte!pi4@$\frac\pi4$}
+\begin{theoreme}[Gottesman -- Knill]
+N'importe quel circuit quantique, composé uniquement de portes 
+de Hadamard \mygate{H}, de portes \mygate{CNOT}, de portes de Pauli \mygate{X}, \mygate{Y}, \mygate{Z} et de portes de phase \mygate{S}, initialisé avec des états $\ket0$ et terminé par des mesures, peut être simulé efficacement par un ordinateur classique.
+\end{theoreme}
+
+\bigskip
+
+\begin{itemize}
+  \item \og{}Efficacement\fg{} signifie en temps polynomial par rapport à la donnée du circuit.
+
+  \item La porte \mygate{S}, appelé \og{}porte phase\fg{} ou \og{}porte $\frac\pi4$\fg{}, est définie par la matrice :
+$$S = \begin{pmatrix}1&0\\0&\ii\end{pmatrix}.$$
+
+  \item En fait les portes de Pauli \mygate{X}, \mygate{Y}, \mygate{Z} peuvent être générées uniquement avec des portes \mygate{H} et \mygate{S} (c'est un bon exercice).
+
+  \item Cependant les portes contenues dans l'énoncé ne permettent pas de générer toutes les portes quantiques : cet ensemble de portes n'est donc pas universel. Par exemple la porte de Toffoli, la porte \mygate{\sqrt{CNOT}} ou la porte $\frac\pi8$ ne peuvent pas être générées à partir des portes du théorème. 
+  % Voir le chapitre \og{}Portes quantiques\fg{}. 
+
+  \item L'ordinateur classique doit être capable de simuler le hasard. Par exemple la mesure du qubit $\frac1{\sqrt2}(\ket0+\ket1)$ donne $0$ ou $1$ avec probabilité $\frac12$ ce qui revient à jouer à pile ou face.
+\end{itemize}
+
+\bigskip
+
+Voici des exemples de circuits que nous avons rencontrés et qui peuvent être simulés efficacement sur un ordinateur classique :
+\begin{itemize}
+  \item la communication par codage super-dense (voir le chapitre \og{}Découverte de l'informatique quantique\fg{}),
+
+  \item la téléportation quantique (voir le chapitre \og{}Téléportation quantique\fg{}),
+
+  \item les codes correcteurs d'erreur (voir la section \og{}Détection d'un flip\fg{} du chapitre \og{}Code correcteur\fg{}).
+\end{itemize}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Arbre de calculs}
+
+La simulation d'un ordinateur quantique par un ordinateur classique se confronte non seulement à des problèmes de temps de calculs mais aussi à des problèmes de mémoire. En effet, dès que l'on dépasse $50$ qubits, il y a $2^{50}$ états de base, soit plus de $10^{15}$ états à stocker.
+
+Nous allons voir une modélisation du calcul des états d'un circuit sous la forme d'un arbre. 
+En parcourant l'arbre branche par branche, on teste toutes les possibilités sans utiliser trop de mémoire à chaque fois. La méthode n'apporte pas un gain de temps, qui reste exponentiel en fonction du nombre $n$ de qubits, mais la taille de la mémoire utilisée est linéaire en $n$.
+
+\medskip
+
+Nous expliquons cette modélisation par des exemples.
+Nous partons d'un circuit, avec un état initial. Il s'agit d'obtenir tous les états possibles que l'on pourrait obtenir après mesure.
+
+La brique fondamentale à comprendre est l'arbre pour une porte \mygate{H} de Hadamard.
+\begin{exemple}
+Soit le circuit quantique initialisé par $\ket0$ suivi d'une simple porte de Hadamard (sans mesure sur la figure de gauche, avec mesure à droite) :
+{\large$$
+  \Qcircuit @C=1.5em @R=1.5em {
+  \lstick{\ket0} & \gate{H} & \rstick{\frac1{\sqrt2}(\ket0+\ket1)} \qwa  \\
+  }
+  \qquad\qquad\qquad\qquad\qquad\qquad
+  \Qcircuit @C=1.5em @R=1.5em {
+  \lstick{\ket0} & \gate{H} &  \meter & \rstick{\shortstack{\quad 0 \\ {\small \text{ou}} \\ \quad 1}} \qwa  \\
+  }
+  $$}  
+\medskip
+
+La sortie est $\frac1{\sqrt2}(\ket0+\ket1)$.
+Si on termine par une mesure alors la sortie est $0$ ou $1$.
+
+Voici l'arbre de calculs. 
+
+\myfigure{1}{
+  \tikzinput{arbre01}
+}
+
+L'arbre de calculs représente tout simplement les deux possibilités. Lorsque l'on passe une porte $H$ les feuilles de l'arbre $0$ et $1$ représentent la superposition des états $\ket0$ et $\ket1$. Autrement dit les feuilles représentent toutes les mesures possibles. On a simplifié l'écriture en omettant les coefficients $\frac1{\sqrt2}$.
+\end{exemple}
+
+Voici un exemple avec deux lignes quantiques. 
+\begin{exemple}
+{\large$$
+  \Qcircuit @C=1.5em @R=1.5em {
+  \lstick{\ket0} & \gate{H} & \ctrl{1} & \qwa  \\
+  \lstick{\ket1} & \qw      & \targ    & \qwa  \\
+  }
+  $$}
+\medskip
+
+La sortie est le qubit $\ket\psi = \frac{1}{\sqrt2}(\ket{0.1}+\ket{1.0})$.
+Une mesure donnerait donc $0.1$ ou bien $1.0$, ce que l'on retrouve aux feuilles de notre arbre.
+
+\myfigure{1}{
+  \tikzinput{arbre02}
+}
+
+Noter qu'au passage de la porte \mygate{CNOT} l'arbre ne se ramifie pas (chaque branche se poursuit en une seule branche).
+\end{exemple}
+
+
+Continuons avec un exemple pour comprendre le fonctionnement  :
+à chaque porte $H$ correspond une bifurcation en deux branches. L'intérêt de cet arbre est que les calculs d'une branche sont mis en commun tant qu'il n'y a pas de bifurcation.
+
+\begin{exemple}
+{\large$$
+  \Qcircuit @C=1.5em @R=1.5em {
+  \lstick{\ket0} & \gate{H} & \ctrl{1} & \qw      & \gate{X} & \qwa  \\
+  \lstick{\ket1} & \qw      & \targ    & \gate{H} & \qw      & \qwa  \\
+  }
+  $$}
+\medskip
+
+
+\myfigure{1}{
+  \tikzinput{arbre03}
+}
+
+
+Le qubit de sortie est $\ket\psi = \frac12\left( \ket{0.0} + \ket{0.1} + \ket{1.0} - \ket{1.1} \right)$
+\end{exemple}
+
+\begin{exemple}
+Terminons avec un circuit contenant une porte de Toffoli.
+{\large$$
+  \Qcircuit @C=1.5em @R=1.5em {
+  \lstick{\ket0} & \gate{H} & \qw      & \ctrl{2} & \qw      & \qwa  \\
+  \lstick{\ket1} & \qw      & \gate{H} & \ctrl{1} & \qw      & \qwa  \\
+  \lstick{\ket1} & \qw      & \qw      & \targ    & \gate{H} & \qwa  \\
+  }
+  $$}
+\medskip
+
+Pour simplifier l'arbre ci-dessous, on omet les signes et les coefficients devant les qubits. 
+\myfigure{1}{
+  \tikzinput{arbre04}
+}
+
+
+\end{exemple}
+\bigskip
+\bigskip
+
+\emph{Notes.} La référence pour les arbres de calculs est Andrew Shi, \href{https://arxiv.org/abs/1710.09364}{\emph{Recursive path-summing simulation of quantum computation}} (2017).
+
+\end{document}

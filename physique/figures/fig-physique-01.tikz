@@ -1,0 +1,24 @@
+\begin{tikzpicture}
+
+      \fill[red] (0,0) circle (0.5);
+
+     \draw[thick] (0,0) circle (2);
+     \draw[thick] (0,0) circle (3);
+     \draw[thick] (0,0) circle (4);
+
+      \fill[blue] (30:2) circle (0.2); 
+      \fill[blue] (170:2) circle (0.2);    
+
+      \fill[blue] (60:3) circle (0.2); 
+      \fill[blue] (220:3) circle (0.2);    
+      \fill[blue] (-60:3) circle (0.2); 
+      \fill[blue] (-220:3) circle (0.2);    
+
+      \fill[blue] (50:4) circle (0.2);    
+
+     \draw[<-,>=latex,gray] (0.5,-0.5) to[bend right] (5,0) node[right]{noyau};
+     \draw[<-,>=latex,gray] (30:2.2) to[bend left] (5,1) node[right]{électron};
+
+   \node at (0,-5) {\bf Modèle (désuet) de couches d'électrons};
+
+\end{tikzpicture}

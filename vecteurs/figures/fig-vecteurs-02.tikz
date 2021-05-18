@@ -1,0 +1,10 @@
+\begin{tikzpicture}
+%    \draw[->,>=latex,thick, gray] (-1,0)--(5.5,0);% node[below,black] {$x$};
+ %   \draw[->,>=latex,thick, gray] (0,-1)--(0,4); % node[right,black] {$y$};
+
+   \draw[->,>=latex,thick, red] (0,0)--(20:5) node[midway, below right] {$u$};
+   \draw[->,>=latex,thick, red] (0,0)--(60:3) node[midway, above left] {$v$};
+
+
+    \draw[->, >=latex, blue] (20:1.5) arc(20:60:1.5) node[midway,above right]{$\theta$};
+\end{tikzpicture}

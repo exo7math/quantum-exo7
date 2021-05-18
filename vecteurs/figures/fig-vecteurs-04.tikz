@@ -1,0 +1,15 @@
+\begin{tikzpicture}
+\begin{scope}
+   \draw[->,>=latex,thick, red] (0,0)--(20:5) node[midway, below right] {$u$};
+   \draw[->,>=latex,thick, red] (0,0)--(60:3) node[midway, above left] {$v$};
+   \draw[->, >=latex, blue] (20:1.5) arc(20:60:1.5) node[midway,above right]{$\theta$};
+  \fill (0,0) circle(2pt) node[below]{$O$};
+\end{scope}
+
+\begin{scope}[xshift=10cm,rotate=50]
+   \draw[->,>=latex,thick, red] (0,0)--(20:5) node[midway, right] {$Au$};
+   \draw[->,>=latex,thick, red] (0,0)--(60:3) node[midway, left] {$Av$};
+    \draw[->, >=latex, blue] (20:1.5) arc(20:60:1.5) node[midway,above right]{$\theta$};
+  \fill (0,0) circle(2pt) node[below]{$O$};
+\end{scope}
+\end{tikzpicture}

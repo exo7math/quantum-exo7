@@ -1,0 +1,46 @@
+﻿\begin{tikzpicture}[scale=1]
+
+   \def\myomega{3.14};
+   \def\deltaphi{0.5*3.14};
+
+   \fill[red!50] (-6.5,-3) rectangle ++(1,6);
+
+\begin{scope}[xshift=-5cm,yshift=2cm]
+    \draw[->,>=latex,thick, gray] (-0.5,0)--(14.5,0) ; 
+   \def\fonction{ sin(\myomega*\x r) };
+   \draw[thick, color=red,domain=0:14.0,samples=100,variable=\x] plot ( {\x} , {\fonction} );
+\end{scope}
+
+\begin{scope}[xshift=-5cm,yshift=-2cm]
+
+    \draw[->,>=latex,thick, gray] (-0.5,0)--(14.5,0) ; 
+   \def\fonction{ sin(\myomega*\x r) };
+   \draw[thick, color=red,domain=0:14.0,samples=100,variable=\x] plot ( {\x} , {\fonction} );
+\end{scope}
+
+
+\fill[black!80] (10,-2.5) rectangle ++(0.5,-3);
+\fill[black!80] (10,-1.5) rectangle ++(0.5,3);
+\fill[black!80] (10,2.5) rectangle ++(0.5,3);
+
+\begin{scope}[xshift=11cm,yshift=2cm,rotate=-4]
+    \draw[->,>=latex,thick, gray] (0,0)--(9,0) ; 
+   \def\fonction{ sin((\myomega*\x+5.1) r) };
+   \draw[thick, color=red,domain=0:9.0,samples=100,variable=\x] plot ( {\x} , {\fonction} );
+\end{scope}
+
+\begin{scope}[xshift=11cm,yshift=-2cm,rotate=20]
+    \draw[->,>=latex,thick, gray] (0,0)--(9.6,0) ; 
+   \def\fonction{ sin((\myomega*\x +1.2) r) };
+   \draw[thick, color=green!70!black,domain=0:10.0,samples=100,variable=\x] plot ( {\x} , {\fonction} );
+\end{scope}
+
+
+\fill[blue!80] (20,-5.5) rectangle ++(0.25,11);
+
+
+ \node at (10.5,2) {$F_1$};
+ \node at (10.5,-2) {$F_2$};    
+ \node[right] at (20.5,1.5) {$P$};   
+
+\end{tikzpicture}

@@ -1,0 +1,19 @@
+﻿\begin{tikzpicture}
+
+\node at (0,2) {\bf \'Etat initial};
+\fill[ball color=red] (-1,0) circle (1);
+\fill[ball color=blue] (1,0) circle (1);
+\draw[->,>=latex,thick] (-2.1,0) -- ++ (-1.5,0);
+\draw[->,>=latex,thick] (2.1,0) -- ++ (1.5,0);
+
+\begin{scope}[yshift=-4cm]
+\node at (0,2) {\bf };
+\fill[ball color=red] (-7,0) circle (1);
+\fill[ball color=blue] (7,0) circle (1);
+\draw[->,>=latex,thick] (-8.1,0) -- ++ (-1.5,0);
+\draw[->,>=latex,thick] (8.1,0) -- ++ (1.5,0);
+\node at (-7,-2) {\bf Alice};
+\node at (7,-2) {\bf Bob};
+\end{scope}
+
+\end{tikzpicture}

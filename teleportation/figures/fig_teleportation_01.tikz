@@ -1,0 +1,52 @@
+\begin{tikzpicture}[scale=1]
+
+\fill[green!70!black!20] (1,-3.5) rectangle ++(1,5)  ;
+
+\node[below] at (1.5,-3.5) {
+\begin{tabular}{c}
+$3$-qubit\\
+ $\ket\psi \otimes \ket{\Phi^+}$
+\end{tabular}} ;
+
+
+\node[rectangle,minimum height=22ex,draw] (A) at (4,0) {
+Mesure partielle
+};
+
+\node[above =2ex of A]  {\bf Alice};
+
+\draw[line width=2pt,green!70!black] ($(A.west)+(0,1)$) to  ++(-3,0) node  [left,black]{$1$-qubit $\ket{\psi}$};
+\draw[line width=2pt,green!70!black] ($(A.west)+(0,-1)$) to  ++(-3,0) ;
+
+
+
+\node[rectangle,minimum height=15ex,draw] (B) at (10,-3) {
+Reconstitution
+};
+
+\node[below =2ex of B]  {\bf Bob};
+\draw[line width=2pt,green!70!black] (B.west) to  ++(-9.2,0) ;
+\draw[->,>=latex,line width=2pt,green!70!black] (B.east) to  ++(2,0) 
+node  [right,black]{$\ket{\psi}$};
+
+
+\draw[line width=6pt,green!70!black!30] (-0.35,-0.5) --  ++(0,-3) node[midway,left,black]{
+\begin{tabular}{c}$2$-qubit $\ket{\Phi^+}$\\ état de Bell\end{tabular}};
+
+\draw[->,>=latex,line width=2pt,orange!70!black] ($(A.east)+(0,1)$)  -| ($(B.north)+(0.5,0)$);
+\draw[->,>=latex,line width=2pt,orange!70!black] ($(A.east)+(0,-1)$) -| ($(B.north)+(-0.5,0)$);
+
+
+
+\node[rectangle,draw,scale=0.6] at (8,-0) {
+\vphantom{\LARGE X}
+\begin{tabular}{c}
+\it Information \\
+\it classique\\
+$0.0$\\
+$0.1$\\
+$1.0$\\
+$1.1$\\
+\end{tabular}
+};
+\end{tikzpicture}

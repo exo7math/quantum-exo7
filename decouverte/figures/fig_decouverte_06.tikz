@@ -1,0 +1,15 @@
+\begin{tikzpicture}[scale=2]
+
+\draw[-,>=latex, very thick,gray] (-0.5,0)--(1.5,0); % node[below] {$x$};
+\draw[-,>=latex, very thick, gray] (0,-0.25)--(0,1.25); % node[left] {$y$};
+
+\draw[->,>=latex,ultra thick] (0,0) -- ++(1,0) node[below]{$\ket0$};
+\draw[->,>=latex,ultra thick] (0,0) -- ++(0,1) node[left]{$\ket1$};
+
+\draw[->,>=latex,blue,ultra thick] (0,0) -- ++(70:1) node[right]{$\ket\psi=\alpha\ket0+\beta\ket1$};
+\draw[->,>=latex,red,ultra thick] (0,0) -- ++(20:1) node[right]{$X\ket\psi=\beta\ket0+\alpha\ket1$};
+
+\draw[->,>=latex,blue,thick] (65:0.8) arc (65:25:0.8) node[midway,above right]{$X$};
+
+\node at (0.5,-0.75)  {\vphantom{X}};
+\end{tikzpicture}

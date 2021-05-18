@@ -1,0 +1,995 @@
+\documentclass[11pt,class=report,crop=false]{standalone}
+\usepackage[screen]{../python}
+
+
+
+\begin{document}
+
+
+%====================================================================
+\chapitre{Algorithme de Shor}
+%====================================================================
+
+
+\objectifs{Nous détaillons le circuit et les calculs qui permettent une factorisation rapide des entiers à l'aide d'un ordinateur quantique.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Arithmétique pour l'algorithme de Shor}
+
+%--------------------------------------------------------------------
+\subsection{Objectif : factoriser $N$}
+
+Soit $N$ un entier. Nous aimerions décomposer $N$ en produit de facteurs premiers : $N = p_1^{\alpha_1}p_2^{\alpha_2}\cdots p_s^{\alpha_s}$.
+Pour cela il suffit de trouver un algorithme qui fournit un facteur $d$ de $N$, avec $1 < d < N$. Ensuite pour obtenir la factorisation complète, il suffit d'appliquer itérativement cet algorithme à $d$ et à $\frac{N}{d}$. Par exemple dans le cas $N=pq$ de la cryptographie RSA, il n'y a qu'une seule étape.
+
+Au début de l'algorithme, on commence par choisir au hasard un entier $a$ avec $1<a<N$.
+On calcule le pgcd de $a$ et de $N$ par l'algorithme d'Euclide (c'est une étape très rapide). 
+\begin{itemize}
+  \item Si $\pgcd(a,N) \neq 1$ alors $d = \pgcd(a,N)$ est un facteur non-trivial de $N$ et l'algorithme est terminé ! (Par exemple dans le cas $N=pq$, cette situation est rare, car il faudrait choisir $a$ un multiple de $p$ ou de $q$.)
+  \item Si $\pgcd(a,N) = 1$, alors $a \in \left(\Zz/N\Zz\right)^*$, c'est-à-dire $a$ est inversible modulo $N$. En particulier il existe un entier $k>0$, tel que $a^k \equiv 1 \pmod{N}$. 
+\end{itemize}
+
+
+%--------------------------------------------------------------------
+\subsection{Ordre}
+
+\begin{definition}
+On appelle \defi{ordre} d'un entier $a$ modulo $N$, le plus petit entier $r$ strictement positif tel que $a^r \equiv 1 \pmod{N}$ :
+$$r = \min \big\{ k>0 \mid a^k \equiv 1 \pmod{N} \big\}.$$ 
+\end{definition}
+
+Le théorème de Lagrange pour le groupe $\left(\Zz/N\Zz\right)^*$ de cardinal $\varphi(N)$ donne une borne sur $r$.
+\begin{proposition}
+Si $\varphi(N)$ est l'indicatrice d'Euler et $a$ est un nombre premier avec $N$, alors 
+$$a^{\varphi(N)} \equiv 1 \pmod{N}$$ et l'ordre de $a$ modulo $n$ divise $\varphi(N)$.
+\end{proposition}
+
+Mais attention, ni l'ordre $r$, ni l'indicatrice $\varphi(N)$ ne sont faciles à calculer.
+Par exemple dans le cas $N=pq$, alors $\varphi(N)=(p-1)(q-1)$ et on ne peut pas calculer $\varphi(N)$ sans connaître les facteurs $p$ et $q$ (que l'on ne connaît pas car c'est ce que l'on veut calculer).
+
+
+%--------------------------------------------------------------------
+\subsection{Période}
+
+\begin{proposition}
+L'ordre $r$ de l'entier $a$ modulo $N$ est la plus petite période de la fonction $k \xmapsto{\ f \ } a^k \pmod N$.
+\end{proposition}
+
+% Remarque : par définition on sait $a^r \equiv a^0 \equiv 1 \pmod N$ et $a^k \not\equiv 1 \pmod N$ pour $0<k<r$.
+% En plus $a^i \not\equiv a^j \pmod N$ pour tout $i\neq j$ avec $0 \le i < r$, $0 \le j < r$, c'est-à-dire que $a^k$ ne prend pas deux valeurs identiques, pour $k\in{0,\ldots,r-1}$.
+
+\begin{proof}~
+\begin{itemize}
+  \item Par définition de l'ordre $r$, on sait $a^r \equiv 1 \pmod N$ et $a^k \not\equiv 1 \pmod N$ pour $0<k<r$.
+  \item $r$ est une période : 
+  $$a^{k+\ell r} = a^k \cdot a^{\ell r} = a^k \cdot (a^r)^\ell \equiv a^k \cdot 1^\ell \equiv a^k \pmod N,$$
+  donc $f(k+\ell r) = f(k)$. 
+  \item $r$ est la plus petite période : par l'absurde si $s<r$ était une période plus petite, alors $f(s)=f(0)$ donc $a^s \equiv a^0 \equiv 1 \pmod N$.
+  Mais par définition, $r$ est le plus petit entier tel que $a^r \equiv 1 \pmod N$, donc $s \ge r$ et nous avons une contradiction.
+\end{itemize}
+\end{proof}
+
+%--------------------------------------------------------------------
+\subsection{Facteurs de $N$}
+
+Nous allons faire plusieurs hypothèses au cours de ce chapitre. Nous discuterons plus tard de leur pertinence.
+
+\bigskip
+
+\myboxinline{
+\textbf{Hypothèse 1.} L'ordre $r$ de $a$ modulo $N$ est pair.
+}
+
+\bigskip
+
+Nous verrons dans le chapitre suivant \og{}Compléments d'arithmétique\fg{} que c'est le cas pour plus de la moitié des entiers $a$ choisis au départ.
+Si $r$ n'est pas pair, alors on arrête l'algorithme et on choisit une nouvelle valeur de $a$.
+À l'aide de l'identité $a^2-b^2 = (a-b)(a+b)$ et sachant que $a^r-1 \equiv 0 \pmod N$, on obtient alors 
+\mybox{$(a^{r/2}-1)(a^{r/2}+1) \equiv 0 \pmod N$}
+
+Cette décomposition est la clé pour une factorisation de $N$.
+
+\bigskip
+
+\myboxinline{
+\textbf{Hypothèse 2.} $a^{r/2}+1$ n'est pas divisible par $N$.
+}
+
+\bigskip
+
+Encore une fois nous verrons dans le chapitre suivant que c'est la cas pour une majorité des entiers $a$ choisis au départ.
+
+\begin{proposition}
+Avec les hypothèses 1 et 2, les entiers
+$$d = \pgcd(a^{r/2}-1,N) \qquad \text{ et } \qquad d' = \pgcd(a^{r/2}+1,N)$$
+sont des facteurs non triviaux de $N$.
+\end{proposition}
+
+\begin{lemme}
+Si $ab \equiv 0 \pmod N$ avec $a \not\equiv 0 \pmod N$ et $b \not\equiv 0 \pmod N$ alors $\pgcd(a,N)$ et $\pgcd(b,N)$ sont des diviseurs non triviaux de $N$.
+\end{lemme}
+
+\begin{remarque*}
+L'anneau des entiers $\Zz$ est \emph{intègre}, cela signifie qui si un produit $ab$ est nul alors l'un des facteurs $a$ ou $b$ est nul. Ici ce n'est pas le cas, car si $N$ n'est pas un nombre premier l'anneau $\Zz/N\Z$ n'est pas intègre. Par exemple avec $N=6$ on a 
+$2 \times  3 \equiv 0 \pmod 6$.
+\end{remarque*}
+
+\begin{proof}[Preuve du lemme]
+Supposons $ab \equiv 0 \pmod N$, c'est-à-dire $N$ divise $ab$.
+\begin{itemize}
+	\item Si on avait $\pgcd(a,N) = 1$, comme $N|ab$, par le lemme de Gauss on a $N|b$, donc $b\equiv 0 \pmod N$, ce qui donnerait une contradiction.
+	\item Par un raisonnement similaire, on ne peut pas avoir $\pgcd(b,N)=1$.
+\end{itemize}
+Ainsi $d=\pgcd(a,N)$ est un diviseur de $N$ avec $1<d<N$, de même pour $d'=\pgcd(b,N)$.
+\end{proof}
+
+\begin{proof}[Preuve de la proposition]
+~
+\begin{itemize}	
+	\item Tout d'abord $a^{r/2}-1 \not\equiv 0 \pmod N$, car sinon $a^{r/2} \equiv 1 \pmod N$ ce qui contredirait que $r$ est le plus petit entier tel que $a^r \equiv 1 \pmod N$.
+	\item L'hypothèse 2 dit exactement que $a^{r/2}+1 \not\equiv 0 \pmod N$.
+	\item Par le lemme $d = \pgcd(a^{r/2}-1,N)$ et $d' = \pgcd(a^{r/2}+1,N)$ sont des facteurs non triviaux de $N$.
+\end{itemize}
+\end{proof}
+
+%--------------------------------------------------------------------
+\subsection{Exemple de $N=15$}
+
+
+Prenons $N=15$.
+\begin{itemize}
+	\item Si l'entier $a$ est choisi parmi $\{3,5,6,9,10,12\}$, alors
+	$a$ n'est pas premier avec $N$. Dans ce cas $d = \pgcd(a,N)$ donne un diviseur strict de $N$ et c'est terminé.
+	Par exemple si $a=9$, alors $d=\pgcd(9,15)=3$ est un facteur de $N=15$.
+
+	\item Si l'entier $a \in \{2,4,7,8,11,13,14\}$ alors $\pgcd(a,N)=1$.
+	Il faut maintenant calculer l'ordre de $a$.
+	
+	\item Prenons l'exemple de $a=2$. Alors l'ordre de $2$ modulo $15$ est $r=4$, car $2^4 = 16 \equiv 1 \pmod{15}$.
+    \begin{itemize}
+    	\item $a^{r/2}-1=2^2-1=3$ ainsi $d=3=\pgcd(3,15)$ est un facteur de $N$.
+    	\item $a^{r/2}+1=2^2+1=5$ ainsi $d'=5=\pgcd(5,15)$ est aussi un facteur de $N$.
+    	\item Dans ce cas nous avons factorisé $15 = 3\times 5$.
+    \end{itemize}
+
+	\item Prenons l'exemple de $a=7$. Alors l'ordre de $7$ modulo $15$ est encore $r=4$, car $7^4 = 2401 \equiv 1 \pmod{15}$.
+    \begin{itemize}
+    	\item $a^{r/2}-1=7^2-1=48$ ainsi $d=\pgcd(48,15)=3$ est un facteur de $N$.
+    	\item $a^{r/2}+1=7^2+1=50$ ainsi $d'=\pgcd(50,15)=5$ est aussi un facteur de $N$.
+    	\item Dans ce cas nous avons factorisé $15 = 3\times 5$.
+    \end{itemize}
+\end{itemize}
+
+
+\bigskip
+Voici une table qui résume les différents cas pour $N=15$ :
+\begin{center}
+\begin{tabular}{c|c|c}
+$a$ & $a$ premier avec $N$ ? (et ordre) & facteurs \\ \hline
+2 & oui \quad $r=4$ & $d=\pgcd(2^{4/2}-1,15)=3$ et $d'=\pgcd(2^{4/2}+1,15)=5$ \\
+3 & non             & $d=\pgcd(3,15)=3$ \\
+4 & oui \quad $r=2$ & $d=\pgcd(4^{2/2}-1,15)=3$ et $d'=\pgcd(4^{2/2}+1,15)=5$ \\
+5 & non             & $d=\pgcd(5,15)=5$ \\ 
+6 & non             & $d=\pgcd(6,15)=3$ \\ 
+7 & oui \quad $r=4$ & $d=\pgcd(7^{4/2}-1,15)=3$ et $d'=\pgcd(7^{4/2}+1,15)=5$ \\
+8 & oui \quad $r=4$ & $d=\pgcd(8^{4/2}-1,15)=3$ et $d'=\pgcd(8^{4/2}+1,15)=5$ \\
+9 & non             & $d=\pgcd(9,15)=3$ \\ 
+10 & non             & $d=\pgcd(10,15)=5$ \\
+11 & oui \quad $r=2$ & $d=\pgcd(11^{2/2}-1,15)=5$ et $d'=\pgcd(11^{2/2}+1,15)=3$ \\
+12 & non             & $d=\pgcd(12,15)=3$ \\
+13 & oui \quad $r=4$ & $d=\pgcd(13^{4/2}-1,15)=3$ et $d'=\pgcd(13^{4/2}+1,15)=5$ \\
+14 & oui \quad $r=2$ & l'hypothèse 2 n'est pas vérifiée, échec \\
+\end{tabular}
+\end{center}
+
+%--------------------------------------------------------------------
+\subsection{Exemple de $N=21$}
+
+Fixons $N=21$.
+
+\begin{itemize}
+  \item Les $a \in \{3,6,7,9,12,14,15,18\}$ 
+	ne sont pas premiers avec $N$. Dans ce cas $d = \pgcd(a,N)$ donne un diviseur strict de $N$ et c'est terminé.
+
+  \item Les éléments $a$ de $\{8,13\}$ sont d'ordre $r=2$ ;
+  ceux de $\{2,10,11,19\}$ sont d'ordre $r=6$. Dans ces deux situations on obtient les facteurs $d$ et $d'$ égaux à $3$ et $7$.
+
+  \item Les éléments $a=4$ et $a=16$ sont d'ordre $r=3$ impair. L'hypothèse 1 n'est pas vérifiée et l'algorithme échoue.
+  
+  \item Pour $a=5$, $a=17$ ou $a=20$, l'entier $N=21$ divise $a^{r/2}+1$. L'hypothèse 2 n'est pas vérifiée et l'algorithme échoue.
+\end{itemize}
+
+\emph{Exemple.}
+Prenons $a=2$. Son ordre est $r=6$, car $2^6 = 64 \equiv 1 \pmod{21}$, l'ordre est pair ; $d=\pgcd(2^{6/2}-1,21)=\pgcd(7,21)=7$ et $d'=\pgcd(2^{6/2}+1,21)=\pgcd(9,21)=3$ sont les facteurs de $N=21$. 
+
+\medskip
+
+\emph{Exercice.} Faire un tableau qui détaille tous les cas pour $N=21$ (comme ci-dessus pour $N=15$).
+
+
+%--------------------------------------------------------------------
+\subsection{Calcul de l'ordre sur un ordinateur classique}
+
+Comme mentionné précédemment, il n'y a pas de formule pour calculer directement $r$ ou $\varphi(N)$ si on ne connaît pas déjà les facteurs de $N$.
+Ainsi un algorithme d'informatique classique pour calculer l'ordre d'un élément $a$ modulo $N$ nécessiterait de calculer successivement 
+$a^1, a^2, a^3,\ldots $ modulo $N$, jusqu'à trouver l'ordre $r$ caractérisé par $a^r \equiv 1 \pmod N$.
+Il y a donc au total environ $O(N)$ calculs du type $a^k \pmod N$.
+
+C'est là qu'intervient la magie de l'informatique quantique qui permet d'évaluer tous les $a^k$ en même temps.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Début de l'algorithme de Shor}
+
+Pour un entier $a$ fixé, le but est de calculer tous les $a^k$ modulo $N$ pour $k$ variant de $0$ à $N-1$ afin de trouver l'ordre $r$ pour lequel $a^r \equiv 1 \pmod N$. On rappelle que cet ordre $r$ est aussi la plus petite période de la fonction $k \mapsto a^k \pmod{N}$.
+
+
+%--------------------------------------------------------------------
+\subsection{Ordre}
+
+
+Fixons un entier $a$.  
+Considérons la fonction $f$ définie par
+$$
+\begin{array}{cccc}
+f : & \Zz & \longrightarrow & \Zz/N\Zz \\
+    & k        &\longmapsto      & a^k \pmod N.
+\end{array}
+$$
+Ainsi $f(1) = a \pmod N$, $f(2) = a^2 \pmod N$, $f(3) = a^3 \pmod N$,\ldots
+
+On rappelle qu'à une fonction $f : x \mapsto y$ on associe l'oracle $F : (x,y) \mapsto (x, y \oplus f(x))$. Donc l'oracle associé à notre fonction $f : k \mapsto a^k \pmod N$ est
+$F : (k,y) \mapsto (k, y \oplus a^k \pmod N)$, mais notre circuit sera toujours initialisé avec $y=0$, donc dans notre situation nous considérerons $F : (k,0) \mapsto (k, a^k \pmod N)$.
+
+
+%$$
+%\begin{array}{cccc}
+%F : & \Zz/N\Zz \times \Zz/N\Zz & \longrightarrow & \Zz/N\Zz \times \Zz/N\Zz \\
+%    & (x,y)                    &\longmapsto      & \big( x , y \oplus f(x) \big).
+%\end{array}
+%$$
+%On note $a \oplus b$ l'addition dans $\Zz/N\Zz$, c'est-à-dire $a \oplus b = (a + b) \pmod N$.
+
+\begin{exemple}
+Pour $N=15$ et $a=2$ :
+$$\begin{array}{rcl}
+(0,0) & \xmapsto[]{F}& (0,1) \\
+(1,0) & \xmapsto[]{F}& (1,2) \\
+(2,0) & \xmapsto[]{F}& (2,4) \\
+(3,1) & \xmapsto[]{F}& (3,8) \\
+(4,0) & \xmapsto[]{F}& (4,1) \qquad \text{ car } 16 \equiv 1 \pmod{15} \\
+(5,0) & \xmapsto[]{F}& (5,2) \qquad \text{ car } 32 \equiv 2 \pmod{15} \\
+(6,0) & \xmapsto[]{F}& (6,4) \qquad \text{ car } 64 \equiv 4 \pmod{15} \\
+& \vdots  & \\
+\end{array}$$
+\end{exemple}
+
+
+Choisissons un entier $n$ tel que $2^n \ge N$. (Ce sera suffisant pour le cas étudié dans ce chapitre, mais dans le cas général il faut en fait avoir $2^n \ge N^2$, voir le chapitre \og{}Compléments d'arithmétique\fg{}.) 
+
+
+On peut alors coder n'importe quel entier plus petit que $2^n$ à l'aide d'un  $n$-bit :
+pour $0 \le x < 2^n$, on note $\underline{x} = x_0.x_1 \ldots x_{n-1}$ son écriture binaire sur $n$ bits.
+
+
+{\large$$
+\raise-4.2ex\hbox{
+premier registre \quad
+$k\left\{ \raisebox{5.2ex}{} \right.$
+}
+\kern-18ex\raise-16ex\hbox{
+second registre \quad 
+$0\left\{ \raisebox{5.2ex}{} \right.$
+}
+\Qcircuit @C=1em @R=1em {
+  & \qw  & \ustick{\scriptstyle k_0}\qw & \multigate{5}{\quad O_f \quad} & \ustick{\scriptstyle k_0}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle \vdots}\qw & \ghost{\quad O_f \quad}   & \ustick{\vdots}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle k_{n-1}}\qw & \ghost{\quad O_f \quad}   & \ustick{\scriptstyle k_{n-1}}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle 0}\qw & \ghost{\quad O_f \quad}  & \qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle \vdots}\qw & \ghost{\quad O_f \quad}   & \ustick{\scriptstyle \vdots}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle 0}\qw & \ghost{\quad O_f \quad}   & \qw & \qw &  \qwa \\
+}
+\raise-4.2ex\hbox{
+$\left. \raisebox{5.2ex}{} \right\} k $
+}
+\kern-4.5ex\raise-16ex\hbox{
+$\left. \raisebox{5.2ex}{} \right\} a^k \pmod{N}$
+}
+$$}
+
+\bigskip
+
+Le circuit de l'oracle est composé de deux \defi{registres}, en entrée le premier
+registre reçoit l'entier $k$, codé sur $n$ bits, donc à l'aide de $n$ lignes quantiques, même chose pour le second registre qui correspond à $0$.
+Nous avons également deux registres en sortie, le premier renvoie $k$  et le second $a^k \pmod N$.
+L'oracle a bien pour action $(k,0) \mapsto (k,a^k \pmod N)$.
+En termes de qubits, si l'entrée de l'oracle est   
+  $\ket{\underline k} \otimes \ket{\underline 0}$ alors la sortie $\ket{\underline k} \otimes \ket{\underline {a^k \pmod N}}$.
+
+%--------------------------------------------------------------------
+\subsection{Début du circuit}
+
+$$
+%\large
+\raise-4.2ex\hbox{
+premier registre \quad
+$\left\{ \raisebox{6ex}{} \right.$
+}
+\kern-20ex\raise-19ex\hbox{
+second registre \quad 
+$\left\{ \raisebox{6ex}{} \right.$
+}\kern5ex
+\Qcircuit @C=1em @R=1em {
+  \lstick{\ket0}  & \qw  & \gate{H} & \qw      & \qw      &  \qw  & \qw & \multigate{5}{\quad O_f \quad} & \qw & \qw & \qw& \qw &  \qwa \\
+  \lstick{\ket0}& \ustick{\vdots}\qw  & \qw      & \gate{H} & \qw      & \qw  & \ustick{\vdots}\qw & \ghost{\quad O_f \quad}   & \ustick{\vdots}\qw & \qw & \qw& \qw &  \qwa \\
+  \lstick{\ket0}& \ustick{\vdots}\qw  & \qw      & \qw      & \gate{H} & \qw  & \ustick{\vdots}\qw & \ghost{\quad O_f \quad}   & \ustick{\vdots}\qw & \qw & \qw& \qw &  \qwa \\
+  \lstick{\ket0}& \qw  & \qw      & \qw      & \qw & \qw  & \qw & \ghost{\quad O_f \quad}  & \qw & \qw & \meter & \qw &  \qwa \\
+  \lstick{\ket0}& \ustick{\vdots}\qw  & \qw      & \qw      & \qw & \qw  & \ustick{\vdots}\qw & \ghost{\quad O_f \quad}   & \ustick{\vdots}\qw & \qw & \meter & \qw &  \qwa \\
+  \lstick{\ket0}& \ustick{\vdots}\qw  & \qw      & \qw      & \qw & \qw  & \ustick{\scriptstyle \vdots}\qw & \ghost{\quad O_f \quad}   & \ustick{\vdots}\qw & \qw &  \meter & \qw & \qwa \\
+}
+\raise-4.2ex\hbox{
+$\left. \raisebox{6ex}{} \right\} \ket{\bar \psi_3} $
+}
+\kern-7ex\raise-19ex\hbox{
+$\left. \raisebox{6ex}{} \right\}$mesure du second registre
+}
+$$
+
+\bigskip
+\bigskip
+
+\begin{itemize}
+  \item \textbf{Initialisation.}
+  Le circuit est initialisé par des qubits tous égaux à $\ket0$.
+  $$\ket{\psi_0} 
+  = \ket{0\ldots0} \otimes \ket{0\ldots0}
+  = \ket{0}^{\otimes n} \otimes \ket{0}^{\otimes n}
+  = \ket{\underline{0}} \otimes \ket{\underline{0}}.$$
+
+  \item \textbf{Transformation de Hadamard.} On applique une transformation de Hadamard, mais seulement sur le premier registre (donc sur les $n$ premières lignes).
+$$\ket{\psi_1} 
+= H^{\otimes n}\left(\ket{\underline{0}}\right) \otimes \ket{\underline{0}}
+= \left(\frac{1}{\sqrt{2^n}} \sum_{k=0}^{2^n-1} \ket{\underline{k}} \right) \otimes \ket{\underline{0}}
+= \ket{\psi_H} \otimes \ket{\underline{0}}.$$
+ 
+  \item \textbf{Oracle.}
+  On a vu que l'oracle envoie $\ket{\underline{k}} \otimes \ket{\underline 0}$
+sur $\ket{\underline{k}} \otimes \ket{\underline {a^k}}$, donc
+  $$\ket{\psi_2} = \frac{1}{\sqrt{2^n}} \sum_{k=0}^{2^n-1} \ket{\underline{k}} \otimes \ket{\underline {a^k}}.$$
+
+\end{itemize}
+\emph{Remarque.} Les calculs dans le second registre se font modulo $N$. On raccourcit l'écriture $\ket{\underline {a^k \pmod N}}$ en $\ket{\underline {a^k}}$.  
+
+\bigskip
+
+Nous allons maintenant récrire $\ket{\psi_2}$ en utilisant le fait que la fonction
+$k \mapsto a^k\pmod N$ est périodique de période $r$.
+
+\bigskip
+
+\myboxinline{
+\textbf{Hypothèse 3.} L'ordre $r$ divise $2^n$.
+}
+
+\bigskip
+
+C'est une hypothèse qui sert à simplifier la suite des calculs. Contrairement aux hypothèses 1 et 2, ce n'est pas une hypothèse vraie en général. Quand cette hypothèse est fausse les calculs qui suivent doivent être adaptés et sont un petit peu plus compliqués, mais le principe reste le même (voir le chapitre suivant).
+  
+
+Sous l'hypothèse 3, pour $0 \le k < 2^n$, écrivons la division euclidienne de
+$k$ par $r$ :  
+$$k = \alpha r + \beta \qquad 
+\text{ avec } 0 \le \alpha < \frac{2^n}{r} 
+\text{ et } 0 \le \beta < r.$$
+
+Ainsi le qubit $\ket{\underline{k}} \otimes \ket{\underline {a^k}}$
+s'écrit aussi
+$\ket{\underline{\alpha r + \beta}} \otimes \ket{\underline {a^\beta}}$
+car on rappelle que modulo $N$ : 
+$$a^k = a^{\alpha r + \beta} = a^{\alpha r} \cdot a^\beta
+= (a^r)^\alpha \cdot a^\beta \equiv 1^\alpha \cdot a^\beta \equiv a^\beta \pmod N.$$
+
+Ainsi :
+ $$\ket{\psi_2} 
+= \frac{1}{\sqrt{2^n}} \sum_{\beta=0}^{r-1} \sum_{\alpha=0}^{2^n/r-1} \ket{\underline{\alpha r + \beta}} \otimes \ket{\underline {a^{\alpha r + \beta}}}
+= \frac{1}{\sqrt{2^n}} \sum_{\beta=0}^{r-1} \left(\sum_{\alpha=0}^{2^n/r-1} \ket{\underline{\alpha r + \beta}} \right) \otimes \ket{\underline {a^\beta}}.
+$$
+
+%Par commodité pour la suite, nous préférons noter $\beta$ par $k$ (ce $k$ n'est plus le même qu'auparavant) :
+%$$\ket{\psi_2} 
+%= \frac{1}{\sqrt{2^n}} \sum_{k=0}^{r-1} \left(\sum_{\alpha=0}{2^n/r-1} \ket{\underline{\alpha r + k}} \right) \otimes \ket{\underline {a^k}}
+%$$
+
+%--------------------------------------------------------------------
+\subsection{Mesure du second registre}
+
+Après l'oracle, on effectue une mesure du second registre, c'est-à-dire des $n$ dernières lignes du circuit.
+On obtient pour ce second registre la mesure d'un $\ket{ \underline{a^{\beta_0}} }$ pour un certain entier $0 \le \beta_0 < r$.
+Après cette mesure le qubit du premier registre est :
+$$\ket{\bar \psi_3} = \frac{\sqrt{r}}{\sqrt{2^n}} \sum_{\alpha=0}^{2^n/r-1} \ket{\underline{\alpha r + \beta_0}}.$$
+
+Le qubit complet en sortie de circuit est donc 
+$$\ket{\psi_3} = \ket{\bar \psi_3} \otimes \ket{ \underline{a^{\beta_0}} }$$
+(en supposant ici que la mesure du second registre $\underline{a^{\beta_0}}$, fige le second registre en le $n$-qubit $\ket{ \underline{a^{\beta_0}} }$).
+
+ 
+%--------------------------------------------------------------------
+\subsection{Que donnerait la mesure du premier registre ?}
+
+
+Le qubit $\ket{\psi_3}$ est une somme de $\ket{\underline{\alpha r + \beta_0}}$, $\alpha=0,\ldots, \frac{2^n}{r}-1$.
+Si on mesurait ensuite le premier registre, c'est-à-dire le qubit $\ket{\bar \psi_3}$ alors on obtiendrait l'un des états 
+$$\ket{\underline{\alpha r + \beta_0}} \qquad \text{ pour un certain } 0 \le \alpha < 2^n/r,$$
+ou plus exactement, un $n$-bit $\underline{\alpha r + \beta_0}$, c'est-à-dire l'un des entiers 
+$$\alpha r + \beta_0 \qquad \text{ pour un certain } 0 \le \alpha < 2^n/r.$$
+
+En plus, ces entiers $\alpha r + \beta_0$ sont tous équiprobables.
+
+Voici schématiquement ce que donne la mesure du premier registre : parmi toutes les possibilités $\ket{\underline{0}}$ à $\ket{\underline{2^n-1}}$, la mesure donne l'un des 
+$\alpha r + \beta_0$ où $\beta_0$ est un entier fixé (donné par la mesure du second registre) et $r$ est la période.
+
+\myfigure{0.5}{
+  \tikzinput{fig_proba1}
+}
+
+Le but est de trouver $r$, mais on ne connaît ni $\alpha$, ni $\beta_0$, donc connaître 
+l'un des $\alpha r + \beta_0$, ne permet pas de retrouver $r$.
+
+Par exemple, pour $N=15$, $\beta_0=1$, la mesure donne l'un des entiers $1$, $5$, $9$ ou $13$. 
+L'écart entre ces entiers donne la période cherchée $r=4$, mais la connaissance d'un seul de ces entiers ne permet pas de retrouver $r$. 
+Malheureusement on ne peut pas refaire l'expérience pour obtenir un autre entier de la liste, car lors de la nouvelle expérience on n'obtiendra pas nécessairement le même $\beta_0$.
+
+%Noter que c'est $\beta_0$ qui pose le plus de problème.
+%Par exemple si on connaissait $\beta_0$ alors si on nous donne $\ell = \alpha r + \beta_0$, on connaît $\ell-\beta_0 = \alpha r$ et donc l'un des facteurs de $\alpha r$ est un facteur de $r$. 
+
+Il va falloir compléter le circuit pour obtenir $r$. Cela va nous demander pas mal d'efforts et tout le reste de ce chapitre.
+
+%--------------------------------------------------------------------
+\subsection{Exemple de $N=15$}
+
+Essayons de factoriser $N=15$.
+On prend alors $n=4$, car $2^4 = 16 \ge N$.
+Le circuit est donc composé de deux registres de $4$-bits (donc $8$ lignes en tout).
+
+% [[dessin]]
+
+On fixe un entier $a$ premier avec $N$. Pour un exemple concret on prendra $a=2$.
+
+\begin{itemize}
+  \item \textbf{Initialisation.}
+  $$\ket{\psi_0} 
+  = \ket{0.0.0.0} \otimes \ket{0.0.0.0}
+  = \ket{\underline{0}} \otimes \ket{\underline{0}}.$$
+
+
+
+  \item \textbf{Transformation de Hadamard.} 
+$$\ket{\psi_1} 
+= H^{\otimes 4}\ket{\underline{0}} \otimes \ket{\underline{0}}
+= \frac{1}{4}\left( \ket{\underline{0}} + \ket{\underline{1}}+ \ket{\underline{2}}+\cdots +\ket{\underline{15}} \right) \otimes \ket{\underline{0}}.
+$$
+ 
+  \item \textbf{Oracle.}
+
+  $$\ket{\psi_2} = \frac{1}{4} 
+\left( \ket{\underline{0}}\cdot\ket{\underline{a^0}} + \ket{\underline{1}}\cdot\ket{\underline{a^1}}+
+ \ket{\underline{2}}\cdot\ket{\underline{a^2}}+
+\cdots +\ket{\underline{15}}\cdot\ket{\underline{a^{15}}} \right)$$
+
+Souvenons-nous que les termes des seconds facteurs sont calculés modulo $N$.
+Considérons le choix de $a=2$, alors l'ordre que l'on veut déterminer est $r=4$ : 
+$$
+2^0 \equiv 1 \pmod{15} \qquad
+2^1 \equiv 2 \pmod{15} \qquad
+2^2 \equiv 4 \pmod{15} \qquad
+2^3 \equiv 8 \pmod{15} \qquad
+$$
+$$
+2^4 \equiv 16 \equiv 1 \pmod{15} \qquad
+2^5 \equiv 32 \equiv 2 \pmod{15} \qquad \cdots
+$$
+
+
+
+Donc  
+
+\begin{align*}
+\ket{\psi_2} = 
+\tfrac{1}{4} \Big(
+&         \ket{\underline{0}}\ket{\underline1} + \ket{\underline{1}}\ket{\underline2} + \ket{\underline{2}}\ket{\underline4} + \ket{\underline{3}}\ket{\underline8} \\
+&\quad + \ket{\underline{4}}\ket{\underline1} + \ket{\underline{5}}\ket{\underline2} + \ket{\underline{6}}\ket{\underline4} + \ket{\underline{7}}\ket{\underline8} \\
+&\quad\quad + \ket{\underline{8}}\ket{\underline1} + \ket{\underline{9}}\ket{\underline2} + \ket{\underline{10}}\ket{\underline4} + \ket{\underline{11}}\ket{\underline8} \\
+&\quad\quad\quad + \ket{\underline{12}}\ket{\underline1} + \ket{\underline{13}}\ket{\underline2} + \ket{\underline{14}}\ket{\underline4} + \ket{\underline{15}}\ket{\underline8} \Big)
+\end{align*}
+
+On peut regrouper les termes selon le second facteur :
+\begin{align*}
+\ket{\psi_2} = 
+& \tfrac{1}{4} \Big( \ket{\underline{0}} + \ket{\underline{4}} + \ket{\underline{8}} + \ket{\underline{12}} \Big)  \ket{\underline1} \\
+&\quad +\tfrac{1}{4} \Big( \ket{\underline{1}} + \ket{\underline{5}} + \ket{\underline{9}} + \ket{\underline{13}} \Big)  \ket{\underline2} \\
+&\quad\quad +\tfrac{1}{4} \Big( \ket{\underline{2}} + \ket{\underline{6}} + \ket{\underline{10}} + \ket{\underline{14}} \Big)  \ket{\underline4} \\
+&\quad\quad\quad +\tfrac{1}{4} \Big( \ket{\underline{3}} + \ket{\underline{7}} + \ket{\underline{11}} + \ket{\underline{15}} \Big)  \ket{\underline8} \\
+\end{align*}
+
+ 
+  \item \textbf{Mesure du second registre.}
+
+  Une mesure sur le second registre renvoie de façon équiprobable :
+  $$\underline1 \quad \text{ ou } \quad \underline2 \quad \text{ ou } \quad \underline4 \quad \text{ ou } \quad \underline8.$$
+
+  Le qubit $\ket{\bar \psi_3}$ du premier registre dépend alors de cette mesure :
+  \begin{itemize}
+     \item si la mesure du second registre est $\underline1$ alors $\ket{\bar \psi_3} = \frac12\big( \ket{\underline{0}} + \ket{\underline{4}} + \ket{\underline{8}} + \ket{\underline{12}} \big)$,
+     \item si la mesure du second registre est $\underline2$ alors $\ket{\bar \psi_3} = \frac12\big( \ket{\underline{1}} + \ket{\underline{5}} + \ket{\underline{9}} + \ket{\underline{13}} \big)$,
+     \item si la mesure du second registre est $\underline4$ alors $\ket{\bar \psi_3} = \frac12\big( \ket{\underline{2}} + \ket{\underline{6}} + \ket{\underline{10}} + \ket{\underline{14}} \big)$,
+     \item si la mesure du second registre est $\underline8$ alors $\ket{\bar \psi_3} = \frac12\big( \ket{\underline{3}} + \ket{\underline{7}} + \ket{\underline{11}} + \ket{\underline{15}} \big)$.
+  \end{itemize}
+
+  \item \textbf{Mesure du premier registre.}
+
+  On effectue ensuite une mesure sur le premier registre. 
+  Par exemple, plaçons-nous dans le cas où le second registre a donné la mesure $\underline2$, alors le qubit 
+  $\ket{\bar \psi_3} = \frac12\big( \ket{\underline{1}} + \ket{\underline{5}} + \ket{\underline{9}} + \ket{\underline{13}} \big)$ se mesure de façon équiprobable en :
+  $$\underline1 \quad \text{ ou } \quad \underline5 \quad \text{ ou } \quad \underline9 \quad \text{ ou } \quad \underline{13}.$$
+  
+
+\myfigure{0.7}{
+  \tikzinput{fig_proba2}
+}
+
+  La mesure donne donc un entier parmi $1,5,9,13$, qui ont un écart entre eux de $r=4$ (la période que l'on veut trouver),
+  mais comme on n'obtient qu'un seul de ces entiers cela ne permet pas de retrouver ce $r$.
+
+  Autre exemple : si le second registre a donné la mesure $\underline8$, alors la mesure du premier registre donne l'un des entiers $3$, $7$, $11$ ou bien $15$, mais ne permet pas de retrouver $r$.
+
+\end{itemize}
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Transformée de Fourier discrète}
+
+%--------------------------------------------------------------------
+\subsection{Préambule sur les nombres complexes}
+
+Rappelons quelques résultats sur l'écriture trigonométrique des nombres complexes :
+\begin{itemize}
+  \item tout nombre complexe $z\in\Cc$ s'écrit $z= re^{\ii\theta}$ où $r\ge0$ et $\theta\in\Rr$,
+  \item un nombre complexe de module $1$ s'écrit $z= e^{\ii \theta}$ où $\theta\in\Rr$,
+  \item $e^{2\ii\pi} = 1$,
+  \item $(e^{\ii \theta})^* = e^{-\ii\theta}$ où $z^*$ désigne le conjugué de $z$.
+\end{itemize}
+
+\begin{lemme}[Somme d'une suite géométrique]
+\label{lem:geo}
+Soit $z \in \Cc$. Soit $n\ge0$.
+Alors
+$$1+z+z^2+\cdots +z^{n-1} = \left\{ 
+\begin{array}{rl}
+n & \text{ si } \ z = 1, \\
+\frac{1-z^{n}}{1-z} & \text{ sinon.} \\
+\end{array}
+\right.$$
+\end{lemme}
+
+\begin{proof}
+Notons $S_n=\sum_{k=0}^{n-1}z^k$ la somme à calculer. 
+Si $z=1$ alors $S_n$ est la somme de $n$ termes égaux à $1$.
+Sinon en développant $(1-z) \cdot S_n  = S_n - z\cdot S_n = 1-z^{n}$ car presque tous les termes se télescopent.
+\end{proof}
+
+Le lemme suivant est le point-clé de la transformée de Fourier discrète que l'on étudiera plus loin.
+\begin{lemme}[Lemme crucial]
+\label{lem:crucial}
+Soient $n\in\Nn^*$ et $j\in\Zz$.
+
+\mybox{$\displaystyle 
+\frac{1}{n} \sum_{k=0}^{n-1} e^{2\ii\pi \frac{kj}{n}}
+= \left\{ 
+\begin{array}{rl}
+1 & \text{ si } \frac{j}{n} \text{ est un entier,}\\
+0 & \text{ sinon.} \\
+\end{array}
+\right.$}
+\end{lemme}
+
+Noter que si on pose $\omega = e^{\frac{2\ii\pi}{n}}$ et $z=\omega^j = e^{\frac{2\ii\pi j}{n}}$
+alors la somme à calculer est simplement $\Sigma_n=\frac1n\sum_{k=0}^{n-1}z^k$.
+
+\begin{proof}
+Par la remarque précédente il s'agit de calculer la somme d'une suite géométrique (au facteur $\frac1n$ près) : 
+$\Sigma_n=\frac1n\sum_{k=0}^{n-1}z^k$.
+
+Si $j/n$ est un entier alors $z= e^{\frac{2\ii\pi j}{n}} = e^{2\ii\pi} = 1$ et par le premier cas du lemme \ref{lem:geo}, alors
+$\Sigma_n = 1$.
+
+Sinon, $z\neq1$ et à l'aide du second cas du lemme \ref{lem:geo} :
+$$\Sigma_n = \frac1n \sum_{k=0}^{n-1}z^k = \frac1n \cdot \frac{1-z^{n}}{1-z}.$$
+Mais $z^n = \big(e^{\frac{2\ii\pi j}{n}}\big)^n  = e^{2\ii\pi j} = 1$ et ainsi $\Sigma_n = 0$.
+
+\end{proof}
+
+Voici l'interprétation géométrique de ce lemme. Notons de nouveau $\omega = e^{\frac{2\ii\pi}{n}}$, c'est une racine $n$-ième de l'unité.
+Alors les $\omega^k$ forment les sommets d'un polygone régulier à $n$ côtés. 
+Le barycentre de ces points a pour coordonnées $\frac1n \sum_{k=0}^{n-1} \omega^k = 0$ par le lemme, c'est donc bien l'origine !
+D'un point de vue physique on parle d'interférence destructive.
+
+\myfigure{0.8}{
+  \tikzinput{fig_polyg1}
+\qquad
+  \tikzinput{fig_polyg2}
+}  
+
+ 
+%--------------------------------------------------------------------
+\subsection{Transformée de Fourier}
+
+Fixons un entier $n\ge1$.
+La \defi{transformée de Fourier discrète} $\hat F$ transforme un $n$-qubit de base en une somme de $n$-qubits de base selon la formule :
+\mybox{$\displaystyle \hat F \ket{\underline k} = \frac{1}{\sqrt{2^n}} \sum_{j=0}^{2^n-1} e^{2\ii \pi \frac{kj}{2^n}} \ket{\underline j}$}
+
+Si on note $\omega = e^{\frac{2\ii\pi}{2^n}}$ alors la formule s'écrit aussi :
+\mybox{$\displaystyle \hat F \ket{\underline k} = \frac{1}{\sqrt{2^n}} \sum_{j=0}^{2^n-1} (\omega^k)^j \ket{\underline j}$}
+
+Ensuite $\hat F$ est étendue par linéarité à n'importe quel $n$-qubit $\ket\psi$.
+Si $\ket\psi = \sum_{k=0}^{2^n-1} \alpha_k \ket{\underline k}$
+alors 
+$$ \hat F \ket\psi = \sum_{k=0}^{2^n-1} \alpha_k \hat F \ket{\underline k}.$$
+
+Commençons par des exemples avec de petites valeurs de $n$.
+
+\begin{exemple}
+Fixons $n=1$. Les deux $1$-qubits de base sont $\ket0$ et $\ket1$.
+On a alors $2^n = 2$ et $\omega = e^{\frac{2\ii\pi}{2}} = e^{\ii\pi} = -1$.
+
+Pour $k=0$, les coefficients seront $(\omega^0)^0=1$ et $(\omega^0)^1=1$, donc :
+$$\hat F \ket0 = \frac{1}{\sqrt2} \left(\ket0 + \ket1\right).$$
+Pour $k=1$, les coefficients seront $(\omega^1)^0=1$ et $(\omega^1)^1=-1$, donc :
+$$\hat F \ket1 = \frac{1}{\sqrt2} \left(\ket0 - \ket1\right).$$
+
+Résumons les coefficients par le tableau des valeurs $(\omega^k)^j$, avec ici $\omega=-1$.
+\begin{center}
+$$\begin{array}{c|cc}
+      & j=0 & j=1 \\ \hline
+k = 0 & (\omega^0)^0 & (\omega^0)^1 \\
+k = 1 & (\omega^1)^0 & (\omega^1)^1 \\
+\end{array}
+\qquad\qquad
+\begin{array}{c|cc}
+      & j=0 & j=1 \\ \hline
+k = 0 & 1 & 1 \\
+k = 1 & 1 & -1 \\
+\end{array}$$
+\end{center}
+
+Pour un qubit $\ket\psi = \alpha\ket0 + \beta\ket1$ alors
+\begin{align*}
+\hat F \ket\psi 
+  &= \hat F(\alpha\ket0 + \beta\ket1)
+   = \alpha\hat F\ket0 + \beta\hat F\ket1 \\
+  &= \frac{1}{\sqrt2} \alpha\left(\ket0 + \ket1\right) + \frac{1}{\sqrt2}\beta\left(\ket0 - \ket1\right) \\
+  &= \frac{1}{\sqrt2}(\alpha+\beta)\ket0 + 
+\frac{1}{\sqrt2}(\alpha-\beta)\ket1
+\end{align*}
+
+Noter qu'au final pour $n=1$, $\hat F$ est égale à la porte de Hadamard $H$.
+\end{exemple}
+
+\begin{exemple}
+Fixons $n=2$. Les $2$-qubits de base sont 
+$\ket{\underline 0}=\ket{0.0}$,
+$\ket{\underline 1}=\ket{0.1}$, 
+$\ket{\underline 2}=\ket{1.0}$ et
+$\ket{\underline 3}=\ket{1.1}$.
+On a alors $2^n = 4$ et 
+$\omega = e^{\frac{2\ii\pi}{4}} = e^{\ii\frac\pi2} = \ii$.
+
+
+Les coefficients de $\hat F \ket{\underline k}$ sont les $(\omega^k)^j$.
+\begin{itemize}
+  \item Pour $k=0$, les coefficients sont tous $1$,
+  \item Pour $k=1$, les coefficients sont les $\ii^j$,
+  \item Pour $k=2$, les coefficients sont les $(-1)^j$,
+  \item Pour $k=3$, les coefficients sont les $(-\ii)^j$.
+\end{itemize}
+
+Voici le tableau des coefficients $(\omega^k)^j$ avec $\omega=\ii$.
+\begin{center}
+$$
+\begin{array}{c|cccc}
+      & j=0 & j=1 & j=2 & j=3 \\ \hline
+k = 0 & (\omega^0)^0 & (\omega^0)^1 & (\omega^0)^2 & (\omega^0)^3 \\
+k = 1 & (\omega^1)^0 & (\omega^1)^1 & (\omega^1)^2 & (\omega^1)^3 \\
+k = 2 & (\omega^2)^0 & (\omega^2)^1 & (\omega^2)^2 & (\omega^2)^3 \\
+k = 3 & (\omega^3)^0 & (\omega^3)^1 & (\omega^3)^2 & (\omega^3)^3 \\
+\end{array}
+\qquad\qquad
+\begin{array}{c|cccc}
+      & j=0 & j=1 & j=2 & j=3 \\ \hline
+k = 0 & 1 & 1 & 1 & 1 \\
+k = 1 & 1 & \ii & -1& -\ii \\
+k = 2 & 1 & -1 & 1 & -1 \\
+k = 3 & 1 & -\ii & -1 & \ii \\
+\end{array}
+$$
+\end{center}
+
+
+Ainsi :
+\begin{align*}
+\hat F \ket{\underline0} 
+  &= \frac{1}{2} \left(\ket{\underline0} + \ket{\underline1} + \ket{\underline2} + \ket{\underline3}\right) \\
+\hat F \ket{\underline1} 
+  &= \frac{1}{2} \left(\ket{\underline0} + \ii\ket{\underline1} - \ket{\underline2} -\ii \ket{\underline3}\right) \\
+\hat F \ket{\underline2} 
+  &= \frac{1}{2} \left(\ket{\underline0} - \ket{\underline1} + \ket{\underline2} - \ket{\underline3}\right) \\
+\hat F \ket{\underline3} 
+  &= \frac{1}{2} \left(\ket{\underline0} -\ii \ket{\underline1} - \ket{\underline2} +\ii \ket{\underline3}\right) \\
+\end{align*}
+
+\end{exemple}
+
+
+De façon générale pour $n$ quelconque et $\omega = e^{\frac{2\ii\pi}{2^n}}$, alors voici comment s'organise le tableau des $(\omega^k)^j$.
+\begin{center}
+$$
+\begin{array}{c|ccccc}
+      & j=0 & j=1 & j=2 & j=3 & \cdots \\ \hline
+k = 0 & 1 & 1 & 1 & 1 & \cdots \\
+k = 1 & 1 & \omega & \omega^2 & \omega^3 & \cdots \\
+k = 2 & 1 & \omega^2 & (\omega^2)^2 & (\omega^2)^3 & \cdots \\
+k = 3 & 1 & \omega^3 & (\omega^3)^2 & (\omega^3)^3 & \cdots \\
+k = 4 & 1 & \omega^4 &\cdots & &  \\
+\cdots & \cdots & \cdots & & &
+\end{array}
+$$
+\end{center}
+
+
+%--------------------------------------------------------------------
+\subsection{La transformée de Fourier discrète est unitaire}
+
+\begin{proposition}
+La transformation de Fourier discrète est une application unitaire.
+\end{proposition}
+
+Commençons par le vérifier sur des exemples.
+\begin{itemize}
+  \item Pour $n=1$, notons $\ket{\psi_0} = \hat F\ket0=\frac{1}{\sqrt2} \left(\ket0 + \ket1\right)$ et $\ket{\psi_1} = \hat F\ket1=\frac{1}{\sqrt2} \left(\ket0 - \ket1\right)$.
+Alors la base $(\ket0,\ket1)$ est envoyée sur la base $(\ket{\psi_0},\ket{\psi_1})$.
+Comme une base orthonormale est envoyée sur une base orthonormale, $\hat F$ est une transformation unitaire.
+
+  \item Pour $n=2$, notons de même $\ket{\psi_k} = \hat F \ket{\underline k}$ pour $k=0,1,2,3$ que l'on a calculé auparavant. On vérifie que les $\ket{\psi_k}$ forment une base orthonormale.
+  Par exemple, montrons que $\ket{\psi_1}$ et $\ket{\psi_2}$ sont orthogonaux.
+Tout d'abord 
+$$\bra{\psi_1} = \ket{\psi_1}^* = 
+\frac12 \left(\bra{\underline0} - \ii\bra{\underline1} - \bra{\underline2} +\ii \bra{\underline3}\right)
+$$
+Donc : 
+  $$
+  \braket{\psi_1}{\psi_2}
+     = \frac14
+\left(\bra{\underline0} - \ii\bra{\underline1} - \bra{\underline2} +\ii \bra{\underline3}\right) \cdot 
+\left(\ket{\underline0} - \ket{\underline1} + \ket{\underline2} - \ket{\underline3}\right).$$
+ On développe tout, et on utilise que $\braket{\underline p}{\underline q} = 0$ si $p\neq q$ et
+$\braket{\underline p}{\underline p} = 1$ :
+$$
+  \braket{\psi_1}{\psi_2} = \frac14 \left( 
+      \braket{\underline 0}{\underline 0}
++\ii \braket{\underline 1}{\underline 1}
+-    \braket{\underline 2}{\underline 2}
+-\ii\braket{\underline 3}{\underline 3}\right)
+= \frac14 (1+\ii -1-\ii)
+= 0.$$
+\end{itemize}
+
+\begin{proof}
+Nous allons montrer que la base canonique des $\ket{\underline{k}}$ s'envoie sur une base orthonormale $\ket{\psi_k}$. Ainsi $\hat F$ envoie une base orthonormale sur une base orthonormale et est donc une transformation unitaire (voir le chapitre \og{}Portes quantiques\fg{}).
+
+Notons $\ket{\psi_k} = \hat F \ket{\underline k}$, pour $0\le k \le 2^n-1$.
+\begin{align*}
+\braket{\psi_k}{\psi_\ell} 
+  &= \left( \hat F \ket{\underline{k}} \right)^* \cdot\hat F \ket{\underline{\ell}} \\
+  &= \left(\frac{1}{\sqrt{2^n}} \sum_{p=0}^{2^n-1} e^{-2\ii \pi \frac{kp}{2^n}} \bra{\underline p}\right)
+     \cdot\left(  \frac{1}{\sqrt{2^n}}  \sum_{q=0}^{2^n-1} e^{2\ii \pi \frac{\ell q}{2^n}} \ket{\underline q}\right) \\
+  &= \frac{1}{2^n} \sum_{p=0}^{2^n-1}\sum_{q=0}^{2^n-1}e^{-2\ii \pi \frac{kp}{2^n}}e^{2\ii \pi \frac{\ell q}{2^n}} \braket{\underline p}{\underline q} \\
+  &= \frac{1}{2^n} \sum_{p=0}^{2^n-1}e^{-2\ii \pi \frac{kp}{2^n}+2\ii \pi \frac{\ell p}{2^n}} \braket{\underline p}{\underline p} \qquad \text{ car } \braket{\underline p}{\underline q}=0 \text{ si } p \neq q \\
+  &= \frac{1}{2^n} \sum_{p=0}^{2^n-1}e^{2\ii \pi \frac{(\ell-k)p}{2^n}} \qquad \text{ car } \braket{\underline p}{\underline p}=1 \\
+\end{align*}
+
+Si $k=\ell$ alors $e^{2\ii \pi \frac{(\ell-k)p}{2^n}}=e^0=1$, et ainsi $\braket{\psi_k}{\psi_k} = 1$. Si $k \neq \ell$, alors $\frac{\ell-k}{2^n}$ n'est pas un entier, et par le lemme crucial \ref{lem:crucial},
+$\braket{\psi_k}{\psi_\ell} = 0$.
+Ainsi les $\ket{\psi_k}$ forment une base orthonormée et $\hat F$ est une transformation unitaire.
+\end{proof}
+
+%--------------------------------------------------------------------
+\subsection{Transformée de Fourier inverse}
+
+Comme $\hat F$ est unitaire alors $\hat F$ est inversible et ${\hat F}^{-1} = {\hat F}^*$.
+Ainsi la formule de ${\hat F}^{-1}\ket{\underline k}$ est celle de $\hat F \ket{\underline k}$ mais avec un signe moins dans l'exponentielle :
+\mybox{$\displaystyle {\hat F}^{-1} \ket{\underline k} = \frac{1}{\sqrt{2^n}} \sum_{j=0}^{2^n-1} e^{-2\ii \pi \frac{kj}{2^n}} \ket{\underline j}$}
+
+Si on note $\omega = e^{\frac{2\ii\pi}{2^n}}$, alors $\omega^* =  e^{\frac{-2\ii\pi}{2^n}}$
+et ainsi
+$${\hat F}^{-1} \ket{\underline k} = \frac{1}{\sqrt{2^n}} \sum_{j=0}^{2^n-1} ({\omega^*}^k)^j \ket{\underline j}.$$
+
+
+\begin{exemple}
+Fixons $n=1$, $\omega^* = -1$.
+$${\hat F}^{-1} \ket0 = \frac{1}{\sqrt2} \left(\ket0 + \ket1\right) \quad \text{ et } \quad 
+{\hat F}^{-1} \ket1 = \frac{1}{\sqrt2} \left(\ket0 - \ket1\right)$$
+
+Dans ce cas ${\hat F}^{-1} = \hat F$.
+\end{exemple}
+
+\begin{exemple}
+Fixons $n=2$, $\omega^* = -\ii$.
+\begin{align*}
+{\hat F}^{-1} \ket{\underline0} 
+  &= \frac{1}{2} \left(\ket{\underline0} + \ket{\underline1} + \ket{\underline2} + \ket{\underline3}\right) \\
+{\hat F}^{-1} \ket{\underline1} 
+  &= \frac{1}{2} \left(\ket{\underline0} - \ii\ket{\underline1} - \ket{\underline2} +\ii \ket{\underline3}\right) \\
+{\hat F}^{-1} \ket{\underline2} 
+  &= \frac{1}{2} \left(\ket{\underline0} - \ket{\underline1} + \ket{\underline2} - \ket{\underline3}\right) \\
+{\hat F}^{-1} \ket{\underline3} 
+  &= \frac{1}{2} \left(\ket{\underline0} +\ii \ket{\underline1} - \ket{\underline2} -\ii \ket{\underline3}\right) \\
+\end{align*}
+
+\emph{Exercice.} Vérifier à la main que 
+${\hat F}^{-1} \left( \hat F \ket{\underline1}  \right) = \ket{\underline1}$.
+\end{exemple}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fin de l'algorithme de Shor}
+
+%--------------------------------------------------------------------
+\subsection{Fin du circuit}
+
+Après l'oracle, nous en étions restés à une mesure du second registre, et nous avions vu que la mesure du premier registre ne permettait pas de conclure. 
+Après la mesure du second registre, nous allons faire agir sur le premier registre la transformée de Fourier discrète inverse ${\hat F}^{-1}$. 
+
+
+$$
+\Qcircuit @C=1em @R=1em {
+  \lstick{\ket0}  & \qw  & \gate{H} & \qw      & \qw &  \qw  & \qw & \multigate{5}{\quad O_f \quad} & \qw & \qw & \qw& \qw & 
+\multigate{2}{\quad \hat F^{-1} \quad} &  \qw &  \meter & \qw &  \qwa \\
+  \lstick{\ket0}& \ustick{\vdots}\qw  & \qw      & \gate{H} & \qw      & \qw  & \ustick{\vdots}\qw & \ghost{\quad O_f \quad}   & \ustick{\vdots}\qw & \qw & \qw& \qw &  
+\ghost{\quad \hat F^{-1} \quad}  &  \qw &  \meter & \qw & \qwa \\
+  \lstick{\ket0}& \ustick{\vdots}\qw  & \qw      & \qw      & \gate{H} & \qw  & \ustick{\vdots}\qw & \ghost{\quad O_f \quad}   & \ustick{\vdots}\qw & \qw & \qw & \qw & \ghost{\quad \hat F^{-1} \quad}  &  \qw &  \meter & \qw  & \qwa \\
+  \lstick{\ket0}& \qw  & \qw      & \qw      & \qw & \qw  & \qw & \ghost{\quad O_f \quad}  & \qw & \qw & \meter & \qw & 
+\qw &\qw & \qw &\qw & \qwa \\
+  \lstick{\ket0}& \ustick{\vdots}\qw  & \qw      & \qw      & \qw & \qw  & \ustick{\vdots}\qw & \ghost{\quad O_f \quad}   & \ustick{\vdots}\qw & \qw & \meter & \qw & 
+\qw &\qw & \qw &\qw &  \qwa \\
+  \lstick{\ket0}& \ustick{\vdots}\qw  & \qw      & \qw      & \qw & \qw  & \ustick{\vdots}\qw & \ghost{\quad O_f \quad}   & \ustick{\vdots}\qw & \qw &  \meter & \qw & 
+\qw &\qw & \qw &\qw & \qwa \\
+}
+$$
+
+
+
+%--------------------------------------------------------------------
+\subsection{Calculs}
+
+On se souvient que la mesure du second registre a donné $\underline{a^{\beta_0}}$ (on peut aussi considérer que l'état quantique du second registre s'est effondré à $\ket{ \underline{a^{\beta_0}} }$). 
+Alors le qubit du premier registre est :
+$$\ket{\bar \psi_3} = \frac{\sqrt{r}}{\sqrt{2^n}} \sum_{\alpha=0}^{2^n/r-1} \ket{\underline{\alpha r + \beta_0}}.$$
+
+Calculons le qubit $\ket{\bar \psi_4}$ obtenu après l'action de la transformée de Fourier inverse :
+\begin{align*}
+\ket{\bar \psi_4}
+  &= {\hat F}^{-1} \ket{\bar \psi_3} \\
+  &= {\hat F}^{-1} \left( \frac{\sqrt{r}}{\sqrt{2^n}} \sum_{\alpha=0}^{2^n/r-1} \ket{\underline{\alpha r + \beta_0}} \right) \\
+  &=  \frac{\sqrt{r}}{\sqrt{2^n}} \sum_{\alpha=0}^{2^n/r-1} {\hat F}^{-1}\ket{\underline{\alpha r + \beta_0}} \\
+  &= \frac{\sqrt{r}}{\sqrt{2^n}} 
+     \sum_{\alpha=0}^{2^n/r-1} \frac{1}{\sqrt{2^n}} 
+     \sum_{j=0}^{2^n-1} 
+     e^{-2\ii \pi \frac{(\alpha r + \beta_0)j}{2^n}} 
+     \ket{\underline j} \\  
+&=  \frac{\sqrt{r}}{2^n} 
+     \sum_{j=0}^{2^n-1} 
+     \left(
+     \sum_{\alpha=0}^{2^n/r-1} 
+     e^{-2\ii \pi \frac{\alpha j}{2^n/r}} 
+     \right) 
+     e^{-2\ii \pi \frac{\beta_0 j}{2^n}} 
+     \ket{\underline j} \\   
+\end{align*}
+
+Pour la dernière égalité nous avons interverti les deux sommes et utilisé que $r$ divise $2^n$.
+Calculons le coefficient qui intervient dans cette somme à l'aide du lemme crucial \ref{lem:crucial} :
+$$%\Sigma(j)=
+\frac{1}{2^n/r} \sum_{\alpha=0}^{2^n/r-1}  e^{-2\ii \pi \frac{\alpha j}{2^n/r}}
+= \left\{ 
+\begin{array}{rl}
+1 & \text{ si } \frac{j}{2^n/r} \text{ est un entier,}\\
+0 & \text{ sinon.} \\
+\end{array}
+\right.
+$$
+Ainsi 
+$$\ket{\bar \psi_4}
+= \frac1{\sqrt{r}} 
+     \sum_{\substack{j=0,\ldots,2^n-1\\\text{ avec }  \frac{j}{2^n/r} \text{entier}}}
+     e^{-2\ii \pi \frac{\beta_0 j}{2^n}} 
+     \ket{\underline j} 
+= \frac1{\sqrt{r}} 
+     \sum_{\ell=0}^{r-1} 
+     e^{-2\ii \pi \beta_0 \frac{\ell}{r}}
+     \ket{\underline{\frac{2^n \ell}{r}}}. 
+$$
+Pour la dernière égalité, nous avons juste changé la notation des indices en posant $j=\frac{2^n\ell}{r}$.
+
+Qu'avons-nous gagné avec l'action de la transformée de Fourier ? Tout d'abord la constante $\beta_0$ n'apparaît que dans les coefficients des qubits et n'intervient plus après mesure. Ensuite la période $r$ que l'on veut déterminer est au dénominateur dans l'expression de l'entier $\frac{2^n \ell}{r}$.
+
+
+%--------------------------------------------------------------------
+\subsection{Mesure du premier registre}
+
+La mesure du premier registre donne un entier $\frac{2^n \ell}{r}$, correspondant à l'un des états
+$\ket{\underline{\frac{2^n \ell}{r}}}$ du qubit $\ket{\bar \psi_4}$.
+
+Nous obtenons donc un entier $m=\frac{2^n \ell}{r}$ et nous voulons en déduire la période $r$.
+L'entier $n$ est connu, par contre $\ell$ n'est pas connu (on sait $0 \le \ell \le r-1$).
+
+Commençons par diviser par $2^n$ (valeur connue) pour obtenir le rationnel $x = \frac{m}{2^n} = \frac{\ell}{r}$.
+\begin{itemize}
+  \item Si $x$ est entier alors on n'obtient aucune information sur $r$. C'est le cas si $\ell=0$, ou bien si $r$ divise $\ell$. Dans ce cas notre méthode échoue. Il faut recommencer l'exécution du circuit quantique. Noter que ce cas se produit assez rarement.
+
+  \item Si $\pgcd(\ell,r) = 1$ alors d'une part $x = \frac{m}{2^n}$ est connu et son écriture sous la forme de fraction irréductible est $\frac{\ell}{r}$. Donc en réduisant la fraction $x = \frac{m}{2^n}$ en une fraction irréductible, on obtient $r$ (et $\ell$). Par exemple si $x=\frac{26}{8}$ alors l'écriture irréductible est $\frac{13}{4}$ donc $r=4$ et $\ell=13$.
+
+  \item Si $\pgcd(\ell,r) \neq 1$, alors l'écriture irréductible de $x=\frac{m}{2^n}$ est $\frac{\ell'}{r'}$.
+On a $$x=\frac{m}{2^n} = \frac{\ell'}{r'} = \frac{\ell}{r}.$$
+Ainsi $r'\ell=r\ell'$, donc $r'$ divise $r\ell'$, mais comme $\pgcd(r',\ell')=1$ alors par le lemme de Gauss $r'$ divise $r$. Nous n'avons pas trouvé la période $r$ mais un facteur $r'$ de $r$. C'est un progrès ! On recommence notre algorithme avec le choix de $a^{r'}$ au lieu de $a$. En effet, comme la fonction $a \mapsto a^k$ est de période $r$, alors la fonction $k \mapsto (a^{r'})^k$ est de période $r/r'$. Nous sommes certains que ce processus se termine car $r$ n'a qu'un nombre fini de facteurs.
+\end{itemize}
+
+
+
+%--------------------------------------------------------------------
+\subsection{Exemple}
+
+Voyons la fin de l'algorithme sur l'exemple $N=15$.
+
+
+\begin{itemize}
+\item Si $a \in \{3,5,6,9,10,12\}$, alors
+  $a$ n'est pas premier avec $N$ et $d = \pgcd(a,N)>1$ est un diviseur strict de $N$ et c'est terminé.
+  
+  
+\item Les entiers $a \in \{4,11,14\}$ sont d'ordre $r=2$, mais par contre $a=14$ ne vérifie pas l'hypothèse 2. 
+  
+  \'Etudions les cas $a=4$ et $a=11$. La mesure finale du circuit fournit
+  $m = \frac{2^n\ell}{r}$, on calcule $x=\frac{m}{2^n} = \frac{\ell}{r}$ avec $0\le \ell \le r-1$, 
+  donc ici avec $r=2$, $x=\frac{\ell}{2}$ avec $\ell=0$ ou $\ell=1$. On rappelle que l'on connaît la valeur de $x$, mais qu'il s'agit d'obtenir $r$ et $\ell$.
+  \begin{itemize}
+  \item Dans le cas $\ell=0$ alors on a la connaissance de $x=0$, mais on n'obtient aucune information sur $r$. Il faut recommencer l'algorithme.
+  \item Dans le cas $\ell=1$ alors on a la connaissance de $x=\frac12$. Comme $x= \frac{\ell}{r}$ est une fraction irréductible, la connaissance de $x$ permet de retrouver $\ell=1$ et $r=2$. Nous avons obtenu la période $r=2$. 
+  \end{itemize}
+  
+  
+\item Les entiers $a \in \{2,7,8,13\}$ sont d'ordre $r=4$.
+  
+La mesure finale du circuit fournit
+  $m = \frac{2^n\ell}{r}$, on calcule $x=\frac{m}{2^n} = \frac{\ell}{r}$ avec $0\le \ell \le r-1$, 
+  donc ici avec $r=4$, $x=\frac{\ell}{4}$ avec $\ell \in \{0,1,2,3\}$. 
+  \begin{itemize}
+  \item Dans le cas $\ell=0$, la connaissance de $x=0$ ne permet pas de trouver $r$. Il faut recommencer l'algorithme.
+    
+  \item Dans le cas $\ell=1$, on a $x=\frac14$. Comme $x= \frac{\ell}{r}$ est une fraction irréductible, la connaissance de $x$ permet de retrouver $\ell=1$ et $r=4$. Nous avons obtenu la période $r=4$. 
+    
+  \item Dans le cas $\ell=2$ on a $x=\frac12$.
+    Nous obtenons la fraction irréductible $x= \frac{\ell'}{r'}$ avec $\ell'=1$ et $r'=2$. L'entier $r'=2$ n'est pas la période (c'est facile à vérifier) mais on sait que $r'=2$ divise $r$. On avait choisi un entier $a$ au début de l'algorithme, on recommence maintenant l'algorithme avec le choix de $a^2$ qui a pour période $r/2$. En un nombre fini d'itérations de l'algorithme on obtiendra $r$.
+    
+  \item Dans le cas $\ell=3$, la connaissance de $x=\frac34$ permet de retrouver $\ell=3$ et $r=4$. 
+  \end{itemize}
+  
+\end{itemize}
+
+\bigskip
+
+Nous verrons dans le chapitre suivant un exemple dans lequel l'ordre $r$ n'est pas une puissance de $2$.
+
+\end{document}

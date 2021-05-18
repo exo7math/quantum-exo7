@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+
+
+  \node[draw,minimum height=1cm, align=center] (P) at (0,0){NAND};
+ \node (A) at (-2,0.3) {$x$};
+ \node (B) at (-2,-0.3) {$y$};
+ \node (out) at (3.5,0) {$NOT(x\ AND\ y)$};
+
+  \draw($(P.west)+(0,0.3)$) -- (A);
+  \draw($(P.west)+(0,-0.3)$) -- (B);
+  \draw[->,>=latex](P.east) -- (out);
+
+
+\end{tikzpicture}

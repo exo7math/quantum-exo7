@@ -1,0 +1,443 @@
+\documentclass[11pt,class=report,crop=false]{standalone}
+\usepackage[screen]{../python}
+
+
+\begin{document}
+
+
+%====================================================================
+\chapitre{Cryptographie quantique}
+%====================================================================
+
+
+\objectifs{Nous étudions le protocole BB84 qui permet le partage d'un secret commun entre deux personnes grâce à la physique quantique.}
+
+\index{cryptographie}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Le chiffrement parfait existe}
+
+\index{chiffrement!parfait}
+
+Commençons par comprendre qu'un secret commun entre deux personnes permet une communication parfaitement sûre. 
+C'est d'ailleurs ce protocole qui était utilisé par le \og{}téléphone rouge\fg{} reliant les USA et l'URSS pendant la guerre froide.
+
+%--------------------------------------------------------------------
+\subsection{Masque jetable}
+
+\myfigure{0.9}{
+  \tikzinput{fig-crypto-01}
+} 
+
+
+\begin{itemize}
+  \item Alice veut envoyer un message à Bob. Ce message est composé de $0$ et de $1$ (par exemple pour un nombre, on utiliserait son écriture binaire : $14$ serait codé $1.1.1.0$ ; pour une lettre on utiliserait le code ASCII :  \og{}A\fg{} serait codé $1.0.0.0.0.0.1$).
+
+  Exemple : le message est $x = 1.0.1.1.0.1.1$.
+
+  \item Alice et Bob s'étaient au préalable partagé un \og{}masque jetable\fg{}, qui est une suite secrète et aléatoire de $0$ et de $1$.
+
+ Exemple : le masque est $m = 0.0.1.0.1.1.1$.
+
+\medskip
+
+\myfigure{1}{
+  \tikzinput{fig-crypto-02}
+} 
+
+\medskip
+
+  \item Alice envoie le message chiffré $y$ obtenu par addition bit à bit (sans retenue) $y = x \oplus m$ (c'est un \og{}ou exclusif\fg{} bit à bit).
+
+\myfigure{1}{
+  \tikzinput{fig-crypto-03}
+} 
+
+
+ Exemple :  $y= x \oplus m = 1.0.0.1.1.0.0$.
+
+  \item Bob déchiffre le message en ajoutant de nouveau le masque $m$ à $y$ : il obtient $x$.
+  En effet $y \oplus m = x \oplus m \oplus m = x$ (car $0 \oplus 0 = 0$ et $1 \oplus 1 = 0$).
+
+ Exemple :  $y \oplus m = 1.0.1.1.0.1.1 = x$.
+
+\myfigure{1}{
+  \tikzinput{fig-crypto-04}
+} 
+
+\end{itemize}
+
+
+Voici les conditions que doit respecter le masque jetable $m$ :
+\begin{itemize}
+  \item il doit être un choix aléatoire,
+  \item il doit rester secret,
+  \item il doit être de la même longueur que le message,
+  \item il ne doit servir qu'une seule fois.
+\end{itemize}
+
+
+%--------------------------------------------------------------------
+\subsection{Avantages et inconvénients}
+
+\textbf{Avantages.}
+Ce chiffrement est parfaitement sûr : un espion qui intercepterait le message chiffré $y$ sans connaître le masque jetable $m$ ne serait pas capable ici de décrypter le message.
+En effet, un $0$ du message $y$ peut correspondre aussi bien à $0$ ou $1$ du message original, de même pour un $1$.
+
+$$\begin{array}{|c||c|c|} \hline
+    & m=0 & m=1 \\ \hline\hline
+x=0 & 0 & 1 \\ \hline
+x=1 & 1 & 0 \\ \hline
+\end{array}$$
+
+\smallskip
+
+Un espion n'a pas de meilleure méthode que de deviner au hasard si le message original contenait $0$ ou $1$.
+Si le message est de longueur $n$ alors la probabilité qu'il décrypte le message complet est $\frac{1}{2^n}$ 
+(ce qui revient à tirer au hasard un message parmi les $2^n$ messages possibles).
+
+
+\medskip
+
+\textbf{Inconvénients.}
+
+Tout d'abord il faut respecter scrupuleusement les consignes pour l'utilisation du masque jetable (choix aléatoire, usage unique,\ldots).
+Une difficulté réside dans le fait qu'il faut que le masque reste un secret uniquement connu d'Alice et Bob : la méthode la plus simple est qu'Alice et Bob puissent se rencontrer physiquement pour déterminer ensemble le masque jetable. Pour le \og{}téléphone rouge\fg{}, les masques jetables étaient des listes de nombres transmis régulièrement via une valise diplomatique.
+Cet échange de masque est un problème pratique majeur puisqu'il nécessite une rencontre entre Alice et Bob. C'est pourquoi d'autres protocoles cryptographiques sont utilisés, comme par exemple RSA, pour permettre des communications chiffrées sans aucune rencontre physique, mais ils ne sont pas parfaitement sûrs.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{BB84 : un secret commun}
+
+\index{chiffrement!BB84}
+
+Nous présentons maintenant le protocole  BB84 (dû à Bennett et Brassard en 1984) qui n'est pas vraiment un protocole cryptographique mais qui permet la création d'un secret commun sous la forme d'une suite de $0$ et de $1$. Cette suite peut ensuite, par exemple, être utilisée comme masque jetable pour un chiffrement parfait.
+Ce secret commun peut se construire à distance et on peut être sûr avec une forte probabilité que personne n'a intercepté le secret.
+
+%--------------------------------------------------------------------
+\subsection{Deux bases}
+
+Alice souhaite envoyer à Bob une information $0$ ou $1$. Pour réaliser cela, elle va lui envoyer un qubit. Elle a le choix de deux codages différents.
+
+\medskip
+
+\textbf{Première base d'envoi \og{}$\oplus$\fg{}.}
+
+Dans cette base deux qubits sont possibles : $\ket{\uparrow}$ et $\ket{\rightarrow}$.
+
+\begin{itemize}
+  \item $\ket{\uparrow} = \ket{0}$ représente l'information $0$,
+  \item $\ket{\rightarrow} = \ket{1}$ représente l'information $1$.
+\end{itemize}
+
+\medskip
+
+\textbf{Seconde base d'envoi \og{}$\otimes$\fg{}.}
+
+Dans cette base deux qubits sont possibles : $\ket{\nearrow}$ et $\ket{\searrow}$.
+
+\begin{itemize}
+  \item $\ket{\nearrow} = \frac{1}{\sqrt2}(\ket{0}+\ket1)$ représente l'information $0$,
+  \item $\ket{\searrow} = \frac{1}{\sqrt2}(\ket{0}-\ket1)$ représente l'information $1$.
+\end{itemize}
+
+\medskip
+
+D'un point de vue physique ces qubits correspondent à des polarisations de photons : la polarisation à $90^\circ$ pour la base \og{}$\oplus$\fg{} et la polarisation à $45^\circ$ pour la base \og{}$\otimes$\fg{}.
+Selon le choix de base et selon l'information $0/1$, Alice envoie un des quatre qubits $\ket{\uparrow}$, $\ket{\rightarrow}$, $\ket{\nearrow}$, $\ket{\searrow}$.
+
+
+\medskip
+
+On retrouve aussi ces deux mêmes bases lors de la réception qui correspond à une mesure.
+
+\medskip
+
+\textbf{Première base de mesure  \og{}$\oplus$\fg{}.}
+
+Voici l'information que Bob obtient lorsqu'il mesure le qubit reçu dans la base \og{}$\oplus$\fg{}.
+
+\begin{center}
+\begin{tabular}{|c||c|c|c|c|} \hline
+qubit       & $\ket{\uparrow}$ & $\ket{\rightarrow}$ & $\ket{\nearrow}$ & $\ket{\searrow}$ \\ \hline
+information & 0 & 1 & \begin{tabular}{c}0 ou 1 \\ ($50\%$ chaque)\end{tabular} & \begin{tabular}{c}0 ou 1 \\ ($50\%$ chaque)\end{tabular} \\ \hline
+\end{tabular}
+\end{center}
+
+\medskip
+
+\textbf{Seconde base de mesure  \og{}$\otimes$\fg{}.}
+
+Voici l'information que Bob obtient lorsqu'il mesure le qubit reçu dans la base \og{}$\otimes$\fg{}.
+
+\begin{center}
+\begin{tabular}{|c||c|c|c|c|} \hline
+qubit       & $\ket{\uparrow}$ & $\ket{\rightarrow}$ & $\ket{\nearrow}$ & $\ket{\searrow}$ \\ \hline
+information & \begin{tabular}{c}0 ou 1 \\ ($50\%$ chaque)\end{tabular} & \begin{tabular}{c}0 ou 1 \\ ($50\%$ chaque)\end{tabular}   & 0 & 1 \\ \hline
+\end{tabular}
+\end{center}
+
+
+\medskip
+
+\textbf{Conclusion.}
+Si Bob effectue la mesure dans la même base que celle d'envoi alors il obtient exactement l'information $0$ ou $1$ envoyée par Alice. Par contre s'il mesure dans l'autre base que celle d'envoi, il obtient  alors un bit $0$ ou $1$ aléatoire qui n'a rien à voir avec l'information envoyée par Alice.
+
+
+\medskip
+
+\textbf{Circuits quantiques}
+
+Base \og{}$\oplus$\fg{}.
+Pour l'envoi il n'y a rien à faire, le qubit est $\ket0$ ou $\ket1$.
+Pour la réception, il s'agit juste d'une mesure classique :
+{\large$$
+\Qcircuit @C=1em @R=1em {
+& \meter & \qwa \\
+}
+$$}
+
+\medskip
+
+On retrouve bien que, par exemple, $\ket{\nearrow} = \frac{1}{\sqrt2}(\ket{0}+\ket1)$ se mesure en $0$ ou $1$ avec chacun une probabilité $\frac12$.
+
+\medskip
+
+Base \og{}$\otimes$\fg{}.
+Pour l'envoi, l'information $0$ est codée par $H\ket0 = \ket{\nearrow}$ et 
+l'information $1$ est codée par $H\ket1 = \ket{\searrow}$. Donc une porte \mygate{H} de Hadamard suffit.
+{\large$$
+\Qcircuit @C=1em @R=1em {
+& \gate{H} & \qwa \\
+}
+$$}
+
+\medskip
+
+Pour la réception, le circuit est composé d'une porte \mygate{H} suivi d'une mesure :
+{\large$$
+\Qcircuit @C=1em @R=1em {
+& \gate{H} & \meter & \qwa \\
+}
+$$}
+
+\medskip
+
+Par exemple si le qubit reçu est $\ket{\searrow} = \frac{1}{\sqrt2}(\ket{0}-\ket1)$, alors la porte de Hadamard l'envoie sur $\ket1$ qui se mesure en $1$. (On pourrait aussi utiliser que $H \circ H \ket\psi = \ket\psi$.)
+
+
+%--------------------------------------------------------------------
+\subsection{Protocole}
+
+Voici le protocole de partage d'un secret commun.
+
+\textbf{1. Alice -- envoi.}
+
+\begin{itemize}
+  \item Alice choisit des bits $0$ ou $1$ au hasard.
+  \item Par chaque bit, elle choisit au hasard une base d'envoi $\oplus$ ou $\otimes$.
+  \item Pour chaque bit, elle a donc quatre situations et elle envoie le qubit correspondant :
+\begin{center}
+\begin{tabular}{|c||c|c|c|c|} \hline
+bit/base   & $(0,\oplus)$ & $(1,\oplus)$ & $(0,\otimes)$ & $(1,\otimes)$ \\ \hline
+qubit      & $\ket{\uparrow}$ & $\ket{\rightarrow}$ & $\ket{\nearrow}$ & $\ket{\searrow}$ \\ \hline
+\end{tabular}
+\end{center}
+\end{itemize}
+
+\medskip
+
+\textbf{2. Bob -- réception.}
+
+\begin{itemize}
+  \item  Bob reçoit une liste de qubits.
+  \item Pour chaque qubit il choisit au hasard une base de mesure $\oplus$ ou $\otimes$.
+  \item Bob mesure chaque qubit reçu parmi $\ket{\uparrow}$, $\ket{\rightarrow}$, $\ket{\nearrow}$, $\ket{\searrow}$ dans la base choisie $\oplus$ ou $\otimes$.
+\end{itemize}
+
+\medskip
+
+\textbf{3. Alice \& Bob -- mise en commun.}
+
+\begin{itemize}
+  \item Alice et Bob établissent la liste de leurs bases identiques (les deux ont choisi $\oplus$ ou les deux ont choisi $\otimes$). Cette discussion peut être publique.
+  \item Alice et Bob ne conservent que les rangs où les choix de base sont identiques. Les autres sont oubliés.
+  \item Alice ne conserve que les bits correspondant à ces rangs.
+  \item Pour chacun de ces rangs, Bob mesure dans la base (commune) et obtient le même bit qu'Alice.
+\end{itemize}
+
+
+%--------------------------------------------------------------------
+\subsection{Exemple}
+
+Voici un exemple. \`A vous de terminer de compléter ce tableau.
+\begin{center}
+\begin{tabular}{|c|*{9}{|c}|}
+\hline
+Alice bit      & 1                 & 0               & 0               & 1              & 1              & 1 & 0 & 1 & 0 \\ \hline
+Alice base     & $\oplus$          & $\otimes$       & $\oplus$        & $\otimes$      & $\otimes$      & $\oplus$ & $\oplus$ & $\otimes$ & $\otimes$ \\ \hline
+Qubit          & $\ket\rightarrow$ & $\ket\nearrow$  & $\ket\uparrow$  & $\ket\searrow$ & $\ket\searrow$ & & & & \\ \hline
+Bob base       & $\oplus$          & $\oplus$        & $\oplus$        & $\otimes$      & $\oplus$       & $\otimes$ & $\oplus$  & $\otimes$ & $\oplus$ \\ \hline
+Base commune ? & oui               & non             & oui             & oui            & non            & \hphantom{xxx} & \hphantom{xxx}& \hphantom{xxx}& \hphantom{xxx}\\ \hline
+Bit commun     & 1                 &                 & 0               & 1              &                & & & & \\ \hline
+\end{tabular}
+\end{center}
+
+Le message commun est $1.0.1\ldots$
+
+
+%--------------------------------------------------------------------
+\subsection{Sûreté}
+
+
+Pour l'instant Alice et Bob partagent un message commun. Mais celui-ci est-il secret ? Il faut s'assurer que le message n'a pas été intercepté ou modifié en cours de transmission.
+
+
+\myfigure{0.8}{
+  \tikzinput{fig-crypto-05}
+}
+
+La sécurité repose sur le théorème de non clonage quantique (voir le chapitre \og{}Portes quantiques\fg{}). Ève ne peut pas lire un qubit puis le renvoyer à Bob. En effet, toute mesure modifie irrémédiablement le qubit.
+
+
+\medskip
+
+Expliquons sur un exemple : Alice envoie l'information $0$ dans la base $\otimes$, c'est-à-dire qu'elle transmet le qubit $\ket\nearrow$. Ève doit choisir une base pour sa lecture (car elle ne connaît pas la base d'envoi d'Alice).
+\begin{itemize}
+  \item Si elle choisit la base $\otimes$, alors la mesure de $\ket\nearrow$ donne toujours $0$, son interception est réussie ;
+  \item si elle choisit la base $\oplus$, alors la mesure de $\ket\nearrow$ donne $0$ (avec probabilité $\frac12$, interception réussie) ou $1$ (avec probabilité $\frac12$, interception ratée).
+\end{itemize}
+Ève ne sait pas si elle a choisi la bonne base.
+Si elle a choisi la bonne base alors elle pourrait renvoyer le bon qubit à Bob. Mais si elle a choisi la mauvaise base elle va renvoyer $\ket\uparrow$ ou $\ket\rightarrow$ à Bob.
+Lorsque Bob va vérifier avec Alice qu'il a la bonne base, alors la lecture de $\ket\uparrow$ ou $\ket\rightarrow$ dans la base $\otimes$ va donner $0$ ou $1$, et le bit sera faux dans la moitié des cas.
+
+Bilan : Ève obtient la bonne information $0/1$ dans les $\frac34$ des cas (mais sans savoir quand c'est bon ou mauvais). Mais surtout si Ève intervient lors de la transmission, alors Bob obtient un mauvais bit d'information avec une probabilité $\frac14$ (parmi les bits du message commun).
+
+
+\medskip
+
+Voici donc la fin du protocole.
+
+\textbf{4. Alice \& Bob -- vérification de la sécurité.}
+
+\begin{itemize}
+  \item Alice et Bob se communiquent publiquement un échantillon de $n$ bits du message commun (par exemple les $n$ premiers bits).
+  \item Si les échantillons ne sont pas exactement les mêmes alors un espion est intervenu, l'ensemble du message est compromis et il faut tout recommencer.
+  \item Si les échantillons sont exactement identiques, alors la transmission est considérée comme sûre (d'autant plus sûre que $n$ est grand). Le reste du message constitue alors le secret commun.
+\end{itemize}
+
+\myfigure{0.8}{
+  \tikzinput{fig-crypto-06}
+}
+
+
+Détaillons les calculs de la sécurité de la transmission. 
+\begin{itemize}
+  \item Si aucun espion intervient, alors les échantillons d'Alice et Bob sont toujours identiques (probabilité $1$, quelle que soit la taille $n$ de l'échantillon).
+  \item Si un espion intervient entre Alice et Bob alors, pour chaque bit, la probabilité qu'il parvienne correctement à Bob est de $\frac34$. Donc les échantillons de $n$ bits d'Alice et Bob sont complètement identiques avec probabilité $\left(\frac34\right)^n$.
+  Si $n$ est assez grand, alors cette probabilité est presque nulle. Ce qui signifie qu'on détecte presque sûrement la présence d'un espion.
+
+  \item Voici des exemples :
+  \begin{itemize}
+    \item $n=10$ : $\left(\frac34\right)^{10} = 0.0563$, donc dans environ $95\%$ des cas l'espion est repéré,
+
+    \item $n=20$ : $\left(\frac34\right)^{20} = 0.003\ldots$ donc dans $99.7\%$ des cas l'espion est repéré,
+    \item $n=100$ : $\left(\frac34\right)^{100} \simeq 3 \cdot 10^{-13}$ donc l'espion est repéré sauf $1$ fois sur $1\,000\,000\,000\,000$.
+  \end{itemize}
+\end{itemize}
+
+\medskip
+
+\textbf{Bilan.}
+\begin{itemize}
+  \item Alice et Bob partagent un secret commun,
+  \item ils sont raisonnablement certains de ne pas avoir été espionnés,
+  \item ce secret commun peut servir de masque jetable pour une communication chiffrée.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Alice et Bob divorcent : qui garde le chien ?}
+
+Alice et Bob ne se font plus confiance, et ils doivent décider par téléphone qui garde le chien. L'un pourrait tirer à pile ou face et annoncer le résultat à l'autre mais chacun pense que l'autre peut tricher. Comment faire ?
+
+Nous allons voir la simulation d'un tirage à pile ou face à distance dans le monde quantique. Voici le protocole expliqué simplement : Alice et Bob tirent chacun de leur côté une pièce à pile ou face. S'ils obtiennent tous les deux \og{}pile\fg{} ou tous les deux \og{}face\fg{} c'est Bob qui gagne, sinon c'est Alice. Le point crucial est de se débrouiller pour qu'aucun des deux ne puisse mentir en annonçant son résultat.
+
+%--------------------------------------------------------------------
+\subsection{Protocole}
+
+\textbf{1. Alice choisit une base d'envoi $\oplus$ ou $\otimes$.}
+
+\begin{itemize}
+  \item Alice décide au hasard d'une base d'envoi $\oplus$ ou $\otimes$ (c'est son tirage à pile ou face).
+  \item Elle envoie une série aléatoire de bits, par exemple $0.0.1.0.1.1$.
+  \item Elle envoie les qubits correspondant dans la base qu'elle a choisie. Par exemple :
+  \begin{itemize}
+    \item si elle a choisi la base $\oplus$ : $\ket\uparrow$, $\ket\uparrow$, $\ket\rightarrow$, $\ket\uparrow$, $\ket\rightarrow$, $\ket\rightarrow$,
+    \item si elle a choisi la base $\otimes$ : $\ket\nearrow$, $\ket\nearrow$, $\ket\searrow$, $\ket\nearrow$, $\ket\searrow$, $\ket\searrow$.
+  \end{itemize}
+\end{itemize}  
+
+\medskip
+
+\textbf{2. Bob choisit une base de mesure $\oplus$ ou $\otimes$.}
+
+\begin{itemize}
+  \item Bod décide au hasard d'une base de mesure $\oplus$ ou $\otimes$ (c'est son tirage à pile ou face).
+  \item Il effectue la mesure des qubit reçus dans la base qu'il a choisie.
+  \item Il obtient une suite de mesures $0$ ou $1$.
+\end{itemize}  
+
+
+\medskip
+
+\textbf{3. Bob annonce la base qu'il a choisie pour la mesure.}
+
+\medskip
+
+\textbf{4. Alice dévoile la base qu'elle avait choisie pour l'envoi ainsi que les bits transmis.}
+
+\medskip
+
+\textbf{5. Gagnant : si les deux bases coïncident Bob a gagné, sinon c'est Alice.}
+
+\medskip
+
+\textbf{6. Vérification : Bob vérifie qu'Alice n'a pas menti.}
+Bob a annoncé son choix avant Alice il doit donc vérifier qu'Alice n'a pas triché, pour cela il compare sa mesure avec les bits d'Alice :
+\begin{itemize}
+  \item s'il a trouvé la bonne base, alors sa mesure est exactement la même que les bits d'Alice,
+  \item s'il n'a pas trouvé la bonne base, alors il doit avoir en moyenne la moitié des bits corrects et la moitié des bits faux.
+\end{itemize}
+Il sait donc s'il a trouvé la bonne base ou pas.
+Plus de détails sur la vérification sont donnés ci-dessous.
+
+
+%--------------------------------------------------------------------
+\subsection{Vérifications}
+
+
+Tout d'abord Bob ne peut pas tricher, d'une part les mesures qu'il effectue ne permettent pas de déduire quelle base d'envoi Alice avait choisie et d'autre part Bob annonce en premier sa base à Alice.
+
+
+Voyons comment Bob vérifie le résultat annoncé par Alice.
+
+Imaginons qu'Alice ait choisi la base $\oplus$ et les bits
+$0.0.1.0.1.1$ elle transmet donc les qubits 
+$\ket\uparrow$, $\ket\uparrow$, $\ket\rightarrow$, $\ket\uparrow$, $\ket\rightarrow$, $\ket\rightarrow$.
+
+Si Bob a choisi de mesurer les qubits dans la même base $\oplus$ alors il va obtenir après mesure la même suite de bits $0.0.1.0.1.1$. Donc dans le cas où il gagne les bits d'Alice et de Bob sont identiques.
+
+Si Bob a choisi l'autre base, ici $\otimes$, alors la mesure de $\ket\uparrow$, $\ket\rightarrow$, conduit à $0$ ou $1$ aléatoirement. Il va donc, en moyenne, avoir la moitié de bits faux et l'autre moitié corrects.  La probabilité que les $n$ bits de Bob coïncident exactement avec les $n$ bits d'Alice est $\frac{1}{2^n}$ et est donc très faible (si $n$ est assez grand).
+
+Bilan : Bob sait s'il a choisi la même base qu'Alice juste en comparant les bits mesurés avec les bits annoncés par Alice. 
+
+
+Par contre, Alice pourrait essayer de tricher : si Bob choisit la base $\oplus$, elle pourrait mentir pour faire perdre Bob et dire \og{}J'avais choisi la base $\otimes$\fg{} ou inversement.
+Mais dans ce cas, elle va être démasquée car elle a déjà envoyé les qubits qui ont déjà été mesurés pars Bob et ne peut donc plus rien modifier.
+Or, comme on l'a déjà vu, la mesure des qubits $\ket\uparrow$, $\ket\uparrow$, $\ket\rightarrow$, $\ket\uparrow$, $\ket\rightarrow$, $\ket\rightarrow$ dans la base $\otimes$ a très peu de chance de donner exactement $0.0.1.0.1.1$.
+
+\bigskip
+
+La cryptographie quantique n'en est encore qu'à ces débuts, c'est tout un domaine à découvrir !
+
+\end{document}

@@ -1,0 +1,25 @@
+\begin{tikzpicture}
+
+       \draw[->,>=latex, gray] (-1,0)--(21,0) node[below right]{premier registre};
+       \draw[->,>=latex, gray] (0,-.5)--(0,4) node[right]{probabilité};
+
+%    \foreach\i in {1,...,20}{
+%       \draw (\i,+0.2) -- (\i,-0.2);
+%  }
+
+    \foreach\i in {3,7,11,15,19}{
+       \draw[red, ultra thick] (\i,0) -- ++(0,2);
+  }
+
+    \foreach\i in {0,1,2,4,5,6,8,9,10,12,13,14,16,17,18,20}{
+       \draw[red, ultra thick] (\i,0) circle(2pt);
+  }
+
+  \node at (3,0)[below]{$\ket{\underline{\beta_0}}$};
+  \node at (7,0)[below]{$\ket{\underline{r+\beta_0}}$};
+  \node at (11,0)[below=2ex]{$\ldots$};
+  \node at (15,0)[below]{$\ket{\underline{\alpha r+\beta_0}}$};
+
+         \draw[<->,>=latex,blue,  thick] (3,2.2) -- ++(4,0) node[midway,above]{$r$};
+
+\end{tikzpicture}

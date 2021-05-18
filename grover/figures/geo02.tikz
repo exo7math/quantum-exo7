@@ -1,0 +1,11 @@
+﻿\begin{tikzpicture}
+
+\draw[->,>=latex, very thick,gray] (-1,0)--(4,0) node[below,black] {$\ket{\underline0}$};
+\draw[->,>=latex, very thick, gray] (0,-2.5)--(0,2.5) node[left,black] {$\ket{\text{reste}}$};
+
+\draw[->,>=latex,red,ultra thick] (0,0) -- ++(3,2) node[right]{$\ket\phi$};
+\draw[->,>=latex,red,ultra thick] (0,0) -- ++(3,-2) node[right]{$S_0\ket\phi$};
+
+\draw[dashed] (3,2)--(3,-2);
+
+\end{tikzpicture}

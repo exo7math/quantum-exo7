@@ -1,0 +1,7 @@
+﻿\begin{tikzpicture}
+
+\node at (-65:1.5) {$(x,y,z)$};
+\fill[ball color=red] (0,0) circle (0.5);
+\draw[->,>=latex,ultra thick] (30:0.6) to node[midway,below right]{$(v_x,v_y,v_z)$} ++ (30:5);
+
+\end{tikzpicture}

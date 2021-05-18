@@ -1,0 +1,36 @@
+\begin{tikzpicture}
+
+       \draw[->,>=latex, gray] (-4.5,0)--(4.5,0);
+       \draw[->,>=latex, gray] (0,-3.5)--(0,3.5);
+
+      \coordinate (A) at (120:2.5);
+      \coordinate (B) at (240:2.5);
+
+
+
+       \draw[thick,gray] (0,0) circle(2.5);
+
+       \draw[thick, gray] (0,0)--(2.5,0);
+       \draw[thick,gray] (0,0)--(A);
+       \draw[thick,gray] (0,0)--(B);
+
+       
+       \fill (2.5,0) circle (2pt);
+       \fill (0,0) circle (1pt);
+       \fill (0,2.5) circle (1pt);
+       \fill (A) circle (2pt);
+       \fill (B) circle (2pt);
+
+       \fill[thick] (0,0) circle (1.5pt);
+
+       \node at (0,0) [above right] {$0$};
+       \node at (2.5,0) [above right, color=red] {$\omega^0=1$};
+       \node at (0,2.5) [above left] {$\ii$};
+       \node at (A) [above left, color=red] {$\omega=e^{2\ii \pi/3}$};
+       \node at (B) [below left, color=red] {$\omega^2=e^{4\ii \pi/3}$};
+
+
+       \draw[myred, very thick] (2.5,0)--(A)--(B) --cycle;
+
+       \node at (0,-4) {$n=3$, $\omega = e^{\frac{2\ii\pi}{3}}$};
+\end{tikzpicture}

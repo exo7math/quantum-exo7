@@ -1,0 +1,35 @@
+\begin{tikzpicture}[scale=1]
+
+
+\node[rectangle,draw] (B1) at (-3,0) {
+\begin{tabular}{c}
+\it 1. Préparation \\
+\'Etat de Bell $\ket{\Phi^+}$
+\end{tabular}
+};
+\node[above =2ex of B1] {\bf Charlie};
+
+
+\node[rectangle,draw] (B2) at (3,1.5) {
+\begin{tabular}{c}
+\it 2. Codage  \\
+de l'information
+\end{tabular}
+};
+\node[above =2ex of B2] {\bf Alice};
+
+
+\node[rectangle,draw] (B3) at (9,-2) {
+\begin{tabular}{c}
+\it 3. Décodage et mesure \\
+\end{tabular}
+};
+\node[above =2ex of B3] {\bf Bob};
+
+
+\draw[->,>=latex,line width=2pt,green!70!black] ($(B1.east) + (0,+0.2)$) to  ++(1,0) to node  [midway, above left,black]{qubit} (B2.west);
+
+\draw[->,>=latex,line width=2pt,green!70!black] ($(B1.east) + (0,-0.2)$)--++(1,0) to node  [midway, below,black]{qubit}($(B3.west)+(0,-0.2)$) ;
+
+\draw[->,>=latex,line width=2pt,green!70!black] ($(B2.east) + (0,0.3)$)--++(1,0) to node  [midway, right,black]{qubit} ($(B3.west)+(0,0.1)$);
+\end{tikzpicture}

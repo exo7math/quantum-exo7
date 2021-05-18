@@ -1,0 +1,1091 @@
+\documentclass[11pt,class=report,crop=false]{standalone}
+\usepackage[screen]{../python}
+
+
+
+\begin{document}
+
+
+%====================================================================
+\chapitre{Portes quantiques}
+%====================================================================
+
+
+\objectifs{Nous approfondissons nos connaissances théoriques des portes quantiques en étudiant ce qu'elles peuvent réaliser (ou pas !).}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{La porte de Toffoli est universelle}
+
+%--------------------------------------------------------------------
+\subsection{Quelques portes quantiques}
+
+Nous présentons de nouvelles portes et leur lien avec des portes déjà rencontrées.
+
+\bigskip
+
+\textbf{Porte CNOT.}\index{porte!CNOT}
+Nous connaissons bien la porte \mygate{CNOT}.
+{\large$$
+\Qcircuit @C=1em @R=1em {
+& \ctrl{1} &  \qw \\
+& \targ &  \qw
+}
+$$}
+
+On rappelle que la porte \mygate{CNOT} est une porte \mygate{NOT} conditionnelle, si sur la première ligne on a le qubit $\ket0$ alors la seconde ligne est inchangée ; par contre si le qubit de la première ligne est $\ket1$ alors la seconde échange le qubit $\ket0$ en $\ket1$ et inversement.
+Si $x,y$ ont pour valeurs $0$ ou $1$, alors l'action sur la seconde ligne est en fait $y \oplus x$ où \og{}$\oplus$\fg{} est l'addition binaire (et ne doit pas être confondue avec l'addition de qubits).
+{\large$$
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket x}& \ctrl{1} &  \rstick{\ket x}\qw \\
+\lstick{\ket y}& \targ &  \rstick{\ket{y \oplus x}}\qw
+}
+$$}
+
+\medskip
+
+$$
+\ket{0.0} \xmapsto{\quad\mygate{CNOT}\quad} \ket{0.0} \qquad
+\ket{0.1} \xmapsto{\quad\mygate{CNOT}\quad} \ket{0.1} \qquad
+\ket{1.0} \xmapsto{\quad\mygate{CNOT}\quad} \ket{1.1} \qquad
+\ket{1.1} \xmapsto{\quad\mygate{CNOT}\quad} \ket{1.0}
+$$
+
+Voici la matrice de la transformation de \mygate{CNOT} (dans la base $(\ket{0.0},\ket{0.1},\ket{1.0},\ket{1.1})$) :
+$$M = 
+\left(\begin{array}{cc|cc}
+1&0&0&0\\
+0&1&0&0\\ \hline
+0&0&0&1\\
+0&0&1&0\\  
+\end{array}\right)$$
+
+
+\bigskip
+\bigskip
+
+\textbf{Porte SWAP.}\index{porte!SWAP}
+La porte \mygate{SWAP} échange deux qubits.
+Voici sa notation :
+{\large$$
+\Qcircuit @C=1em @R=1em {
+          & \qw & \link{1}{-1} & \qw \\
+          & \qw & \link{-1}{-1} & \qw
+         % \gategroup{1}{2}{2}{3}{.8em}{}
+     }
+\raisebox{-0.7ex}{\qquad\qquad\text{ ou }\qquad\qquad}
+\Qcircuit @C=1em @R=1em {
+ & \qswap & \qw \\
+ & \qswap \qwx & \qw \\
+}
+$$}
+
+\medskip
+
+Comme on l'a dit, cette porte échange deux qubits :
+{\large$$
+\Qcircuit @C=1.5em @R=1.5em {
+        \lstick{\ket\phi}  & \qw & \link{1}{-1} & \rstick{\ket\psi}\qwa \\
+        \lstick{\ket\psi} & \qw & \link{-1}{-1} & \rstick{\ket\phi}\qwa
+        % \gategroup{1}{2}{2}{3}{.8em}{}
+     }
+$$}
+
+
+
+
+\begin{exercicecours}
+Calculer l'image des $2$-qubits de la base canonique $(\ket{0.0}, \ket{0.1}, \ket{1.0}, \ket{1.1})$ et en déduire la matrice $4\times 4$ de la porte \mygate{SWAP}.
+\end{exercicecours}
+
+
+\begin{exercicecours}
+Montrer qu'une porte \mygate{SWAP} est équivalente à un circuit réalisé à partir de trois portes \mygate{CNOT}. 
+{\large$$
+\raisebox{-0.5ex}{\Qcircuit @C=1em @R=1em {
+          & \qw & \link{1}{-1} & \qw \\
+          & \qw & \link{-1}{-1} & \qw
+         % \gategroup{1}{2}{2}{3}{.8em}{}
+     }}
+\qquad\qquad \raisebox{-2ex}{=} \qquad\qquad
+\Qcircuit @C=1em @R=1em {
+& \ctrl{1} &  \targ    & \ctrl{1} & \qw \\
+& \targ    & \ctrl{-1} & \targ    & \qw
+}
+$$}
+
+\medskip
+
+\emph{Indication.} Il suffit de le vérifier sur les $2$-qubits de la base canonique.
+\end{exercicecours}
+
+\begin{exercicecours}
+Montrer que le circuit suivant, construit à partir de trois portes \mygate{SWAP} correspond à une porte \mygate{SWAP_3} qui renverse l'ordre de $3$ qubits, c'est-à-dire $(\ket{\psi_1},\ket{\psi_2},\ket{\psi_3}) \mapsto (\ket{\psi_3},\ket{\psi_2},\ket{\psi_1})$.
+
+{\large$$
+\raisebox{-0.5ex}{\Qcircuit @C=1.5em @R=1.5em {
+\lstick{\ket{\psi_1}} & \qw & \link{1}{-1}  & \qw           & \link{1}{-1}  & \rstick{\ket{\psi_3}}\qwa \\
+\lstick{\ket{\psi_2}} & \qw & \link{-1}{-1} & \link{1}{-1}  & \link{-1}{-1} & \rstick{\ket{\psi_2}}\qwa \\
+\lstick{\ket{\psi_3}} & \qw & \qw           & \link{-1}{-1} & \qw           & \rstick{\ket{\psi_1}}\qwa 
+         % \gategroup{1}{2}{2}{3}{.8em}{}
+     }}
+$$}
+
+\bigskip
+
+Il existe un circuit qui, à partir de portes \mygate{SWAP}, réalise une porte \mygate{SWAP_n} renversant l'ordre de $n$ qubits, c'est-à-dire $(\ket{\psi_1},\ket{\psi_2},\ldots,\ket{\psi_n}) \mapsto (\ket{\psi_n},\ldots,\ket{\psi_2},\ket{\psi_1})$.
+Construire un tel circuit pour $n=4$.
+\end{exercicecours}
+
+
+\bigskip
+
+\textbf{Porte FANOUT.}\index{porte!FANOUT}
+La porte \mygate{FANOUT} transforme un $1$-qubit en un $2$-qubit.
+Dans un circuit quantique, cela permet d'augmenter le nombre de lignes quantiques.
+{\large$$
+\Qcircuit @C=1.5em @R=1.5em {
+         &        & \link{1}{-1} & \qwa \\
+   \lstick{\ket\phi = \alpha\ket0+\beta\ket1}      & \qw   && \\
+         &        & \link{-1}{-1} & \qwa \\
+     }
+\quad\raise-3ex\hbox{$\Bigg\} \ket\psi = \alpha\ket{0.0}+\beta\ket{1.1}$}
+$$}
+
+\bigskip
+
+\textbf{Piège.}
+La porte \mygate{FANOUT} envoie $\ket{0}$ sur $\ket{0.0}$ et $\ket{1}$ sur $\ket{1.1}$.
+{\large$$
+\Qcircuit @C=1.5em @R=1.5em {
+                &     & \link{1}{-1}  & \rstick{\ket0}\qwa \\
+ \lstick{\ket0} & \qw &               & \\
+                &     & \link{-1}{-1} & \rstick{\ket0}\qwa \\
+     }
+\qquad\qquad\qquad\qquad\qquad\qquad
+\Qcircuit @C=1.5em @R=1.5em {
+                &     & \link{1}{-1}  & \rstick{\ket1}\qwa \\
+ \lstick{\ket1} & \qw &               & \\
+                &     & \link{-1}{-1} & \rstick{\ket1}\qwa \\
+     }
+$$}
+\bigskip
+
+Cependant, il faut bien comprendre la porte \mygate{FANOUT} ne réalise pas un copier-coller du $1$-qubit d'entrée.
+$$\raise-3.5ex\hbox{\text{Ceci n'est pas vrai : }}\qquad\qquad
+\large
+\Qcircuit @C=1.5em @R=1.5em {
+                &     & \link{1}{-1}  & \rstick{\ket\phi}\qwa \\
+ \lstick{\ket\phi} & \qw &               & \\
+                &     & \link{-1}{-1} & \rstick{\ket\phi}\qwa \\
+     }
+$$
+\bigskip
+
+D'ailleurs, une telle porte ne peut pas exister ! Ce sera prouvé par le théorème de non-clonage quantique en fin de chapitre.
+
+
+\begin{exercicecours}
+Montrer qu'une porte \mygate{FANOUT} peut être réalisée à partir d'une porte \mygate{CNOT} initialisée par $\ket0$ sur sa seconde ligne.
+{\large$$
+\Qcircuit @C=1.5em @R=1.5em {
+         &        & \link{1}{-1} & \qwa \\
+   \lstick{\ket\phi}      & \qw   && \\
+         &        & \link{-1}{-1} & \qwa \\
+     }
+\quad\raise-3ex\hbox{$\Bigg\} \ket\psi$}
+\qquad \raisebox{-2.5ex}{=} \qquad\qquad\qquad
+\Qcircuit @C=1.5em @R=1.5em {
+\lstick{\ket\phi}& \ctrl{1} &    \qwa \\
+\lstick{\ket0} & \targ    &      \qwa \\
+}
+\quad\raise-3ex\hbox{$\Bigg\} \ket\psi$}
+$$}
+
+\end{exercicecours}
+
+
+\bigskip
+
+\textbf{Porte de Toffoli (CCNOT).}\index{porte!de Toffoli}\index{porte!CCNOT}
+La porte de Toffoli est similaire à une porte \mygate{CNOT} mais avec trois lignes. Si les deux premiers qubits sont $\ket{1}$, alors on applique une porte \mygate{X} (c'est-à-dire \mygate{NOT}) au troisième qubit.
+
+{\large$$
+\Qcircuit @C=1em @R=1em {
+& \ctrl{2} &  \qw \\
+& \ctrl{1} &  \qw \\
+& \targ &  \qw \\
+}
+$$}
+
+\bigskip
+
+Voici l'action d'une porte de Toffoli lorsque $x,y,z$ sont des bits $0$ ou $1$ (noter que $xy=1$ si et seulement si $x=1$ et $y=1$ et alors $1 \oplus z = NOT(z)$).
+{\large$$
+\Qcircuit @C=1em @R=1em {
+\lstick{x} & \ctrl{2} &  \rstick{x}\qwa \\
+\lstick{y} & \ctrl{1} &  \rstick{y}\qw \\
+\lstick{z} & \targ &   \rstick{z \oplus (xy)}\qw \\
+}
+$$}
+
+\bigskip
+
+$$M = 
+\left(\begin{array}{cc|cc|cc|cc}
+1&0&& &&&&\\
+0&1&& &&&&\\ \hline
+&&1&0 &&&&\\
+&&0&1 &&&&\\ \hline
+ &&&& 1&0&&\\
+ &&&& 0&1&&\\ \hline
+ &&&& &&0&1\\
+ &&&& &&1&0\\ 
+\end{array}\right)$$
+
+
+\begin{exercicecours}
+Montrer qu'une porte Toffoli permet de réaliser une porte \mygate{CNOT}.
+Il suffit d'imposer le qubit $\ket1$ en entrée de la seconde ligne.
+{\large$$
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket\phi} & \ctrl{2} &  \rstick{\ket\phi}\qwa \\
+\lstick{\ket1} & \ctrl{1} & \qw  \\
+\lstick{\ket\psi} & \targ &   \rstick{\ket{\psi'}}\qwa \\
+}
+\qquad\qquad\qquad \raisebox{-2.5ex}{=} \qquad\qquad\qquad
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket\phi} & \ctrl{2} &  \rstick{\ket\phi}\qwa \\
+ &  &   \\
+\lstick{\ket\psi} & \targ &   \rstick{\ket{\psi'}}\qwa \\
+}
+$$}
+
+\end{exercicecours}
+	
+
+\begin{exercicecours}[Difficile] 
+
+
+% [[Toffoli à partir de CNOT (voir Nielsen -- Chuang, p. 182).]]
+On peut réaliser une porte de Toffoli à partir de plusieurs portes \mygate{CNOT} et de portes élémentaires \mygate{S}, \mygate{H}, \mygate{T} et son adjointe $\mygate{T^*}$.
+
+{\large$$
+\raisebox{-1.5ex}{
+\Qcircuit @C=1em @R=1em {
+ & \ctrl{2} & \qw \\
+ & \ctrl{1} & \qw \\
+ & \targ    & \qw \\
+}}
+\qquad \raisebox{-4.5ex}{=} \qquad
+\Qcircuit @C=1em @R=1em {
+ & \qw      & \qw      & \qw        & \ctrl{2} & \qw      & \qw      & \qw        & \ctrl{2} & \qw        & \ctrl{1} & \qw        & \ctrl{1} & \gate{T} & \qw \\
+ & \qw      & \ctrl{1} & \qw        & \qw      & \qw      & \ctrl{1} & \qw        & \qw      & \gate{T^*} & \targ    & \gate{T^*} & \targ    & \gate{S} & \qw \\
+ & \gate{H} & \targ    & \gate{T^*} & \targ    & \gate{T} & \targ    & \gate{T^*} & \targ    & \gate{T}   & \gate{H} & \qw        & \qw      & \qw      & \qw \\
+}
+$$}
+\medskip
+
+Essayer de prouver cette construction, soit par un calcul théorique, soit expérimentalement à l'aide d'un ordinateur (voir le chapitre \og{}Utiliser un ordinateur quantique (avec Qiskit)\fg{}).
+
+\bigskip
+
+
+On rappelle qu'une porte $H$ de Hadamard est définie par la matrice :
+$$H = \frac1{\sqrt2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}.$$
+
+La porte \mygate{S} est appelé \og{}porte phase\fg{} et est définie par la matrice :
+$$S = \begin{pmatrix}1&0\\0&\ii\end{pmatrix}.$$
+
+
+La porte $\frac\pi8$ est définie par la matrice unitaire :
+$$T = \begin{pmatrix}1&0\\0&e^{\ii\frac\pi4}\end{pmatrix}$$
+et
+donc $$T^* = \begin{pmatrix}1&0\\0&e^{-\ii\frac\pi4}\end{pmatrix}.$$
+\end{exercicecours}
+
+
+
+%--------------------------------------------------------------------
+\subsection{Théorème d'universalité}
+
+\begin{theoreme}
+La porte de Toffoli est universelle : n'importe quelle fonction logique $f : \{0,1\}^n \to \{0,1\}$
+peut être réalisée par un circuit quantique ne comportant que des portes de Toffoli.
+\end{theoreme}
+\index{porte!universelle}
+
+\emph{Remarque.}
+La réalisation pratique requiert l'ajout de lignes auxiliaires.
+
+\emph{Preuve.}
+\begin{itemize}
+  \item On sait que n'importe quelle fonction logique $f : \{0,1\}^n \to \{0,1\}$ peut être réalisée par un circuit classique ne comportant que des portes \mygate{NAND} (voir le chapitre \og{}Informatique classique\fg{}).
+
+\smallskip 
+\myfigure{0.8}{
+\tikzinput{portes_nand}
+}
+
+
+  \item On réalise facilement l'équivalent d'une porte \mygate{NAND} à l'aide d'une porte de Toffoli en l'initialisant avec un $1$ sur la troisième ligne. L'entrée correspond aux deux premières lignes et la sortie à la troisième ligne.
+{\large$$
+\Qcircuit @C=1em @R=1em {
+\lstick{x} & \ctrl{2} &  \qw \\
+\lstick{y} & \ctrl{1} &  \qw \\
+\lstick{1} & \targ &   \rstick{1 \oplus (xy) = NOT(x\ AND\ y)}\qwa \\
+}
+$$} 
+
+\medskip
+ 
+Pour vérifier que cela fonctionne, il faut remarquer que pour des bits $x,y$ valant $0$ ou $1$ alors $xy$ est la même chose que $x\ AND\ y$, et 
+donc $1 \oplus (xy) = NOT(x\ AND\ y)$.
+  
+  \item Conclusion : on réalise la fonction $f : \{0,1\}^n \to \{0,1\}$ en substituant chaque porte \mygate{NAND} par une porte de Toffoli, avec un $1$ sur sa troisième ligne.
+
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Oracle}
+
+\index{oracle}
+
+%--------------------------------------------------------------------
+\subsection{Définition}
+
+\textbf{Le groupe $\Zz/n\Zz$.}
+
+Le groupe $(\Zz/n\Zz,+)$ correspond à l'ensemble des entiers modulo $n$. On peut représenter ce groupe par l'ensemble $\{0,1,\ldots,n-1\}$, avec la convention que $n \equiv 0$, $n+1\equiv 1$,\ldots{} La loi de ce groupe est l'addition.
+
+On a déjà rencontré le groupe $\Zz/2\Zz$ (cas $n=2$) qui est l'ensemble 
+$\{0,1\}$ muni de l'addition binaire notée \og$\oplus$\fg{} (en préférence à \og$+$\fg) qui vérifie $1\oplus 1=0$, ce qui est cohérent car $1+1 = 2 \equiv 0$ modulo $2$.
+
+\textbf{Oracle.}
+
+Nous allons associer à une fonction $f$ un \emph{oracle}. L'oracle d'une fonction $f$ est un circuit quantique dont on explicite seulement l'entrée et la sortie (qui dépend de $f$). 
+C'est une sorte de boîte noire, car nous n'avons pas besoin de connaître les détails du circuit qui réalise un oracle.
+
+
+\textbf{Cas $f : \Zz/2\Zz \to \Zz/2\Zz$.}
+
+C'est le cas déjà rencontré dans le chapitre \og{}Un premier algorithme quantique\fg{}, la fonction était alors notée $f : \{0,1\} \to \{0,1\}$.
+
+Voici la transformation effectuée par un oracle, lorsque les entrées sont des bits classiques $0$ ou $1$ :
+{\large$$
+\Qcircuit @C=1em @R=1em {
+  & \qw  & \ustick{\scriptstyle x}\qw & \multigate{1}{O_f} & \ustick{\scriptstyle x}\qw & \qw &  \qwa \\
+ & \qw   & \dstick{\scriptstyle y}\qw & \ghost{O_f}           & \dstick{\scriptstyle \hspace{0.5em} y \oplus f(x)}\qw & \qw &  \qwa
+}
+$$}
+
+\bigskip
+
+Il y a deux lignes pour l'entrée de l'oracle et deux lignes pour la sortie. La première sortie laisse la première entrée inchangée. Pour la seconde sortie : si $x$ et $y$ sont $0$ ou $1$ alors la seconde sortie est $y \oplus f(x)$ ; c'est donc $y$ si $f(x)=0$ et $NON(y)$ si $f(x)=1$.
+
+Ainsi l'oracle associé à $f$ fournit une fonction 
+$$
+\begin{array}{cccc}
+F : & \Zz/2\Zz \times \Zz/2\Zz & \longrightarrow & \Zz/2\Zz \times \Zz/2\Zz \\
+    & (x,y)                    &\longmapsto      & \big( x , y \oplus f(x) \big)
+\end{array}
+$$
+
+Nous verrons plus tard comment cela définit naturellement une transformation quantique sur les $2$-qubits. Pour l'instant nous généralisons l'oracle au cas d'autres fonctions.
+
+
+
+\textbf{Cas $f : \Zz/n\Zz \to \Zz/2\Zz$.}
+
+Cette situation correspondra à l'algorithme de Grover.
+On fixe $n\ge2$ et on considère une fonction quelconque $f : \Zz/n\Zz \to \Zz/2\Zz$ que l'on peut aussi voir comme une fonction $f : \{0,1,\ldots,n-1\} \to \{0,1\}$.
+
+La transformation de l'oracle, pour $x \in \Zz/n\Zz$ et $y\in \Zz/2\Zz$, renvoie une nouvelle fois $x$ (élément de $\Zz/n\Zz$) et $y \oplus f(x)$ (élément de $\Zz/2\Zz$).
+
+{\large$$
+\Qcircuit @C=1em @R=1em {
+  & \qw  & \ustick{\scriptstyle x}\qw & \multigate{1}{O_f} & \ustick{\scriptstyle x}\qw & \qw &  \qwa \\
+ & \qw   & \dstick{\scriptstyle y}\qw & \ghost{O_f}           & \dstick{\scriptstyle \hspace{0.5em} y \oplus f(x)}\qw & \qw &  \qwa
+}
+$$}
+
+\bigskip
+
+On obtient ainsi : 
+$$
+\begin{array}{cccc}
+F : & \Zz/n\Zz \times \Zz/2\Zz & \longrightarrow & \Zz/n\Zz \times \Zz/2\Zz \\
+    & (x,y)                    &\longmapsto      & \big( x , y \oplus f(x) \big)
+\end{array}
+$$
+
+\begin{exemple}
+Fixons $\ell \in \{0,\ldots,n-1\}$ un entier et $f : \Zz/n\Zz \to \Zz/2\Zz$ tel que $f(x)=0$ pour tout $x$, sauf $f(\ell)=1$.
+Alors :
+\begin{itemize}
+  \item pour $x\neq \ell$ et $y=0$ on a $y \oplus f(x) = 0$,
+  \item pour $x\neq \ell$ et $y=1$ on a $y \oplus f(x) = 1$,
+  \item pour $x = \ell$ et $y=0$ on a $y \oplus f(x) = 1$,
+  \item pour $x = \ell$ et $y=1$ on a $y \oplus f(x) = 1 \oplus 1 = 0$.
+\end{itemize}
+\end{exemple}
+
+\bigskip
+
+\textbf{Cas $f : (\Zz/2\Zz)^k \to \Zz/2\Zz$.}
+
+Cette situation correspondra à l'algorithme de Deutsch--Jozsa.
+
+On fixe $k\ge1$ et on considère une fonction quelconque $f : \big(\Zz/2\Zz\big)^k \to \Zz/2\Zz$ que l'on peut aussi voir comme une fonction $f : \{0,1\}^k \to \{0,1\}$.
+
+La transformation de l'oracle, pour $x = (x_1,\ldots,x_k) \in (\Zz/2\Zz)^k$ et $y\in \Zz/2\Zz$, renvoie $x = (x_1,\ldots,x_k)$ (élément de $(\Zz/2\Zz)^k$) et $y \oplus f(x)$ (élément de $\Zz/2\Zz$).
+
+{\large$$
+\Qcircuit @C=1em @R=1em {
+  & \qw  & \ustick{\scriptstyle x_1}\qw & \multigate{4}{O_f} & \ustick{\scriptstyle x_1}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle x_2}\qw & \ghost{O_f}   & \ustick{\scriptstyle x_2}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle \vdots}\qw & \ghost{O_f}   & \ustick{\vdots}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle x_k}\qw & \ghost{O_f}   & \ustick{\scriptstyle x_k}\qw & \qw &  \qwa \\
+ & \qw   & \dstick{\scriptstyle y}\qw & \ghost{O_f}           & \dstick{\scriptstyle \hspace{0.5em} y \oplus f(x_1,\ldots,x_k)}\qw & \qw &  \qwa
+}
+$$}
+
+\bigskip
+
+On obtient ainsi : 
+$$
+\begin{array}{cccc}
+F : & \left(\Zz/2\Zz\right)^k \times \Zz/2\Zz & \longrightarrow & \left(\Zz/2\Zz\right)^k \times \Zz/2\Zz \\
+    & (x_1,\ldots,x_k,y)                    &\longmapsto      & \big( x_1,\ldots,x_k , y \oplus f(x_1,\ldots,x_k) \big)
+\end{array}
+$$
+
+\begin{exemple}
+On considère $f : \big(\Zz/2\Zz\big)^2 \to \Zz/2\Zz$ définie par $f(x,y) = x\ \mygate{XOR}\ y$. 
+Voici quelques exemples d'action de l'oracle :
+$$
+%\large
+\Qcircuit @C=1em @R=1em {
+\lstick{0}  & \qw  & \ustick{\scriptstyle x}\qw & \multigate{2}{O_f} & \ustick{\scriptstyle x}\qw & \qw &  \rstick{0}\qwa \\
+\lstick{1}  & \qw  & \ustick{\scriptstyle y}\qw & \ghost{O_f}        & \ustick{\scriptstyle y}\qw & \qw &  \rstick{1}\qwa \\
+\lstick{1}  & \qw  & \ustick{\scriptstyle z}\qw & \ghost{O_f}        & \ustick{\scriptstyle \hspace{1.5em} z \oplus f(x,y)}\qw & \qw &  \rstick{\scriptstyle 1 \oplus f(0,1) = 1\oplus1=0}\qwa
+}
+\qquad\qquad\qquad\qquad\qquad\qquad
+\Qcircuit @C=1em @R=1em {
+\lstick{1}  & \qw  & \ustick{\scriptstyle x}\qw & \multigate{2}{O_f} & \ustick{\scriptstyle x}\qw & \qw &  \rstick{1}\qwa \\
+\lstick{1}  & \qw  & \ustick{\scriptstyle y}\qw & \ghost{O_f}        & \ustick{\scriptstyle y}\qw & \qw &  \rstick{1}\qwa \\
+\lstick{1}  & \qw  & \ustick{\scriptstyle z}\qw & \ghost{O_f}        & \ustick{\scriptstyle \hspace{1.5em} z \oplus f(x,y)}\qw & \qw &  \rstick{\scriptstyle 1 \oplus f(1,1) = 1\oplus0=1}\qwa
+}
+$$
+
+\bigskip
+
+Autrement dit $F(0,1,1) = (0,1,0)$ et $F(1,1,1)=(1,1,1)$.
+% En exercice, calculer les autres valeurs $F(x,y,z)$.
+\end{exemple}
+
+\bigskip
+
+On pourrait généraliser l'oracle au cas d'une fonction $f : E \to E'$ pour lequel l'oracle associé serait une fonction 
+$F : E \times E' \to E \times E'$ défini par $F(x,y) = (x, y \oplus f(x))$ où \og{}$\oplus$\fg{} est une addition dans $E'$.
+
+
+%--------------------------------------------------------------------
+\subsection{L'oracle est bijectif}
+
+Quel peut être l'intérêt d'un oracle ?
+Plus précisément quel est l'avantage de la fonction $F$ par rapport à $f$ ?
+
+Considérons une fonction $f : E \to \Zz/2\Zz$ quelconque. En particulier elle n'est pas supposée bijective, par contre la fonction $F$ associée à l'oracle va l'être.
+
+\begin{lemme}
+Soit $f : E \to \Zz/2\Zz$ une fonction quelconque, alors  la fonction
+$F : E \times \Zz/2\Zz \to E \times \Zz/2\Zz$ définie par $F(x,y) = (x, y \oplus f(x))$ est bijective.
+\end{lemme}
+
+\begin{proof}
+Il suffit de trouver la bijection réciproque de $F$ : nous allons montrer que cette réciproque est $F$ elle-même.
+
+Partons de 
+$$F(x,y) = (x, y \oplus f(x))$$
+donc 
+$$F\big(F(x,y)\big) = F(x, y \oplus f(x)) = (x, y \oplus f(x) \oplus f(x)) = (x,y).$$
+En effet, pour $a \in \Zz/2\Zz$ on a $a \oplus a = 2a = 0$ (car $0 \oplus 0 = 0$ et $1 \oplus 1=0$), donc $x\oplus a \oplus a=x$.
+Ainsi $F$ est bijective et de plus $F^{-1} = F$ (autrement dit $F \circ F = \text{id}$).
+\end{proof}
+
+
+\begin{exemple} 
+Reprenons $f : \big(\Zz/2\Zz\big)^2 \to \Zz/2\Zz$ définie par $f(x,y) = x\ \mygate{XOR}\ y$. Alors $F$ est bien bijective :
+$$
+\begin{array}{rcl}
+(0,0,0) &\xmapsto{F}& (0,0,0) \\
+(0,1,0) &\xmapsto{F}& (0,1,1) \\
+(1,0,0) &\xmapsto{F}& (1,0,1) \\
+(1,1,0) &\xmapsto{F}& (1,1,0) \\
+\end{array}
+\qquad\qquad
+\begin{array}{rcl}
+(0,0,1) &\xmapsto{F}& (0,0,1) \\
+(0,1,1) &\xmapsto{F}& (0,1,0) \\
+(1,0,1) &\xmapsto{F}& (1,0,0) \\
+(1,1,1) &\xmapsto{F}& (1,1,1) \\
+\end{array}
+$$
+\end{exemple}
+
+\begin{exemple} 
+Soit $f : \Zz/n\Zz \to \Zz/2\Zz$ telle que $f(x)=0$ pour tout $x$, sauf $f(\ell)=1$, pour un entier $\ell \in \{0,\ldots,n-1\}$ fixé.
+\begin{itemize}
+  \item Pour $x\neq \ell$, $f(x)=0$ donc $F(x,y) = (x,y \oplus f(x)) = (x,y)$.
+  \item pour $x = \ell$,  $f(x)=1$ donc $F(x,y) = (x,y \oplus 1) = (x,NON(y))$.
+\end{itemize}
+L'application $F$ est bijective.
+\end{exemple}
+
+%--------------------------------------------------------------------
+\subsection{Transformation quantique}
+
+Considérons le cas d'une fonction $f : (\Zz/2\Zz)^k \to \Zz/2\Zz$. 
+L'oracle fournit une fonction $F : (\Zz/2\Zz)^{k+1}  \to (\Zz/2\Zz)^{k+1}$ en ayant considéré $(\Zz/2\Zz)^k \times \Zz/2\Zz = (\Zz/2\Zz)^{k+1}$.
+Voyons la transformation quantique associée sur les $(k+1)$-qubits.
+
+Les $(k+1)$-qubits sont engendrés par la base canonique formée des $2^{k+1}$ qubits de base :
+$$\underbrace{\!\!\ket{0.0 \ldots 0}\!\!\!}_{k+1 \text{ bits}} \qquad \ket{0.0 \ldots 1} \qquad \ldots \qquad \ket{1.1 \ldots 1}.$$
+
+La fonction $F$ (définie sur des $(k+1)$-bits) s'étend naturellement en une fonction $\tilde F$ sur les vecteurs de la base des $(k+1)$-qubits :
+$$\begin{array}{rcl}
+\ket{e_0} = \ket{0.0 \ldots 0} &\xmapsto[]{\tilde F}& \ket{F(0,0,\ldots,0)} = \ket{f_0} \\
+\ket{e_1} = \ket{0.0 \ldots 1} &\xmapsto[]{\tilde F}& \ket{F(0,0,\ldots,1)} = \ket{f_1} \\
+\cdots \qquad\qquad && \\
+\ket{e_{2^{k+1}-1}} = \ket{1.1 \ldots 1} &\xmapsto[]{\tilde F}& \ket{F(1,1,\ldots,1)} = \ket{f_{2^{k+1}-1}} \\
+\end{array}$$
+
+Maintenant que $\tilde F$ est définie sur les vecteurs de la base par la relation $\tilde F(\ket{e_i}) = \ket{F(e_i)} = \ket{f_i}$, elle s'étend par linéarité à tous les $(k+1)$-qubits. Ainsi on obtient 
+$$\tilde F : \Cc^{2^{k+1}} \longrightarrow \Cc^{2^{k+1}}$$
+et pour un $(k+1)$-qubit 
+$$\ket\psi = \sum_{i=0}^{2^{k+1}-1} \alpha_i \ket{e_i},$$
+avec $\alpha_i \in \Cc$, 
+on obtient le $(k+1)$-qubit :
+$$\tilde F(\ket\psi) = \sum_{i=0}^{2^{k+1}-1} \alpha_i \ket{f_i}.$$
+
+Comme $F$ est bijective alors $\tilde F$ envoie l'ensemble des vecteurs de la base canonique sur ces même vecteurs de la base canonique (autrement dit $\tilde F$ permute les vecteurs de la base). Ainsi $\tilde F$ est une transformation unitaire (voir la section \ref{sec:matunitaire}).
+
+
+\begin{exemple} 
+Reprenons l'exemple de la fonction 
+$f : \big(\Zz/2\Zz\big)^2 \to \Zz/2\Zz$ définie par $f(x,y) = x\ \mygate{XOR}\ y$.
+Nous avons déjà calculé $F$, ce qui donne les valeurs de $\tilde F$ sur les $3$-qubits de base. Par exemple $\tilde F \ket{0.1.0} = \ket{0.1.1}$, $\tilde F \ket{0.1.1} = \ket{0.1.0}$,\ldots{} 
+Pour un $3$-qubit quelconque :
+$$\ket\psi = 
+  \alpha_0 \ket{0.0.0} + \alpha_1 \ket{0.0.1} 
++ \alpha_2 \ket{0.1.0} + \alpha_3 \ket{0.1.1} 
++ \alpha_4 \ket{1.0.0} + \alpha_5 \ket{1.0.1} 
++ \alpha_6 \ket{1.1.0} + \alpha_7 \ket{1.1.1}
+$$
+alors
+$$\tilde F \ket\psi = 
+  \alpha_0 \ket{0.0.0} + \alpha_1 \ket{0.0.1} 
++ \alpha_3 \ket{0.1.0} + \alpha_2 \ket{0.1.1} 
++ \alpha_5 \ket{1.0.0} + \alpha_4 \ket{1.0.1} 
++ \alpha_6 \ket{1.1.0} + \alpha_7 \ket{1.1.1}.
+$$
+\end{exemple}
+%--------------------------------------------------------------------
+\subsection{Matrice de l'oracle}
+
+Nous allons calculer la matrice de l'oracle, c'est-à-dire la matrice de l'application $\tilde F$.
+
+On rappelle que 
+$$(x,y) \xmapsto[]{F} (x,y\oplus f(x))$$
+où $x=(x_1,\ldots,x_k)$ est un $k$-bit et $y$ un $1$-bit.
+La fonction $F$ est naturellement étendue aux qubits de base par la formule :
+$$\ket{x.y} \xmapsto[]{\tilde F} \ket{x.y\oplus f(x)}$$
+
+Calculons explicitement l'image de chacun des vecteurs $\ket{e_i}$ de la base canonique de $(k+1)$-qubits.
+$$\ket{e_0} = | \underbrace{0 \ldots 0}_{x} . \underbrace{0}_{y} \rangle
+\xmapsto[]{\tilde F} | \underbrace{0 \ldots 0}_{x}.\underbrace{0\oplus f(0,\ldots,0)}_{0 \text{ ou } 1} \rangle
+= \left\{ 
+\begin{array}{cl}
+\ket{e_0} & \text{ si } f(0,\ldots,0) = 0 \\
+\ket{e_1} & \text{ si } f(0,\ldots,0) = 1 \\
+\end{array}
+\right.$$
+De même 
+$$\ket{e_1} = | \underbrace{0 \ldots 0}_{x} . \underbrace{1}_{y} \rangle
+\xmapsto[]{F} | \underbrace{0 \ldots 0}_{x}.\underbrace{1\oplus f(0,\ldots,0)}_{1 \text{ ou } 0} \rangle
+= \left\{ 
+\begin{array}{cl}
+\ket{e_1} & \text{ si } f(0,\ldots,0) = 0 \\
+\ket{e_0} & \text{ si } f(0,\ldots,0) = 1 \\
+\end{array}
+\right.$$
+
+De façon générale 
+$$
+\left\{
+\begin{array}{c}
+\ket{e_{2i}} \xmapsto[]{\tilde F} \ket{e_{2i}}  \\
+\ket{e_{2i+1}} \xmapsto[]{\tilde F} \ket{e_{2i+1}}  \\
+\end{array}
+\right.
+\qquad\text{ ou }\qquad
+\left\{
+\begin{array}{c}
+\ket{e_{2i}} \xmapsto[]{\tilde F} \ket{e_{2i+1}}  \\
+\ket{e_{2i+1}} \xmapsto[]{\tilde F} \ket{e_{2i}}  \\
+\end{array}
+\right.
+$$
+La sous-matrice de $\tilde F$ dans la base $(e_{2i},e_{2i+1})$ est donc
+$$
+I_2 = \begin{pmatrix}1&0\\0&1\end{pmatrix}
+\qquad\text{ ou }\qquad
+J_2 = \begin{pmatrix}0&1\\1&0\end{pmatrix}.
+$$
+
+Ainsi la matrice de $\tilde F$ dans la base canonique des $(k+1)$-qubits est la matrice suivante, qui est une matrice diagonale par blocs, chaque bloc étant $I_2$ ou $J_2$ :
+$$A = \begin{pmatrix}
+I_2/J_2 &         & & & \\
+        & I_2/J_2 & & & \\
+&& \ddots && \\
+&&  &\ddots& \\
+&&&& I_2/J_2 \\
+\end{pmatrix} \in M_{2^{k+1}}(\Cc).$$
+On a bien sûr $I_2^2 = I_2$, mais aussi $J_2^2 = I_2$ et $J_2^* = J_2$,
+donc $A^* A =I$, ce qui prouve que $A$ est une matrice unitaire.
+(On le savait déjà car l'application associée $\tilde F$ est unitaire, voir ci-dessus.)
+
+
+%--------------------------------------------------------------------
+\subsection{Oracle pour $f=NOT$}
+
+Considérons $f : \Zz/2\Zz \to \Zz/2\Zz$ défini par $f(0) = 1$ et $f(1)=0$. 
+C'est donc la négation : $f(x) = NOT(x) = 1 \oplus x$.
+Décrivons l'oracle de $f$.
+
+{\large$$
+\Qcircuit @C=1em @R=1em {
+  & \qw  & \ustick{\scriptstyle x}\qw & \multigate{1}{O_f} & \ustick{\scriptstyle x}\qw & \qw &  \qwa \\
+ & \qw   & \dstick{\scriptstyle y}\qw & \ghost{O_f}           & \dstick{\scriptstyle \hspace{0.5em} y \oplus f(x)}\qw & \qw &  \qwa
+}
+$$}
+
+\bigskip
+
+L'application $F$ est : 
+$$
+\begin{array}{cccc}
+F : & \Zz/2\Zz \times \Zz/2\Zz & \longrightarrow & \Zz/2\Zz \times \Zz/2\Zz \\
+    & (x,y)                    &\longmapsto      & \big( x , y \oplus f(x) \big) = \big( x , 1 \oplus x \oplus y \big).
+\end{array}
+$$
+ce qui donne concrètement :
+$$\begin{array}{rcl}
+(0,0) & \xmapsto[]{F}& (0,1) \\
+(0,1) & \xmapsto[]{F}& (0,0) \\
+(1,0) & \xmapsto[]{F}& (1,0) \\
+(1,1) & \xmapsto[]{F}& (1,1) \\
+\end{array}
+\qquad\text{ donc }\qquad
+\begin{array}{rcl}
+\ket{0.0} & \xmapsto[]{\tilde F}& \ket{0.1} \\
+\ket{0.1} & \xmapsto[]{\tilde F}& \ket{0.0} \\
+\ket{1.0} & \xmapsto[]{\tilde F}& \ket{1.0} \\
+\ket{1.1} & \xmapsto[]{\tilde F}& \ket{1.1} \\
+\end{array}
+$$
+Ainsi la matrice de l'oracle est :
+$$\begin{pmatrix}
+0&1&0&0\\
+1&0&0&0\\
+0&0&1&0\\
+0&0&0&1\\
+\end{pmatrix}$$
+
+
+%--------------------------------------------------------------------
+\subsection{Oracle pour $f=AND$}
+
+
+\begin{exercicecours}
+Effectuer le même travail mais cette fois avec la fonction de deux variables $f$ définie par \mygate{AND}.
+
+
+Soit $f : (\Zz/2\Zz)^2 \to \Zz/2\Zz$ définie par $f(x,y) = x\ \mygate{AND}\ y = xy$.
+
+
+Nous allons voir que l'oracle associé à ce $f$ est exactement une porte de Toffoli (\mygate{CCNOT}).
+{\large$$
+\Qcircuit @C=1em @R=1em {
+  & \qw  & \ustick{\scriptstyle x}\qw & \multigate{2}{O_f} & \ustick{\scriptstyle x}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle y}\qw & \ghost{O_f}        & \ustick{\scriptstyle y}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle z}\qw & \ghost{O_f}        & \ustick{\scriptstyle \hspace{1.5em} z \oplus f(x,y)}\qw & \qw &  \qwa
+}
+\qquad\qquad \raisebox{-3.5ex}{=} \qquad\qquad
+\raisebox{-0.7ex}{\Qcircuit @C=1em @R=1em {
+\lstick{x} & \ctrl{2} &  \rstick{x}\qwa \\
+\lstick{y} & \ctrl{1} &  \rstick{y}\qw \\
+\lstick{z} & \targ &   \rstick{z \oplus (xy)}\qw \\
+}}
+$$}
+
+
+\bigskip
+
+En détails :
+\begin{enumerate}
+  \item Calculer l'image par l'oracle de chacun des vecteurs de la base des $3$-qubits : $\ket{0.0.0}$, $\ket{0.0.1}$,\ldots,$\ket{1.1.1}$.
+  \item En déduire que l'oracle associé à ce $f$ est équivalent à une porte de Toffoli, en vérifiant que le résultat est le même que l'action de la porte de Toffoli sur les $3$-qubits de base.
+  \item Vérifier que l'application $F$ (ou $\tilde F$) est bijective alors que $f$ ne l'est pas.
+  \item Calculer la matrice de l'oracle (et retrouver la matrice de la porte de Toffoli).
+\end{enumerate}
+\end{exercicecours}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Matrices unitaires}
+\label{sec:matunitaire}
+
+Nous reprenons l'étude des matrices unitaires, ici de taille quelconque, les matrices $2\times 2$ ayant déjà été étudiées dans le chapitre \og{}Vecteurs et matrices\fg{}.
+
+
+
+
+%--------------------------------------------------------------------
+\subsection{Produit scalaire hermitien}
+
+Rappelons quelques définitions et propriétés.
+
+\begin{itemize}
+  \item Le \defi{produit scalaire hermitien}\index{produit scalaire} $\braket{u}{v}$ des deux vecteurs $u$ et $v$ est défini par :
+$$u = \begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix} \qquad 
+v = \begin{pmatrix}y_1\\y_2\\\vdots\\y_n\end{pmatrix}
+\qquad\qquad \braket{u}{v} = x_1^* \cdot y_1 + x_2^* \cdot y_2 + \cdots + x_n^* \cdot y_n = \sum_{i=1}^n x_i^* \cdot y_i.$$
+
+  \item Le produit scalaire permet de calculer la norme : $\|u\|^2 = \braket{u}{u}$.
+
+  \item Le produit scalaire est anti-linéaire à gauche et linéaire à droite. Pour $\lambda\in\Cc$ :
+$$\displaystyle
+\braket{ \lambda u}{v} = \lambda^* \braket{u}{v}
+\quad \text{ et } \quad \braket{u}{\lambda v} = \lambda \braket{u}{v}.
+$$
+
+  \item La \defi{matrice adjointe}\index{matrice!adjointe} de $A$ est la  matrice $A^*$ obtenue par transposition et conjugaison complexe :
+$$
+A = \left(
+\begin{array}{cccc}
+a_{11} & a_{12} & \dots & a_{1p}\\
+a_{21} & a_{22} & \dots & a_{2p}\\
+\vdots & \vdots &&\vdots\\
+a_{n1} & a_{n2} & \dots & a_{np}
+\end{array}\right)
+\qquad 
+A^* = \left(
+\begin{array}{cccc}
+a_{11}^* & a_{21}^* & \dots & a_{n1}^*\\
+a_{12}^* & a_{22}^* & \dots & a_{n2}^*\\
+\vdots & \vdots &&\vdots\\
+a_{1p}^* & a_{2p}^* &\dots & a_{np}^*
+\end{array}\right)\, .
+$$
+
+  \item La notation \og{}ket\fg{}\index{ket} $\ket\phi$ désigne un vecteur écrit sous forme colonne :
+$$\ket\phi = \begin{pmatrix}x_1 \\ \vdots \\ x_{n} \end{pmatrix}.$$
+
+  \item La notation \og{}bra\fg{}\index{bra} $\bra\phi$ désigne un vecteur ligne, obtenu comme l'adjoint :
+
+$$
+\text{ si }\quad\ket\phi = \begin{pmatrix}x_1 \\ \vdots \\ x_{n} \end{pmatrix}
+\qquad\text{ alors }\qquad
+\bra{\phi} = \ket\phi^* = \begin{pmatrix}x_1^*& \cdots &x_{n}^*\end{pmatrix}.$$
+
+  \item Ainsi l'écriture $\braket{\cdot}{\cdot}$ désigne de façon cohérente à la fois le produit scalaire hermitien et la multiplication matricielle d'un vecteur ligne par un vecteur colonne (qui donne un scalaire) :
+
+$$\ket\phi = \begin{pmatrix}x_1 \\ \vdots \\ x_{n} \end{pmatrix}
+\qquad\qquad
+\ket\psi = \begin{pmatrix}y_1 \\ \vdots \\ y_{n} \end{pmatrix}
+\qquad\qquad
+\braket{\phi}{\psi} = x_1^* \cdot y_1 + x_2^* \cdot y_2 + \cdots + x_n^* \cdot y_n.$$
+\end{itemize}
+
+
+
+\begin{proposition}
+~
+\mybox{$\braket{Au}{v} = \braket{u}{A^* v}$}
+\end{proposition}
+
+\begin{proof}
+Si $A = (a_{ij})$ et $u=(x_i)$ alors $Au$ est un vecteur dont le terme de rang $i$ est $(Au)_i = \sum_{j=1}^n a_{ij}x_j$.
+Ainsi si $v=(y_i)$ alors $\braket{Au}{v}$ est la somme sur $i$ de termes 
+$$\left( \sum_{j=1}^n a_{ij} x_j \right)^* y_i,$$
+et donc 
+$$\braket{Au}{v}
+= \sum_{i=1}^n \sum_{j=1}^n a_{ij}^* x_j^*  y_i.$$
+
+D'autre part $\braket{u}{A^*v}$ est la somme sur $i$ de termes 
+$$x_i^* \left( \sum_{j=1}^n a_{ij}^* y_j \right),$$
+ce qui prouve que $\braket{u}{A^*v} = \braket{Au}{v}$. 
+\end{proof}
+
+
+%--------------------------------------------------------------------
+\subsection{Caractérisation des matrices unitaires}
+
+
+
+\begin{definition}
+Une matrice $A \in M_n(\Cc)$ est \defi{unitaire}\index{matrice!unitaire} si :
+\mybox{$A^* A = I$}
+On note $U_n$ l'ensemble des matrices unitaires.
+\end{definition}
+
+Si $A$ est une matrice unitaire alors on a 
+$$A^{-1} = A^* \qquad \text{ et  }\qquad A A^* = I.$$
+
+\begin{proposition}
+L'ensemble des matrices unitaires forme un groupe.
+En particulier $I \in U_n$ et si $A, B \in U_n$ alors $AB \in U_n$ et $A^{-1} \in U_n$.
+\end{proposition}
+
+
+Pour la suite nous aurons besoin de la notion suivante :
+\begin{definition}
+Les vecteurs $(e_1,e_2,\ldots,e_n)$ forment une \defi{base orthonormale}\index{base orthonormale} de $\Cc^n$
+si 
+$$\braket{e_i}{e_j} = 0  \quad \text{ pour tout } i\neq j
+\qquad\text{ et }\qquad\|e_i\|=1 \quad \text{ pour tout } i=1,\ldots,n.$$
+\end{definition}
+
+
+On peut rassembler les deux conditions en une seule
+$$\braket{e_i}{e_j} = \delta_{i,j}$$
+où $\delta_{i,j}$ est le symbole de Kronecker :
+$$\delta_{i,j} = 0 \quad \text{ si } i\neq j \quad \text{ et } \quad \delta_{i,i} = 1.$$
+
+
+
+\begin{proposition}
+\label{prop:equnitaire}
+Les assertions suivantes sont équivalentes :
+\begin{itemize}
+  \item [(i)] La matrice $A \in M_n(\Cc)$ est unitaire.
+  \item [(ii)] $A$ préserve le produit scalaire hermitien : $\braket{Au}{Av} = \braket{u}{v}$ quels que soient $u,v \in \Cc^n$.
+  \item [(iii)] $A$ préserve les longueurs : $\|Au\| = \|u\|$ quel que soit $u \in \Cc^n$.
+  \item [(iv)] Si $(e_i)$ est une base orthonormale de $\Cc^n$, alors $(Ae_i)$ est aussi une base orthonormale.
+  \item [(v)] Les vecteurs colonnes $(f_i)$ de $A$ forment une base orthonormale de $\Cc^n$.
+\end{itemize}
+\end{proposition}
+
+
+\begin{proof}~
+\begin{itemize}
+  \item (i) $\implies$ (ii) $\braket{Au}{Av} = \braket{u}{A^*Av} = \braket{u}{v}$
+
+  \item (ii) $\implies$ (iii) $\| Au \|^2 = \braket{Au}{Au} = \braket{u}{u} = \| u \|^2$
+
+  \item (iii) $\implies$ (iv) Notons $f_i = Ae_i$. Alors $\| f_i \| = \| e_i \| = 1$.
+  Soit $i \neq j$, comme $\| e_i + e_j \|^2 = 2$ alors $\| f_i + f_j \|^2 = \| A(e_i + e_j) \|^2= \| e_i + e_j \|^2 =2$.
+  Or
+\begin{align*}
+\|f_i+f_j\|^2 
+&= \braket{f_i+f_j}{f_i+f_j} 
+= \braket{f_i}{f_i} + \braket{f_i}{f_j} +\braket{f_j}{f_i} +\braket{f_j}{f_j} \\
+&=  \|f_i\|^2 + \braket{f_i}{f_j} + \braket{f_i}{f_j}^* + \|f_j\|^2 
+=  \|f_i\|^2 + 2\Re\big( \braket{f_i}{f_j} \big) + \|f_j\|^2 
+\end{align*}
+Comme $\|f_i+f_j\|^2 =2$, $\|f_i\|^2=1$ et $\|f_j\|^2=1$ alors $2\Re\big( \braket{f_i}{f_j}\big)=0$.
+
+De même $$\|f_i+\ii f_j\|^2 =  \|f_i\|^2 + 2\Im\big( \braket{f_i}{f_j} \big) + \|f_j\|^2 $$ alors $2\Im\big( \braket{f_i}{f_j}\big)=0$. Ainsi $\braket{f_i}{f_j}=0$ et $(f_i)$ forment une base orthonormée.
+
+  \item (iv) $\implies$ (v) Soit $(e_i)$ la base canonique, alors les $f_i = Ae_i$ sont les vecteurs colonnes de $A$. Comme $(e_i)$ est une base orthonormale, alors $(f_i)$ l'est aussi.
+
+  \item (v) $\implies$ (i) 
+  Notons $M = AA^* - I$. Notons $(e_i)$ la base canonique et $(f_i) = (Ae_i)$ les vecteurs colonnes de $A$.
+$$\braket{Me_i}{e_j} 
+= \braket{AA^*e_i - e_i}{e_j}
+= \braket{AA^*e_i}{e_j} - \braket{e_i}{e_j}
+= \braket{Ae_i}{Ae_j} - \delta_{i,j}
+= \braket{f_i}{f_j} - \delta_{i,j}
+= \delta_{i,j}- \delta_{i,j}
+= 0.$$
+ Fixons $i$, comme $\braket{Me_i}{e_j} = 0$ (scalaire nul) pour tout vecteur $e_j$ de la base, alors $Me_i=0$ (vecteur nul). Maintenant comme $Me_i=0$ pour tout vecteur $e_i$ de la base, alors $M=0$ (matrice nulle). Ainsi $AA^* = I$ donc $A$ est unitaire.
+\end{itemize}
+\end{proof}
+
+%--------------------------------------------------------------------
+\subsection{Porte quantique}
+
+Nous avons vu différentes portes quantiques, voici maintenant la définition générale :
+
+\begin{definition}
+Une \defi{porte quantique}\index{porte} est la transformation $\ket\psi \mapsto A \ket\psi$ où $A$ est une matrice unitaire.
+{\large$$
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket\psi}  & \qw  & \qw & \gate{A} & \qw  &  \rstick{A\ket\psi}\qwa \\
+}
+$$}
+\end{definition}
+
+\bigskip
+
+Si l'entrée $\ket\psi$ est un $n$-qubit, alors $A$ une matrice de taille $2^n$ (donc $A \in U_{2^n}$), la sortie est un $n$-qubit.
+
+
+Comme la matrice $A$ est unitaire alors en particulier la transformation est inversible. C'est une différence majeure par rapport à une porte de l'informatique classique (par exemple une porte \mygate{AND} n'est pas inversible).
+
+
+%--------------------------------------------------------------------
+\subsection{Théorèmes de réalisation}
+
+Même si une porte quantique est donnée par une matrice unitaire $A$ quelconque, cette porte quantique peut être réalisée de façon équivalente par un circuit composé de portes biens connues. Nous allons voir plusieurs résultats de réalisations que nous énonçons sans démonstration.
+
+\begin{theoreme}
+Toute porte quantique à $n$-qubits peut être réalisée de façon équivalente 
+par un circuit ne comportant que des portes \mygate{CNOT}
+et des portes à $1$-qubit.
+\end{theoreme}
+
+Ainsi l'étude de n'importe quel circuit quantique se ramène à l'étude de deux types de portes et à leur composition.
+Le défaut de ce résultat, c'est que la réalisation se fait à l'aide de portes parmi une infinité de possibilités. En effet, une porte à $1$-qubit est définie par une matrice unitaire $A \in M_2(\Cc)$, et il y a une infinité de telles matrices.
+
+\medskip
+
+Le résultat suivant construit des circuits avec seulement trois types de portes, la contrepartie c'est que l'on n'obtient pas exactement le circuit voulu, mais une approximation.
+
+\begin{theoreme}
+Toute porte quantique à $n$-qubits peut être approchée d'aussi près que l'on veut par un circuit ne comportant que des portes \mygate{H} de Hadamard, des portes \mygate{T} (dite \og{}porte $\frac\pi8$\fg{}) et des portes \mygate{CNOT}.
+\end{theoreme}
+
+
+\index{porte!T}
+\index{porte!pi8@$\frac\pi8$}
+
+On rappelle qu'une porte $H$ de Hadamard est définie par la matrice :
+$$H = \frac1{\sqrt2}\begin{pmatrix}1&1\\1&-1\end{pmatrix}.$$
+
+La porte $\frac\pi8$ est définie par la matrice unitaire :
+$$T = \begin{pmatrix}1&0\\0&e^{\ii\frac\pi4}\end{pmatrix}$$
+qui tient son nom de son écriture sous la forme :
+$$T = e^{\ii\frac\pi8}\begin{pmatrix}e^{-\ii\frac\pi8}&0\\0&e^{\ii\frac\pi8}\end{pmatrix}.$$
+
+Le théorème de Solovay--Kitaev est une version améliorée du théorème précédent et affirme de plus qu'on peut réaliser le circuit en utilisant assez peu de portes.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Théorème de non-clonage quantique}
+
+Un ordinateur classique est modélisé par une machine de Turing et est capable de lire une série de bits et de les dupliquer à un autre endroit. Nous allons voir que ce n'est pas le cas pour un ordinateur quantique. En fait on peut copier un qubit, mais en créant la copie on perd l'original. On parle ainsi de \og{}non-clonage quantique\fg{}.
+
+%--------------------------------------------------------------------
+\subsection{Non-clonage des $1$-qubits}
+
+\begin{theoreme}\index{theoreme de non-clonage quantique@théorème de non-clonage quantique}
+Il n'existe pas de porte quantique qui réalise le clonage des $1$-qubits, c'est-à-dire telle que 
+pour tout $1$-qubit $\ket\psi$ on ait:
+{\large$$
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket\psi}  & \qw  & \qw & \multigate{1}{A} & \qw & \qw &  \rstick{\ket\psi}\qwa \\
+\lstick{\ket0}    & \qw   & \qw & \ghost{A}        & \qw & \qw &  \rstick{\ket\psi}\qwa
+}
+$$}
+\end{theoreme}
+
+
+\begin{proof}
+Raisonnons par l'absurde et supposons que le clonage quantique soit possible. Cela signifie qu'il existe une porte quantique qui réalise ce clonage, c'est-à-dire qu'il existe une matrice $A \in M_4(\Cc)$ unitaire telle que :
+$$A \ket{\psi.0} = \ket{\psi.\psi} \qquad \text{ pour tout $1$-qubit } \ket\psi.$$
+
+Comme cette égalité est vraie pour tous les $1$-qubits, c'est également le cas : 
+\begin{itemize}
+  \item pour $\ket{\psi_0} = \ket0$, donc $A\ket{0.0} = \ket{0.0}$,
+  \item pour $\ket{\psi_1} = \ket1$, donc $A\ket{1.0} = \ket{1.1}$,
+  \item et pour $\ket{\psi_2} =  \frac1{\sqrt2} (\ket0+\ket1)$.
+\end{itemize}
+
+Nous allons détailler ce que cela implique pour $\ket{\psi_2}$.
+\begin{itemize}
+  \item D'une part comme $\ket{\psi_2} =  \tfrac1{\sqrt2} (\ket{\psi_0}+\ket{\psi_1})$.
+\begin{align*}
+A\ket{\psi_2.0} 
+  &= A \left( \tfrac1{\sqrt2} (\ket0+\ket1).\ket{0} \right) \\
+  &= \tfrac1{\sqrt2}A \ket{0.0} + \tfrac1{\sqrt2}A \ket{1.0} \\
+  &= \tfrac1{\sqrt2} \ket{0.0} + \tfrac1{\sqrt2} \ket{1.1} \\
+\end{align*}
+On retient que :
+\begin{equation}
+\label{eq:nonclon1}
+A\ket{\psi_2.0} = \tfrac1{\sqrt2} \left(\ket{0.0} + \ket{1.1} \right).
+\end{equation}
+
+  \item D'autre part par le clonage de $\ket{\psi_2}$ :
+\begin{align*}
+A\ket{\psi_2.0} 
+  &= \ket{\psi_2.\psi_2} \\
+  &= \tfrac12 (\ket0+\ket1)(\ket0+\ket1) \\
+  &= \tfrac12 \left( \ket{0.0} + \ket{0.1} + \ket{1.0} + \ket{1.1} \right) \\
+\end{align*}
+On a prouvé :
+\begin{equation}
+\label{eq:nonclon2}
+A\ket{\psi_2.0} = \tfrac12 \left( \ket{0.0} + \ket{0.1} + \ket{1.0} + \ket{1.1} \right).
+\end{equation}
+
+\end{itemize}
+
+Nous pouvons maintenant conclure à partir des équations (\ref{eq:nonclon1}) et (\ref{eq:nonclon2}) :
+$$\tfrac1{\sqrt2} \left(\ket{0.0} + \ket{1.1} \right) 
+= \tfrac12 \left( \ket{0.0} + \ket{0.1} + \ket{1.0} + \ket{1.1} \right)$$
+donc
+\begin{equation}
+\label{eq:nonclon3}
+\left(\tfrac12-\tfrac1{\sqrt2}\right) \ket{0.0} + \tfrac12\ket{0.1} + \tfrac12\ket{1.0} + \left(\tfrac12-\frac1{\sqrt2}\right)\ket{1.1} = 0.
+\end{equation}
+
+Souvenons-nous que $(\ket{0.0},\ket{0.1},\ket{1.0},\ket{1.1})$ est une base de $\Cc^4$,
+donc
+$$\text{ si } \alpha\ket{0.0} + \beta \ket{0.1} +\gamma\ket{1.0} +\delta\ket{1.1}=0
+\quad\text{ alors }\quad \alpha=0, \beta=0, \gamma= 0, \delta=0.$$
+Dans notre cas cela implique que les coefficients de l'équation (\ref{eq:nonclon3}) sont tous nuls, et donc par exemple $\frac12=0$ ce qui fournit une contradiction.
+
+Conclusion : une telle matrice $A$ qui réalise le clonage ne peut exister.
+\end{proof}
+%--------------------------------------------------------------------
+\subsection{Cas général}
+
+
+\begin{theoreme}\index{theoreme de non-clonage quantique@théorème de non-clonage quantique}
+Il n'existe pas de porte quantique qui réalise le clonage d'un $n$-qubit, c'est-à-dire telle que pour tout $n$-qubit $\ket\psi$ on ait:
+\myfigure{0.5}{
+\tikzinput{portes_nonclonage}
+}
+\end{theoreme}
+
+%$$
+%\large
+%\Qcircuit @C=1em @R=1em {
+%\lstick{\ket\psi}  & \qw  & \qw & \multigate{1}{A} & \qw & \qw &  \rstick{\ket\psi}\qwa \\
+%\lstick{\ket0}    & \qw   & \qw & \ghost{A}        & \qw & \qw &  \rstick{\ket\psi}\qwa
+%}
+%$$
+
+
+
+La preuve pour le cas général des $n$-qubits est le même calcul que pour le cas des $1$-qubits.
+On note $\ket{e_0}$, $\ket{e_1}$,\ldots,$\ket{e_{2^n-1}}$ les vecteurs de la base canonique des $n$-qubits. 
+On raisonne par l'absurde en supposant qu'il existe une matrice unitaire $A$ telle que 
+$A \ket{\psi.0^{\otimes n}} = \ket{\psi.\psi}$ quel que soit le $n$-qubit $\ket\psi$ (ici $\ket{0}^{\otimes n} = \ket{0.0\ldots0}$).
+Ensuite on pose :
+\begin{itemize}
+  \item pour $\ket{\psi_0} = \ket{e_0}$, donc $A\ket{e_0.0^{\otimes n}} = \ket{e_0.e_0}$,
+  \item pour $\ket{\psi_1} = \ket{e_1}$, donc $A\ket{e_1.0^{\otimes n}} = \ket{e_1.e_1}$,
+  \item Pour $\ket{\psi_2} =  \frac1{\sqrt2} (\ket{e_0}+\ket{e_1})$, 
+    on obtient une contradiction en écrivant d'une part
+    $$A\ket{\psi_2.0^{\otimes n}} 
+  = \frac1{\sqrt2} \left(A \ket{0.0^{\otimes n}} +A \ket{e_1.0^{\otimes n}}\right) $$ et d'autre part $$A\ket{\psi_2.0^{\otimes n}} = \ket{\psi_2.\psi_2}.$$
+\end{itemize}
+
+\end{document}

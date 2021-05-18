@@ -1,0 +1,19 @@
+\begin{tikzpicture}
+
+\begin{scope}
+  \node[draw,minimum height=1cm, align=center] (P) at (0,0){AND};
+ \node (A) at (-2,0.3) {};
+ \node (B) at (-2,-0.3) {};
+
+  \draw($(P.west)+(0,0.3)$) -- (A);
+  \draw($(P.west)+(0,-0.3)$) -- (B);
+
+
+  \node[draw,minimum height=1cm, align=center] (Q) at (2,0){NOT};
+  \draw(P.east) -- (Q.west);
+ \node (out) at (4,0) {};
+  \draw[->,>=latex](Q.east) -- (out);
+
+\end{scope}
+
+\end{tikzpicture}

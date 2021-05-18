@@ -1,0 +1,24 @@
+
+\begin{blochsphere}[radius=1.5 cm,tilt=15,rotation=-20]
+	\drawBallGrid[style={opacity=0.1}]{30}{30}
+
+	\drawGreatCircle[style={dashed}]{-60}{0}{0}
+	\drawGreatCircle[style={dashed}]{60}{0}{0}
+
+	\drawRotationLeft[scale=1.3,style={red}]{-60}{0}{0}{15}
+	\drawRotationRight[scale=1.3,style={red}]{60}{0}{0}{15}
+
+	\node at (-0.8,1.9) {\textcolor{red}{\tiny $J_{12}(t)$}};
+	\node at (1.1,1.8) {\textcolor{red}{\tiny $J_{23}(t)$}};
+
+	\labelLatLon{up}{90}{0};
+	\labelLatLon{down}{-90}{90};
+	\node[above] at (up) {{\tiny $\left|1\right>$ }};
+	\node[below] at (down) {{\tiny $\left|0\right>$}};
+
+	\labelLatLon[labelmark=false]{d}{15}{90};
+	\node at (d) {\color{gray}\fontsize{0.15cm}{1em}\selectfont $60^\circ$};
+
+	\labelLatLon[labelmark=false]{d2}{5}{78};
+	\node at (d2) {\color{gray}\fontsize{0.15cm}{1em}\selectfont $60^\circ$};
+\end{blochsphere}

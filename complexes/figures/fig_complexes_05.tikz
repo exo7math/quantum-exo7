@@ -1,0 +1,27 @@
+\begin{tikzpicture}
+
+   %   \draw[lightgray] (-2,-2) grid (4,3);
+
+       \draw[->,>=latex, gray] (-4.5,0)--(4.5,0);
+       \draw[->,>=latex, gray] (0,-3.5)--(0,3.5);
+
+      \coordinate (A) at (120:2.5);
+      \coordinate (B) at (240:2.5);
+
+
+
+       \draw[ultra thick,red] (0,0) circle(2.5);
+     
+       \fill (2.5,0) circle (2pt) node[below right]{$1$};
+       \fill (-2.5,0) circle (2pt) node[below left]{$-1$};
+       \fill (0,2.5,0) circle (2pt) node[above right]{$\ii$};
+       \fill (0,-2.5) circle (2pt) node[below right]{$-\ii$}; 
+       \fill (45:2.5) circle (2pt) node[above right]{$\frac1{\sqrt2} + \frac1{\sqrt2}\ii$};                     
+       \fill (0,0) circle (2pt) node[below left]{$0$};
+%       \fill (0,2.5) circle (1pt);
+%       \fill (A) circle (2pt);
+%       \fill (B) circle (2pt);
+
+
+
+\end{tikzpicture}

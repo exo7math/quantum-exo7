@@ -1,0 +1,32 @@
+\begin{tikzpicture}
+
+%\draw[->,>=latex, very thick,gray] (-1,0)--(5,0); % node[below,black] {$\ket{\chi}$};
+%\draw[->,>=latex, very thick, gray] (0,-1)--(0,4); % node[left,black] {$\ket{\underline{k_0}}$};
+
+\coordinate (P) at (20:4);
+\draw[very thick,blue] (0,0)--(P) node[right] {axe 1};
+\coordinate (PP) at (50:4);
+\draw[very thick,blue] (0,0)--(PP) node[right] {axe 2};
+
+\draw[double,blue] (20:2) arc (20:50:2) node[midway,right]{$\frac\theta2$};
+
+\coordinate (A) at (10:3.5);
+\coordinate (AA) at (30:3.5);
+\coordinate (AAA) at (70:3.5);
+
+\draw[thick,dashed,gray] (0,0)--(10:5);
+\draw[thick,dashed,gray] (0,0)--(30:5);
+\draw[thick,dashed,gray] (0,0)--(70:5);
+
+\draw[very thick,red] (A)--(AA);
+\draw[very thick,red] (AA)--(AAA);
+\fill (A) circle(2pt) node[right]{$A$};
+\fill (AA) circle(2pt) node[right]{$A'$};
+\fill (AAA) circle(2pt) node[right]{$A''$};
+
+\fill (0,0) circle(2pt) node[below left]{$O$};
+
+
+
+\draw[->,>=latex,blue,very thick] (10:5.5) arc (10:70:5.5) node[midway,right]{$\theta$};
+\end{tikzpicture}

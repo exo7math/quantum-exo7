@@ -1,0 +1,36 @@
+\begin{tikzpicture}[scale=1]
+
+\node (A) at (0,0) {\bf Alice};
+\node (B) at (0,-4) {\bf Bob};
+
+% \node[rectangle,draw] at (-3,1) {
+% \begin{tabular}{c}
+% \it Information \\
+% Noir $=0$\\
+% Blanc $=1$\\
+% \end{tabular}
+% };
+
+% \node[rectangle,draw] at (2,0) {
+% \begin{tabular}{c}
+% \it Message \\
+% $\ket 0$ ou $\ket 1$\\
+% \end{tabular}
+% };
+
+
+\draw[->,>=latex,line width=4pt,green!70!black] (A) to[bend left=30] node  [midway, right,black]{$\ket0$ ou $\ket1$} (B);
+
+
+
+% \node[rectangle,draw] at (3,-4) {
+% \begin{tabular}{c}
+% \it Mesure et décodage \\
+% $0 = $ Noir\\
+% $1 = $ Blanc\\
+% \end{tabular}
+% };
+
+\node (E) at (-3,-2) {\bf \`Eve};
+\draw[line width=2pt,red,decorate,decoration=snake] (E) to node[midway, above,black]{interception} (0.5,-2);
+\end{tikzpicture}

@@ -1,0 +1,12 @@
+\begin{tikzpicture}
+%    \draw[->,>=latex,thick, gray] (-1,0)--(5.5,0);% node[below,black] {$x$};
+ %   \draw[->,>=latex,thick, gray] (0,-1)--(0,4); % node[right,black] {$y$};
+
+   \draw[->,>=latex,thick, red] (0,0)--(20:5) node[midway, below right] {$u$};
+
+   \draw[thick, red!10] (20+90:-2)--(20+90:3);
+   \draw[->,>=latex,thick, red] (0,0)--(20+90:2) node[midway, above left] {$v$};
+
+    \draw[->, >=latex, blue] (20:1.5) arc(20:20+90:1.5) node[midway,above right]{$\frac\pi2$};
+    \draw[->, >=latex, blue!60] (20:1.3) arc(20:20-90:1.3) node[midway,below right]{$-\frac\pi2$};
+\end{tikzpicture}

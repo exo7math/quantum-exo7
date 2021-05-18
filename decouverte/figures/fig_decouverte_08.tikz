@@ -1,0 +1,24 @@
+\begin{tikzpicture}[scale=2]
+
+\draw[-,>=latex, very thick,gray] (-0.5,0)--(1.5,0); % node[below] {$x$};
+\draw[-,>=latex, very thick, gray] (0,-0.5)--(0,1.5); % node[left] {$y$};
+
+\draw[->,>=latex,blue!50,thick] (0,0) -- ++(1,0) node[below]{$\ket0$};
+\draw[->,>=latex,blue!50,thick] (0,0) -- ++(0,1) node[left]{$\ket1$};
+
+\draw[->,>=latex,red!50,thick] (0,0) -- ++(45:1) node[right]{$H\ket0$};
+\draw[->,>=latex,red!50,thick] (0,0) -- ++(-45:1) node[right]{$H\ket1$};
+
+\def\theta{70}
+\pgfmathsetmacro{\a}{cos(\theta)}
+\pgfmathsetmacro{\b}{sin(\theta)}
+\pgfmathsetmacro{\aa}{(\a+\b)/sqrt(2)}
+\pgfmathsetmacro{\bb}{(\a-\b)/sqrt(2)}
+
+\draw[->,>=latex,blue,ultra thick] (0,0) -- (\a,\b) node[right]{$\ket\psi$};
+\draw[->,>=latex,red,ultra thick] (0,0) -- (\aa,\bb) node[right]{$H\ket\psi$};
+
+\draw[->,>=latex,blue,thick] (65:0.8) arc (65:-20:0.8) node[midway,above right]{$H$};
+
+\node at (0,-0.75)  {\vphantom{H}};
+\end{tikzpicture}

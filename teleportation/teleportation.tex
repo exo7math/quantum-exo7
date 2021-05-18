@@ -1,0 +1,619 @@
+\documentclass[11pt,class=report,crop=false]{standalone}
+\usepackage[screen]{../python}
+
+\begin{document}
+
+
+%====================================================================
+\chapitre{Téléportation quantique}
+%====================================================================
+
+\objectifs{La téléportation quantique permet de transmettre un qubit d'un point $A$ à un point $B$.}
+
+\index{teleportation quantique@téléportation quantique}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Principe}
+
+
+Alice possède un qubit $\ket\psi = \alpha \ket0 + \beta\ket1$ et souhaite le transmettre à Bob. C'est possible grâce à la téléportation quantique !
+C'est un protocole simple ayant des similarités avec le codage super-dense (voir le chapitre \og{}Découverte de l'informatique quantique\fg{}).
+
+Plus en détails :
+\begin{itemize}
+  \item Alice possède un $1$-qubit $\ket\psi = \alpha \ket0 + \beta\ket1$.
+
+  \item On a préparé un $2$-qubit à l'état de Bell 
+$\ket{\Phi^+} = \frac1{\sqrt2}(\ket{0.0}+\ket{1.1})$.
+  
+  \item On réalise le $3$-qubit $\ket \psi \otimes \ket {\Phi^+}$.
+
+  \item Alice réalise une mesure partielle (sur les deux premiers qubits) et obtient une information classique (une paire de bits parmi $0.0$, $0.1$, $1.0$, $1.1$).
+
+  \item Bob reconstitue le qubit $\ket\psi$ à partir de cette information que lui transmet Alice et du troisième qubit du $3$-qubit. 
+
+\end{itemize}
+
+
+\myfigure{0.9}{
+  \tikzinput{fig_teleportation_01}
+} 
+
+Remarques :
+\begin{itemize}
+  \item Le qubit est bien \og{}téléporté\fg{}, c'est-à-dire qu'il est reconstitué par Bob. Ce n'est physiquement pas la particule originale mais une copie ; seuls deux bits classiques sont envoyés d'Alice à Bob.
+
+  \item Contrairement au codage super-dense dans lequel Bob obtient à la fin  un message d'Alice limité à quatre possibilités, avec la téléportation quantique Bob obtient d'Alice un qubit $\ket\psi = \alpha\ket0 + \beta\ket1$ parmi une infinité de possibilités car $\alpha$ et $\beta$ sont des nombres complexes (seulement limités par la contrainte $|\alpha|^2+|\beta|^2=1$).
+  
+  \item La téléportation quantique n'est pas un \og{}copier-coller\fg{}. En effet, Alice effectue une mesure sur $\ket\psi$ et n'a donc plus ce qubit en sa possession en fin de protocole.
+
+  \item La téléportation quantique n'est pas immédiate (et ne dépasse pas la vitesse de la lumière) car il faut qu'Alice transmette à Bob une information classique (deux bits classiques).
+
+  \item Le point-clé est l'intrication des deux qubits de l'état de Bell qui restent liés malgré la distance.
+
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Protocole de la téléportation}
+
+Détaillons le protocole de téléportation.
+
+
+\myfigure{0.7}{
+  \footnotesize
+  \tikzinput{fig_teleportation_02}
+} 
+
+Voici les étapes :
+\begin{enumerate}
+  \item \emph{Alice possède un qubit $\ket\psi$.} Alice souhaite transmettre à Bob sans se déplacer le $1$-qubit $\ket\psi = \alpha\ket0 + \beta\ket1$.
+
+  \item \emph{Préparation de l'état de Bell.} L'état de Bell $\ket{\Phi^+}$ peut être préparé par une tierce personne.
+Nous avons déjà vu comment préparer cet état (voir le chapitre \og{}Découverte de l'informatique quantique\fg{}) et nous y reviendrons.
+\`A partir de l'état $\ket{0.0}$ on applique le circuit suivant, composé d'une porte de Hadamard, suivie d'une porte \mygate{CNOT} :
+{\large
+$$
+\raise2.5ex\hbox{
+\Qcircuit @C=1em @R=1em {
+\ket0 & & \gate{H} & \ctrl{1} &  \qwa \\
+\ket0 & & \qw & \targ &  \qwa
+}}
+\quad\ket{\Phi^+}
+$$
+}
+
+\smallskip
+
+Le $1$-qubit $\ket\psi$ réuni avec le $2$-qubit $\ket{\Phi^+}$ réalise le $3$-qubit $\ket{\phi} = \ket\psi \otimes \ket{\Phi^+}$.
+
+{\large
+$$
+\begin{array}{c}\text{$1$-qubit }\ket\psi \\  \text{$2$-qubit }\ket{\Phi^+}\bigg\lbrace\end{array} \ 
+\raise3.5ex\hbox{
+\Qcircuit @C=1em @R=1.5em {
+ & \qw & \qw & \qwa \\
+ & \qw & \qw & \qwa \\
+ & \qw & \qw & \qwa
+}}
+\quad\text{$3$-qubit }\ket{\phi}= \ket\psi \otimes \ket{\Phi^+}
+$$
+}
+
+  \item \emph{Mesure partielle d'Alice.} Alice réalise une mesure partielle (dite mesure partielle dans la base de Bell, voir plus loin). Pour cela elle réalise un circuit qui agit uniquement sur les deux premiers qubits de $\ket\phi$ : une porte \mygate{CNOT}, suivie d'une porte de Hadamard, suivie de deux mesures (sur les qubits $1$ et $2$ mais pas sur le numéro $3$).
+
+{\large
+$$
+\Qcircuit @C=1em @R=1em {
+& \ctrl{1}  & \gate{H} &  \meter & \qwa \\
+& \targ &  \qw &  \meter & \qwa
+}
+$$
+}
+
+Elle obtient deux bits classiques, $0.0$, $0.1$, $1.0$ ou $1.1$ selon les mesures. Elle transmet ces deux bits à Bob.
+
+  \item \emph{Reconstitution du qubit $\ket\psi$ par Bob.}
+Bob a en main, d'une part le troisième qubit de $\ket\phi$, que l'on note $\ket{\phi_3}$,  provenant du circuit et la connaissance des deux bits transmis par Alice.
+\begin{itemize}
+  \item Cas $0.0$, il ne fait rien (autrement dit, il applique l'identité \mygate{I}), il conserve $\ket{\phi_3}$ qui est en fait $\ket\psi$.
+  \item Cas $0.1$, il applique une porte \mygate{X} à $\ket{\phi_3}$ et obtient $\ket\psi$.
+  \item Cas $1.0$, il applique une porte \mygate{Z} à $\ket{\phi_3}$ et obtient $\ket\psi$.
+  \item Cas $1.1$, il applique une porte \mygate{X} suivie d'une porte \mygate{Z} à $\ket{\phi_3}$ et obtient $\ket\psi$.
+\end{itemize}
+Dans tous les cas Bob reconstitue le qubit $\ket\psi$ !
+
+\end{enumerate}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Calculs}
+\label{sec:calculs}
+
+Nous allons effectuer les calculs qui prouvent que la téléportation quantique fonctionne. Cependant pour comprendre cela en profondeur, il faudra attendre les sections suivantes de ce chapitre.
+
+\begin{itemize}
+  \item Le qubit en possession d'Alice à téléporter est un $1$-qubit $\ket\psi = \alpha\ket0 + \beta\ket1$ avec $\alpha,\beta\in\Cc$ et $|\alpha|^2+|
+\beta|^2 = 1$.
+
+  \item L'état de Bell est $\ket{\Phi^+} = \frac{1}{\sqrt2}(\ket{0.0}+\ket{1.1})$. C'est un $2$-qubit (voir plus loin pour plus de détails).
+
+  \item L'état total composé de $\ket\psi$ et $\ket{\Phi^+}$ est le $3$-qubit $\ket \phi = \ket\psi \otimes \ket{\Phi^+}$ que l'on va calculer :
+\begin{align*}
+\ket \phi 
+  &= \ket\psi \otimes \ket{\Phi^+} \\
+  &= (\alpha\ket0 + \beta\ket1) \left(\frac{1}{\sqrt2}\ket{0.0}+\frac{1}{\sqrt2}\ket{1.1} \right) \\
+  &= \frac{1}{\sqrt2}\left( \alpha\ket{0.0.0} + \alpha\ket{0.1.1} + \beta\ket{1.0.0} + \beta\ket{1.1.1} \right) \\
+\end{align*}
+
+
+  \item La suite du circuit est :
+{\large
+$$
+\Qcircuit @C=1em @R=1em {
+& \ctrl{1}  & \gate{H} &  \meter & \qwa \\
+& \targ &  \qw &  \meter & \qwa \\
+& \qw &  \qw &  \qw & \qwa
+}
+$$
+}
+
+\smallskip
+
+Elle ne concerne en fait que les deux premiers qubits de $\ket\phi$ et est effectuée par Alice.
+  \begin{itemize}
+     \item La porte \mygate{CNOT} change l'état du second qubit en fonction de l'état du premier (le troisième reste inchangé, par exemple $\ket{1.0.0}$ devient $\ket{1.1.0}$).
+Ainsi 
+$$\ket{\phi'} = \mygate{CNOT}\ket\phi 
+= \frac{1}{\sqrt2}\left( \alpha\ket{0.0.0} + \alpha\ket{0.1.1} + \beta\ket{1.1.0} + \beta\ket{1.0.1} \right)$$
+
+     \item Ensuite la porte de Hadamard ne change que l'état du premier qubit. On rappelle que $H\ket0 = \frac1{\sqrt2}(\ket0+\ket1)$ et $H\ket1 = \frac1{\sqrt2}(\ket0-\ket1)$.
+     Ainsi 
+\begin{align*}
+\ket{\phi''} 
+  &= H\ket{\phi'} \\
+  &= \frac{1}{\sqrt2}\left( \frac{\alpha}{\sqrt2}\ket{(0+1).0.0} + \frac{\alpha}{\sqrt2}\ket{(0+1).1.1} + \frac{\beta}{\sqrt2}\ket{(0-1).1.0} + \frac{\beta}{\sqrt2}\ket{(0-1.0.1} \right) \\
+  &= \frac{\alpha}{2}\ket{0.0.0} + \frac{\alpha}{2}\ket{1.0.0} + \frac{\alpha}{2}\ket{0.1.1} + \frac{\alpha}{2}\ket{1.1.1} \\
+  &\qquad + \frac{\beta}{2}\ket{0.1.0} - \frac{\beta}{2}\ket{1.1.0} + \frac{\beta}{2}\ket{0.0.1} - \frac{\beta}{2}\ket{1.0.1} \\
+\end{align*}
+
+  \end{itemize}
+
+  \item On regroupe les termes qui ont les deux premiers qubits identiques :
+\begin{align*}
+\ket{\phi''} 
+  &= \frac{\alpha}{2}\ket{0.0.0} +  \frac{\beta}{2}\ket{0.0.1} \\
+  &\qquad + \frac{\beta}{2}\ket{0.1.0}+ \frac{\alpha}{2}\ket{0.1.1} \\
+  &\qquad\qquad + \frac{\alpha}{2}\ket{1.0.0} - \frac{\beta}{2}\ket{1.0.1}  \\
+  &\qquad\qquad\qquad - \frac{\beta}{2}\ket{1.1.0} + \frac{\alpha}{2}\ket{1.1.1}  \\
+\end{align*}
+
+  \item On factorise selon les deux premiers qubits :
+\begin{align*}
+\ket{\phi''} 
+  &= \tfrac{1}{2}\ket{0.0} (\alpha\ket0+\beta\ket1) \\
+  &\qquad + \tfrac{1}{2}\ket{0.1}(\beta\ket0+\alpha\ket1) \\
+  &\qquad\qquad + \tfrac{1}{2}\ket{1.0}(\alpha\ket0-\beta\ket1) \\
+  &\qquad\qquad\qquad + \tfrac{1}{2}\ket{1.1}(-\beta\ket0+\alpha\ket1) \\
+\end{align*}
+
+  \item La mesure partielle sur les deux premiers qubits conduit (de façon équiprobable) à $0.0$ ou $0.1$ ou $1.0$ ou $1.1$.
+  Mais notons que dans tous les cas le troisième qubit est presque $\ket\psi$ :
+  \begin{itemize}
+     \item Si Alice mesure $0.0$ alors le troisième qubit reçu par Bob est déjà $\ket\psi = \alpha\ket0+\beta\ket1$. Il le conserve tel quel (transformation identité \mygate{I}).
+     \item Si Alice mesure $0.1$ alors le troisième qubit reçu par Bob est $\beta\ket0+\alpha\ket1$ et comme il applique ensuite la transformation \mygate{X} (qui échange $\ket0$ et $\ket1$) cela lui fournit $\ket\psi = \alpha\ket0+\beta\ket1$. 
+     \item Si Alice mesure $1.0$ alors le troisième qubit reçu par Bob est $\alpha\ket0-\beta\ket1$ et il applique alors la transformation \mygate{Z} (qui change $\ket1$ en $-\ket1$ et laisse invariant $\ket0$) cela lui fournit $\ket\psi = \alpha\ket0+\beta\ket1$. 
+     \item Si Alice mesure $1.1$ alors le troisième qubit reçu par Bob est $-\beta\ket0+\alpha\ket1$ et il applique la transformation \mygate{X} suivie de \mygate{Z} cela lui fournit encore une fois $\ket\psi = \alpha\ket0+\beta\ket1$. 
+  \end{itemize}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Mesure partielle}
+
+\index{qubit!mesure partielle}
+
+%--------------------------------------------------------------------
+\subsection{Mesure classique d'un $2$-qubit}
+
+Soit le $2$-qubit
+$$\ket\psi = \alpha\ket{0.0} + \beta\ket{0.1} + \gamma\ket{1.0} + \delta\ket{1.1}$$
+où $\alpha,\beta,\gamma,\delta$ sont des nombres complexes tels que $|\alpha|^2 + |\beta|^2 + |\gamma|^2 + |\delta|^2 = 1$.
+Le circuit suivant effectue la mesure de $\ket\psi$ sur chacun des deux $1$-qubits.
+{\Large
+$$
+\Qcircuit @C=1em @R=1em {
+& \qw & \meter & \qw & \qwa \\
+& \qw & \meter & \qw & \qwa
+}
+$$
+}
+On sait que la mesure donne :
+\begin{itemize}
+  \item $0.0$ avec la probabilité $|\alpha|^2$,
+  \item $0.1$ avec la probabilité $|\beta|^2$,
+  \item $1.0$ avec la probabilité $|\gamma|^2$,
+  \item $1.1$ avec la probabilité $|\delta|^2$.
+\end{itemize}
+
+%--------------------------------------------------------------------
+\subsection{Mesure partielle d'un $2$-qubit}
+
+\textbf{Mesure partielle.}
+On reprend le même $2$-qubit
+$$\ket\psi = \alpha\ket{0.0} + \beta\ket{0.1} + \gamma\ket{1.0} + \delta\ket{1.1}.$$
+Le circuit suivant effectue la \defi{mesure partielle} de $\ket\psi$ sur son premier $1$-qubit seulement (on conserve le second $1$-qubit tel quel).
+{\Large$$
+\Qcircuit @C=1em @R=1em {
+&  \meter & \qwa \\
+&  \qw & \qwa
+}
+$$}
+
+\bigskip
+
+\textbf{Question.} Si on mesure $0$ sur le premier qubit, que peut-il arriver sur le second qubit ? 
+{\Large$$
+\ket\psi\quad
+\raise2.5ex\hbox{
+\Qcircuit @C=1em @R=1em {
+&  \meter & \qwa & 0 \\
+&  \qw & \qwa & \text{?}
+}}
+$$}
+
+\bigskip
+
+\textbf{Exemple.}
+Commençons par étudier un exemple :
+$$\ket\psi = \frac{\sqrt2}{2}\ket{0.0} + \frac12\ket{0.1} + \frac12 \ket{1.1}$$
+
+Si pour le premier qubit on mesure $b_1 = 1$, alors le second qubit est nécessairement 
+$q_2=\ket1$ (qui se mesurerait en $b_2=1$). En effet dans $\ket\psi$ on a le terme $\ket{1.1}$ (donc $q_1=\ket1$ et $q_2=\ket1$) mais pas de terme $\ket{1.0}$ (qui aurait pu donner $q_1=\ket1$ et $q_2=\ket0$).
+
+
+Si par contre pour le premier qubit on mesure $b_1=0$, alors comment faire ?
+On factorise les termes de $\ket\psi$ selon le premier qubit :
+$$\ket\psi = \frac12\ket0 \cdot \left(\sqrt2\ket{0} + \ket{1}\right) \  + \  \frac12 \ket{1}\cdot\ket{1}$$ 
+
+On obtient alors que :
+\begin{itemize}
+  \item si $q_1=\ket0$, alors $q_2$ est donné par $\sqrt2\ket{0} + \ket{1}$ qu'il faut normaliser en tant que $1$-qubit, c'est-à-dire $q_2 = \frac{\sqrt2}{\sqrt3}\ket{0} + \frac1{\sqrt3}\ket{1}$.
+  Une mesure de ce second qubit $q_2$, sachant que le premier qubit est mesuré à $0$, donnerait $0$ avec probabilité $2/3$ et $1$ avec probabilité $1/3$.
+
+  \item si $q_1=\ket1$, alors $q_2=\ket1$, on retrouve bien que si on mesure $1$ pour le premier qubit, on mesure nécessairement $1$ pour le second.
+\end{itemize}
+
+
+\bigskip
+
+\textbf{Cas général.}
+Revenons au cas d'un $2$-qubit général :
+$$\ket\psi = \alpha\ket{0.0} + \beta\ket{0.1} + \gamma\ket{1.0} + \delta\ket{1.1}.$$
+On factorise par le premier qubit :
+$$\ket\psi = \ket{0}\cdot (\alpha\ket{0} + \beta\ket{1})
+\ + \ \ket{1}\cdot(\gamma\ket{0} + \delta\ket{1}).$$
+
+\bigskip
+
+\begin{minipage}{0.3\textwidth}
+{\Large$$
+\ket\psi
+\raise2.3ex\hbox{
+\Qcircuit @C=1em @R=1em {
+&  \meter & \qwa & 0 \\
+&  \qw & \qwa & \text{?}
+}}
+$$}
+\end{minipage}
+\begin{minipage}{0.6\textwidth}
+Si on mesure $0$ sur le premier qubit, alors le second qubit est le normalisé de $\alpha\ket{0} + \beta\ket{1}$, c'est donc 
+$$q_2 = \frac{\alpha}{\sqrt{|\alpha|^2+|\beta|^2}}\ket{0} + \frac{\beta}{\sqrt{|\alpha|^2+|\beta|^2}}\ket{1}$$
+Si on mesurait ce second qubit, on obtiendrait donc $0$ avec probabilité $\frac{|\alpha|^2}{|\alpha|^2+|\beta|^2}$ et $1$ avec la probabilité $\frac{|\beta|^2}{|\alpha|^2+|\beta|^2}$.
+\end{minipage}
+
+\bigskip
+
+\begin{minipage}{0.3\textwidth}
+{\Large$$
+\ket\psi
+\raise2.3ex\hbox{
+\Qcircuit @C=1em @R=1em {
+&  \meter & \qwa & 1 \\
+&  \qw & \qwa & \text{?}
+}}
+$$}
+\end{minipage}
+\begin{minipage}{0.6\textwidth}
+Si on mesure $1$ sur le premier qubit alors le second qubit est le normalisé de $\gamma\ket{0} + \delta\ket{1}$, c'est donc 
+$$q_2 = \frac{\gamma}{\sqrt{|\gamma|^2+|\delta|^2}}\ket{0} + \frac{\delta}{\sqrt{|\gamma|^2+|\delta|^2}}\ket{1}$$
+Si on mesurait ce second qubit, on obtiendrait donc $0$ avec probabilité $\frac{|\gamma|^2}{|\gamma|^2+|\delta|^2}$ et $1$ avec la probabilité $\frac{|\delta|^2}{|\gamma|^2+|\delta|^2}$.
+\end{minipage}
+
+
+
+%--------------------------------------------------------------------
+\subsection{Mesure partielle d'un $3$-qubit}
+
+Le principe est le même si on effectue la mesure partielle des deux premiers qubits d'un $3$-qubit.
+
+{\Large$$
+\Qcircuit @C=1em @R=1em {
+& \qw &  \meter & \qwa  \\
+& \qw &  \meter & \qwa  \\
+& \qw &  \qw & \qwa 
+}
+$$}
+
+\medskip
+
+Considérons par exemple 
+$$\ket\psi = \frac15\left(
+2\ket{0.0.0} - \ket{0.0.1} + 3\ket{0.1.0} + \ket{0.1.1}
+-2\ket{1.0.0} + 2\ket{1.0.1} + \sqrt{2}\ket{1.1.1}
+\right)$$
+
+Factorisons ce $3$-qubit selon ses deux premiers qubits :
+$$5\ket\psi = 
+ \ket{0.0}\big(2\ket0-\ket1\big)
+\  +\   \ket{0.1}\big(3\ket0+\ket1\big)
+\  +\   2\ket{1.0}\big(-\ket0+\ket1\big)
+\  +\   \sqrt2\ket{1.1}\cdot\ket1$$
+
+\begin{itemize}
+  \item Si la mesure partielle est $0.0$ alors le troisième qubit est le normalisé de $2\ket0-\ket1$, donc $q_3 = \frac1{\sqrt5}(2\ket0-\ket1)$. Ainsi la mesure du troisième qubit, sachant que les deux premiers ont été mesurés en $0.0$, donnerait $0$ avec probabilité $4/5$ et $1$ avec probabilité $1/5$.
+
+  \item Si la mesure partielle est $0.1$ alors le troisième qubit normalisé est $q_3 = \frac1{\sqrt{10}}(3\ket0+\ket1)$. 
+
+  \item Si la mesure partielle est $1.0$ alors le troisième qubit normalisé est $q_3 = \frac1{\sqrt{2}}(-\ket0+\ket1)$.
+ 
+  \item Si la mesure partielle est $1.1$ alors le troisième qubit est $q_3 = \ket1$. Dans ce cas, la mesure du troisième qubit donnerait toujours $1$. 
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Les états de Bell}
+
+%--------------------------------------------------------------------
+\subsection{Les quatre états de Bell}
+
+\index{qubit!etats de Bell@états de Bell}
+
+Les quatre états de Bell sont les $2$-qubits suivants :
+
+\mybox{
+\begin{minipage}{0.8\textwidth}
+\begin{align*}
+\ket{\Phi^+} = \frac1{\sqrt2}\left(\ket{0.0}+\ket{1.1}\right) &\qquad\qquad\qquad
+\ket{\Psi^+} = \frac1{\sqrt2}\left(\ket{0.1}+\ket{1.0}\right) \\
+\ket{\Phi^-} = \frac1{\sqrt2}\left(\ket{0.0}-\ket{1.1}\right) &\qquad\qquad\qquad
+\ket{\Psi^-} = \frac1{\sqrt2}\left(\ket{0.1}-\ket{1.0}\right) \\
+\end{align*}
+\end{minipage}
+}
+
+On rappelle que $\ket{\Phi^+}$ est un état intriqué (ce n'est pas le produit de deux $1$-qubits). Il en est de même pour les trois autres états de Bell.
+
+
+%--------------------------------------------------------------------
+\subsection{Construction}
+
+\`A partir du qubit $\ket{0.0}$ on construit l'état de Bell $\ket{\Phi^+}$ à l'aide d'une porte de Hadamard \mygate{H} suivie d'une porte \mygate{CNOT}.
+
+{\large$$
+\raise2.3ex\hbox{
+\Qcircuit @C=1em @R=1em {
+0 && \qw & \gate{H} & \ctrl{1} & \qw & \qwa  \\
+0 && \qw & \qw & \targ &  \qw &\qwa
+}}
+\quad \ket{\Phi^+}
+$$}
+
+\smallskip
+
+On construit alors à partir de $\ket{\Phi^+}$, les autres états de Bell.
+{\large$$
+\ket{\Phi^+}
+\raise2.3ex\hbox{
+\Qcircuit @C=1em @R=1em {
+ & \gate{X} &  \qwa  \\
+ & \qw      &   \qwa
+}}
+\ \ket{\Psi^+}
+\qquad\qquad
+\ket{\Phi^+}
+\raise2.3ex\hbox{
+\Qcircuit @C=1em @R=1em {
+ & \gate{Z} &  \qwa  \\
+ & \qw      &   \qwa
+}}
+\ \ket{\Phi^-}
+\qquad\qquad
+\ket{\Phi^+}
+\raise2.3ex\hbox{
+\Qcircuit @C=1em @R=1em {
+ & \gate{X} & \gate{Z} &  \qwa  \\
+ & \qw      & \qw      &   \qwa
+}}
+\ \ket{\Psi^-}
+$$}
+
+%--------------------------------------------------------------------
+\subsection{Base de Bell}
+
+On connaît déjà la \defi{base canonique} des $2$-qubits, formée des quatre états :
+$$\ket{0.0}\quad\ket{0.1}\quad\ket{1.0}\quad\ket{1.1}$$
+
+Être une \defi{base} signifie que n'importe quel $2$-qubit $\ket\psi$ s'écrit de façon unique :
+$$\ket\psi = \alpha\ket{0.0} + \beta\ket{0.1} + \gamma\ket{1.0} + \delta\ket{1.1}$$
+où $\alpha,\beta,\gamma,\delta$ sont des nombres complexes avec $|\alpha|^2 + |\beta|^2 + |\gamma|^2 + |\delta|^2 = 1$.
+
+\begin{proposition}
+Les quatre états de Bell $\ket{\Phi^+}, 
+\ket{\Psi^+},
+\ket{\Phi^-},
+\ket{\Psi^-}$
+forment aussi une base des $2$-qubits, appelée \defi{base de Bell}.
+Cela signifie que n'importe quel $2$-qubit $\ket\psi$ s'écrit de façon unique :
+$$\ket\psi = \alpha'\ket{\Phi^+} + \beta'\ket{\Psi^+} + \gamma'\ket{\Phi^-} + \delta'\ket{\Psi^-}$$
+avec $|\alpha'|^2 + |\beta'|^2 + |\gamma'|^2 + |\delta'|^2 = 1$.
+\end{proposition}
+
+\bigskip
+
+Comment passer d'une base à une autre ?
+Si $\ket\psi = \alpha'\ket{\Phi^+} + \beta'\ket{\Psi^+} + \gamma'\ket{\Phi^-} + \delta'\ket{\Psi^-}$,
+alors on substitue $\ket{\Phi^+}$, $\ket{\Psi^+}$,\ldots{} à l'aide de l'égalité $\ket{\Phi^+} = \frac1{\sqrt2}\left(\ket{0.0}+\ket{1.1}\right)$, \ldots{}
+Ce qui donne 
+\begin{align*}
+\ket\psi 
+&= \alpha'\ket{\Phi^+} + \beta'\ket{\Psi^+} + \gamma'\ket{\Phi^-} + \delta'\ket{\Psi^-} \\
+&= \frac1{\sqrt2}\alpha'\left(\ket{0.0}+\ket{1.1}\right) 
++ \frac1{\sqrt2}\beta'\left(\ket{0.1}+\ket{1.0}\right) 
++ \frac1{\sqrt2}\gamma'\left(\ket{0.0}-\ket{1.1}\right) 
++ \frac1{\sqrt2}\delta'\left(\ket{0.1}-\ket{1.0}\right) \\
+&= \frac1{\sqrt2}(\alpha'+\gamma')\ket{0.0}
++ \frac1{\sqrt2}(\beta'+\delta')\ket{0.1}
++ \frac1{\sqrt2}(\beta'-\delta')\ket{1.0}
++ \frac1{\sqrt2}(\alpha'-\gamma')\ket{1.1} \\
+\end{align*}
+
+Pour le passage dans l'autre sens, on utilise les identités suivantes :
+\mybox{
+\begin{minipage}{0.4\textwidth}
+\begin{align*}
+\ket{0.0} &= \frac1{\sqrt{2}}\left( \ket{\Phi^+}+\ket{\Phi^-} \right)\\
+\ket{0.1} &= \frac1{\sqrt{2}}\left( \ket{\Psi^+}+\ket{\Psi^-} \right)\\
+\ket{1.0} &= \frac1{\sqrt{2}}\left( \ket{\Psi^+}-\ket{\Psi^-} \right)\\
+\ket{1.1} &= \frac1{\sqrt{2}}\left( \ket{\Phi^+}-\ket{\Phi^-} \right)\\
+\end{align*}
+\end{minipage}
+}
+
+
+
+Par exemple si 
+$$\ket\psi = \frac{1}{\sqrt{15}} \left(\ket{0.0} + 2\ket{0.1} - 3\ket{1.0} - \ket{1.1}\right)$$
+alors :
+\begin{align*}
+\ket\psi &= \frac{1}{\sqrt{30}} \left( 
+\left( \ket{\Phi^+}+\ket{\Phi^-} \right)
++2\left( \ket{\Psi^+}+\ket{\Psi^-} \right)
+-3\left( \ket{\Psi^+}-\ket{\Psi^-} \right)
+-\left( \ket{\Phi^+}-\ket{\Phi^-} \right)
+\right) \\
+&= \frac{1}{\sqrt{30}} \left(
+0\ket{\Phi^+}
+-1\ket{\Psi^+}
++2\ket{\Phi^-}
++5\ket{\Psi^-}
+\right) \\
+&= \frac{1}{\sqrt{30}} \left(
+-\ket{\Psi^+}
++2\ket{\Phi^-}
++5\ket{\Psi^-}
+\right) \\
+\end{align*}
+
+
+Une autre vision du passage d'une base à une autre est celle des circuits :
+{\large$$
+\text{Base canonique}\qquad
+{\Large
+\raise2.3ex\hbox{
+\Qcircuit @C=1em @R=1em {
+ & \gate{H} & \ctrl{1} &  \qwa  \\
+ & \qw & \targ &  \qwa
+}}}
+\qquad\text{Base de Bell}
+$$}
+C'est-à-dire, le circuit ci-dessus envoie $\ket{0.0}$  sur $\ket{\Phi^+}$,
+$\ket{0.1}$ s'envoie sur $\ket{\Psi^+}$, $\ket{1.0}$ s'envoie sur $\ket{\Phi^-}$,
+$\ket{1.1}$ s'envoie sur $\ket{\Psi^-}$.
+
+\bigskip
+Pour le circuit ci-dessous, c'est exactement l'inverse : $\ket{\Phi^+}$ s'envoie sur $\ket{0.0}$, etc. 
+{\large$$
+\text{Base de Bell}\qquad
+{\Large
+\raise2.3ex\hbox{
+\Qcircuit @C=1em @R=1em {
+& \ctrl{1}  & \gate{H} & \qwa \\
+& \targ &  \qw &  \qwa
+}}}
+\qquad\text{Base canonique}
+$$}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Mesure partielle dans la base de Bell}
+
+\index{qubit!mesure partielle}
+
+%--------------------------------------------------------------------
+\subsection{Mesure partielle dans une autre base}
+
+La téléportation quantique est basée sur une mesure partielle par Alice, qui est en fait une mesure partielle dans la base Bell.
+
+Une mesure partielle d'un $3$-qubit $\ket\phi$ dans la base canonique, correspond à la factorisation :
+$$\ket\phi = \ket{0.0} \cdot \ket{\psi_1} + \ket{0.1} \cdot \ket{\psi_2} + \ket{1.0} \cdot \ket{\psi_3} + \ket{1.1} \cdot \ket{\psi_4}.$$
+Ainsi, si la mesure partielle sur les deux premiers qubits donne $0.0$, alors le troisième qubit est $\ket{\psi_1}$, si la mesure donne $0.1$, alors c'est $\ket{\psi_2}$,\ldots
+
+On peut faire un travail similaire dans la base de Bell, avec la factorisation :
+$$\ket\phi =  \ket{\Phi^+}\cdot \ket{\psi'_1} +  \ket{\Psi^+}\cdot \ket{\psi'_2} + \ket{\Phi^-}\cdot \ket{\psi'_3} +  \ket{\Psi^-}\cdot \ket{\psi'_4}.$$
+
+Si la mesure partielle dans la base de Bell correspond à $\ket{\Phi^+}$ alors le troisième qubit est $\ket{\psi'_1}$, etc.
+
+Comment se fait la mesure partielle dans la base de Bell ?
+\`A l'aide du circuit utilisé par Alice !
+{\large$$
+\ket\phi\quad
+\raise4ex\hbox{
+\Qcircuit @C=1em @R=1em {
+& \ctrl{1}  & \gate{H} &  \meter & \qwa & b_1\\
+& \targ &  \qw &  \meter & \qwa & b_2 \\
+& \qw &  \qw &  \qw & \qwa & \text{?}
+}}
+$$}
+
+\bigskip
+
+\begin{itemize}
+  \item Si la mesure donne $0.0$ alors les deux premiers qubits de $\ket\phi$ forment le $2$-qubit $\ket{\Phi^+}$ et donc le troisième qubit de $\ket\phi$ est $\ket{\psi'_1}$.
+  \item Si la mesure donne $0.1$ alors les deux premiers qubits de $\ket\phi$ forment $\ket{\Psi^+}$ et donc le troisième qubit est $\ket{\psi'_2}$.
+  \item etc.
+\end{itemize}
+
+
+%--------------------------------------------------------------------
+\subsection{Calculs de la téléportation quantique}
+
+On recommence le calcul de la section \ref{sec:calculs} qui explique la téléportation quantique, mais cette fois en mettant en évidence qu'elle est basée sur la mesure partielle de l'état $\ket\psi \otimes \ket{\Phi^+}$ dans la base de Bell.
+
+On rappelle :
+\begin{itemize}
+  \item le qubit à téléporter est $\ket\psi = \alpha\ket0 + \beta\ket1$ ; 
+
+  \item l'état de Bell est $\ket{\Phi^+} = \frac{1}{\sqrt2}(\ket{0.0}+\ket{1.1})$ ; 
+
+  \item le $3$-qubit composé de $\ket\psi$ et $\ket{\Phi^+}$ est  $\ket \phi = \ket\psi \otimes \ket{\Phi^+}$.
+\end{itemize}
+
+
+
+\begin{align*}
+\ket \phi 
+  &= \ket\psi \otimes \ket{\Phi^+} \\
+  &= \frac{1}{\sqrt2}\left( \alpha\ket{0.0.0} + \alpha\ket{0.1.1} + \beta\ket{1.0.0} + \beta\ket{1.1.1} \right) \\
+  &= \frac{1}{\sqrt2}\left( \alpha\ket{0.0}\cdot\ket{0} + \alpha\ket{0.1}\cdot\ket{1} + \beta\ket{1.0}\cdot\ket{0} + \beta\ket{1.1}\cdot\ket{1} \right) \\  
+  &= \tfrac12\alpha\left( \ket{\Phi^+}+\ket{\Phi^-} \right)\cdot\ket{0} 
+  + \tfrac12\alpha\left( \ket{\Psi^+}+\ket{\Psi^-} \right)\cdot\ket{1} 
+  + \tfrac12\beta\left( \ket{\Psi^+}-\ket{\Psi^-} \right)\cdot\ket{0} 
+  + \tfrac12\beta\left( \ket{\Phi^+}-\ket{\Phi^-} \right)\cdot\ket{1}  \\  
+  &= \tfrac12\ket{\Phi^+} (\alpha\ket0+\beta\ket1) \\
+  &\qquad +\tfrac12\ket{\Psi^+}(\beta\ket0+\alpha\ket1) \\
+  &\qquad\qquad +\tfrac12\ket{\Phi^-}(\alpha\ket0-\beta\ket1) \\
+  &\qquad\qquad\qquad +\tfrac12\ket{\Psi^-}(-\beta\ket0+\alpha\ket1)  \\
+\end{align*}
+
+Ainsi, si la mesure partielle dans la base de Bell sur les deux premiers qubits identifie $\ket{\Phi^+}$, alors le troisième qubit est déjà $\ket\psi$, sinon Bob n'a qu'à appliquer les transformations $X$ et $Z$ pour reconstituer $\ket\psi$.
+\end{document}

@@ -1,0 +1,10 @@
+\begin{tikzpicture}[scale=1]
+
+\draw[thick,double] (10:1) arc (10:350:1);
+\draw[thick,double] (10:1) -- ++(2,0);
+\draw[thick,double] (-10:1) -- ++(2,0);
+\draw[thick,double][xshift=4cm,thick,rotate=180] (10:1) arc (10:350:1);
+
+\node at (0,0) {PILE};
+\node at (4,0) {PILE};
+\end{tikzpicture}

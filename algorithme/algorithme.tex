@@ -1,0 +1,564 @@
+\documentclass[11pt,class=report,crop=false]{standalone}
+\usepackage[screen]{../python}
+
+
+
+\begin{document}
+
+
+%====================================================================
+\chapitre{Un premier algorithme quantique}
+%====================================================================
+
+
+\objectifs{%[Introduction de la partie]
+La force de l'informatique quantique est de pouvoir faire des calculs avec des $0$ et des $1$ en même temps. Au lieu de deux calculs classiques sur le bit $0$, puis sur le bit $1$, l'ordinateur quantique effectue un seul calcul sur un $1$-qubit. Encore plus fort : avec un $n$-qubit, un seul calcul quantique remplace $2^n$ calculs classiques.\\
+La réalité est cependant plus compliquée, car tous les algorithmes de l'informatique classique ne vont pas miraculeusement être plus rapides grâce à l'informatique quantique. Nous allons voir dans cette partie des problèmes que l'informatique quantique résout beaucoup mieux que les algorithmes classiques. Le but final est de comprendre l'algorithme quantique de Shor qui permet la factorisation rapide des entiers.
+}
+
+\bigskip
+\bigskip
+
+\objectifs{%[Objectifs du chapitre] 
+Nous commençons par étudier une version simple de l'algorithme de Deutsch--Jozsa afin de nous familiariser avec les objets, les techniques et les types d'algorithmes que nous découvrirons dans cette seconde partie du livre.}
+
+
+\index{algorithme de Deutsch--Jozsa}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Objectifs}
+
+%--------------------------------------------------------------------
+\subsection{Motivation}
+
+L'algorithme de Deutsch--Jozsa n'est pas très utile !
+Il permet de décider si une fonction est constante ou équilibrée.
+Cependant cet algorithme est très intéressant car il prouve que l'informatique quantique permet de faire des calculs plus rapidement qu'avec un ordinateur classique.
+
+L'algorithme complet (avec $n$ variables) sera étudié plus loin dans le chapitre \og{}Algorithme de Deutsch--Jozsa\fg{}.
+Dans ce chapitre d'introduction, on se contente de présenter l'algorithme pour les fonctions les plus simples : celles ayant une, puis deux variables.
+
+%--------------------------------------------------------------------
+\subsection{Fonction à étudier}
+
+On commence par le cas des fonctions d'une seule variable.
+L'ensemble de départ et d'arrivée est $\{0,1\}$.
+Considérons une telle fonction :
+$$f : \{0,1\} \longrightarrow \{0,1\}$$
+
+Il y a en fait $4$ fonctions possibles que l'on sépare en deux catégories :
+
+\begin{minipage}{0.45\textwidth}
+\center
+\textbf{Fonctions constantes}
+$$f_0 \left\{\begin{array}{rcl}0&\mapsto&0\\1&\mapsto&0\end{array}\right.$$
+$$f_1 \left\{\begin{array}{rcl}0&\mapsto&1\\1&\mapsto&1\end{array}\right.$$
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+\center
+\textbf{Fonctions équilibrées}
+$$f_2 \left\{\begin{array}{rcl}0&\mapsto&0\\1&\mapsto&1\end{array}\right.$$
+$$f_3 \left\{\begin{array}{rcl}0&\mapsto&1\\1&\mapsto&0\end{array}\right.$$
+\end{minipage}
+
+\textbf{Problème.}
+On nous donne une fonction $f : \{0,1\} \longrightarrow \{0,1\}$, comment déterminer si elle est constante ou équilibrée ?
+
+
+%--------------------------------------------------------------------
+\subsection{Solution classique}
+
+La solution classique à ce problème est simple :
+\begin{itemize}
+  \item calculer $f(0)$ ;
+  \item calculer $f(1)$ ;
+  \item conclure : si $f(0)=f(1)$ la fonction est constante, sinon elle est équilibrée.
+\end{itemize}
+
+Cet algorithme est très simple, mais il demande deux évaluations de la fonction $f$ (le calcul de $f(0)$ puis celui de $f(1)$) et on ne peut pas faire mieux. Si on définit la complexité de cet algorithme par le nombre d'évaluations de $f$, alors sa complexité vaut $2$.
+
+Nous allons voir un algorithme quantique dont la complexité est $1$. Cela ne vous paraît peut-être pas formidablement mieux, mais dans le cas d'une fonction de $n$ variables alors la complexité classique est d'ordre $2^n$ alors que l'algorithme quantique reste de complexité $1$. L'amélioration est donc exponentielle !
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Circuit quantique}
+
+%--------------------------------------------------------------------
+\subsection{Circuit}
+
+L'algorithme quantique est fourni par le circuit quantique ci-dessous qui répond au problème à l'aide d'une seule évaluation de $f$.
+
+
+{\large$$
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket0} & \gate{H} & \qw      & \qw & \multigate{1}{O_f} & \qw  & \gate{H} & \meter & \rstick{\text{sortie}} \qwa \\
+\lstick{\ket1} & \qw      & \gate{H} & \qw & \ghost{O_f}        & \qw  & \qw      &  \qw   & \qw 
+}
+$$}
+
+\bigskip
+
+Le circuit est initialisée, puis utilise des portes de Hadamard \mygate{H} mais aussi un sous-circuit $O_f$, appelé \og{}oracle\fg{} que nous détaillerons après.
+
+\textbf{Algorithme.}
+\begin{itemize}
+  \item \emph{Entrée.} Une fonction $f:\{0,1\}\to\{0,1\}$.
+  \item \emph{Sortie.} La sortie est donnée par la mesure sur le premier qubit du circuit.
+  Si la mesure vaut $0$, la fonction est constante ; si la mesure vaut $1$, la fonction est équilibrée.
+\end{itemize}
+
+%--------------------------------------------------------------------
+\subsection{Oracles}
+
+Un \defi{oracle}\index{oracle} est un circuit quantique associé à une fonction $f$.
+Voici ce que réalise un oracle pour une fonction $f:\{0,1\}\to\{0,1\}$.
+
+{\large$$
+\Qcircuit @C=1em @R=1em {
+  & \qw  & \ustick{\scriptstyle x}\qw & \multigate{1}{O_f} & \ustick{\scriptstyle x}\qw & \qw &  \qwa \\
+ & \qw   & \dstick{\scriptstyle y}\qw & \ghost{O_f}           & \dstick{\scriptstyle \hspace{0.5em} y \oplus f(x)}\qw & \qw &  \qwa
+}
+$$}
+
+\medskip
+
+où $x$ et $y$ sont des bits classiques $0$ ou $1$.
+
+
+
+L'oracle nous donne l'action de la porte $O_f$ sur les qubits de base $\ket0$ et $\ket1$.
+{\large$$
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket x}  & \qw  & \qw & \multigate{1}{O_f} & \qw & \qw & \rstick{\ket x} \qwa \\
+\lstick{\ket y}  & \qw  & \qw & \ghost{O_f}           & \qw & \qw & \rstick{\ket {y \oplus f(x)}} \qwa
+}
+$$}
+
+\medskip
+Détaillons ce qui se passe sur chaque ligne de l'oracle.
+
+\emph{Première ligne.} En entrée l'oracle reçoit le bit $x$ et en sortie il renvoie cette même valeur $x$.
+
+\emph{Seconde ligne.} En entrée l'oracle reçoit le bit $y$ mais la sortie dépend des valeurs de $x$, $y$ et de la fonction $f$. Cette sortie est le bit $0$ ou $1$, donné par la formule :
+$$y \oplus f(x)$$
+
+\textbf{Addition binaire.}
+L'addition \og{}$\oplus$\fg{} est l'addition binaire sur les bits $0$ et $1$. Elle est équivalent au \og{}ou exclusif\fg{} :
+$$
+0 \oplus 0 = 0 \qquad
+0 \oplus 1 = 1 \qquad
+1 \oplus 0 = 1 \qquad
+\text{\myboxinline{$1 \oplus 1 = 0$}}
+$$
+
+On rappelle que les valeurs $x$, $y$ et $f(x)$ valent $0$ ou $1$. Ainsi la sortie $y \oplus f(x)$ vaut aussi $0$ ou $1$.
+
+\begin{exemple}
+Prenons la fonction $f$ définie par $f(0)=1$ et $f(1)=0$.
+\begin{itemize}
+  \item Pour $x=0$, $y=0$ alors $f(0)=1$ donc $y \oplus f(x) = 0 \oplus 1 = 1$.  
+  \item Pour $x=0$, $y=1$ alors $f(0)=1$ donc $y \oplus f(x) = 1 \oplus 1 = 0$.
+  \item Pour $x=1$, $y=0$ alors $f(1)=0$ donc $y \oplus f(x) = 0 \oplus 0 = 0$.
+  \item Pour $x=1$, $y=1$ alors $f(1)=0$ donc $y \oplus f(x) = 1 \oplus 0 = 1$.
+\end{itemize}
+
+
+{\small$$
+\Qcircuit @C=1em @R=1em {
+\lstick{0}  & \qw  & \ustick{\scriptstyle x}\qw & \multigate{1}{O_f} & \ustick{\scriptstyle x}\qw & \qw & \rstick{0} \qwa \\
+\lstick{0}  & \qw  & \dstick{\scriptstyle y}\qw & \ghost{O_f}           & \dstick{\scriptstyle \hspace{0.5em} y \oplus f(x)}\qw & \qw & \rstick{1} \qwa
+}
+\qquad\qquad
+\Qcircuit @C=1em @R=1em {
+\lstick{0}  & \qw  & \ustick{\scriptstyle x}\qw & \multigate{1}{O_f} & \ustick{\scriptstyle x}\qw & \qw & \rstick{0} \qwa \\
+\lstick{1}  & \qw  & \dstick{\scriptstyle y}\qw & \ghost{O_f}           & \dstick{\scriptstyle \hspace{0.5em} y \oplus f(x)}\qw & \qw & \rstick{0} \qwa
+}
+\qquad\qquad
+\Qcircuit @C=1em @R=1em {
+\lstick{1}  & \qw  & \ustick{\scriptstyle x}\qw & \multigate{1}{O_f} & \ustick{\scriptstyle x}\qw & \qw & \rstick{1} \qwa \\
+\lstick{0}  & \qw  & \dstick{\scriptstyle y}\qw & \ghost{O_f}           & \dstick{\scriptstyle \hspace{0.5em} y \oplus f(x)}\qw & \qw & \rstick{0} \qwa
+}
+\qquad\qquad
+\Qcircuit @C=1em @R=1em {
+\lstick{1}  & \qw  & \ustick{\scriptstyle x}\qw & \multigate{1}{O_f} & \ustick{\scriptstyle x}\qw & \qw & \rstick{1} \qwa \\
+\lstick{1}  & \qw  & \dstick{\scriptstyle y}\qw & \ghost{O_f}           & \dstick{\scriptstyle \hspace{0.5em} y \oplus f(x)}\qw & \qw & \rstick{1} \qwa
+}
+$$}
+\end{exemple}
+
+\bigskip
+
+\textbf{Fonction de deux variables.}
+
+Dans notre situation, l'oracle fournit une fonction de deux variables $F : \{0,1\}^2 \to \{0,1\}^2$ définie par :
+$$F(x,y) = \big( x , y \oplus f(x) \big).$$
+
+\begin{exemple}
+Reprenons la fonction $f$ définie par $f(0)=1$ et $f(1)=0$.
+Alors
+$$
+(0,0) \xmapsto[]{F} (0,1) \qquad
+(0,1) \xmapsto[]{F} (0,0) \qquad
+(1,0) \xmapsto[]{F} (1,0) \qquad
+(1,1) \xmapsto[]{F} (1,1)
+$$
+\end{exemple}
+
+\textbf{Action sur les qubits.}
+
+L'oracle associé à $f$ définit alors une fonction sur les $2$-qubits. Notons $\tilde F : \Cc^4 \to \Cc^4$
+définie sur la base canonique $(\ket{0.0},\ket{0.1},\ket{1.0},\ket{1.1})$ par la fonction $F$,  c'est à dire $\tilde F(\ket{x.y}) = \ket{F(x,y)}$, puis étendue par linéarité à $\Cc^4$.
+Si 
+$$\ket\psi = \alpha\ket{0.0} + \beta\ket{0.1} + \gamma\ket{1.0} + \delta\ket{1.1}.$$
+Alors :
+$$\tilde F\big(\ket\psi\big) = \alpha\tilde F(\ket{0.0})  + \beta\tilde F(\ket{0.1})  + \gamma\tilde F( \ket{1.0} )  + \delta\tilde F(\ket{1.1}).$$
+
+
+\begin{exemple}
+Toujours sur le même exemple, cela donne :
+$$
+\ket{0.0} \xmapsto[]{\tilde F} \ket{0.1} \qquad
+\ket{0.1} \xmapsto[]{\tilde F} \ket{0.0} \qquad
+\ket{1.0} \xmapsto[]{\tilde F} \ket{1.0} \qquad
+\ket{1.1} \xmapsto[]{\tilde F} \ket{1.1}
+$$
+Et ainsi :
+$$\tilde F\big(\ket\psi\big) = \beta\ket{0.0} + \alpha\ket{0.1} + \gamma\ket{1.0} + \delta\ket{1.1}.$$
+\end{exemple}
+
+
+%--------------------------------------------------------------------
+\subsection{Preuve}
+
+{\large$$
+\Qcircuit @C=1.4em @R=1.4em {
+\lstick{\ket0} \barrier[-1.5em]{1} & \gate{H} & \qw      & \qw \barrier[-2.5em]{1}& \multigate{1}{O_f} & \qw \barrier[-2em]{1} & \gate{H} \barrier[-1.5em]{1} & \meter & \rstick{\text{sortie}} \qwa \\
+\lstick{\ket1} & \qw      & \gate{H} & \qw & \ghost{O_f}        & \qw  & \qw      &  \qw   & \qw \\
+\hspace{1em} \ket{\psi_0} & &&\hspace{0em} \ket{\psi_1} &&\hspace{0.5em} \ket{\psi_2} &\hspace{3em} \ket{\psi_3}&& \\
+}
+$$}
+
+\bigskip
+\bigskip
+
+Nous détaillons les calculs en suivant l'évolution des qubits au fil du circuit.
+
+\textbf{Qubit initial $\ket{\psi_0}$.}
+$$\ket{\psi_0} = \ket{0} \otimes \ket{1} = \ket{0.1}$$
+
+\textbf{Qubit $\ket{\psi_1}$ obtenu après transformation de Hadamard.}
+
+On applique une porte de Hadamard sur la première ligne : $H\ket0 = \frac1{\sqrt2}(\ket0+\ket1)$, et une autre sur la seconde ligne $H\ket1 = \frac1{\sqrt2}(\ket0-\ket1)$.
+Ainsi :
+\begin{align*}
+\ket{\psi_1} 
+  &= \frac12(\ket{0}+\ket1)(\ket0-\ket1) \\
+  &= \frac12\big( \ket{0.0} - \ket{0.1} + \ket{1.0} - \ket{1.1} \big).
+\end{align*}
+
+Pour simplifier l'écriture des calculs dans la suite, on va \og{}oublier\fg{} le coefficient $\frac12$ et écrire $0.0$ au lieu de $\ket{0.0}$, $0.1$ au lieu de $\ket{0.1}$,\ldots{}
+Ainsi on note :
+$$\ket{\psi_1} \equiv 0.0 - 0.1 +1.0 -1.1$$
+
+\textbf{Qubit $\ket{\psi_2}$ obtenu après l'oracle.}
+$$\ket{\psi_2} \equiv 0.(0\oplus f(0)) - 0.(1 \oplus f(0)) +1.(0 \oplus f(1)) -1.(1 \oplus f(1))$$
+En effet, l'oracle envoie $x$ sur $x$ pour la première ligne et $y$ sur $y\oplus f(x)$ pour la seconde.
+Attention \og{}$\oplus$\fg{} est l'addition binaire et doit être effectuée en priorité. Il ne faut pas la confondre avec l'addition de qubits, notée \og{}$+$\fg{} : $x.(y \oplus f(x))$ n'a rien à voir avec $x.(y+f(x))$.
+
+On regroupe les termes commençant par le même qubit :
+$$\ket{\psi_2} \equiv \underbrace{0.(0\oplus f(0)) - 0.(1 \oplus f(0))}_{A} \quad + \quad \underbrace{1.(0 \oplus f(1)) -1.(1 \oplus f(1))}_{B}.$$
+Calculons le terme $A$ en fonction de $f(0)$ :
+$$A=\left\{ 
+\begin{array}{ll}
+0.0-0.1 & \quad \text{ si } f(0)=0 \\
+-(0.0-0.1) & \quad \text{ si } f(0)=1 \\
+\end{array}\right.
+\qquad \text{ donc } \qquad 
+A = (-1)^{f(0)} (0.0 -0.1).$$
+
+On rappelle que $(-1)^k$ est juste une façon d'obtenir $+1$ ou $-1$ selon la parité de $k$ :
+$$(-1)^k=\left\{ 
+\begin{array}{ll}
++1 & \qquad \text{ si $k=0$ (ou si $k$ est pair)} \\
+-1 & \qquad \text{ si $k=1$ (ou si $k$ est impair)} \\
+\end{array}\right.$$
+
+Ainsi :
+$$\ket{\psi_2} \equiv (-1)^{f(0)} (0.0 - 0.1) + (-1)^{f(1)} (1.0 - 1.1).$$
+
+\textbf{Qubit $\ket{\psi_3}$ obtenu après une porte de Hadamard.}
+
+Après l'oracle on applique une porte de Hadamard sur la première ligne. 
+Ainsi :
+
+\begin{align*}
+\ket{\psi_3} 
+ &\equiv (-1)^{f(0)} ((0+1).0 - (0+1).1) \\
+   & \qquad \qquad + (-1)^{f(1)} ((0-1).0 - (0-1).1) \\
+ &\equiv (-1)^{f(0)} (0.0 - 0.1 + 1.0 - 1.1)  \\  
+   & \qquad \qquad + (-1)^{f(1)} (0.0 - 0.1 - 1.0 + 1.1) \\
+ &\equiv \big((-1)^{f(0)} + (-1)^{f(1)}\big) \; 0.0  \\  
+   & \qquad +\big(-(-1)^{f(0)} - (-1)^{f(1)}\big) \; 0.1 \\
+   & \qquad \qquad +\big((-1)^{f(0)} - (-1)^{f(1)}\big) \; 1.0 \\   
+   & \qquad \qquad \qquad +\big(-(-1)^{f(0)} + (-1)^{f(1)}\big) \; 1.1 \\
+\end{align*}
+
+Le coefficient que l'on a omis devant tous les qubits est $\frac{1}{2\sqrt2}$ et correspond aux trois portes de Hadamard (chacune apportant un facteur $\frac{1}{\sqrt2}$) :
+$$\ket{\psi_3} = \frac{1}{2\sqrt2}\big((-1)^{f(0)} + (-1)^{f(1)}\big) \; \ket{0.0} \quad + \quad \cdots
+$$
+
+Discutons maintenant selon la catégorie de $f$.
+
+\textbf{Si $f$ est constante.}
+Alors $f(0)=f(1)$, donc 
+$$(-1)^{f(0)} + (-1)^{f(1)} = \left\{ 
+\begin{array}{l}
++2 \\
+\text{ ou } -2  \\
+\end{array}\right.$$
+$$\text{ et } \qquad (-1)^{f(0)} - (-1)^{f(1)} = 0.$$
+
+Ainsi :
+$$\ket{\psi_3} = \pm\tfrac{1}{\sqrt2} \big( \ket{0.0} - \ket{0.1} \big)$$
+donc la mesure sur le premier qubit donne $0$ dans tous les cas, car les seuls $2$-qubits présents sont $\ket{0.0}$ et $\ket{0.1}$.
+
+\textbf{Si $f$ est équilibrée.}
+Alors $f(0)\neq f(1)$, donc 
+$$(-1)^{f(0)} + (-1)^{f(1)}= 0 \qquad \text{ et }\qquad (-1)^{f(0)} - (-1)^{f(1)} = \pm2$$
+alors :
+$$\ket{\psi_3} = \pm\tfrac{1}{\sqrt2} \big( \ket{1.0} - \ket{1.1} \big).$$
+
+La mesure sur le premier qubit donne donc $1$ dans tous les cas (car les $2$-qubits présents sont $\ket{1.0}$ et $\ket{1.1}$).
+
+
+\textbf{Conclusion.}
+Si $f$ est constante la mesure du premier qubit donne $0$, si $f$ est équilibrée cette mesure donne $1$. Ainsi le circuit répond bien au problème posé et l'oracle associé à $f$ n'a été appelé qu'une seule fois.
+
+
+%--------------------------------------------------------------------
+\subsection{Réalisation des oracles}
+
+C'est à celui qui utilise l'algorithme de fournir l'oracle, sorte de boîte noire, utilisée par l'algorithme.
+Voyons quel circuit quantique permet de réaliser l'oracle $O_f$ pour chacune des quatre possibilités de la fonction $f$.
+Notons au préalable que $x$ s'envoie sur $x$, donc pour la première ligne quantique il n'y a rien à faire.
+
+\textbf{Fonction constante égale à $0$}
+$$f_0 \left\{\begin{array}{rcl}0&\mapsto&0\\1&\mapsto&0\end{array}\right.$$
+Comme $y\oplus f(x)=y\oplus0=y$ alors l'oracle envoie $y$ sur $y$.
+Il n'y a rien à faire comme circuit quantique.
+{\large$$
+\Qcircuit @C=1em @R=1em {
+\lstick{x}  & \qw  & \qw & \qw & \rstick{x} \qwa \\
+\lstick{y}  & \qw  & \qw & \qw & \rstick{y} \qwa
+}
+$$}
+
+\bigskip
+
+\textbf{Fonction constante égale à $1$}
+$$f_1 \left\{\begin{array}{rcl}0&\mapsto&1\\1&\mapsto&1\end{array}\right.$$
+Comme $y\oplus f(x)=y\oplus 1=NOT(y)$ alors l'oracle envoie $y$ sur $NOT(y)$, que l'on peut réaliser par une porte $\mygate{X}$.
+{\large$$
+\Qcircuit @C=1em @R=1em {
+\lstick{x}  & \qw  & \qw & \qw & \rstick{x} \qwa \\
+\lstick{y}  & \qw  & \gate{X} & \qw & \rstick{y} \qwa
+}
+$$}
+
+\bigskip
+
+\textbf{Fonction équilibrée identité}
+$$f_2 \left\{\begin{array}{rcl}0&\mapsto&0\\1&\mapsto&1\end{array}\right.$$
+Alors $f_2(x) = x$
+et $y \oplus f(x) = y  \oplus x$, c'est donc $y$ si $x=0$ et $NOT(y)$ si $x=1$.
+C'est exactement l'action d'une porte \mygate{CNOT} :
+{\large$$
+\Qcircuit @C=1em @R=1em {
+\lstick{x} & \qw & \ctrl{1} & \qw & \rstick{x} \qwa \\
+\lstick{y} & \qw & \targ & \qw & \rstick{y \oplus x} \qwa 
+}
+$$}
+
+\bigskip
+
+\textbf{Fonction équilibrée $f_3$}
+$$f_3 \left\{\begin{array}{rcl}0&\mapsto&1\\1&\mapsto&0\end{array}\right.$$
+À vous de chercher en exercice un circuit qui réalise cet oracle en vous aidant des deux circuits précédents.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Cas de deux variables}
+
+
+%%--------------------------------------------------------------------
+%\subsection{$\Zz/2\Zz$}
+%
+%Au lieu de $\{0,1\}$, on va noter $\Zz/2\Zz$ le groupe formé des éléments $0$ et $1$, muni de l'addition binaire $\oplus$ (qui vérifie $1\oplus1=0$).
+%
+%C'est un cas particulier du groupe $\Zz/n\Zz$, avec ici $n=2$.
+%
+%Dans le début du chapitre on a
+
+%--------------------------------------------------------------------
+\subsection{Problème}
+
+On considère maintenant une fonction de deux variables :
+$$\begin{array}{cccc}
+f : & \{0,1\}^2  & \longrightarrow & \{0,1\} \\
+    & (x,y)      & \longmapsto     & f(x,y) 
+\end{array}$$
+
+
+On ne s'intéresse qu'à deux catégories de fonctions.
+
+
+\textbf{Fonctions constantes.}
+Il y a en a deux :
+\begin{itemize}
+  \item $f$ est constante égale à $0$ : $f(x,y)=0$ $\forall x,y \in \{0,1\}$,
+  \item $f$ est constante égale à $1$ : $f(x,y)=1$ $\forall x,y \in \{0,1\}$.
+\end{itemize}
+
+\textbf{Fonctions équilibrées.}
+Pour ces fonctions, il y a autant de valeurs $(x,y)$ avec $f(x,y)=0$ que de valeurs avec $f(x,y)=1$.
+Il y a $6$ fonctions possibles. Voici un exemple :
+$$(0,0) \xmapsto[]{f} 1 \qquad
+(0,1) \xmapsto[]{f} 0 \qquad
+(1,0) \xmapsto[]{f} 0 \qquad
+(1,1) \xmapsto[]{f} 1$$
+
+Attention ! Il existe des fonctions qui ne sont ni constantes, ni équilibrées. Par exemple, la fonction qui vaut $0$ partout, sauf en $(1,1)$ ($f(1,1) = 1$).
+
+
+\textbf{Problème.}
+On nous donne une fonction $f : \{0,1\}^2 \longrightarrow \{0,1\}$ qui a la propriété d'être soit constante, soit équilibrée, mais on ne nous dit pas à quelle catégorie elle appartient. Comment déterminer cette catégorie constante ou équilibrée ?
+
+
+La solution classique est de calculer plusieurs valeurs. Parfois calculer deux valeurs suffit, par exemple si $f(0,0) \neq f(0,1)$ alors la fonction n'est pas constante, elle est donc équilibrée. Mais si $f(0,0)=f(0,1)$ alors il faut calculer une troisième valeur $f(1,0)$ pour pouvoir conclure. La complexité de l'algorithme classique est de $3$ évaluations (on retient toujours le pire cas).
+
+
+
+%--------------------------------------------------------------------
+\subsection{Circuit solution}
+
+
+{\large$$
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket0} & \gate{H} & \qw      & \qw      & \qw & \multigate{2}{O_f} & \qw  & \gate{H} & \qw      & \meter & \qwa \\
+\lstick{\ket0} & \qw      & \gate{H} & \qw      & \qw & \ghost{O_f}        & \qw  & \qw      & \gate{H} & \meter & \qwa \\
+\lstick{\ket1} & \qw      & \qw      & \gate{H} & \qw & \ghost{O_f}        & \qw  & \qw      &  \qw     & \qw    & \qw \\
+}
+\quad\raise-2.8ex\hbox{\Bigg\} \text{sortie}}
+$$}
+
+\bigskip
+
+Encore une fois, le circuit fait intervenir des portes de Hadamard et un oracle $O_f$ qui dépend de la fonction $f$ dont le circuit quantique est fourni par celui qui pose le problème. Pour nous, c'est une boîte noire :
+{\large$$
+\Qcircuit @C=1em @R=1em {
+  & \qw  & \ustick{\scriptstyle x}\qw & \multigate{2}{O_f} & \ustick{\scriptstyle x}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle y}\qw & \ghost{O_f}        & \ustick{\scriptstyle y}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle z}\qw & \ghost{O_f}        & \ustick{\scriptstyle \hspace{1.5em} z \oplus f(x,y)}\qw & \qw &  \qwa
+}
+$$}
+
+\medskip
+où $x,y,z$ sont des bits classiques $0$ ou $1$. La sortie de la troisième ligne est $z \oplus f(x,y)$.
+
+Noter que la mesure se fait sur les deux premières lignes quantiques seulement.
+La réponse au problème est donnée par cette mesure :
+\begin{itemize}
+  \item si la mesure est $0.0$ alors la fonction est constante,
+  \item sinon la fonction est équilibrée.
+\end{itemize}
+
+On rappelle que la fonction $f$ doit par hypothèse être dans l'une des deux catégories ci-dessus.
+
+Le circuit quantique n'effectue qu'une seule évaluation de $f$ (plus précisément qu'un seul appel au circuit de l'oracle) et donc la solution proposée est de complexité $1$. Cette évaluation correspond à
+$$f\left(\tfrac1{\sqrt2}(\ket0+\ket1),\tfrac1{\sqrt2}(\ket0+\ket1)\right),$$
+qui est 
+une façon d'évaluer $f$ sur les quatre qubits de base $\ket{0.0}$, $\ket{0.1}$, $\ket{1.0}$ et $\ket{1.1}$ simultanément.
+
+
+
+%--------------------------------------------------------------------
+\subsection{Calcul et preuve}
+
+Les calculs et la preuve peuvent être omis lors d'une première lecture, d'une part ils sont similaires à ceux pour une variable (mais un peu plus compliqués) et d'autre part les calculs seront faits dans le cas général d'une fonction de $n$ variables dans le chapitre \og{}Algorithme de Deutsch--Jozsa\fg{}.
+
+{\large$$
+\Qcircuit @C=1.4em @R=1.4em {
+\lstick{\ket0} \barrier[-1.5em]{2}& \gate{H} & \qw      & \qw      & \barrier[-2.5em]{2}\qw & \multigate{2}{O_f} & \barrier[-2em]{2}\qw  & \gate{H} & \qw \barrier[-1.5em]{2}     & \meter & \qwa \\
+\lstick{\ket0} & \qw      & \gate{H} & \qw      & \qw & \ghost{O_f}        & \qw  & \qw      & \gate{H} & \meter & \qwa \\
+\lstick{\ket1} & \qw      & \qw      & \gate{H} & \qw & \ghost{O_f}        & \qw  & \qw      &  \qw     & \qw    & \qw \\
+\hspace{1em} \ket{\psi_0} & && &\hspace{0em}\ket{\psi_1}& &\hspace{0.2em}\ket{\psi_2}&&\hspace{3em} \ket{\psi_3} \\
+}
+$$}
+
+\bigskip
+\bigskip
+
+\textbf{Qubit initial $\ket{\psi_0}$.}
+$$\ket{\psi_0} = \ket{0} \otimes \ket{0} \otimes \ket{1} = \ket{0.0.1}$$
+
+\textbf{Qubit $\ket{\psi_1}$.}
+Pour simplifier l'écriture des calculs on \og{}oublie\fg{} le coefficient constant commun à tous les qubits.
+\begin{align*}
+\ket{\psi_1} 
+  &\equiv (\ket{0}+\ket1)(\ket{0}+\ket1)(\ket0-\ket1) \\
+  &\equiv \ket{0.0.0} - \ket{0.0.1} \\
+  &\qquad +\ket{0.1.0} - \ket{0.1.1} \\
+  &\qquad\qquad +\ket{1.0.0} - \ket{1.0.1} \\
+  &\qquad\qquad\qquad +\ket{1.1.0} - \ket{1.1.1} \\
+  &\equiv \sum_{x,y\in\{0,1\}} \ket{x.y.0} - \ket{x.y.1} \\
+\end{align*}
+
+
+\textbf{Qubit $\ket{\psi_2}$.}
+On applique l'oracle et on va remarquer que 
+$$\ket{x.y.(0 \oplus f(x,y))} - \ket{x.y.(1 \oplus f(x,y))}
+= (-1)^{f(x,y)} (\ket{x.y.0} - \ket{x.y.1}).$$
+Ainsi 
+\begin{align*}
+\ket{\psi_2} 
+&\equiv \sum_{x,y\in\{0,1\}} \ket{x.y.(0 \oplus f(x,y))} - \ket{x.y.(1 \oplus f(x,y))}\\
+&\equiv \sum_{x,y\in\{0,1\}} (-1)^{f(x,y)}(\ket{x.y.0} - \ket{x.y.1}) \\
+&\equiv \sum_{x,y\in\{0,1\}} (-1)^{f(x,y)} \ket{x.y} \ket{0-1} \\
+\end{align*}
+
+
+\textbf{Qubit $\ket{\psi_3}$.}
+\begin{align*}
+\ket{\psi_3} 
+&\equiv \sum_{x,y\in\{0,1\}} (-1)^{f(x,y)} \ket{H(x).H(y)} \ket{0-1} \\
+  &\equiv (-1)^{f(0,0)} \ket{0+1} \ket{0+1} \ket{0-1} \\
+  &\qquad + (-1)^{f(0,1)} \ket{0+1} \ket{0-1} \ket{0-1} \\ 
+  &\qquad\qquad + (-1)^{f(1,0)} \ket{0-1} \ket{0+1} \ket{0-1} \\ 
+  &\qquad\qquad\qquad  + (-1)^{f(1,1)} \ket{0-1} \ket{0-1} \ket{0-1} \\ 
+\end{align*}
+
+Le troisième qubit est toujours $\ket{0-1}$. On ne va pas expliciter tous les termes
+mais seulement le coefficient devant le qubit $\ket{0.0.(0-1)}$.
+On en profite pour remettre les coefficients oubliés :
+$$\ket{\psi_3} = \underbrace{\frac14\big(
+(-1)^{f(0,0)} + (-1)^{f(0,1)} + (-1)^{f(1,0)} + (-1)^{f(1,1)}
+\big)}_{\alpha} \ket{0.0}\ket{\tfrac1{\sqrt2}(0-1)} \quad + \quad \cdots$$
+
+\textbf{Conclusion.}
+
+Si $f$ est constante alors $\alpha = \pm 1$ (ce qui fait qu'il n'y a pas d'autres qubits)
+et 
+$$\ket{\psi_3} = \pm\ket{0.0}\ket{\tfrac1{\sqrt2}(0-1)}.$$
+Ainsi toute mesure sur les deux premiers qubits donne $0.0$.
+
+Si $f$ est équilibrée alors il y a autant de valeurs en lesquelles $f$ vaut $0$ que de valeurs en lesquelles $f$ vaut $1$, donc 
+$$\alpha = \frac14\big(
+(-1)^{f(0,0)} + (-1)^{f(0,1)} + (-1)^{f(1,0)} + (-1)^{f(1,1)}\big) = 0.$$
+Ainsi $\ket{\psi_3}$ n'a pas de qubits commençant par $0.0$.
+Donc aucune mesure sur les deux premiers qubits ne peut donner $0.0$.
+
+Nous avons donc bien résolu notre problème : si la mesure des deux premiers qubits donne $0.0$ alors $f$ est constante, sinon $f$ est équilibrée.
+
+
+\end{document}

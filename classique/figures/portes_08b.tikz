@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+
+
+  \node[draw,minimum height=1cm, align=center] (P) at (0,0){NAND};
+ \node (A) at (-2,0.3) {};
+ \node (B) at (-2,-0.3) {};
+
+  \draw($(P.west)+(0,0.3)$) -- (A);
+  \draw($(P.west)+(0,-0.3)$) -- (B);
+
+\node[draw,minimum height=1cm, align=center] (Q) at (3,0){NAND};
+
+\draw (P.east) -- ++(1,0) -- ++(0,0.3) -- ($(Q.west)+(0,0.3)$);
+\draw (P.east) -- ++(1,0) -- ++(0,-0.3) -- ($(Q.west)+(0,-0.3)$);
+\node (out) at (2.5,0) {};
+\draw[->,>=latex](Q.east) -- ++(1,0);
+
+
+
+
+\node at (1,-1){\bf \'Equivalent porte AND};
+\end{tikzpicture}

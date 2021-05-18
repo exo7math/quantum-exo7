@@ -1,0 +1,17 @@
+\begin{tikzpicture}
+  \node[draw,minimum height=1cm, align=center] (P) at (0,0.75){AND};
+  \node[draw,minimum height=0.5cm, align=center] (Q) at (0,-0.25){NOT};
+ \node (A) at (-2,1) {A};
+ \node (B) at (-2,0.5) {B};
+ \node (C) at (-2,-0.25) {C};
+
+  \draw ($(P.west)+(0,0.25)$) -- (A);
+  \draw ($(P.west)+(0,-0.25)$) -- (B);
+  \draw (Q.west) -- (C);
+
+  \node[draw,minimum height=1cm, align=center] (R) at (2,0.25){OR};
+  \draw(P.east) -- ($(R.west)+(0,0.25)$) ;
+  \draw(Q.east) --($(R.west)+(0,-0.25)$)  ;
+ \node (out) at (4,0.25) {Sortie};
+  \draw[->,>=latex](R.east) -- (out);
+\end{tikzpicture}

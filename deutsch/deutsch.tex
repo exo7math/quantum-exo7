@@ -1,0 +1,402 @@
+\documentclass[11pt,class=report,crop=false]{standalone}
+\usepackage[screen]{../python}
+
+
+
+\begin{document}
+
+
+%====================================================================
+\chapitre{Algorithme de Deutsch--Jozsa}
+%====================================================================
+
+
+\objectifs{Nous expliquons et prouvons l'algorithme de Deutsch--Jozsa dans le cas général. C'est notre premier algorithme quantique qui supplante les algorithmes classiques et c'est aussi l'occasion d'introduire plusieurs notions utiles pour la suite.}
+
+\index{algorithme de Deutsch--Jozsa}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Algorithme}
+
+%--------------------------------------------------------------------
+\subsection{Problème}
+
+Le problème à résoudre est la généralisation du problème rencontré dans le chapitre introductif \og{}Un premier algorithme quantique\fg{}.
+
+\textbf{Terminologie.}
+Soit une fonction $f : \big(\Zz/2\Zz\big)^n \to \Zz/2\Zz$, que l'on peut aussi voir comme une fonction $f : \{0,1\}^n \to \{0,1\}$. Il y a $2^{(2^n)}$ fonctions différentes possibles mais nous n'allons considérer que deux types de fonctions.
+\begin{itemize}
+  \item $f$ est \defi{constante} si pour tout $(x_1,\ldots,x_n)$ on a $f(x_1,\ldots,x_n)=0$
+ou bien si pour tout $(x_1,\ldots,x_n)$ on a $f(x_1,\ldots,x_n)=1$. 
+Il existe donc deux fonctions constantes.
+
+  \item $f$ est \defi{équilibrée} s'il y a autant de $n$-uplets $(x_1,\ldots,x_n)$ tels que $f(x_1,\ldots,x_n)=0$ que de $n$-uplets $(x_1,\ldots,x_n)$ tels que $f(x_1,\ldots,x_n)=1$, autrement dit 
+$$\operatorname{Card}\big\{ (x_1,\ldots,x_n) \in (\Zz/2\Zz)^n \mid f(x_1,\ldots,x_n)=0 \big\}
+= \operatorname{Card}\big\{ (x_1,\ldots,x_n) \in (\Zz/2\Zz)^n \mid f(x_1,\ldots,x_n)=1 \big\}.$$
+
+Il y a en tout $\binom{2^n}{2^{n-1}} = \frac{2^n!}{(2^{n-1}!)^2}$ telles fonctions. 
+
+\end{itemize}
+
+Pour $n>1$ il existe beaucoup de fonctions qui ne sont ni constantes, ni équilibrées, par exemple une fonction qui prend une seule fois la valeur $1$ et $0$ ailleurs.
+
+\textbf{Problème.} On nous donne une fonction $f : \big(\Zz/2\Zz\big)^n \to \Zz/2\Zz$ en nous certifiant qu'elle est soit constante, soit équilibrée. C'est à vous de déterminer dans quelle catégorie elle se situe : constante ou équilibrée.
+
+
+
+%--------------------------------------------------------------------
+\subsection{Solution classique}
+
+Pour ce problème, la complexité des algorithmes se mesure par le nombre d'évaluations $f(x_1,\ldots,x_n)$ effectuées.
+Avec un ordinateur classique, la complexité du meilleur algorithme est exponentielle, d'ordre $O(2^n)$.
+Notons qu'il y a en tout $2^n = \operatorname{Card}((\Zz/2\Zz)^n)$ éléments dans l'ensemble de départ. 
+Voici un algorithme classique dont la complexité est $2^{n-1}+1$.
+
+\medskip
+
+\textbf{Algorithme.}
+\begin{itemize}
+  \item On évalue $f$ sur $2^{n-1}+1$ termes.
+  \item Si toutes ces valeurs sont égales alors $f$ est constante, sinon elle est équilibrée.
+\end{itemize}
+
+\medskip
+
+Plus précisément, aucun algorithme classique ne peut faire moins que $\frac{2^n}{2}$ évaluations.
+Bien sûr pour certaines fonctions $f$ on pourrait obtenir une réponse plus rapide (par exemple dès que l'on obtient deux valeurs différentes, la fonction doit être équilibrée), mais dans le pire des cas il faut évaluer $f$ sur plus de la moitié des éléments pour pouvoir conclure. En effet, si par exemple $f$ s'annule sur la moitié des éléments, on ne peut pas déjà savoir si elle est constante ou équilibrée car les deux conclusions sont encore possibles.
+
+%--------------------------------------------------------------------
+\subsection{Circuit quantique}
+
+Voici le circuit qui fournit l'algorithme quantique répondant au problème.
+
+
+{\large$$
+\Qcircuit @C=0.7em @R=1em {
+\lstick{\ket0} & \gate{H} & \qw      & \qw      & \qw     & \qw & \qw      & \qw    & \multigate{5}{\qquad O_f \qquad} & \qw
+& \gate{H} & \qw      & \qw      & \qw     & \qw & \qw      & \qw  & \meter & \qw & \qwa \\
+\lstick{\ket0} & \qw      & \gate{H} & \qw      & \qw     & \qw & \qw      & \qw    & \ghost{\qquad O_f \qquad}  & \qw      
+& \qw      & \gate{H} & \qw      & \qw     & \qw & \qw      & \qw    & \meter & \qw  & \qwa \\
+\lstick{\ket0} & \qw      & \qw      & \gate{H} & \qw     & \qw & \qw      & \qw    & \ghost{\qquad O_f \qquad} & \qw       
+& \qw      & \qw      & \gate{H} & \qw     & \qw & \qw      & \qw    & \meter & \qw  & \qwa \\
+               & \vdots   &          &          & \ddots  &     &          &        & \ghost{\qquad O_f \qquad} & \qw       
+        &    &          &          & \ddots  &     &          &      &   \\
+\lstick{\ket0} & \qw      & \qw      & \qw      & \qw     & \qw & \gate{H} & \qw    & \ghost{\qquad O_f \qquad} & \qw       
+      & \qw      & \qw      & \qw     & \qw &\qw & \gate{H} & \qw    & \meter & \qw  & \qwa \\
+\lstick{\ket1} & \qw      & \qw      & \qw      & \qw     & \qw & \gate{H} & \qw    & \ghost{\qquad O_f \qquad} & \qw       
+& \qw      & \qw      & \qw      & \qw     & \qw & \qw & \qw   & \qw & \qw\\
+}
+$$}
+
+\bigskip
+
+
+Les $n$ premières lignes du circuit sont initialisées par $\ket0$, suivi de la transformation de Hadamard. La dernière ligne est initialisée par $\ket1$, suivi d'une porte de Hadamard. Ensuite on applique l'oracle associé à $f$. Enfin, on applique de nouveau une transformation de Hadamard sur les $n$ premières lignes, suivi d'une mesure uniquement sur les $n$ premières lignes.
+
+Le circuit n'est exécuté qu'une seule fois, autrement dit l'algorithme quantique est de complexité $1$ car la fonction associée à l'oracle $O_f$ n'est évaluée qu'une seule fois.
+
+\medskip
+
+L'algorithme consiste simplement à exécuter le circuit.
+
+\textbf{Algorithme.}
+Si la mesure des $n$ premiers qubits de sortie est $0.0\ldots0$ alors la fonction est constante, sinon la fonction est équilibrée.
+
+
+
+
+Pour les exemples  où $n=1$ ou $n=2$, nous renvoyons au chapitre \og{}Un premier algorithme quantique\fg{}.
+La complexité de l'algorithme quantique est donc $O(1)$.
+On a vu que l'algorithme classique est de complexité exponentielle.
+En effet $O(2^{n-1}) = O(2^n)$ et $2^n = e^{n\ln{2}}$.
+L'algorithme quantique est donc une amélioration exponentielle de l'algorithme classique !
+Bien sûr le problème résolu ici est artificiel et assez peu intéressant mais nous avons maintenant la preuve que l'informatique quantique peut aller plus vite que l'informatique classique.
+
+
+On rappelle que l'oracle associé à la fonction $f$ agit ainsi : sur les $n$ premières lignes $x_i \mapsto x_i$, sur la dernière ligne $y \mapsto y \oplus f(x_1,\ldots,x_n)$.
+
+{\large$$
+\Qcircuit @C=1em @R=1em {
+  & \qw  & \ustick{\scriptstyle x_1}\qw & \multigate{4}{\qquad O_f \qquad} & \ustick{\scriptstyle x_1}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle x_2}\qw & \ghost{\qquad O_f \qquad}   & \ustick{\scriptstyle x_2}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle \vdots}\qw & \ghost{\qquad O_f \qquad}   & \ustick{\vdots}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle x_n}\qw & \ghost{\qquad O_f \qquad}   & \ustick{\scriptstyle x_n}\qw & \qw &  \qwa \\
+ & \qw   & \dstick{\scriptstyle y}\qw & \ghost{\qquad O_f \qquad}           & \dstick{\scriptstyle \hspace{0.5em} y \oplus f(x_1,\ldots,x_n)}\qw & \qw &  \qwa
+}
+$$}
+
+\bigskip
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Notation entière des qubits}
+
+\index{qubit!notation entiere@notation entière}
+
+%--------------------------------------------------------------------
+\subsection{Notation}
+
+La notation $\ket{0.0\ldots0}$, $\ket{0.0\ldots1}$,\ldots{},$\ket{1.1\ldots1}$ pour les $n$-qubits de la base canonique n'est pas pratique pour les calculs généraux et les preuves.
+En particulier comment noter un $n$-qubit quelconque de cette base ?
+Nous allons introduire l'écriture d'un $n$-qubit de base par un seul entier : c'est tout simplement l'opération inverse de l'écriture binaire.
+
+On fixe un entier $n\ge1$. Soit $0 \le k \le 2^{n}-1$. 
+Notons $\underline{k}$ l'écriture binaire de l'entier $k$ sur $n$ bits.
+L'\defi{écriture entière} $\ket{\underline{k}}$ désigne le $n$-qubit de la base canonique associé à l'écriture binaire de $k$.
+
+$$\begin{array}{rcl}
+\ket{\underline{0}} &=& \ket{0.0\ldots0.0.0} \\
+\ket{\underline{1}} &=& \ket{0.0\ldots0.0.1} \\
+\ket{\underline{2}} &=& \ket{0.0\ldots0.1.0} \\
+\ket{\underline{3}} &=& \ket{0.0\ldots0.1.1} \\
+& \vdots &  \\
+\ket{\underline{2^{n}-2}} &=& \ket{1.1\ldots1.1.0} \\
+\ket{\underline{2^{n}-1}} &=& \ket{1.1\ldots1.1.1} \\
+\end{array}
+$$
+
+\medskip
+
+On peut ainsi écrire facilement certains énoncés. Par exemple une fonction
+$f : (\Zz/2\Zz)^n \to \Zz/2\Zz$ est constante si
+$f(\underline{k})=0$ pour tout $k$ variant de $0$ à $2^n-1$
+ou si $f(\underline{k})=1$ pour tout $k$ variant de $0$ à $2^n-1$.
+%--------------------------------------------------------------------
+\subsection{Exemples}
+
+Pour $n=1$, il y a seulement deux qubits de base et on a 
+$\ket{\underline{0}} = \ket{0}$ et $\ket{\underline{1}} = \ket{1}$.
+
+\begin{exemple}
+Pour $n = 2$.
+$$\begin{array}{rcl}
+\ket{\underline{0}} &=& \ket{0.0} \\
+\ket{\underline{1}} &=& \ket{0.1} \\
+\ket{\underline{2}} &=& \ket{1.0} \\
+\ket{\underline{3}} &=& \ket{1.1} \\
+\end{array}
+$$
+\end{exemple}
+
+\begin{exemple}
+Pour $n = 3$.
+$$\begin{array}{rcl}
+\ket{\underline{0}} &=& \ket{0.0.0} \\
+\ket{\underline{1}} &=& \ket{0.0.1} \\
+\ket{\underline{2}} &=& \ket{0.1.0} \\
+\ket{\underline{3}} &=& \ket{0.1.1} \\
+\end{array}\qquad\qquad\qquad\begin{array}{rcl}
+\ket{\underline{4}} &=& \ket{1.0.0} \\
+\ket{\underline{5}} &=& \ket{1.0.1} \\
+\ket{\underline{6}} &=& \ket{1.1.0} \\
+\ket{\underline{7}} &=& \ket{1.1.1} \\
+\end{array}
+$$
+\end{exemple}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Transformation de Hadamard}
+
+%--------------------------------------------------------------------
+\subsection{Définition}
+
+On rappelle que la porte de Hadamard est définie pour les $1$-qubits par la formule :
+$$H\ket 0 = \frac1{\sqrt2} (\ket0+\ket1) \qquad \text{ et } \qquad H\ket 1\frac1{\sqrt2} (\ket0-\ket1).$$
+{\Large$$
+\Qcircuit @C=1em @R=1em {
+& \gate{H} & \qw \\
+}
+$$}
+\bigskip
+
+La \defi{transformation de Hadamard}\index{transformation de Hadamard} d'un $n$-qubit $\ket\psi$ est l'application d'une porte de Hadamard sur chacun des $1$-qubits le constituant.
+On note cette transformation $H^{\otimes n}$.
+
+Le circuit est simplement composé de $n$ lignes, avec une porte de Hadamard par ligne (l'ordre de ces portes n'a pas d'importance).
+
+
+{\large$$
+\text{ entrée } \ket\psi \quad
+\left\{\qquad
+%\quad\raise-2.8ex\hbox{$\ket\psi$ \Bigg\{ }
+\begin{gathered}
+\Qcircuit @C=1em @R=1em {
+& \gate{H} & \qw      & \qw      & \qw     & \qw & \qw & \qw & \qwa \\
+& \qw      & \gate{H} & \qw      & \qw     & \qw & \qw & \qw & \qwa \\
+& \qw      & \qw      & \gate{H} & \qw     & \qw & \qw & \qw & \qwa \\
+& \vdots   &          &          & \ddots  &     &  &\vdots & \\
+& \qw      & \qw      & \qw      & \qw     & \qw & \gate{H} & \qw  & \qwa \\
+}
+\end{gathered}
+\qquad\right\} \quad \text{ sortie } \  H^{\otimes n} \ket\psi
+$$}
+
+
+
+\begin{exemple}
+Pour $n=2$.
+$$\begin{array}{rcl}
+\ket{\underline{0}} = \ket{0.0} &\xmapsto{H^{\otimes 2}} & \frac12(\ket{0+1}\ket{0+1})=\frac12(\ket{0.0}+\ket{0.1}+\ket{1.0}+\ket{1.1} = \frac12(\ket{\underline{0}}+ \ket{\underline{1}}+\ket{\underline{2}}+\ket{\underline{3}})\\
+\ket{\underline{1}} = \ket{0.1} &\xmapsto{H^{\otimes 2}} & \frac12(\ket{0+1}\ket{0-1})=\frac12(\ket{0.0}-\ket{0.1}+\ket{1.0}-\ket{1.1} = \frac12(\ket{\underline{0}}- \ket{\underline{1}}+\ket{\underline{2}}-\ket{\underline{3}}) \\
+\ket{\underline{2}} = \ket{1.0} &\xmapsto{H^{\otimes 2}} & \frac12(\ket{0-1}\ket{0+1})=\frac12(\ket{0.0}+\ket{0.1}-\ket{1.0}-\ket{1.1} = \frac12(\ket{\underline{0}}+ \ket{\underline{1}}-\ket{\underline{2}}-\ket{\underline{3}}) \\
+\ket{\underline{3}} = \ket{1.1} &\xmapsto{H^{\otimes 2}} & \frac12(\ket{0-1}\ket{0-1})=\frac12(\ket{0.0}-\ket{0.1}-\ket{1.0}+\ket{1.1} = \frac12(\ket{\underline{0}}- \ket{\underline{1}}-\ket{\underline{2}}+\ket{\underline{3}}) \\
+\end{array}$$
+\end{exemple}
+
+%--------------------------------------------------------------------
+\subsection{Formule de la transformation de Hadamard}
+
+Quelle est la formule qui permet de calculer la transformation de Hadamard sur les qubits de base ?
+La réponse est donnée par la proposition suivante.
+
+\begin{proposition}
+Pour $0 \le k \le 2^{n-1}$, on a :
+\mybox{$\displaystyle H^{\otimes n} \ket{\underline{k}} = \frac{1}{\sqrt{2^n}} \sum_{\ell=0}^{2^n-1}  (-1)^{\underline k \odot \underline{\ell} } \ket{\underline\ell}$}
+\end{proposition}
+
+\textbf{Notation.}
+Pour l'écriture binaire $\underline{k} = k_1.k_2 \ldots k_n$ et l'écriture binaire
+$\underline{\ell} = \ell_1.\ell_2 \ldots \ell_n$ (avec $k_i,\ell_i \in \{0,1\}$) alors
+$$\underline{k} \odot \underline{\ell} = k_1\ell_1 \oplus k_2\ell_2 \oplus \cdots \oplus k_n \ell_n \ \ \in \{0,1\}.$$
+C'est comme un produit scalaire modulo $2$.
+
+Par exemple si $\ket{\underline{k}} = \ket{0.1.0.1.1}$ et $\ket{\underline\ell} = \ket{1.1.0.0.1}$ alors 
+$$\underline{k} \odot \underline{\ell} = 0\cdot1 \oplus 1\cdot1 \oplus 0\cdot0 \oplus 1\cdot 0 \oplus 1\cdot 1 = 0 \oplus 1 \oplus 0 \oplus 0 \oplus 1 = 0.$$
+
+\begin{proof}
+$H^{\otimes n} \ket{\underline{k}}$ est un produit de termes ayant la forme $\ket{0+1}$ ou $\ket{0-1}$.
+En développant ce produit on obtient une expression faisant intervenir tous les $n$-qubits de la base canonique, donc tous les $\ket{\underline{\ell}}$, avec $\ell=0,\ldots,2^n-1$.
+
+On ne change le signe qu'en présence d'un $1$ (donc il faut $\ell_i=1$) et du signe \og{}$-$\fg{} (donc $k_i=1$).
+Une preuve détaillée se fait par récurrence.
+\end{proof}
+
+
+%--------------------------------------------------------------------
+\subsection{Exemples}
+
+
+\begin{exemple}
+Soit $n=3$ et $\ket{\underline{k}} = \ket{\underline{5}} = \ket{1.0.1}$, alors
+un calcul direct donne :
+\begin{align*}
+H^{\otimes 3} \ket{\underline{5}} 
+  &= H^{\otimes 3}\ket{1.0.1} \\
+  &= H^{\otimes 3}\tfrac{1}{2\sqrt2} \ket{(0-1).(0+1).(0-1)} \\
+  &= \tfrac{1}{2\sqrt2}\big( \ket{0.0.0} - \ket{0.0.1} + \ket{0.1.0} - \ket{0.1.1} 
+-  \ket{1.0.0} + \ket{1.0.1} - \ket{1.1.0} + \ket{1.1.1}\big) \\
+\end{align*}
+
+On retrouve bien la formule annoncée car avec $\underline{k} = \underline{5} = 1.0.1$ on a :
+\begin{itemize}
+	\item pour $\ell = 0$ : $\underline\ell = 0.0.0$, $\underline k \odot \underline{\ell} = 0$, donc terme $+\ket{0.0.0}$,
+	\item pour $\ell = 1$ : $\underline\ell = 0.0.1$, $\underline k \odot \underline{\ell} = 1$, donc terme $-\ket{0.0.1}$,
+	\item pour $\ell = 2$ : $\underline\ell = 0.1.0$, $\underline k \odot \underline{\ell} = 0$, donc terme $+\ket{0.1.0}$,
+	\item pour $\ell = 3$ : $\underline\ell = 0.1.1$, $\underline k \odot \underline{\ell} = 1$, donc terme $-\ket{0.1.1}$,
+	\item pour $\ell = 4$ : $\underline\ell = 1.0.0$, $\underline k \odot \underline{\ell} = 1$, donc terme $-\ket{1.0.0}$,
+	\item pour $\ell = 5$ : $\underline\ell = 1.0.1$, $\underline k \odot \underline{\ell} = 0$, donc terme $+\ket{1.0.1}$,
+	\item pour $\ell = 6$ : $\underline\ell = 1.1.0$, $\underline k \odot \underline{\ell} = 1$, donc terme $-\ket{1.1.0}$,
+	\item pour $\ell = 7$ : $\underline\ell = 1.1.1$, $\underline k \odot \underline{\ell} = 0$, donc terme $+\ket{1.1.1}$.
+\end{itemize}
+\end{exemple}
+
+\begin{exemple}
+Pour $n$ quelconque, comme $\ket{\underline 0} = \ket{0.0\ldots0}$ alors
+$$H^{\otimes n} \ket{\underline{0}} = \frac{1}{\sqrt{2^n}} \sum_{\ell=0}^{2^n-1} \ket{\underline\ell}.$$
+\end{exemple}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Preuve de l'algorithme de Deutsch--Jozsa}
+
+{\large$$
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket0} \barrier[-1.2em]{5} & \gate{H} & \qw      & \qw      & \qw     & \qw & \qw      & \barrier[-4.3em]{5}\qw    & \multigate{5}{\qquad O_f \qquad} 
+& \barrier[-1.4em]{5} \qw  & \gate{H} & \qw      & \qw      & \qw     & \qw & \qw      & \qw\barrier[-1.8em]{5}  & \meter & \qw & \qwa \\
+\lstick{\ket0} & \qw      & \gate{H} & \qw      & \qw     & \qw & \qw      & \qw    & \ghost{\qquad O_f \qquad}        
+& \qw  & \qw      & \gate{H} & \qw      & \qw     & \qw & \qw      & \qw    & \meter & \qw  & \qwa \\
+\lstick{\ket0} & \qw      & \qw      & \gate{H} & \qw     & \qw & \qw      & \qw    & \ghost{\qquad O_f \qquad}        
+& \qw  & \qw      & \qw      & \gate{H} & \qw     & \qw & \qw      & \qw    & \meter & \qw  & \qwa \\
+               & \vdots   &          &          & \ddots  &     &          &        & \ghost{\qquad O_f \qquad}        
+& \qw          & \vdots   &          &          & \ddots  &     &          &      &   \\
+\lstick{\ket0} & \qw      & \qw      & \qw      & \qw     & \qw & \gate{H} & \qw    & \ghost{\qquad O_f \qquad}        
+& \qw        & \qw      & \qw      & \qw     & \qw &\qw & \gate{H} & \qw    & \meter & \qw  & \qwa \\
+\lstick{\ket1} & \qw      & \qw      & \qw      & \qw     & \qw & \gate{H} & \qw    & \ghost{\qquad O_f \qquad}        
+& \qw  & \qw      & \qw      & \qw      & \qw     & \qw & \qw & \qw   & \qw & \qw\\
+\hspace{1em} \ket{\psi_0} & & & & & & &\hspace{0.9em}\ket{\psi_1}& &&\hspace{-1.6em}\ket{\psi_2}&&&&&&\hspace{0.8em} \ket{\psi_3} \\
+}
+$$}
+
+\bigskip
+
+\begin{itemize}
+  \item Initialisation.
+  $$\ket{\psi_0} = \ket{0\ldots0} \cdot \ket{1} = \ket{\underline{0}} \cdot \ket{1}.$$
+  On mélange les deux écritures : la notation entière qui regroupe les $n$ premiers qubits et la notation classique pour le dernier qubit. 
+
+  \item Transformation de Hadamard.
+\begin{align*}
+\ket{\psi_1} 
+  &= H^{\otimes n+1} \ket{\psi_0} \\
+  &= H^{\otimes n}\ket{\underline{0}} \cdot H\ket{1} \\
+  &= \frac{1}{\sqrt{2^n}} \sum_{\ell=0}^{2^n-1} \ket{\underline\ell} \cdot \tfrac{1}{\sqrt{2}}\left(\ket0 - \ket1\right) \\
+\end{align*}
+
+
+  \item Oracle.
+\begin{align*}
+\ket{\psi_2} 
+  &= O_f \ket{\psi_1} \\
+  &= \frac{1}{\sqrt{2^{n}}} \sum_{\ell=0}^{2^n-1} \ket{\underline\ell} \cdot \tfrac{1}{\sqrt{2}}\left(\ket{0\oplus f(\underline{\ell})} - \ket{1\oplus f(\underline{\ell})}\right) \\
+  &= \frac{1}{\sqrt{2^{n}}}\sum_{\ell=0}^{2^n-1} (-1)^{f(\underline\ell)} \ket{\underline\ell} \cdot \tfrac{1}{\sqrt{2}}\left(\ket0 - \ket1\right) \\
+\end{align*}  
+
+On a utilisé : 
+$$
+\ket{0\oplus f(\underline{\ell})} - \ket{1\oplus f(\underline{\ell})}
+ = 
+\left\{ 
+\begin{array}{ll}
+\ket0-\ket1 & \quad \text{ si } f(\underline \ell)=0 \\
+-(\ket0-\ket1) & \quad \text{ si } f(\underline \ell)=1 \\
+\end{array}\right\}
+= (-1)^{f(\underline\ell)}\left(\ket0 - \ket1\right).$$
+
+  \item Transformation de Hadamard.
+\begin{align*}
+\ket{\psi_3} 
+  &=  H^{\otimes n}\left( \frac{1}{\sqrt{2^{n}}}\sum_{\ell=0}^{2^n-1} (-1)^{f(\underline\ell)} \ket{\underline\ell} \right) \cdot \tfrac{1}{\sqrt{2}}\left(\ket0 - \ket1\right)  \\
+  &=  \frac{1}{\sqrt{2^{n}}}\sum_{\ell=0}^{2^n-1} (-1)^{f(\underline\ell)} H^{\otimes n}\left( \ket{\underline\ell} \right) \cdot \tfrac{1}{\sqrt{2}}\left(\ket0 - \ket1\right)  \\
+  &=  \frac{1}{\sqrt{2^{n}}}\sum_{\ell=0}^{2^n-1} (-1)^{f(\underline\ell)} \left(
+\frac{1}{\sqrt{2^n}} \sum_{k=0}^{2^n-1}  (-1)^{\underline \ell \odot \underline{k} } \ket{\underline k}
+ \right) \cdot \tfrac{1}{\sqrt{2}}\left(\ket0 - \ket1\right)  \\
+  &=  \frac{1}{2^{n}}\sum_{k=0}^{2^n-1} \ket{\underline k}
+ \sum_{\ell=0}^{2^n-1} (-1)^{f(\underline\ell) + \underline \ell \odot \underline{k}}   \cdot \tfrac{1}{\sqrt{2}}\left(\ket0 - \ket1\right) \\
+\end{align*}
+
+\end{itemize}
+
+Quelle est la probabilité de mesurer $0.0\ldots0$ pour les $n$ premiers qubits ?
+Il s'agit de trouver le coefficient $\alpha\in\Cc$ devant le qubit $\ket{0.0\ldots0} \cdot \tfrac{1}{\sqrt{2}}\left(\ket0 - \ket1\right)$ (le dernier qubit ne sera pas mesuré).
+Autrement dit il s'agit de trouver le coefficient correspondant à $\underline k = \underline 0$ :
+$$\alpha =  \frac{1}{2^{n}}\sum_{\ell=0}^{2^n-1} (-1)^{f(\underline\ell) + \underline \ell \odot \underline{0}}.$$
+Comme $\underline \ell \odot \underline{0} = 0$ alors :
+$$\alpha =  \frac{1}{2^{n}}\sum_{\ell=0}^{2^n-1} (-1)^{f(\underline\ell)}.$$
+
+\begin{itemize}
+  \item Si $f$ est constante, par exemple $f(\underline\ell)=0$, pour tout $\ell$, alors :
+$$\alpha =  \frac{1}{2^{n}}\sum_{\ell=0}^{2^n-1} (-1)^0 = \frac{1}{2^{n}}\sum_{\ell=0}^{2^n-1} 1 = 1.$$
+
+Comme le qubit $\ket{\psi_3}$ est normalisé, et que $\alpha=1$ alors les autres coefficients des termes de $\ket{\psi_3}$ sont tous nuls. Ainsi dans ce cas $\ket{\psi_3} = \ket{0.0\ldots0} \cdot \tfrac{1}{\sqrt{2}}\left(\ket0 - \ket1\right)$ et la probabilité de mesurer $0.0\ldots0$ sur les $n$ premiers qubits est $1$.
+
+De même si $f$ était constante égale à $1$, alors on trouverait $\alpha=-1$ et $\ket{\psi_3} = -\ket{0.0\ldots0} \cdot \tfrac{1}{\sqrt{2}}\left(\ket0 - \ket1\right)$ et la probabilité de mesurer $0.0\ldots0$ sur les $n$ premiers qubits est également $1$.
+
+  \item Si $f$ est équilibrée, il y a autant de $\ell$ avec $f(\underline\ell)=0$ que  de $\ell$ avec $f(\underline\ell)=1$, ainsi il y a autant de $\ell$ avec $(-1)^{f(\underline\ell)} = +1$ que $(-1)^{f(\underline\ell)} = -1$. (On rappelle $(-1)^p=\pm1$.) Ainsi la somme des $(-1)^{f(\underline\ell)}$ est nulle et donc $\alpha = 0$.
+  La probabilité de mesurer $0.0\ldots0$ sur les $n$ premiers qubits est donc $0$.
+\end{itemize}
+
+Conclusion : si la mesure sur les $n$ premiers qubits est $0.0\ldots0$ alors la fonction $f$ est constante, sinon c'est qu'elle est équilibrée.
+\end{document}

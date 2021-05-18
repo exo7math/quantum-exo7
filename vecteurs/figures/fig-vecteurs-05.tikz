@@ -1,0 +1,8 @@
+\begin{tikzpicture}
+   \draw[->,>=latex,thick, red] (0,0)--(-20:4) node[midway, below] {$u$};
+   \draw[->,>=latex,thick, red] (0,0)--(50:4) node[midway, above left] {$Au$};
+   \draw[->, >=latex, blue,shorten >=0.1cm,shorten <=0.1cm] (-20:2) arc(-20:50:2) node[midway,above right]{$A$};
+   \draw[dashed,blue] (-20:4) arc(-20:50:4);
+
+  \fill (0,0) circle(2pt) node[below]{$O$};
+\end{tikzpicture}

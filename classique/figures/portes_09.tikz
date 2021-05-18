@@ -1,0 +1,18 @@
+\begin{tikzpicture}
+
+
+\node[draw,minimum height=1cm, align=center] (P) at (2,0){NAND};
+\node[draw,minimum height=0.75cm, align=center] (A) at (-0.5,0.75){NOT};
+\node[draw,minimum height=0.75cm, align=center] (B) at (-0.5,-0.75){NOT};
+
+\draw (A.west) -- ++(-1,0);
+\draw (B.west) -- ++(-1,0);
+
+\draw (A.east) -- ++(1,0) -- ++(0,-0.5) -- ($(P.west)+(0,0.25)$);
+\draw (B.east) -- ++(1,0) -- ++(0,0.5) -- ($(P.west)+(0,-0.25)$);
+
+
+\draw[->,>=latex](P.east) -- ++(1,0);
+
+\node at (0.5,-2){\bf \'Equivalent porte OR};
+\end{tikzpicture}

@@ -1,0 +1,18 @@
+﻿\begin{tikzpicture}
+ \node (P1) at (0,0) {$x$};
+ \node (P2) at (4,0) {$y$};
+ \node (P3) at (8,0) {$y$};
+ \node (P4) at (12,0) {$x$};
+
+  \draw[line width=2pt,>=stealth,->,gray,shorten >=1pt,shorten <=1pt] (P1) to  
+    node[midway,below,scale=0.8]{chiffrement  $y = x \oplus m$} 
+    node[midway,above]{Alice} 
+  (P2);
+  \draw[line width=2pt,>=stealth,->,gray,shorten >=1pt,shorten <=1pt] (P2) to  node[midway,below,scale=0.8]{transmission} (P3);
+  \draw[line width=2pt,>=stealth,->,gray,shorten >=1pt,shorten <=1pt] (P3) to  
+     node[midway,below,scale=0.8]{déchiffrement $x = y \oplus m$} 
+    node[midway,above]{Bob} 
+  (P4);
+
+
+\end{tikzpicture}

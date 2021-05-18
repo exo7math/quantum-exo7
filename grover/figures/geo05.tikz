@@ -1,0 +1,12 @@
+﻿\begin{tikzpicture}
+
+\draw[->,>=latex, very thick,gray] (-1,0)--(5,0) node[below,black] {$\ket{\chi}$};
+\draw[->,>=latex, very thick, gray] (0,-1)--(0,3.5) node[left,black] {$\ket{\underline{k_0}}$};
+
+\coordinate (P) at (15:4);
+\draw[->,>=latex, very thick,blue] (0,0)--(P) node[right] {$\ket{\psi_H}$};
+\draw[double,blue] (3,0) arc (0:15:3) node[midway,right]{$\frac\theta2$};
+
+\draw[dashed] (P) -- (P |- 0,0) node[below,scale=0.7]{$\cos\left(\frac\theta2\right)$};
+\draw[dashed] (P) -- (P -| 0,0) node[left,scale=0.7]{$\sin\left(\frac\theta2\right)$};
+\end{tikzpicture}

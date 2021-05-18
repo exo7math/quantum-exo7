@@ -1,0 +1,18 @@
+﻿\begin{tikzpicture}
+
+  \node (A) at (-4,3) {\bf ALICE};
+  \node (B) at (4,3) {\bf BOB};
+
+  \draw[line width=5pt,>=stealth,->,gray] (-2.3,0) to (2.3,0);
+
+  \node (M) at (0,2.3) {\bf Masque jetable};
+
+  \draw (-4,0) node[draw]{Chiffrement};
+  \draw (4,0)node[draw]{Déchiffrement};
+
+  \draw[->, blue, very thick] (A) to (M);
+  \draw[->, blue, very thick] (B) to (M);
+
+  \draw[->, blue, very thick] (M) to[bend right, thick] (-3.2,0.5);
+  \draw[->, blue, very thick] (M) to[bend left, thick] (3.2,0.5);
+\end{tikzpicture}

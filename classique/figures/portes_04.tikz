@@ -1,0 +1,46 @@
+\begin{tikzpicture}
+
+\begin{scope}
+  \node[draw,minimum height=1cm, align=center] (P) at (0,0){XOR};
+ \node (A) at (-2,0.3) {0};
+ \node (B) at (-2,-0.3) {0};
+ \node (out) at (2,0) {0};
+
+  \draw($(P.west)+(0,0.3)$) -- (A);
+  \draw($(P.west)+(0,-0.3)$) -- (B);
+  \draw[->,>=latex](P.east) -- (out);
+\end{scope}
+
+\begin{scope}[xshift=5cm]
+  \node[draw,minimum height=1cm, align=center] (P) at (0,0){XOR};
+ \node (A) at (-2,0.3) {0};
+ \node (B) at (-2,-0.3) {1};
+ \node (out) at (2,0) {1};
+
+  \draw($(P.west)+(0,0.3)$) -- (A);
+  \draw($(P.west)+(0,-0.3)$) -- (B);
+  \draw[->,>=latex](P.east) -- (out);
+\end{scope}
+
+\begin{scope}[xshift=10cm]
+  \node[draw,minimum height=1cm, align=center] (P) at (0,0){XOR};
+ \node (A) at (-2,0.3) {1};
+ \node (B) at (-2,-0.3) {0};
+ \node (out) at (2,0) {1};
+
+  \draw($(P.west)+(0,0.3)$) -- (A);
+  \draw($(P.west)+(0,-0.3)$) -- (B);
+  \draw[->,>=latex](P.east) -- (out);
+\end{scope}
+
+\begin{scope}[xshift=15cm]
+  \node[draw,minimum height=1cm, align=center] (P) at (0,0){XOR};
+ \node (A) at (-2,0.3) {1};
+ \node (B) at (-2,-0.3) {1};
+ \node (out) at (2,0) {0};
+
+  \draw($(P.west)+(0,0.3)$) -- (A);
+  \draw($(P.west)+(0,-0.3)$) -- (B);
+  \draw[->,>=latex](P.east) -- (out);
+\end{scope}
+\end{tikzpicture}

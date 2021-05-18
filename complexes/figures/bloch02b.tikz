@@ -1,0 +1,84 @@
+%\begin{tikzpicture}
+\begin{blochsphere}[radius=3 cm,tilt=20,rotation=-20,opacity=0.1]
+
+	\drawBallGrid[style={opacity=0.1}]{30}{30}
+
+   \labelPolar{X}{90}{90};
+  \fill[blue] (X) circle (2pt); % node{$X$};
+
+   \labelPolar{Y}{90}{0};
+  \fill[blue] (Y) circle (2pt); % node{$Y$};
+
+\labelPolar{Z}{0}{0};
+  \fill[blue] (Z) circle (2pt); % node{$Z$};
+
+
+    % Axes (X, Y, Z)
+    \drawStatePolar[axisarrow = true, statewidth = 0.5, scale = 1.80]{coordx}{90}{90}
+    \drawStatePolar[axisarrow = true, statewidth = 0.5, scale = 1.50]{coordy}{90}{00}
+    \drawStatePolar[axisarrow = true, statewidth = 0.5, scale = 1.3]{coordz}{00}{00}
+
+\labelPolar{x}{90}{90};
+\labelPolar{y}{90}{0};
+\labelPolar{z}{0}{0};
+
+
+\pgfmathsetmacro{\mytheta}{180};  % our coordinate theta, phi
+\pgfmathsetmacro{\myphi}{0};
+
+\pgfmathsetmacro{\tikztheta}{\mytheta};  % tikz special coordinates
+\pgfmathsetmacro{\tikzphi}{90-\myphi};
+\labelPolar{psi}{\tikztheta}{\tikzphi};
+
+\labelPolar{psixy}{90}{\tikzphi};
+% \fill[blue] (psi) circle (2pt) node{$\psi$};
+
+\drawStatePolar[labelmark=true, statewidth = 0.5,statecolor=red, scale = 1,style={red, ultra thick}]{psi}{\tikztheta}{\tikzphi}
+
+%\draw[double,red] ($0.5*(x)$) to[bend right=25]node[scale=0.7, below]{$\phi$} ($0.5*(psixy)$) ;
+
+%\draw[double,blue] ($0.5*(z)$) to[bend left=25]node[scale=0.7, above]{$\theta$} ($0.5*(psi)$) ;
+
+% \drawLongitudeCircle[style={dotted}]{\tikzphi};
+%\draw (0,0) --(psixy);
+
+% \coordinate (psiproj) at ($sin(\mytheta)*(psixy)$);
+% \draw[dashed] (0,0) --(psiproj)--(psi);
+
+%\draw (psi) --(psixy);
+%\draw (z) --(psi);
+
+
+ %   \drawStatePolar[labelmark=true, statewidth = 0.5,statecolor=red, scale = 1,style={red}]{psi}{}{-\longitude-90}
+
+
+
+\pgfmathsetmacro{\colatitude}{90};
+\pgfmathsetmacro{\longitude}{-90};
+
+ %   \drawStateLatLon[labelmark=true, statewidth = 0.5,statecolor=red, scale = 1,style={red}]{psi}{90-\colatitude}{-\longitude-90}
+
+%    \drawAxis[scale=1.2,axisarrow=,style={red,ultra thick}]{0}{0};  % axe z
+%    \drawAxis[axisarrow=,style={red,ultra thick}]{90}{0};  % axe y
+%    \drawAxis[axisarrow=,style={red,ultra thick}]{90}{90};  % axe x
+
+%	\drawRotationLeft[scale=1.3,style={red}]{-60}{0}{0}{15}
+% 	\drawRotationRight[scale=1.3,style={red}]{60}{0}{0}{15}
+
+% 	\node at (-0.8,1.9) {\textcolor{red}{\tiny $J_{12}(t)$}};
+% 	\node at (1.1,1.8) {\textcolor{red}{\tiny $J_{23}(t)$}};
+
+	\labelLatLon{up}{90}{0};
+	\labelLatLon{down}{-90}{90};
+%	\node[above right=2ex] at (up) {{\tiny $\left|0\right>$ }};
+%	\node[below=2ex] at (down) {{\tiny $\left|1\right>$}};
+
+
+	\node[above left,scale=0.7] at (coordx) {$x$};
+	\node[right,scale=0.7] at (coordy) {$y$};
+	\node[above,scale=0.7] at (coordz) {$z$};
+
+
+   \node[scale=1.2] at (0,-4) {$\mathbf{\left|1\right>}$};
+\end{blochsphere}
+%\end{tikzpicture}

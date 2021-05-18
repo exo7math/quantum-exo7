@@ -1,0 +1,29 @@
+\begin{tikzpicture}[scale=1]
+
+\filldraw[blue!70!black,fill=blue!20,ultra thick] (1,0,-10) -- ++(6,0,0) -- ++(0,4,0) -- ++(-6,0,0) -- cycle;
+
+\filldraw[black,fill=black!40,ultra thick] (1,0,0) -- ++(6,0,0) -- ++(0,4,0) -- ++(-6,0,0) -- cycle;
+\filldraw[black,fill=white,ultra thick] (3,0.5,0) -- ++(0.25,0,0) -- ++(0,3,0) -- ++(-0.25,0,0) -- cycle;
+\filldraw[black,fill=white,ultra thick] (5,0.5,0) -- ++(0.25,0,0) -- ++(0,3,0) -- ++(-0.25,0,0) -- cycle;
+
+\fill[red] (4,2.5,15) circle (0.5);
+
+   \def\myomega{3.14};
+   \def\deltaphi{0.5*3.14};
+
+
+\foreach \i in {1,...,5}{
+\shade[left color=red!70,right color=white] (0.5+\i+0,1,-10) rectangle ++(0.5,2,0);
+\shade[left color=white,right color=red!70] (0.5+\i+0.5,1,-10) rectangle ++(0.5,2,0);
+}
+
+\begin{scope}
+   \def\fonction{ 4+sin(\myomega*\x r) };
+   \draw[ultra thick, color=red,domain=0:14.0,samples=100,variable=\x] plot ({\fonction},2,{\x} );
+\end{scope}
+
+\node[below] at (4,2,15) {Source};
+\node[below] at (7,0,-10) {\'Ecran récepteur};
+\node[below] at (7,0,0) {Paroi à deux fentes};
+
+\end{tikzpicture}

@@ -1,0 +1,16 @@
+\begin{tikzpicture}
+
+\draw[->,>=latex, very thick,gray] (-1,0)--(5,0) node[below,black] {$\ket{\chi}$};
+\draw[->,>=latex, very thick, gray] (0,-1)--(0,4) node[left,black] {$\ket{\underline{k_0}}$};
+
+
+
+\coordinate (P) at (25:4);
+\draw[->,>=latex, very thick,red] (0,0)--(P) node[right] {$\ket{\phi}$};
+\coordinate (PP) at (55:4);
+\draw[->,>=latex, very thick,red] (0,0)--(PP) node[right] {$G\ket{\phi}$};
+
+
+\draw[double,->,>=latex,blue] (25:3) arc (25:55:3) node[midway,right]{$\theta$};
+
+\end{tikzpicture}

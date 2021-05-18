@@ -1,0 +1,32 @@
+\begin{tikzpicture}[scale=1]
+
+\node (A) at (1,+1) {\bf Alice};
+\node (C) at (-1,-1) {\bf Charlie};
+
+\draw[->,>=latex,line width=2pt,green!70!black!20] (C) to node  [midway, above left,black!50]{$\ket{\psi_A}$} (A);
+
+
+\node[rectangle,minimum height=20ex,draw] (B) at (8,0) {
+porte $CNOT$ \quad porte $H$ \quad mesure 
+\vphantom{\LARGE X}
+};
+\node[above =2ex of B] {\bf Bob};
+
+
+\draw[->,>=latex,line width=2pt,green!70!black] (A) to node  [midway, above left,black]{$\ket{\psi'_A}$} ($(B.west)+(0,1)$);
+\draw[->,>=latex,line width=2pt,green!70!black] (C) to node  [midway, above left,black]{$\ket{\psi_B}$} ($(B.west)+(0,-1)$);
+
+\draw[->,>=latex,line width=2pt,green!70!black] ($(B.east)+(0,1)$) to  ++(3,0);
+\draw[->,>=latex,line width=2pt,green!70!black] ($(B.east)+(0,-1)$) to  ++(3,0);
+
+
+\node[rectangle,draw] at (17,0) {
+\begin{tabular}{l}
+\it Information \\
+$0.0=$ Noir\\
+$0.1=$ Rouge\\
+$1.0=$ Bleu\\
+$1.1=$ Blanc \\
+\end{tabular}
+};
+\end{tikzpicture}

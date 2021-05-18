@@ -1,0 +1,46 @@
+﻿\begin{tikzpicture}[scale=1]
+
+   \def\myomega{3.14};
+   \def\deltaphi{0.5*3.14};
+
+\begin{scope}
+    \draw[->,>=latex,thick, gray] (-0.5,0)--(6.5,0) ; %node[right,black] {$x$};
+    \draw[->,>=latex,thick, gray] (0,-1.2)--(0,1.5) ; %node[above,black] {$f_1(x)$};  
+
+   \def\fonction1{ sin(\myomega*\x r) };
+   \draw[thick, color=red,domain=0:6.0,samples=100,variable=\x] plot ( {\x} , {\fonction1} );
+
+\foreach \i in {1,2,3}{
+   \draw[gray,dotted] (2*\i-1.5,2) -- ++(0,-10);
+}
+\foreach \i in {1,2,3}{
+   \draw[gray,dotted] (2*\i-0.5,2) -- ++(0,-10);
+}
+
+
+       \draw[<-,>=latex,gray] (2.5,1.1) to[bend left] (8,2) node[blue,right]{crête};
+       \draw[<-,>=latex,gray] (2.3,-3) to[bend left] (8,2);
+
+       \draw[<-,>=latex,gray] (5.5,-1.1) to[bend right] (8,-3) node[blue,right]{creux};
+       \draw[<-,>=latex,gray] (5.5,-4) to[bend right] (8,-3);
+\end{scope}
+
+
+
+
+
+\begin{scope}[yshift=-5cm]
+
+    \draw[->,>=latex,thick, gray] (-0.5,0)--(6.5,0); % node[right,black] {$x$};
+
+\foreach \i in {1,2,3}{
+   \draw[blue,thick,xshift=2*\i cm -6.5cm] (30:5) arc (30:-30:5);
+}
+
+
+\foreach \i in {1,2,3}{
+   \draw[orange,dashed,thick,xshift=2*\i cm -5.5cm] (30:5) arc (30:-30:5);
+}
+\end{scope}
+
+\end{tikzpicture}

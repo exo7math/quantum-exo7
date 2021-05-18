@@ -1,0 +1,19 @@
+﻿\begin{tikzpicture}
+
+\fontfamily{phv}\bfseries
+
+%\pgfmathsetmacro\k{\numpart-1};
+\pgfmathsetmacro\k{3};
+% From front picture Tikz/pgf manual by Till Tantau
+% binary notation
+\ifnum \k=0 \def\bink{0}\fi;
+\ifnum \k=1 \def\bink{1}\fi;
+\ifnum \k=2 \def\bink{1.0}\fi;
+\ifnum \k=3 \def\bink{1.1}\fi;
+\ifnum \k=4 \def\bink{1.0.0}\fi;
+\def\bbink{|\bink\raisebox{-0.3pt}{\scalebox{0.5}[1.5]{>}}};
+\node[scale=2,above,at={(0,0)},yslant=0.15,]{\bbink};
+\node[scale=2,above,at={(0,0)},yslant=0.15,yscale=-1,yshift=-4,scope fading=south,opacity=0.4,]{\bbink};
+
+
+\end{tikzpicture}  

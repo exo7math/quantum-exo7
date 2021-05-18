@@ -1,0 +1,27 @@
+﻿\begin{tikzpicture}
+\pgfdeclareradialshading{couches}{\pgfpointorigin}%
+{color(0cm)=(blue!80);
+color(.40cm)=(gray!80);
+color(.50cm)=(blue!60);
+color(.65cm)=(gray!50);
+color(.75cm)=(blue!50);
+color(.80cm)=(gray!40);
+color(.90cm)=(gray!10)
+}
+  \begin{scope}
+   % \clip (0,0) -- +(120:6) arc (120:60:6) --cycle;
+    \shade[shading=couches] (0,0) circle (4);
+  \end{scope}
+
+%     \begin{scope}
+%         \fill[red] (0,0) circle (0.5);
+%         \clip (0,0) circle (0.5);
+%         \shade[outer color=red, inner color=red!30] (-0.15,0.5) circle (0.7);
+%     \end{scope}
+
+\shade[outer color=red, inner color=red!30] (0,0) circle (0.5);
+   \node at (0,-5) {\bf Modèle quantique};
+
+
+ % \draw[thick, gray!50] (0,0) -- +(60:6) arc (60:120:6) --cycle;
+\end{tikzpicture}

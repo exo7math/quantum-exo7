@@ -1,0 +1,27 @@
+\begin{tikzpicture}[scale=1]
+
+\filldraw[gray,fill=black!10, very thick] (0,0) rectangle ++(5,5);
+
+
+\draw[red, very thick] (0,4) -- ++(-2,0) node[left,black]{$q_1$};
+\draw[red, very thick] (0,3.5) -- ++(-2,0) node[left,black]{$q_2$};
+\draw[red, very thick,dotted] (-1,1.2) -- ++ (0,2);
+\draw[red, very thick] (0,1) -- ++(-2,0) node[left,black]{$q_n$};
+
+\draw[blue, very thick] (-2,-1) node[left,black]{$b_1$} -- ++(8,0);
+\draw[blue, very thick] (-2,-1.5) node[left,black]{$b_2$} -- ++(8.5,0);
+\draw[blue, very thick,dotted] (-1,-1.6) -- ++ (0,-0.8);
+\draw[blue, very thick] (-2,-2.5) node[left,black]{$b_k$} -- ++(9.5,0);
+
+\draw[->,>=latex,green!70!black, very thick] (5,3.5) -- ++(1,0) -- ++(0,-4.5+0.05);
+\draw[->,>=latex,green!70!black, very thick] (5,3) -- ++(1.5,0) -- ++(0,-4.5+0.05);
+\draw[->,>=latex,green!70!black, very thick] (5,1.5) -- ++(2.5,0) -- ++(0,-4+0.05);
+\draw[green!70!black, very thick,dotted] (5.5,1.8) -- ++ (0,1);
+
+\node[text width=5em, align=center,scale=1] at (2.5,2.5) {portes quantiques};
+\node[text width=5em, left,align=center,scale=1] at (-2.5,2.5) {registre quantique (qubits)};
+\node[text width=5em, left,align=center,scale=1] at (-2.5,-1.75) {registre classique (bits)};
+\node[text width=5em, align=center,scale=1] at (7.5,2.75) {mesures};
+
+\node[scale=1] at (2.5,6) {\bf Circuit quantique};
+\end{tikzpicture}

@@ -1,0 +1,27 @@
+\begin{tikzpicture}
+
+\node[draw,minimum height=1cm, align=center] (P) at (3,0){NAND};
+\node[draw,minimum height=1cm, align=center] (A) at (-0.5,1){NAND};
+\node[draw,minimum height=1cm, align=center] (B) at (-0.5,-1){NAND};
+\node[draw,minimum height=1cm, align=center] (C) at (-4,0){NAND};
+
+\draw ($(B.west)+(0,-0.25)$) -- ++(-6.5,0) node[left]{B};
+\draw ($(A.west)+(0,0.25)$) -- ++(-6.5,0) node[left]{A};
+
+\draw (A.east) -- ++(1,0) -- ++(0,-0.75) -- ($(P.west)+(0,0.25)$);
+\draw (B.east) -- ++(1,0) -- ++(0,0.75) -- ($(P.west)+(0,-0.25)$);
+\draw (C.east) -- ++(1,0) -- ++(0,-0.75) -- ($(B.west)+(0,0.25)$);
+
+\draw[->,>=latex](P.east) -- ++(1,0);
+
+\node(O) at (-7.75,0){I};
+
+\draw (O) -- ++(2,0) -- ++(0,0.25) -- ($(C.west)+(0,0.25)$);
+\draw (O) -- ++(2,0) -- ++(0,-0.25) -- ($(C.west)+(0,-0.25)$);
+
+\node(X) at (-6.7,0) {};
+\fill (X) circle(2pt);
+\draw (X.center) -- ++(0,0.75) --  ($(A.west)+(0,-0.25)$);
+
+\node at (-2,-2.5){\bf Circuit MUX};
+\end{tikzpicture}

@@ -1,0 +1,36 @@
+\begin{tikzpicture}[scale=0.8]
+
+   %   \draw[lightgray] (-2,-2) grid (4,3);
+
+       \draw[->,>=latex, gray] (-4.5,0)--(4.5,0);
+       \draw[->,>=latex, gray] (0,-3.5)--(0,4);
+
+
+      \draw[blue] (0,0) circle (3cm);
+      \coordinate (A) at (55:3);
+      \coordinate (Ay) at (A-| 0,0);
+      \coordinate (Ax) at (0,0-|A);
+
+       \draw[blue,thin] (0,0)--(A);
+       \draw[thin] (0,0)--(-40:3) node[midway,below left] {$r=1$};
+       \draw[blue,dashed] (A)--(Ax) node[below]{$\cos\theta$};
+       \draw[blue,dashed] (A)--(Ay) node[left]{$\ii\sin\theta$};
+
+       \fill (3,0) circle (2pt);
+       \fill (0,0) circle (2pt);
+       \fill (0,3) circle (2pt);
+       \fill[blue] (A) circle (3pt);
+       \fill (0,0) circle (3pt);
+
+ %       \node at (0,-1) [below] {$\pi r^2$};
+       \node at (0,0) [below left] {$0$};
+       \node at (3,0) [below right] {$1$};
+       \node at (0,3) [above left] {$\ii$};
+       \node[blue] at (A) [above right] {$z=e^{\ii\theta}$};
+       \node at (4.5,0) [below] {$\Rr$};
+       \node at (0,4) [left] {$\ii \Rr$};
+
+       \draw[->,>=latex,blue] (0:1.6) arc (0:55:1.6);
+       \node[blue,right] at (40:1.6) {$\theta$};
+
+\end{tikzpicture}

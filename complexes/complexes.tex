@@ -1,0 +1,711 @@
+\documentclass[11pt,class=report,crop=false]{standalone}
+\usepackage[screen]{../python}
+
+%% Attention les figures sont commentées car longuettes à calculer !!
+%\renewcommand{\commentfigure}[1]{\centerline{\emph{Ici une figure.}}}  % sans les figures compliquées
+\renewcommand{\commentfigure}[1]{#1} % avec figures
+
+\begin{document}
+
+
+%====================================================================
+\chapitre{Nombres complexes}
+%====================================================================
+
+
+\objectifs{Les nombres complexes sont les coefficients naturels des qubits. Nous détaillons les calculs avec les nombres complexes ainsi que sur les qubits.}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Écriture algébrique}
+
+Les nombres complexes étendent les nombres réels de façon à pouvoir résoudre les équations du type $x^2=-1$.
+
+
+%--------------------------------------------------------------------
+\subsection{Définition}
+
+\begin{itemize}
+  \item Un \defi{nombre complexe}\index{nombre complexe} est un couple $(a, b) \in \Rr^2$ que l'on notera $a + \ii b$. 
+  
+  \item Exemple avec $a=2$ et $b=3$ : $z = 2 + 3\ii$.  
+  
+  \item Le nombre complexe $\ii$ vérifie l'équation : \mybox{$\ii ^2 = - 1$}
+  
+  \myfigure{1}{
+    \tikzinput{fig_complexes_01}
+  } 
+  
+  \item \textbf{Addition.} $(a + \ii b) + (a' + \ii b') =
+  (a + a') + \ii  (b + b')$
+  \item \textbf{Multiplication} : $(a + \ii b) \times (a' + \ii b')
+    = (aa' - bb') + \ii  (ab' + ba')$. 
+    Ainsi on développe, en suivant les règles usuelles de la multiplication et
+    en utilisant la règle $\ii ^2 = - 1$.
+\end{itemize}
+
+ 
+  
+\begin{exemple}
+Soit $z_1 = 2+3\ii$ et $z_2 = 5-4\ii$.
+
+Alors
+$$z_1+ z_2 = (2+3\ii) + (5-4\ii) = 7 - \ii. $$
+  
+Et
+\begin{align*}
+z_1  \times z_2
+  &= (2+3\ii) \times (5-4\ii) \\
+  &= 10 -8\ii +15\ii -12\ii^2 \\
+  &= 10 -8\ii +15\ii +12 \\ 
+  &= 22 +7\ii.
+\end{align*}
+
+
+\end{exemple}
+
+%--------------------------------------------------------------
+\subsection{Partie réelle et imaginaire}
+
+Soit $z = a + \ii b$ un nombre complexe, sa \defi{partie réelle}\index{nombre complexe!partie reelle@partie réelle} est le réel $a$ et on
+la note $\Re(z)$ ;
+sa \defi{partie imaginaire}\index{nombre complexe!partie imaginaire} est le réel $b$ et on la note $\Im(z)$.
+
+
+
+\myfigure{1}{
+\tikzinput{fig_complexes_02}
+}
+
+
+
+%--------------------------------------------------------------------
+\subsection{Module}
+
+
+
+\textbf{Module.}
+Le \defi{module}\index{nombre complexe!module} de $z = a + \ii b$ est le réel positif $|z| = \sqrt{a^2 + b^2}$. Il mesure la distance du point $(a,b)$ à l'origine $(0,0)$.
+\myfigure{1}{
+\tikzinput{fig_complexes_03}
+}
+
+Exemple : $|5-2\ii| = \sqrt{5^2+(-2)^2} = \sqrt{29}$.
+
+\textbf{Nombres complexes de module $1$}. 
+On peut représenter l'ensemble des nombres complexes de module $1$ par le cercle de rayon $1$ centré à l'origine.
+
+\myfigure{1}{
+\tikzinput{fig_complexes_05}
+}
+
+Exemples : $1$, $\ii$ et $\frac1{\sqrt2} + \frac1{\sqrt2}\ii$ sont des nombres complexes de module $1$.
+
+On peut transformer un nombre complexe quelconque (non nul) en un nombre complexe de module $1$ en le divisant par son module. Par exemple $z = 5-2\ii$ a pour module $|z| = \sqrt{29}$, donc
+$\frac{z}{|z|} = \frac5{\sqrt{29}} - \frac2{\sqrt{29}}\ii$ est de module $1$.
+
+
+\textbf{Conjugué.}
+Le \defi{conjugué}\index{nombre complexe!conjugue@conjugué} de $z = a + \ii b$ est $z^* = a - \ii b$, autrement dit
+  $\Re(z^*) = \Re(z)$ et
+  $\Im(z^*) = - \Im (z)$.
+  Le point $z^*$ est le symétrique du point $z$ par rapport à l'axe réel.
+Comme $z \times z^* = (a+\ii b)(a-\ii b) = a^2+b^2$ alors  le module vaut aussi $|z| = \sqrt{z z^*}$.
+\myfigure{1}{
+\tikzinput{fig_complexes_04}
+}
+
+\emph{Notation.} Une écriture plus classique pour le conjugué est $\bar z$, mais nous préférons ici la notation $z^*$ plus adaptée pour la suite du cours. 
+
+\textbf{Inverse.}
+L'\defi{\,inverse}: si $z \neq 0$, il existe un unique $z' \in \Cc$ tel
+  que $zz' = 1$ (o\`u $1 = 1 + \ii  \times 0$).
+\[ z' = \frac{1}{z}  =
+     \frac{a - \ii b}{a^2 + b^2} = \frac{z^*}{|z|^2} . \]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Qubit}
+
+%--------------------------------------------------------------------
+\subsection{Définition}
+
+\index{qubit!definition@définition}
+
+Rappelons la définition des qubits à partir des deux \defi{états quantiques de base} $\ket{0}$ et $\ket{1}$. 
+Un \defi{$1$-qubit}, appelé aussi simplement \defi{qubit}, est un \defi{état quantique} obtenu par combinaison linéaire :
+\mybox{$\ket{\psi} = \alpha \ket{0} + \beta \ket{1}
+\qquad \text{ avec } \alpha \in \Cc \quad  \text{ et } \quad \beta \in \Cc$}
+avec souvent la condition de normalisation :
+$$|\alpha|^2+|\beta|^2 = 1.$$
+
+Un qubit est donc défini par deux nombres complexes, $\alpha = a_1+\ii b_1$ et $\beta = a_2+\ii b_2$. Il faut ainsi $4$ nombres réels $a_1$, $b_1$, $a_2$, $b_2$ pour définir un qubit.
+
+
+Deux qubits réunis sont dans un état quantique $\ket\psi$, appelé \defi{$2$-qubit}\index{qubit!deuxqubit@$2$-qubit}, défini par la superposition :
+\mybox{$\ket\psi =
+\alpha \ket{0.0} + \beta\ket{0.1} + \gamma\ket{1.0} + \delta \ket{1.1} \quad \text{ avec } \alpha,\beta,\gamma,\delta \in \Cc$}
+avec souvent la convention de normalisation :
+$$|\alpha|^2+|\beta|^2+|\gamma|^2+|\delta|^2=1.$$
+Il faudrait donc $8$ nombres réels pour définir un $2$-qubit.
+
+%--------------------------------------------------------------------
+\subsection{Opérations}
+
+\index{qubit!calculs}
+
+\textbf{Addition.}
+L'addition de deux qubits se fait coefficient par coefficient,  il s'agit donc d'additionner des paires de nombres complexes. Par exemple
+si 
+$$\ket\phi = (1+3\ii)\ket0 + 2\ii\ket1 \qquad \text{ et } \qquad
+\ket\psi = 3\ket0 + (1-\ii) \ket1$$
+alors
+$$\ket\phi + \ket\psi  = (4+3\ii)\ket0 + (1+\ii)\ket1.$$
+Ou encore pour des $2$-qubits :
+$$\big(\ket{1.0}+\ket{0.1}\big) + \big(\ket{1.0}-\ket{0.1}\big) = 2\ket{1.0}.$$
+
+\bigskip
+\textbf{Multiplication.}
+On peut multiplier deux $1$-qubits pour obtenir un $2$-qubit. Les calculs se font comme des calculs algébriques à l'aide des règles de bases $\ket0 \cdot \ket 0 = \ket{0.0}$, $\ket0 \cdot \ket 1 = \ket{0.1}$,\ldots{} 
+Pour les coefficients, on utilise la multiplication des nombres complexes, avec bien sûr toujours la relation $\ii^2=-1$.
+
+Par exemple avec $$\ket\phi = (1+3\ii)\ket0 + 2\ii\ket1 \qquad \text{ et } \qquad
+\ket\psi = 3\ket0 + (1-\ii) \ket1$$
+on a
+\begin{align*}
+\ket\phi \cdot \ket\psi
+  &=\big((1+3\ii)\ket0 + 2\ii\ket1\big) \times \big(3\ket0 + (1-\ii) \ket1\big) \\
+  &= (1+3\ii)\cdot3\cdot\ket0\cdot\ket0 
+  + (1+3\ii)\cdot(1-\ii)\cdot\ket0\cdot\ket1+
+    2\ii\cdot 3\cdot\ket1\cdot\ket0 + 2\ii\cdot(1-\ii)\cdot \ket1\cdot\ket1\\
+  &= (3+9\ii)\ket{0.0}  + (4+2\ii)\ket{0.1} + 6\ii\ket{1.0}+(2+2\ii)\ket{1.1}
+\end{align*}
+où on a utilisé $(1+3\ii) \cdot (1-\ii) = 1-\ii+3\ii-3\ii^2 = 4+2\ii$ et $2\ii\cdot(1-\ii) = 2\ii-2\ii^2 = 2+2\ii$.
+
+%--------------------------------------------------------------------
+\subsection{Norme}
+
+\index{qubit!norme}
+
+\textbf{Norme.}
+La norme d'un qubit est un nombre réel $\|\psi\|$.
+\begin{itemize}
+  \item Pour un qubit $\ket\psi = \alpha\ket0+\beta\ket1$, $\|\psi\| = \sqrt{|\alpha|^2+|\beta|^2}$ est sa norme.
+  \item Pour un 2-qubit $\ket\psi = \alpha\ket{0.0}+\beta\ket{0.1}+\gamma\ket{1.0}+\delta\ket{1.1}$, sa norme est $\|\psi\| = \sqrt{|\alpha|^2+|\beta|^2+|\gamma|^2+|\delta|^2}$.
+  \item La normalisation d'un qubit $\ket\psi$ est $\frac{\ket\psi}{\|\psi\|}$, qui  est un qubit de norme $1$.
+\end{itemize}
+
+Exemple : pour $\ket\psi = (3+4\ii)\ket0 + (2-\ii)\ket1$ alors la norme au carré vaut :
+\begin{align*}
+\| \psi \|^2 
+  &= |3+4\ii|^2 + |2-\ii|^2 \\
+  &= (3^2+4^2) + (2^2+(-1)^2) \\
+  &= 30. 
+\end{align*}
+  Donc $\|\psi\| = \sqrt{30}$.
+
+\begin{exercicecours}
+Vérifier que la norme de 
+$$\ket\psi = (1+\ii)\ket{0.0}  + (1-2\ii)\ket{0.1} + (3-4\ii)\ket{1.0}+2\ii\ket{1.1}$$
+est $\|\psi\| = 6$.
+Que vaut la normalisation de $\ket\psi$ ?
+\end{exercicecours}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Écriture trigonométrique}
+
+%--------------------------------------------------------------------
+\subsection{Module et argument}
+
+Un nombre complexe $z\in\Cc$, admet l'écriture trigonométrique :
+\mybox{
+$z = r\cos\theta  + \ii r\sin\theta \qquad
+\text{ avec } \quad r \in\Rr_+ \quad \text{ et } \quad \theta \in \Rr$}
+
+\myfigure{1}{
+\tikzinput{fig_complexes_06}
+}
+
+\begin{itemize}
+  \item $r$ est en fait le module de $z$ : $r=|z|$,
+  \item $\theta$ est un \defi{argument}\index{nombre complexe!argument} de $z$, on le note $\arg(z)$.
+\end{itemize}
+
+L'argument n'est pas unique : si $\theta$ est un argument alors $\theta + 2k\pi$ ($k\in\Zz$) aussi.
+Pour rendre l'argument unique, on peut imposer la condition $\theta \in ]-\pi,\pi]$ (ou encore $\theta \in [0,2\pi[$). 
+Si on impose $\theta \in ]-\pi,\pi]$ alors pour un nombre complexe $z$ non nul, l'écriture
+$z = r\cos\theta  + \ii r\sin\theta$ est unique.
+
+On dira que $\arg(z)$ est \og{}défini  modulo $2\pi$\fg{} et l'écriture 
+$\theta \equiv \theta' \pmod{2\pi}$ signifie que $\theta = \theta'+2k\pi$ pour un certain entier $k\in\Zz$.
+  
+\begin{exemple}
+\sauteligne
+\begin{itemize}
+  \item Soit $z = 1 - \sqrt3\ii$.
+  Alors $r=|z| = 2$ et $\theta = -\frac\pi3$, car alors
+  $$r\cos\theta = 2\cos(-\tfrac\pi3) = 2\times \frac12 = 1 = \Re(z)$$
+  et 
+  $$r\sin\theta = 2\sin(-\tfrac\pi3) = -2 \times \frac{\sqrt3}{2} = -\sqrt3 = \Im(z).$$  
+
+\begin{center}
+\begin{minipage}{0.45\textwidth}
+\myfigure{0.7}{
+\tikzinput{fig_complexes_07b}
+}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+\myfigure{0.7}{
+\tikzinput{fig_complexes_07a}
+}
+\end{minipage}  
+\end{center}
+
+  \item Le nombre complexe de module $r=3$ et d'argument $\theta=\frac{3\pi}{4}$
+  est
+  $$z' = r\cos\theta + \ii r\sin\theta = -\frac{3\sqrt2}{2} + \frac{3\sqrt2}{2}\ii
+  = \frac{3\sqrt2}{2}(-1+\ii).$$
+    
+\end{itemize}
+\end{exemple}  
+
+
+L'écriture module-argument facilite le calcul des multiplications.
+Les modules se multiplient, les arguments s'additionnent. 
+\begin{proposition}
+Soient $z$ et $z'$ deux nombres complexes.
+Alors
+\mybox{$|zz'| = |z| \cdot |z'| \qquad \text{ et } \qquad
+\arg (zz') \equiv \arg (z) + \arg(z') \pmod {2\pi}$}
+\end{proposition}
+ 
+ 
+\begin{proof}
+   \begin{eqnarray*}
+     zz' & = & \left| z \right|  \left( \cos \theta + \ii  \sin \theta \right)
+     \left| z' \right|  \left( \cos \theta' + \ii  \sin \theta' \right)\\
+     & = & \left| zz' \right|  \left( \cos \theta \cos \theta' - \sin \theta
+     \sin \theta' + \ii  \left( \cos \theta \sin \theta' + \sin \theta \cos
+     \theta' \right) \right)\\
+     & = & \left| zz' \right|  \left( \cos \left( \theta + \theta' \right) + \ii
+     \sin \left( \theta + \theta' \right) \right)
+   \end{eqnarray*}
+   donc $|zz'| = |z| \cdot |z'|$ et $\arg( zz') \equiv \arg (z) + \arg(z') \pmod {2\pi}$.
+ \end{proof} 
+ 
+
+%--------------------------------------------------------------------
+\subsection{Notation exponentielle}
+
+Nous définissons la \defi{notation exponentielle}\index{nombre complexe!exponentielle} par
+\mybox{$e^{\ii  \theta} = \cos \theta + \ii  \sin \theta$}
+ et donc tout nombre complexe s'écrit :
+\mybox{$z = r e^{\ii  \theta}$}
+o\`u $r = \left| z \right|$ est son module et $\theta = \arg (z)$ est un de ses arguments.
+
+\bigskip
+
+Avec la notation exponentielle, les calculs s'effectuent avec les lois habituelles pour les puissances. 
+Par exemple :
+\mybox{$\left(e^{\ii\theta}\right)^n = e^{\ii n \theta}$}
+Il s'agit en fait de la \defi{formule de Moivre}\index{nombre complexe!formule de Moivre} qui s'écrit en version étendue :
+$$\left( \cos \theta + \ii \sin \theta \right)^n = \cos \left( n \theta \right)
+  + \ii  \sin \left( n \theta \right).$$
+  
+De façon plus générale, pour $z = r e^{\ii  \theta}$
+et $z' = r' e^{\ii  \theta'}$, on peut écrire :
+\begin{itemize}
+	\item $zz' = r r' e^{\ii  \theta} e^{\ii  \theta'} = r r' e^{\ii  (\theta + \theta')}$
+	\item $z^n = \left( r e^{\ii  \theta} \right)^n = r^n  \left( e^{\ii  \theta}
+	\right)^n = r^n e^{\ii n \theta}$
+	\item $1 / z = 1 / \left( r e^{\ii  \theta} \right) = \frac{1}{r} e^{- \ii
+		\theta}$
+	\item $z^* = r e^{-\ii \theta}$	
+\end{itemize}
+
+   
+   
+Tout nombre complexe de module $1$ s'écrit sous la forme $z=e^{\ii\theta}$,
+autrement dit $z = \cos\theta +\ii\sin\theta$.
+\myfigure{1}{
+\tikzinput{fig_complexes_08}
+}
+
+%--------------------------------------------------------------------
+\subsection{Écriture des qubits}
+
+À l'aide de la notation exponentielle, un qubit $\ket\psi = \alpha \ket0 + \beta \ket1$ peut aussi s'écrire :
+$$\ket \psi = r e^{\ii\theta} \ket0 + r'e^{\ii\theta'} \ket1.$$
+Un tel qubit est normalisé si $r^2+r'^2=1$.
+
+Certains utilisent un vocabulaire issu de la physique :
+\begin{itemize}
+  \item $\theta$ est la \defi{phase} associée à $\ket0$,
+  \item $\theta'$ est la phase associée à $\ket1$.
+\end{itemize}
+
+L'écriture algébrique est adaptée à un calcul de somme tandis que la notation exponentielle rend le calcul d'une multiplication plus facile.
+
+
+\begin{exemple}
+Si $\ket\phi = 2e^{\ii \frac\pi3}\ket0+3e^{\ii\frac\pi4}$ et
+$\ket\psi = 4e^{\ii \frac\pi5}\ket0+5e^{\ii\frac\pi6}$.
+Alors :
+\begin{align*}
+\ket\phi \cdot \ket\psi 
+  &= \left(2e^{\ii \frac\pi3}\ket0+3e^{\ii\frac\pi4}\ket1\right) \times
+  \left(4e^{\ii \frac\pi5}\ket0+5e^{\ii\frac\pi6}\ket1\right) \\
+  &= 2e^{\ii \frac\pi3} \cdot 4e^{\ii \frac\pi5}\ket{0.0}
+  + 2e^{\ii \frac\pi3} \cdot 5e^{\ii\frac\pi6} \ket{0.1}
+  + 3e^{\ii\frac\pi4} \cdot 4e^{\ii \frac\pi5}\ket{1.0} 
+  + 3e^{\ii\frac\pi4} \cdot 5e^{\ii\frac\pi6} \ket{1.1} \\
+  &= 8e^{\ii (\frac\pi3+\frac\pi5)}\ket{0.0}
+    + 10e^{\ii (\frac\pi3+\frac\pi6)} \ket{0.1}
+    + 12e^{\ii(\frac\pi4+\frac\pi5)}\ket{1.0} 
+    + 15e^{\ii(\frac\pi4+\frac\pi6)} \ket{1.1}. \\
+\end{align*}
+\end{exemple}
+
+
+%--------------------------------------------------------------------
+\subsection{Équivalence de qubits}
+
+La mesure physique d'un qubit $\ket\psi = \alpha\ket0+\beta\ket1$ ne permet pas d'accéder aux valeurs de $\alpha$ et $\beta$.
+Par exemple $\ket0+\ket1$ et $2\ket0+2\ket1$ ne pourront pas être distingués par des mesures, ils donnent tous les deux une mesure $0$ ou $1$ avec probabilité $1/2$.
+
+
+
+On dit que deux états sont \defi{équivalents}\index{qubit!equivalence@équivalence} si on peut passer de l'un à l'autre par les opérations suivantes :
+\begin{itemize}
+  \item multiplication par une constante réelle :
+$$k \ket\psi \equiv \ket \psi \qquad \text{ où } k \in \Rr^*,$$
+  \item multiplication par $e^{\ii\theta}$ (un nombre complexe de module $1$) :
+$$e^{\ii \theta} \ket\psi \equiv \ket \psi \qquad \text{ où } \theta \in \Rr.$$
+\end{itemize}
+
+Une reformulation est de dire que deux qubit $\ket\phi$ et $\ket\psi$ sont \defi{équivalents} s'il existe $z\in\Cc^*$ tel que $\ket\phi = z \ket\psi$.
+
+Deux états quantiques équivalents ne peuvent pas être distingués par des mesures.
+
+\begin{exemple}
+\sauteligne
+\begin{itemize}
+  \item Par exemple 
+$$\ket0 + \ket1 \equiv \frac{1}{\sqrt2}\ket0+\frac{1}{\sqrt2}\ket1.$$
+On passe de l'un à l'autre en multipliant par $k=1/\sqrt2$.
+
+  \item On a aussi
+$$\ii\ket0 + (1-\ii) \ket1 \equiv -\ket 0 + (1+\ii)\ket1$$
+On passe de l'un à l'autre en multipliant par $\ii = e^{\ii \frac\pi2}$.
+ 
+  \item On peut combiner les deux opérations :
+$$(1+2\ii)\ket0 + \ii \ket1 \equiv \ket 0 + \frac{2+\ii}{5}\ket1$$
+On passe de l'un à l'autre en multipliant par $z=\frac{1-2\ii}{5}$.
+Les deux qubits équivalents $(1+2\ii)\ket0 + \ii \ket1$ et $\ket 0 + \frac{2+\ii}{5}\ket1$ conduisent tous les deux lors d'une mesure à $0$ avec une probabilité $\frac{5}{6}$ et à $1$ avec une probabilité $\frac{1}{6}$.
+\end{itemize}
+\end{exemple}
+
+
+\begin{remarque*}
+\sauteligne
+\begin{itemize}
+  \item Attention, deux états équivalents ne sont pas égaux ! Il ne faut pas les interchanger dans les calculs intermédiaires. Cependant, lors de la mesure finale, on peut remplacer un état par un état équivalent sans changer le résultat. 
+  \item En effet, les deux opérations élémentaires qui définissent l'équivalence ne changent pas le calcul de probabilité pour la mesure.
+  \item L'équivalence des qubits évite en particulier de parler de normalisation.
+\end{itemize}
+\end{remarque*}
+
+
+\begin{proposition}
+\label{prop:dimdeux}
+Un qubit $\ket\psi = \alpha\ket0+\beta\ket1$ non nul (c'est-à-dire $(\alpha,\beta)\neq(0,0)$) est équivalent à un qubit de norme $1$ de la forme :
+\mybox{$\ket{\psi} \equiv \cos\left(\frac\theta2\right)\ket0+ \sin\left(\frac\theta2\right)e^{\ii\phi}\ket1$}
+De plus l'écriture est unique lorsque l'on a les conditions $0<\theta<\pi$ et $-\pi < \phi \le \pi$.
+\end{proposition}
+
+
+\begin{exemple}
+\sauteligne
+\begin{itemize}
+  \item $\ket\psi = \ii\sqrt2\ket0 + \sqrt3(1+\ii)\ket1$.
+  On commence par rendre le coefficient devant $\ket0$ réel positif. Pour cela on multiplie tout par $-\ii = e^{-\ii\frac\pi2}$ :
+  $$\ket\psi \equiv (-\ii)\big(\ii\sqrt2\ket0 + \sqrt3(1+\ii)\ket1\big)
+  = \sqrt2\ket0 + \sqrt3(1-\ii)\ket1.$$
+  La norme de ce dernier qubit est $2\sqrt2$, on divise donc par cette norme. Ainsi :
+  $$\ket\psi \equiv \frac12\ket0 + \frac{\sqrt3}{2} \frac{1-\ii}{\sqrt2}\ket1.$$
+  On pose d'une part $\theta=\frac{2\pi}3$ pour lequel $\cos\left(\frac\theta2\right)=\frac12$ et $\sin\left(\frac\theta2\right)= \frac{\sqrt3}{2}$ et d'autre part $\phi=\frac{7\pi}{4}$ pour lequel
+  $e^{\ii\phi} = \frac{1-\ii}{\sqrt2}$.
+  
+ 
+  \item Il n'est en général pas possible d'expliciter les angles $\theta$ et $\phi$.
+  Considérons par exemple $\ket\psi = 1\ket0 - 2\ii\ket1$.
+  Alors $\|\psi\| = \sqrt5$ et
+  $\ket\psi \equiv \frac{1}{\sqrt5}\ket0 -\frac{2}{\sqrt5}\ii\ket1$.
+  On sait qu'il existe un réel $\theta$ tel que $\cos\left(\frac\theta2\right) = \frac{1}{\sqrt5}$
+  et $\sin\left(\frac\theta2\right) = \frac{2}{\sqrt5}$, ce $\theta$ est défini par 
+  $\frac\theta2 = \operatorname{arccos}(\frac{1}{\sqrt5})$ mais n'a pas d'expression plus explicite.
+  
+  On pose alors $\phi = -\frac\pi2$ qui vérifie $e^{\ii\phi} = -\ii$.
+  Ces $\theta$ et $\phi$ conviennent.
+  
+\end{itemize} 
+\end{exemple}
+
+\begin{proof}
+~
+
+\textbf{Existence.}
+On commence par transformer le coefficient de $\ket0$ en un réel positif. Si $\alpha = re^{\ii\theta}$ alors
+\begin{align*}
+\ket\psi 
+  &\equiv e^{-\ii\theta}\ket\psi \\
+  &= e^{-\ii\theta}\big( re^{\ii\theta} \ket0 + \beta\ket1\big) \\
+  &= r\ket0 + \beta \cdot e^{-\ii\theta} \ket1. \\
+\end{align*}
+On normalise ensuite ce qubit en divisant par $\|\psi\|$ :
+\begin{align*}
+\ket\psi 
+  &\equiv \frac{1}{\|\psi\|} \ket\psi \\
+  &\equiv \frac{1}{\|\psi\|}\big(r\ket0 + \beta \cdot e^{-\ii\theta} \ket1\big) \\
+  &= \frac{r}{\|\psi\|}\ket0 + \frac{\beta \cdot e^{-\ii\theta}}{\|\psi\|} \ket1. \\
+\end{align*}
+Ce dernier qubit s'écrit :
+$$\ket{\psi'} = r'\ket0 + \beta'\ket1$$
+avec $r' \in \Rr$ et $\beta'\in \Cc$. 
+Mais comme par définition $\ket{\psi'}$ est un qubit de module $1$, on a de plus 
+$r'^2+ |\beta'|^2 = 1$
+et en particulier $0\le r' \le 1$ et $|\beta'| \le 1$. 
+
+\bigskip
+\emph{Rappel.} Pour deux nombres réels $a,b\ge0$ vérifiant $a^2+b^2=1$, il existe $x\in[0,\frac\pi2]$ tel que
+$$\left\{\begin{array}{rcl}
+a &=& \cos x\\
+b &=& \sin x\\
+\end{array}\right.$$
+
+\myfigure{1}{
+\tikzinput{fig_complexes_09}
+}
+
+On applique le rappel à $r'$ et $|\beta'|$ afin d'obtenir $x = \frac\theta2$ ($\theta \in [0,\pi]$), et d'écrire
+$r' = \cos\left(\frac\theta2\right)$ et $|\beta'| = \sin\left(\frac\theta2\right)$.
+Finalement, $\beta' = \sin\left(\frac\theta2\right) e^{\ii\phi}$ pour un certain argument $\phi\in\Rr$.
+Ainsi $\ket\psi$ est bien équivalent à un qubit de la forme souhaitée : 
+$$\ket\psi \equiv \ket{\psi'} = \cos\left(\frac\theta2\right)\ket0+ \sin\left(\frac\theta2\right)e^{\ii\phi}\ket1.$$
+
+\bigskip
+On aurait pu effectuer toutes les opérations en une seule fois. En effet,
+si $\ket\psi = \alpha\ket0 + \beta\ket1$ avec $\alpha = re^{\ii\theta}$ alors
+$\frac{e^{-\ii\theta}}{\|\psi\|} \ket\psi$ est de la forme voulue.
+
+\bigskip
+\textbf{Unicité.}
+L'unicité découle de la construction. On peut aussi la prouver de la façon suivante. Si on suppose qu'il existe $(\theta,\phi)$ et $(\theta',\phi')$ tels que
+$$\cos\left(\frac\theta2\right)\ket0+ \sin\left(\frac\theta2\right)e^{\ii\phi}\ket1 = \cos\left(\frac{\theta'}2\right)\ket0+ \sin\left(\frac{\theta'}2\right)e^{\ii\phi'}\ket1$$
+alors, par identification, les coefficients devant $\ket0$ sont égaux, de même pour les coefficients devant $\ket1$.
+Ainsi
+$$\left\{\begin{array}{rcl}
+\cos(\frac\theta2) &=& \cos(\frac{\theta'}2) \\
+\sin(\frac{\theta}2)e^{\ii\phi} &=& \sin(\frac{\theta'}2)e^{\ii\phi'}
+\end{array}\right.$$
+
+Mais comme $0 <\frac\theta2< \frac\pi2$ et $0 <\frac{\theta'}{2} < \frac\pi2$ alors
+$\cos(\frac\theta2) = \cos(\frac{\theta'}2)$ implique $\theta=\theta'$.
+On en déduit donc que $\sin(\frac\theta2) = \sin(\frac{\theta'}2)$,
+puis que $e^{\ii\phi} = e^{\ii\phi'}$. Deux arguments sont égaux modulo $2\pi$, mais comme on a imposé 
+$-\pi < \phi \le \pi$ et $-\pi < \phi' \le \pi$, on a $\phi=\phi'$.
+\end{proof}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Sphère de Bloch}
+
+\index{sphere de Bloch@sphère de Bloch}
+
+%--------------------------------------------------------------------
+\subsection{Représentation}
+
+Un qubit $\ket\psi = \alpha\ket0+\beta\ket1$ est déterminé par ses $2$ coefficients complexes $\alpha,\beta$, donc 
+par $4$ paramètres réels $\Re(\alpha)$, $\Im(\alpha)$, $\Re(\beta)$, $\Im(\beta)$.
+
+Mais un qubit est équivalent à un qubit de la forme :
+$$\ket{\psi'} = \cos\left(\frac\theta2\right)\ket0+ \sin\left(\frac\theta2\right)e^{\ii\phi}\ket1$$
+avec seulement deux paramètres réels $\theta$, $\phi$
+qui vérifient $0\le \theta \le \pi$ et $-\pi < \phi \le \pi$.
+
+Cela permet de représenter un qubit sur la \defi{sphère de Bloch},
+par un point (ou un vecteur) de colatitude $\theta$ et longitude $\phi$, et un rayon $1$.
+\commentfigure{
+\myfigure{1}{
+\tikzinput{bloch01}
+}
+}
+
+Les formules pour obtenir les coordonnées $(x,y,z)\in\Rr^3$ de ce point sont :
+$$\left\{\begin{array}{rcl}
+x &=& \sin\theta \cdot \cos\phi \\
+y &=& \sin\theta \cdot \sin\phi \\
+z &=& \cos\theta \\
+\end{array}\right.$$
+
+
+\bigskip
+\textbf{États quantiques de base.}
+L'état de base $\ket0$ correspond au pôle Nord de coordonnées $(x,y,z)= (0,0,1)$ avec pour colatitude $\theta=0$ (et n'importe quelle valeur comme longitude $\phi$).
+ \commentfigure{ 
+\myfigure{0.8}{
+\tikzinput{bloch02a}\qquad\qquad
+\tikzinput{bloch02b}
+}  
+}
+L'état de base $\ket1$ correspond au pôle Sud de coordonnées $(x,y,z)= (0,0,-1)$ avec pour colatitude $\theta=\pi$ (ou $180^\circ$) (et n'importe quelle valeur comme longitude $\phi$).
+ 
+\bigskip
+\textbf{Mesure.}
+Pour un qubit $\ket\psi = \cos\left(\frac\theta2\right)\ket0+ \sin\left(\frac\theta2\right)e^{\ii\phi}\ket1$, la probabilité que sa mesure donne $0$ est
+$\cos^2(\frac\theta2)$. 
+Ainsi, si le qubit est le plus proche du pôle Nord, c'est-à-dire $0 \le \theta < \frac\pi2$, alors la probabilité de mesurer $0$ est plus forte.
+ Par contre, 
+ si le qubit est le plus proche du pôle Sud, c'est-à-dire $\frac\pi2 < \theta \le  \pi$, alors la probabilité de mesurer $1$ est plus forte.
+Un qubit sur l'équateur se mesure en $0$ ou $1$ avec la même probabilité.
+
+\myfigure{1}{
+\tikzinput{bloch-proba}
+}
+
+
+\begin{exemple}
+L'état $\ket{\psi_+} = \frac1{\sqrt2} \big(\ket0+\ket1\big)$ a pour paramètres
+$\theta = \frac\pi2$ (ou $90^\circ$) et $\phi=0$. 
+  
+  
+  L'état $\ket{\psi_-} = \frac1{\sqrt2} \big(\ket0-\ket1\big)$ a pour paramètres
+   $\theta = \frac\pi2$ et $\phi=\pi$.
+    
+   \commentfigure{
+   \myfigure{1}{
+   \tikzinput{bloch03}
+   }  
+   }
+Ils sont tous les deux situés sur l'équateur, donc se mesurent en $0$ ou $1$ avec une probabilité $\frac12$.
+\end{exemple}
+
+
+\emph{Remarque.} On rappelle que l'écriture d'un qubit sous la forme $ \cos\left(\frac\theta2\right)\ket0+ \sin\left(\frac\theta2\right)e^{\ii\phi}\ket1$ ne s'obtient qu'à équivalence près. Aussi la représentation sur la sphère de Bloch n'est que partielle et ne permet pas une représentation complète d'un qubit.
+
+
+\begin{exercicecours}
+\sauteligne
+\begin{enumerate}
+  \item Tracer les points suivant sur la sphère de Bloch :
+  \begin{enumerate}
+    \item Les points de coordonnées sphériques $(\theta,\phi)=(\frac\pi3,-\frac\pi4)$ et $(\theta,\phi)=(\frac\pi2,\frac{2\pi}{3})$.
+    Exprimer les qubits correspondants. 
+    
+    \item Les points de coordonnées cartésiennes $(x,y,z) = (0,-1,0)$
+    et $(\frac{1}{\sqrt2},-\frac{1}{\sqrt2},0)$, $(\frac{1}{\sqrt2},0,-\frac1{\sqrt2})$. Exprimer les qubits correspondants. 
+    
+    \item Les points des états $\ket{\psi_1} = -\frac12\ket0 - \frac{\sqrt3}{2}e^{\ii\pi}\ket1$ (attention au facteur $2$ dans la formule $\frac\theta2$ !) et    
+    $\ket{\psi_2} = \ket0 + \ii\ket1$ (penser à normaliser).
+    
+  \end{enumerate}
+  
+  \item Trouver les valeurs des qubits suivants placés sur la sphère de Bloch.
+  Une lecture graphique approximative des valeurs $\theta$ et $\phi$ suffit.
+  
+  \commentfigure{
+  \myfigure{0.8}{
+  \tikzinput{bloch05a}\qquad\qquad
+  \tikzinput{bloch05b}
+  } 
+  }
+
+  \item Trouver l'expression des états quantiques situés sur l'équateur.
+  
+  
+  \item À quelle transformation géométrique correspond la transformation d'un qubit $\ket\psi = \cos\left(\frac\theta2\right)\ket0+ \sin\left(\frac\theta2\right)e^{\ii\phi}\ket1$
+  en $\ket{\psi'} = \cos\left(\frac\pi2-\frac\theta2\right)\ket0+ \sin\left(\frac\pi2-\frac\theta2\right)e^{\ii\phi}\ket1$ ?
+  
+  \item Trouver l'expression de la symétrie centrale de centre l'origine.
+  Exprimez d'abord la transformation $(\theta,\phi) \mapsto (\theta',\phi')$
+  puis l'action $\ket\psi \mapsto \ket{\psi'}$.
+  
+\end{enumerate}
+\end{exercicecours}
+
+
+%--------------------------------------------------------------------
+\subsection{Portes X, Y et Z de Pauli}
+
+\index{porte!X}
+\index{porte!Y}
+\index{porte!Z}
+\index{porte!de Pauli}
+
+Les portes de Pauli $X$, $Y$ et $Z$ transforment un qubit en un autre qubit.
+Elles ont chacune une interprétation géométrique simple lorsque l'on regarde leur action sur la sphère de Bloch.
+
+\textbf{Porte $X$.}
+La porte $X$ échange les coefficients d'un qubit :
+$$
+\text{ porte } X \ : \ 
+\left\lbrace
+\begin{array}{l}
+\ket 0 \mapsto \ket1 \\
+\ket 1 \mapsto \ket0
+\end{array}\right.
+$$
+Autrement dit :
+$$X(\alpha\ket0+\beta\ket1) = \beta\ket0+\alpha\ket1.$$
+
+
+Regardons ce que cela donne sur la sphère de Bloch.
+Soit $\ket\psi = \cos\left(\frac\theta2\right) \ket0 + \sin\left(\frac\theta2\right)e^{\ii\phi}\ket1$, alors
+\begin{align*}
+X(\ket\psi) 
+  &= \sin\tfrac\theta2e^{\ii\phi}\ket0 + \cos\tfrac\theta2 \ket1 \\
+  &\equiv \sin\tfrac\theta2 \ket0 +  \cos\tfrac\theta2 e^{-\ii\phi}\ket1 \\
+  &= \cos\left(\tfrac\pi2-\tfrac\theta2\right)\ket0 + \sin\left(\tfrac\pi2-\tfrac\theta2\right)e^{-\ii\phi}\ket1 \\
+  &=  \cos\tfrac{\theta'}2 \ket0 + \sin\tfrac{\theta'}2e^{\ii\phi'}\ket1 \quad \text{ avec } \theta' = \pi-\theta \text{ et } \phi'\equiv-\phi \pmod{2\pi}\\
+\end{align*}
+
+Ainsi les coordonnées sphériques $(\theta,\phi)$ sont transformées par $X$ en $(\pi-\theta,-\phi)$.
+Géométriquement $X(\ket\psi)$ est obtenu sur la sphère de Bloch par la rotation (de l'espace) d'axe $(Ox)$ et d'angle $\pi$ (un demi-tour donc).
+\commentfigure{
+\myfigure{1}{
+\tikzinput{bloch04a}
+} 
+}
+
+
+\textbf{Portes $Y$ et $Z$.}
+Rappelons l'action des portes de Pauli $Y$ et $Z$ sur les états de base :
+$$\text{ porte } Y \ : \ \left\lbrace
+\begin{array}{l}
+\ket 0 \mapsto \ii\ket 1 \\
+\ket 1 \mapsto -\ii\ket 0
+\end{array}\right.
+\qquad\qquad
+\text{ porte } Z  \ : \ 
+\left\lbrace
+\begin{array}{l}
+\ket 0 \mapsto \ket0 \\
+\ket 1 \mapsto -\ket1
+\end{array}\right.$$
+
+Géométriquement la porte $Y$ correspond à la rotation d'axe $(Oy)$ et d'angle $\pi$.
+Les coordonnées $(\theta,\phi)$ sont transformées en $(\pi-\theta,\pi-\phi)$.
+
+
+La porte $Z$ correspond à la rotation d'axe $(Oz)$ et d'angle $\pi$.
+Les coordonnées $(\theta,\phi)$ sont transformées en $(\theta,\phi+\pi)$.
+
+\commentfigure{
+\myfigure{0.8}{
+\tikzinput{bloch04b}\qquad\qquad
+\tikzinput{bloch04c}
+} 
+}
+
+\end{document}

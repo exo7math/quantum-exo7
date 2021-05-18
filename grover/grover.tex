@@ -1,0 +1,959 @@
+\documentclass[11pt,class=report,crop=false]{standalone}
+\usepackage[screen]{../python}
+
+
+
+\begin{document}
+
+
+%====================================================================
+\chapitre{Algorithme de Grover}
+%====================================================================
+
+
+\objectifs{L'algorithme de Grover est un algorithme de recherche d'un élément dans une liste qui est plus efficace que les algorithmes classiques. Son principe est simple, même si sa mise en \oe uvre est un peu complexe. L'algorithme de Grover ne fournit pas un résultat sûr à $100$ \%, mais une réponse qui a de grandes chances d'être la bonne.}
+
+\index{algorithme de Grover}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Recherche dans une liste}
+
+%--------------------------------------------------------------------
+\subsection{Idée de l'algorithme}
+
+Expliquons l'algorithme de Grover avec des dessins. 
+
+\myfigure{0.5}{
+  \tikzinput{grover-intro01}\qquad\qquad
+  \tikzinput{grover-intro02}
+
+\bigskip
+
+  \tikzinput{grover-intro03}\qquad\qquad
+  \tikzinput{grover-intro04}
+} 
+
+Figure (a). Il s'agit de distinguer un rang parmi les autres, ici le rang du rectangle rouge. On considère que les hauteurs des rectangles représentent les coefficients d'un qubit : ici il y a $8$ coefficients pour l'expression d'un $3$-qubit comme somme des $8$ états de base. Une mesure de ce qubit 
+ne donnerait aucune information, chacun des rangs s'obtenant avec la même probabilité, car les hauteurs des rectangles sont égales.
+
+\smallskip
+
+Figure (b). On rend le coefficient du rang qui nous intéresse négatif. (Cela peut se faire sans connaître le rang : je regarde la couleur du rectangle, s'il est rouge je change le signe).
+Une mesure de ce nouveau qubit ne donnerait toujours aucune information, car en valeur absolue les hauteurs des rectangles sont encore égales.
+
+\smallskip
+
+Figure (c). On calcule la moyenne des coefficients
+
+\smallskip
+
+Figure (d). On effectue une symétrie par rapport à la moyenne. Les rectangles bleus ont maintenant des hauteurs petites alors que le rectangle rouge a une grande hauteur. Que donne une mesure de ce nouveau qubit ? Il y a beaucoup plus de chances d'obtenir l'état de base correspondant au rectangle rouge et donc d'obtenir le rang souhaité.
+
+\smallskip
+
+L'algorithme de Grover est l'itération de ce procédé : à partir du dernier état obtenu avant mesure, on recommence les étapes (b), (c) et (d). Le rectangle rouge devient de plus en plus grand et les rectangles bleus de plus en plus petits. Ainsi après plusieurs itérations, une mesure donne avec une très forte probabilité, le rang du rectangle rouge.
+
+
+%--------------------------------------------------------------------
+\subsection{Recherche dans une liste ordonnée}
+
+On dispose d'une liste et on nous donne un élément. Il s'agit de trouver s'il est présent dans la liste et de déterminer son rang. Le problème est donc : trouver $i$ tel que liste[$i$] = mon-élément.
+
+Supposons d'abord que les éléments sont classés par ordre (par exemple les mots d'un dictionnaire par ordre alphabétique, ou bien les numéros de cartes d'étudiants classés du plus petit au plus grand). 
+Alors un algorithme de recherche classique est la recherche par dichotomie (on coupe au milieu, on regarde si l'élément cherché est avant ou après et on recommence). C'est une méthode très efficace : si la liste comporte $N$ éléments alors la complexité est
+$O( \ln_2(N) )$. La complexité est mesurée comme le nombre de comparaisons entre l'élément au rang $i$ et l'élément recherché.
+Par exemple si $N=1024=2^{10}$, alors il faut environ moins de $10$ comparaisons pour trouver l'élément et si la liste contient un milliard de données, il faut moins de $30$ comparaisons pour conclure !
+
+
+
+%--------------------------------------------------------------------
+\subsection{Recherche dans une liste non ordonnée}
+
+Pour certaines listes, il n'est pas possible d'ordonner des éléments ou bien on ne souhaite pas le faire car ordonner une liste est assez long.
+Comment chercher un élément dans une liste non ordonnée ?
+Il n'y a pas d'autre choix que de parcourir la liste ! On peut par exemple parcourir la liste en partant du premier élément, ou bien en choisissant les éléments au hasard.
+Dans les deux méthodes, la complexité dans le pire des cas est $N$ (si l'élément cherché est le dernier à être testé). En moyenne, on trouvera l'élément cherché au bout de $\frac{N}{2}$ tests, mais cela n'améliore pas l'ordre de grandeur de la complexité qui est donc $O(N)$ (car $O(N)=O(\frac{N}{2})$).
+
+
+%--------------------------------------------------------------------
+\subsection{Complexité de l'algorithme de Grover}
+
+L'algorithme de Grover qui sera étudié dans ce chapitre a une complexité d'ordre $O(\sqrt{N})$, c'est donc un gros progrès par rapport aux algorithmes classiques.
+Par exemple, dans une liste de $N=1024$ personnes, il suffira d'environ $30$ tests ; 
+pour une liste d'un milliard de données, la complexité est d'environ $30\,000$. C'est évidemment beaucoup plus que l'algorithme de la dichotomie sur une liste ordonnée, mais beaucoup moins que la recherche séquentielle qui est de complexité $N$.
+
+%--------------------------------------------------------------------
+\subsection{Algorithmes probabilistes}
+
+\index{algorithme probabiliste}
+
+L'algorithme de Grover est rapide mais ne renvoie malheureusement pas toujours le bon résultat !
+C'est un algorithme probabiliste. L'algorithme de Grover renvoie le bon résultat dans la plupart des cas (on verra que pour une liste de longueur $N$, l'algorithme se trompe avec une probabilité inférieure à $\frac4N$). 
+
+Pourquoi un algorithme probabiliste, ne donnant donc pas toujours la réponse attendue, peut quand même être un bon algorithme ?
+Tout d'abord, pour certains problèmes, ne pas avoir la bonne réponse n'est pas trop grave. Par exemple, si un algorithme vous fournit le plus court chemin dans $99$ cas sur $100$ et que vous faîtes quelques kilomètres en plus de temps en temps, cela peut vous convenir. D'autre part il est souvent facile de vérifier si la réponse donnée est correcte, donc si la réponse obtenue ne vous convient pas, vous relancez l'algorithme.
+Même un algorithme qui ne donne la bonne réponse qu'une fois sur deux peut être utile ! Imaginez un algorithme qui donne tous les bons numéros du loto seulement une fois sur deux, est-ce que cela vous intéresserait ?
+
+%--------------------------------------------------------------------
+\subsection{Application au hachage}
+
+\index{hachage}
+
+Certaines sécurités informatiques sont basées sur des fonctions de hachage. Par exemple une fonction de hachage permet de vérifier qu'un fichier téléchargé n'a pas été compromis (\emph{checksum}). D'autres exemples sont les \emph{bitcoins} qui utilisent une \og{}preuve de travail\fg{}, de même que certaines méthodes de cryptographie (par exemple pour ne pas sauvegarder vos mots de passe en clair sur votre disque dur).
+
+Considérons l'exemple d'une fonction de hachage qui à un entier $k$ codé sur $n$ bits (la clé) associe un entier $h(k)$ (le \emph{hash}). 
+J'utilise cette fonction ainsi :
+\begin{itemize}
+  \item je choisis une clé secrète par exemple $k_0 = 1.0.1.0.1$ (avec ici $n=5$),
+  \item je calcule $h(k_0)$, par exemple $h(k_0) = 12\,575\,302$,
+  \item $h(k_0)$ est mon mot de passe.
+\end{itemize}
+
+Imaginons un pirate qui voudrait attaquer mon compte. Il n'a pas d'autre choix que de tester toutes les clés possibles $0.0.0.0.0$, puis $0.0.0.0.1$,\ldots{} 
+afin d'obtenir la bonne clé, donc le bon mot de passe.
+Il y a en tout $N = 2^n$ (ici $n=5$) clés possibles à tester dans le pire des cas avec l'informatique classique.
+
+Mais trouver cette clé revient à trouver le bon élément parmi une liste de $N=2^n$ éléments, ce que fait l'algorithme de Grover avec une complexité d'ordre
+$O(\sqrt{N})$, c'est-à-dire $O(2^{n/2})$, ce qui est beaucoup plus rapide que la solution classique.
+
+\`A la suite de la découverte de Grover, il a été recommandé de doubler la longueur des clés de certains protocoles (par exemple passer de AES-128 à AES-256).
+En effet imaginons une clé de longueur $n$ bits, un algorithme classique nécessite de l'ordre de $N=2^n$ tests et l'algorithme quantique seulement $\sqrt{N}=2^{n/2}$.
+Si la clé est doublée à une longueur $2n$, alors l'algorithme de Grover nécessite maintenant $\sqrt{2^{2n}}=2^{n}$ tests et donc la niveau de sécurité initial est maintenu.
+
+%--------------------------------------------------------------------
+\subsection{Image réciproque}
+
+\'Elargissons la situation précédente à un problème plus général.
+Soit $f : E \to F$ une fonction. \'Etant donné $x\in E$, il est généralement facile de calculer son image $y=f(x)$.
+Par contre le problème inverse de trouver un antécédent est souvent délicat : étant donné $y\in F$, trouver $x\in E$ tel que $y=f(x)$.
+Parfois la seule solution est de tester tous les $x$ possibles, et là encore l'algorithme de Grover permet de le faire plus rapidement.
+
+Voici un exemple de fonction où il est difficile de calculer un antécédent. Soit $p$ un (grand) nombre premier et
+$f : \Zz \to \Zz$ la fonction définie par $f(x) = x^2 \pmod{p}$. 
+Bien sûr, pour $x$ donné, il est facile de calculer $y=f(x)$. Par contre $y$ étant fixé, il est difficile de trouver un antécédent, c'est-à-dire un $x$ tel que 
+$x^2\pmod{p} = y$. On doit alors se rabattre sur des techniques de force brute et tester $x=0$, $x=1$,\ldots, $x=p-1$.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Principe et circuit}
+
+%--------------------------------------------------------------------
+\subsection{Problème}
+
+Nous modélisons la recherche dans une liste non ordonnée à l'aide d'une fonction mathématique.
+Soit $N$ un entier fixé et soit $k_0$ un entier avec $0 \le k_0 \le N-1$.
+Définissons alors la fonction $f : \{0,1,\ldots,N-1\} \to \{0,1\}$ par 
+$$f(k_0) = 1 \qquad \text{ et } \qquad f(k) = 0 \quad \text{ pour tout $k\neq k_0$}.$$
+
+\textbf{Problème.} \'Etant donnée une telle fonction $f$, trouver la valeur $k_0$ telle que $f(k_0)=1$.
+
+Remarques.
+\begin{itemize}
+  \item Il s'agit donc de trouver l'antécédent de $1$ par $f$.
+
+  \item On peut identifier $\{0,1,\ldots,N-1\}$ à $\Zz/N\Zz$ et $\{0,1\}$ à $\Zz/2\Zz$ et donc considérer $f : \Zz/N\Zz \to \Zz/2\Zz$.
+\end{itemize}
+
+
+%--------------------------------------------------------------------
+\subsection{Oracle}
+
+\index{oracle}
+
+On se place dans cas où $N$ est une puissance de $2$ : $N = 2^n$.
+On rappelle que pour $0 \le k \le N-1$, alors $\underline{k}$ est l'écriture binaire de $k$ sur $n$ bits. Ainsi $\ket{\underline{k}}$, pour $k=0,\ldots, 2^n-1$, désigne les $n$-qubits de la base canonique : 
+$\ket{\underline{0}} = \ket{0.0\ldots0}$, $\ket{\underline{1}} = \ket{0.0\ldots1}$,
+\ldots, $\ket{\underline{2^n-1}} = \ket{1.1\ldots1}$.
+
+
+Nous allons utiliser l'oracle $O_f$ associé à la fonction $f$. 
+Pour $x \in \Zz/N\Zz$ et $y \in \Zz/2\Zz$, l'oracle réalise une fonction $F(x,y) = (x, y \oplus f(x) )$.
+On préfère écrire l'entier $x$ à l'aide de son écriture binaire $\underline{x} = x_1.x_2\ldots x_n$, ce qui permet de récrire la fonction $F$ sous la forme 
+$F(x,y) = (x_1,\ldots,x_n, y \oplus f(x_1,\ldots,x_n) )$. On rappelle que $y\oplus y'$ est l'addition dans $\Zz/2\Zz$ (qui vérifie $1\oplus1=0$).
+
+{\large$$
+\Qcircuit @C=1em @R=1em {
+  & \qw  & \ustick{\scriptstyle x_1}\qw & \multigate{4}{O_f} & \ustick{\scriptstyle x_1}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle x_2}\qw & \ghost{O_f}   & \ustick{\scriptstyle x_2}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle \vdots}\qw & \ghost{O_f}   & \ustick{\vdots}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle x_k}\qw & \ghost{O_f}   & \ustick{\scriptstyle x_k}\qw & \qw &  \qwa \\
+ & \qw   & \dstick{\scriptstyle y}\qw & \ghost{O_f}           & \dstick{\scriptstyle \hspace{0.5em} y \oplus f(x_1,\ldots,x_n)}\qw & \qw &  \qwa
+}
+$$}
+
+\bigskip
+
+Utilisons notre oracle pour réaliser le petit circuit suivant :
+{\large$$
+\quad\raise-4.2ex\hbox{$\ket{\underline{k}}\left\{ \raisebox{5.2ex}{} \right.$}
+\Qcircuit @C=1em @R=1em {
+                & \qw  & \qw      & \qw & \multigate{3}{O_f} & \qw & \qw & \qw & \qwa  \\
+                & \qw  & \qw      & \qw & \ghost{O_f}        & \qw & \qw & \qw &  \qwa \\
+                & \ustick{\scriptstyle \vdots}\qw  & \qw      & \qw & \ghost{O_f}        & \qw & \ustick{\scriptstyle \vdots}\qw & \qw &  \qwa \\
+\lstick{\ket1}  & \qw  & \gate{H} & \qw & \ghost{O_f}        & \qw & \qw & \qw &  \rstick{\ket{s}}\qwa \\
+}
+$$}
+
+
+
+Que se passe-t-il pour notre $f$ particulier qui vaut $1$ seulement en $k_0$ ?
+L'entrée sur la dernière ligne avant l'oracle est $\frac1{\sqrt2}\left(\ket0-\ket1\right)$
+et la sortie est 
+$$s = \frac1{\sqrt2}\left(\ket0-\ket1\right) \oplus f(k) = (-1)^{f(k)} \frac1{\sqrt2}\left(\ket0-\ket1\right)
+= \left\{
+\begin{array}{rl}
+\frac1{\sqrt2}\left(\ket0-\ket1\right) & \quad\text{ si } k \neq k_0 \\
+-\frac1{\sqrt2}\left(\ket0-\ket1\right) & \quad\text{ si } k = k_0 \\
+\end{array} \right.$$
+
+Ainsi l'oracle permet de détecter si l'entier en entrée est $k_0$ ou pas.
+Malheureusement nous n'avons fait aucun progrès car il faut de nouveau tester tous les $k$ de $0$ à $N-1$ pour pouvoir conclure.
+C'est là qu'entre en jeu la magie de l'informatique quantique et la superposition des états : il est possible de tester toutes ces valeurs en même temps !
+
+%--------------------------------------------------------------------
+\subsection{Circuit}
+
+Voici le début du circuit de l'algorithme de Grover qui permet de comprendre l'essentiel de son fonctionnement (le circuit complet sera étudié plus tard).
+
+{\large$$
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket0} \barrier[-1.2em]{5} & \gate{H} & \qw      & \qw      & \qw     & \qw & \qw      & \barrier[-3.8em]{5}\qw    & \multigate{5}{\qquad O_f \qquad} & \barrier[-1.2em]{5} \qw  & \qwa \\
+\lstick{\ket0} & \qw      & \gate{H} & \qw      & \qw     & \qw & \qw      & \qw    & \ghost{\qquad O_f \qquad}   & \qw  & \qwa \\
+\lstick{\ket0} & \qw      & \qw      & \gate{H} & \qw     & \qw & \qw      & \qw    & \ghost{\qquad O_f \qquad}   & \qw  & \qwa \\
+               & \vdots   &          &          & \ddots  &     &          &        & \ghost{\qquad O_f \qquad}   & \qw  &   \\
+\lstick{\ket0} & \qw      & \qw      & \qw      & \qw     & \qw & \gate{H} & \qw    & \ghost{\qquad O_f \qquad}   & \qw  & \qwa \\
+\lstick{\ket1} & \qw      & \qw      & \qw      & \qw     & \qw & \gate{H} & \qw    & \ghost{\qquad O_f \qquad}   & \qw  & \qw\\
+\hspace{1em} \ket{\psi_0} & & & & & & &\hspace{0em}\ket{\psi_1}& &&\hspace{-1.6em}\ket{\psi_2}&&\\
+}
+$$}
+
+\bigskip
+\bigskip
+
+\begin{itemize}
+  \item Initialisation. Le qubit en entrée est le $(n+1)$-qubit :
+  $$\ket{\psi_0} = \ket{0\ldots0} \cdot \ket{1} = \ket{\underline{0}} \cdot \ket{1}.$$
+
+  \item Transformation de Hadamard.
+On s'intéresse d'abord seulement aux $n$ premières lignes.
+Après la transformation de Hadamard (une porte de Hadamard sur chacune des $n$ premières lignes) alors le $n$-qubit est 
+$$\ket{\underline 0} + \ket{\underline 1} + \cdots + \ket{\underline{k_0}}+ \cdots + \ket{\underline{2^n-1}}$$
+(à un facteur multiplicatif près). Ainsi tous les qubits $\ket{\underline k}$ se retrouvent simultanément en entrée de l'oracle !
+
+Voici les calculs complets, en intégrant tous les qubits :
+\begin{align*}
+\ket{\psi_1} 
+  &= H^{\otimes n+1} \ket{\psi_0} \\
+  &= H^{\otimes n}\ket{\underline{0}} \cdot H\ket{1} \\
+  &= \frac{1}{\sqrt{2^n}} \sum_{k=0}^{2^n-1} \ket{\underline k} \cdot \tfrac{1}{\sqrt{2}}\left(\ket0 - \ket1\right) \\
+\end{align*}
+
+
+
+
+  \item Oracle.
+Nous avons vu que l'oracle fait apparaître un signe \og{}$-$\fg{} devant le terme correspond à $k_0$. Ainsi la sortie de l'oracle est
+$$\ket{\underline 0} + \ket{\underline 1} + \cdots - \ket{\underline{k_0}}+ \cdots + \ket{\underline{2^n-1}}$$
+Noter le signe \og{}$-$\fg{} devant $\ket{\underline{k_0}}$ uniquement.
+
+En détail, sachant que $(-1)^{f(k)}=1$, sauf $(-1)^{f(k_0)}=-1$ :
+\begin{align*}
+\ket{\psi_2} 
+  &= O_f \ket{\psi_1} \\
+  &= \frac{1}{\sqrt{2^{n}}}\sum_{k=0}^{2^n-1} (-1)^{f(\underline k)} \ket{\underline k} \cdot \tfrac{1}{\sqrt{2}}\left(\ket0 - \ket1\right) \\
+  &= \frac{1}{\sqrt{2^{n}}}\left( \ket{\underline 0} + \ket{\underline 1} + \cdots - \ket{\underline{k_0}}+ \cdots + \ket{\underline{2^n-1}} \right) \cdot \tfrac{1}{\sqrt{2}}\left(\ket0 - \ket1\right) \\
+\end{align*}  
+
+
+  \item Bilan. En une seule évaluation de l'oracle, on arrive à distinguer le terme de rang $k_0$ des autres termes. L'idée essentielle est ici. Cependant on n'a pas complètement terminé : il reste à déterminer précisément ce rang, connaissant la somme. Ce sera le travail assez technique du reste de ce chapitre. 
+
+\end{itemize}
+
+%--------------------------------------------------------------------
+\subsection{Exemple}
+
+\begin{exemple}
+Prenons $n=3$ et $k_0=5$ qui caractérisent la fonction $f : \Zz/8\Zz \to \Zz/2\Zz$ définie par $f(k)=0$ pour tout $k\neq 5$ et $f(5)=1$.
+
+{\large$$
+\quad\raise-4.5ex\hbox{$\ket{\underline{k}}\left\{ \raisebox{6ex}{} \right.$}
+\Qcircuit @C=1em @R=1em {
+\barrier[-0em]{3}  & \qw  & \gate{H} & \qw      & \qw      & \barrier[-2em]{3} \qw & \multigate{3}{O_f} & \barrier[-0.5em]{3}\qw & \qw & \qw &  \qwa  \\
+                & \qw  & \qw      & \gate{H} & \qw      & \qw &  \ghost{O_f}        & \qw & \qw & \qw &  \qwa \\
+                & \qw  & \qw      & \qw      & \gate{H} & \qw & \ghost{O_f}        & \qw & \qw & \qw &  \qwa \\
+\lstick{\ket1}  & \qw  & \qw      & \qw      & \gate{H} & \qw & \ghost{O_f}        & \qw & \qw & \qw &  \qwa \\
+\hspace{1.5em} \ket{\psi_0} & & & &&&\hspace{-3.5em}\ket{\psi_1}&&\hspace{-0.5em}\ket{\psi_2}&&\\
+}
+$$}
+\bigskip
+
+Reprenons les calculs dans ce cas :
+\begin{itemize}
+	\item Initialisation. $\ket{\psi_0} = \ket{0.0.0} \cdot \ket{1} = \ket{\underline{0}} \cdot \ket{1}$.
+	
+	\item Transformation de Hadamard.	
+       \begin{align*}
+		\ket{\psi_1} 
+		&=  \tfrac{1}{4} \ket{(0+1).(0+1).(0+1)}\ket{0-1} \\
+		&= \tfrac{1}{4} \big( \ket{0.0.0} + \ket{0.0.1} + \ket{0.1.0} + \ket{0.1.1} 
+		+  \ket{1.0.0} + \ket{1.0.1} + \ket{1.1.0} + \ket{1.1.1}\big)\ket{0-1} \\
+        &= \tfrac{1}{4} \big( \ket{\underline0} +  \ket{\underline1} + \ket{\underline2} + \ket{\underline3} + \ket{\underline4} + \ket{\underline5} + \ket{\underline6} + \ket{\underline7}\big)\ket{0-1} \\
+	   \end{align*}
+	
+	
+	\item Oracle.
+	Comme $f(5)=1$ alors nous avons vu que l'oracle fait apparaître un signe \og{}$-$\fg{} devant le terme correspond à $\ket{\underline{5}} = \ket{1.0.1}$. 
+	\begin{align*}
+		\ket{\psi_2} 
+		&= \tfrac{1}{4} \big( \ket{0.0.0} + \ket{0.0.1} + \ket{0.1.0} + \ket{0.1.1} 
+		+  \ket{1.0.0} - \ket{1.0.1} + \ket{1.1.0} + \ket{1.1.1}\big)\ket{0-1} \\
+        &= \tfrac{1}{4} \big( \ket{\underline0} +  \ket{\underline1} + \ket{\underline2} + \ket{\underline3} + \ket{\underline4} - \ket{\underline5} + \ket{\underline6} + \ket{\underline7}\big)\ket{0-1} \\
+	\end{align*}  
+	
+	
+	\item Bilan. On trouve bien une somme des qubits de base avec un signe \og{}$-$\fg{} au rang $k_0=5$ (on commence à compter au rang $0$).
+	
+\end{itemize}
+\end{exemple}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Transformations géométriques}
+
+Le reste du chapitre est dédié à la détection du rang $k_0$. C'est une partie assez technique, mais on comprend mieux les calculs à l'aide d'une interprétation géométrique un peu plus sophistiquée que celle de l'introduction de ce chapitre.
+
+%--------------------------------------------------------------------
+\subsection{Symétrie de l'oracle}
+
+Que fait l'oracle sur les $n$-qubits des $n$ premières lignes ?
+L'oracle change $\ket{\underline{k_0}}$ en  $-\ket{\underline{k_0}}$, et laisse inchangé 
+ $\ket{\underline{k}}$ pour $k\neq k_0$ :
+$$\left\{
+\begin{array}{l}
+\ket{\underline{k_0}} \xmapsto{O_f} -\ket{\underline{k_0}} \\
+\ket{\underline{k}}  \xmapsto{O_f} \ket{\underline{k}} \quad \text{ si } k\neq k_0. \\
+\end{array}
+\right.$$
+
+On va isoler le qubit de base $\ket{\underline{k_0}}$ d'un côté et regrouper tous les autres qubits de base, ainsi n'importe quel $n$-qubit $\ket\phi$ s'écrit :
+$$\ket\phi = \alpha \ket{\underline{k_0}} + \sum_{k\neq k_0} \alpha_k \ket{\underline{k}}$$
+
+L'action de l'oracle $O_f$ donne :
+$$O_f \ket\phi = -\alpha \ket{\underline{k_0}} + \sum_{k\neq k_0} \alpha_k \ket{\underline{k}}$$
+
+Géométriquement cette transformation est une symétrie par rapport à l'axe formé des qubits de base autres que $\ket{\underline{k_0}}$ que l'on regroupe schématiquement par l'axe $\ket{\text{reste}}$ ci-dessous. Sur la figure, la transformation est représentée comme une symétrie par rapport à une droite (mais en réalité c'est une symétrie par rapport un un hyperplan de dimension $2^n-1$).
+
+\myfigure{0.8}{
+  \tikzinput{geo01}
+}
+
+
+%--------------------------------------------------------------------
+\subsection{Symétrie $S_0$}
+
+Considérons la transformation $S_0$ définie sur les $n$-qubits de la base canonique par :
+$$\left\{
+\begin{array}{l}
+\ket{\underline{0}} \xmapsto{S_0} \ket{\underline{0}} \\
+\ket{\underline{k}} \xmapsto{S_0} -\ket{\underline{k}} \quad \text{ si } k\neq 0 \\
+\end{array}
+\right.$$
+
+Cette fois c'est seulement le qubit de base $\ket{\underline{0}}$ qui reste inchangé.
+
+
+Par exemple : pour $n=2$, on a $S_0 \ket{0.0} = \ket{0.0}$ alors que $S_0 \ket{0.1} = -\ket{0.1}$, $S_0 \ket{0.1} = -\ket{0.1}$, $S_0 \ket{1.1} = -\ket{1.1}$. Comme d'habitude on étend $S_0$ par linéarité à tous les $n$-qubits.
+Ainsi :
+$$S_0 \left( \alpha\ket{0.0} + \beta\ket{0.1} + \gamma\ket{1.0} + \delta\ket{1.1} \right) =	
+\alpha\ket{0.0} - \beta\ket{0.1} - \gamma\ket{1.0} - \delta\ket{1.1}.$$
+
+Géométriquement $S_0$ est une symétrie par rapport à l'axe $\ket{\underline0}$ (attention les axes ne sont pas les mêmes que dans la figure précédente).
+
+\myfigure{0.8}{
+  \tikzinput{geo02}
+} 
+
+Voici l'écriture algébrique de $S_0$.
+\begin{lemme}
+\sauteligne
+	\mybox{$S_0 = 2 \ket{\underline0}\bra{\underline0} - I$}
+\end{lemme}
+$I$ désigne l'application identité.
+Ainsi cette formule signifie que pour un qubit $\ket\phi$ on a :
+$$S_0\ket\phi = 2 \ket{\underline0} \braket{\underline0}{\phi} - \ket\phi$$
+L'écriture $\ket{\underline0} \braket{\underline0}{\phi}$ est bien qubit car $\braket{\underline0}{\phi}$ est un scalaire (i.e. un nombre complexe).
+
+\begin{proof}
+Il suffit de vérifier que cette formule est vraie pour les $\ket\phi$ parcourant les qubits de base.
+Pour $\ket\phi = \ket{\underline0}$, alors 
+$$\left(2 \ket{\underline0}\bra{\underline0} - I\right)	\ket{\underline0}
+= 2 \ket{\underline0}\braket{\underline0}{\underline0} -	\ket{\underline0}
+= 2 \ket{\underline0} - \ket{\underline0} = \ket{\underline0},$$
+car $\braket{\underline0}{\underline0} = 1$.
+
+Pour $\ket\phi$ vérifiant $\braket{\underline0}{\phi} = 0$, alors 
+$$\left(2 \ket{\underline0}\bra{\underline0} - I\right)	\ket{\phi}
+= 2 \ket{\underline0}\braket{\underline0}{\phi} -	\ket{\phi}
+= 2 \ket{\underline0} \cdot0 - \ket{\phi} = -\ket{\phi}.$$
+\end{proof} 
+
+Notons que la matrice de $S_0$ est une matrice diagonale, avec $+1$ comme premier élément et des $-1$ ailleurs.
+
+$$S_0=\begin{pmatrix}
+1&  &  &      &  \\
+ &-1&  &      &  \\
+ &  &-1&      &  \\
+ &  &  &\ddots&  \\
+ &  &  &      &-1\\
+\end{pmatrix}$$
+Il est clair que cette matrice est unitaire.
+	
+%--------------------------------------------------------------------
+\subsection{Transformation $S_\psi$}
+
+Nous allons généraliser la transformation $S_0$.
+Fixons un $n$-qubit $\ket\psi$ de norme $1$.
+Nous définissons la transformation $S_\psi$ sur les $n$-qubits par la formule 
+$$S_\psi = 2 \ket\psi \bra\psi - I$$
+Autrement dit, pour n'importe quel $n$-qubit $\ket\phi$, on a :
+$$S_\psi \ket\phi = 2 \ket\psi \braket{\psi}{\phi} - \ket\phi.$$
+
+Cette transformation vérifie :
+$$\left\{
+\begin{array}{l}
+\ket\psi \xmapsto{S_0} \ket\psi \\
+\ket\phi \xmapsto{S_0} -\ket\phi \quad \text{ si $\ket\phi$ est orthogonal à $\ket\psi$.} \\
+\end{array}
+\right.$$
+Rappelons que \og{}$\ket\phi$ est orthogonal à $\ket\psi$\fg{}
+signifie \og{}$\braket{\psi}{\phi}=0$\fg{}.
+
+Géométriquement $S_\psi$ est une symétrie par rapport à l'axe dirigé par $\ket\psi$.
+
+\myfigure{0.8}{
+  \tikzinput{geo03}
+} 
+
+%--------------------------------------------------------------------
+\subsection{Transformation $S_{\psi_H}$}
+
+Notons $\ket{\psi_H}$ le $n$-qubit formé par la somme de tous les qubits de la base canonique (normalisé de façon à avoir une norme $1$):
+$$\ket{\psi_H} = \frac{1}{\sqrt{2^n}} \sum_{k=0}^{2^n-1} \ket{\underline{k}}.$$
+
+Ce qubit $\ket{\psi_H}$ est aussi l'image du qubit $\ket{0\ldots0}$ par la transformation de Hadamard :
+$$\ket{\psi_H} =  H^{\otimes n} \ket{\underline{0}}.$$
+
+
+
+\begin{proposition}
+\label{prop:psiH}
+La transformation $S_{\psi_H}$ est définie par l'une des caractérisations équivalentes suivantes :
+\begin{itemize}
+  \item $S_{\psi_H} = 2 \ket{\psi_H} \bra{\psi_H} - I$,
+c'est-à-dire $S_{\psi_H} \ket\phi = 2 \ket{\psi_H} \braket{\psi_H}{\phi} - \ket\phi$, pour tout qubit $\ket\phi$.
+
+  \item $\left\{
+\begin{array}{l}
+\ket{\psi_H} \xmapsto{S_{\psi_H}} \ket{\psi_H} \\
+\ket\phi \xmapsto{S_{\psi_H}} -\ket\phi \quad \text{ si $\ket\phi$ est orthogonal à $\ket{\psi_H}$} \\
+\end{array}
+\right.$
+
+  \item $S_{\psi_H} = H^{\otimes n} \cdot S_0 \cdot H^{\otimes n}$
+
+  \item $S_{\psi_H}$ a pour matrice 
+$$\frac{2}{2^n} U - I \qquad \text{ où } \quad
+U = 
+\begin{pmatrix}
+1&1&\cdots&1\\
+1&\ddots &&1\\
+\vdots&&\ddots &\vdots\\
+1&\cdots&1&1\\
+\end{pmatrix}
+\in M_{2^n}$$
+\end{itemize}
+\end{proposition}
+
+Nous prouverons cette proposition un peu plus loin. On retient que $S_{\psi_H}$ est une symétrie par rapport à l'axe dirigé par $\ket{\psi_H}$.
+
+
+\myfigure{0.8}{
+  \tikzinput{geo04}
+} 
+
+
+
+%--------------------------------------------------------------------
+\subsection{Transformation de Grover}
+
+La \defi{transformation de Grover}\index{transformation de Grover} est l'application 
+$$G = S_{\psi_H} \circ O_f.$$
+
+\myfigure{1}{
+  \tikzinput{grover01}
+} 
+
+Nous allons voir quelle est l'action géométrique de $G$ sur les qubits.
+Reprenons le qubit $\ket{\psi_H}$ obtenu comme la somme de tous les qubits de base :
+$$\ket{\psi_H} = \frac{1}{\sqrt{2^n}} \sum_{k=0}^{2^n-1} \ket{\underline{k}}.$$
+Dans cette somme nous mettons à part le qubit correspondant à l'indice $k_0$, qui est le rang que l'on doit déterminer :
+$$\ket{\psi_H} = \sqrt{\frac{N-1}{N}} \ket\chi + \frac{1}{\sqrt{N}} \ket{\underline{k_0}}$$
+où
+$$N = 2^n \qquad \text{ et } \qquad  \ket\chi = \frac{1}{\sqrt{N-1}} \sum_{k\neq k_0} \ket{\underline{k}}.$$
+
+Nous récrivons maintenant $\psi_H$ à l'aide d'une écriture trigonométrique :
+$$\ket{\psi_H} = \cos\left(\tfrac\theta2\right) \ket\chi + \sin\left(\tfrac\theta2\right) \ket{\underline{k_0}}$$
+où $\frac\theta2$ est l'angle entre $\ket\chi$ et $\ket{\psi_H}$.
+
+\myfigure{0.8}{
+  \tikzinput{geo05}
+} 
+
+Comme dans la pratique $N=2^n$ est grand, alors l'angle $\frac\theta2$ est petit. Pour plus de lisibilité le dessin ne reflète pas à quel point $\frac\theta2$ est petit.
+Autrement dit $\frac\theta2$ est l'angle défini par :
+$$\cos \left(\tfrac\theta2\right) = \sqrt{\frac{N-1}{N}}\qquad \text{ et } \qquad \sin \left(\tfrac\theta2\right) = \frac{1}{\sqrt{N}}.$$
+
+\begin{proposition}
+La transformation de Grover est une rotation d'angle $\theta$ (centrée à l'origine).
+\end{proposition}
+
+Autrement dit, pour tout qubit $\ket\phi$, $G\ket\phi$ est obtenu à partir de $\ket\phi$, par une rotation d'angle $\theta$ (encore une fois l'angle $\theta$ est en réalité beaucoup plus petit que sur le dessin ci-dessous).
+
+\myfigure{0.8}{
+  \tikzinput{geo06}
+} 
+ 
+\begin{proof}
+Un résultat géométrique dit que la composition de deux symétries axiales est une rotation, l'angle $\theta$ de cette rotation étant le double de l'angle entre les axes.
+
+\myfigure{0.8}{
+  \tikzinput{geo07}
+}
+
+Ici $G$ est la composition de deux symétries :
+\begin{itemize}
+  \item la symétrie $O_f$ d'axe $\ket\chi$, 
+  \item la symétrie $S_{\psi_H}$ d'axe $\ket{\psi_H}$,
+  \item l'angle entre $\ket\chi$ et $\ket{\psi_H}$ est $\frac\theta2$.
+\end{itemize}
+Ainsi $G = S_{\psi_H} \circ O_f$ est la rotation d'angle $\theta$ (centrée à l'origine).
+
+\myfigure{0.8}{
+  \tikzinput{geo08}
+}
+
+\end{proof}
+
+%--------------------------------------------------------------------
+\subsection{Idée de l'algorithme}
+
+Le but de l'algorithme de Grover est de déterminer le rang $k_0$. 
+Ce rang est repérable après l'application de l'oracle $O_f$.
+En effet partons de 
+$$\ket{\psi_H} = \frac{1}{\sqrt{2^n}} \sum_{k=0}^{2^n-1} \ket{\underline{k}}
+= \sqrt{\frac{N-1}{N}} \ket\chi + \frac{1}{\sqrt{N}} \ket{\underline{k_0}},$$
+alors
+$$O_f \ket{\psi_H} =  \sqrt{\frac{N-1}{N}} \ket\chi - \frac{1}{\sqrt{N}} \ket{\underline{k_0}}.$$
+Mais attention ceci est une écriture quantique qui n'est pas mesurable.
+Souvenez-vous que nous n'avons pas accès aux coefficients d'un qubit.
+
+\bigskip
+
+Voici la seule certitude qu'une mesure puisse nous donner : si je sais par avance qu'un qubit $\ket\phi$ est un des qubits de base $\ket{0\ldots0.0}$, $\ket{0\ldots0.1}$,\ldots, $\ket{1\ldots1.1}$, alors la mesure de ce $n$-qubit permet d'identifier ce qubit de base $\ket\phi$.
+
+Prenons l'exemple des $1$-qubits : si mon qubit $\ket\phi$ est $\ket0$ ou $\ket1$, alors une mesure permet d'identifier si on avait $\ket\phi=\ket0$ ou bien $\ket\phi=\ket1$. Noter que ceci ne fonctionnerait pas pour un état superposé $\ket\phi=\alpha\ket0+\beta\ket1$. De même avec un $2$-qubit $\ket\phi$ parmi $\ket{0.0}$, $\ket{0.1}$, $\ket{1.0}$, $\ket{1.1}$ par une double mesure. 
+
+La transformation de Grover va nous permettre de transformer le qubit $\ket{\psi_H}$ (obtenu par transformation de Hadamard de $\ket{0\ldots0.0}$) en un qubit très proche du qubit de base $\ket{\underline{k_0}}$. Il ne reste plus qu'a effectuer une mesure pour obtenir (presque à coup sûr) la valeur de $k_0$.
+
+\bigskip
+
+\textbf{Idée de l'algorithme de Grover}.
+\begin{itemize}
+  \item La transformation de Hadamard envoie l'état initial $\ket{0.0\ldots0}$ sur $\ket{\psi_H}$.
+  
+  \item On part du qubit $\ket{\psi_H}$ qui est la superposition de tous les qubits de base.
+  
+  \item Ce qubit forme un angle $\frac\theta2$ avec l'axe $\ket\chi$.
+  (L'angle $\frac\theta2$ est petit car $N=2^n$ est grand.)
+
+  \item La transformation de Grover est une rotation d'angle $\theta$ et conduit donc au qubit $G\ket{\psi_H}$ qui forme un angle $\frac\theta2 + \theta$ avec l'axe $\ket\chi$.
+
+  \item On itère la transformation de Grover jusqu'à obtenir un qubit $G^\ell \ket{\psi_H}$ qui forme un angle d'environ $\frac\pi2$ avec l'axe $\ket\chi$. (Ce nombre d'itérations $\ell$ est environ $\frac{\pi}{2\theta}$.)
+
+  \item Le qubit $G^\ell \ket{\psi_H}$ obtenu est proche de $\ket{\underline{k_0}}$.
+
+  \item La mesure de ce qubit conduit très probablement à $\underline{k_0}$ (avec une probabilité d'erreur très petite, d'ordre $\frac4N$).
+\end{itemize}
+
+%--------------------------------------------------------------------
+\subsection{Portes quantiques}
+
+La transformation de Grover est la composition de l'oracle $O_f$ et de la transformation $S_{\psi_H}$.
+La transformation de l'oracle est réalisable par un circuit quantique (voir le chapitre \og{}Portes quantiques\fg{}). Nous montrons ici comment réaliser le circuit pour la transformation $S_{\psi_H}$, en nous limitant au cas des $2$-qubits.
+
+\bigskip
+\textbf{Porte $Z$}.\index{porte!Z}
+Tout d'abord rappelons l'action de la porte \mygate{Z} et sa matrice :
+$$
+{\Large
+\raisebox{0.5ex}{
+\Qcircuit @C=1em @R=1em {
+& \gate{Z} & \qw \\
+}}}
+\qquad\qquad
+\left\lbrace
+\begin{array}{l}
+\ket 0 \mapsto \ket0 \\
+\ket 1 \mapsto -\ket1
+\end{array}\right.
+\qquad\qquad
+Z = \begin{pmatrix}1&0\\0&-1\end{pmatrix}
+$$
+
+\bigskip
+\textbf{Porte $CZ$}.\index{porte!controlee@contrôlée}
+La porte \mygate{CZ} (\emph{Controlled Z}) fonctionne sur le même principe qu'une porte \mygate{CNOT} :
+si l'entrée de la première ligne est $\ket0$, alors la seconde ligne est inchangée, par contre si l'entrée de la première ligne est $\ket1$, alors on fait agir une porte \mygate{Z} sur la seconde ligne.
+
+$$
+{\Large
+\raisebox{2.5ex}{
+\Qcircuit @C=1em @R=1em {
+& \ctrl{1} & \qw \\
+& \gate{Z}   & \qw \\
+}}}
+\qquad\qquad
+\left\lbrace
+\begin{array}{l}
+\ket{0.0} \mapsto \ket{0.0} \\
+\ket{0.1} \mapsto \ket{0.1} \\
+\ket{1.0} \mapsto \ket{1.0} \\
+\ket{1.1} \mapsto -\ket{1.1} \\
+\end{array}\right.
+\qquad\qquad
+CZ = \begin{pmatrix}
+1&0&0&0\\
+0&1&0&0\\
+0&0&1&0\\
+0&0&0&-1\\
+\end{pmatrix}
+$$
+
+\bigskip
+\textbf{Circuit pour $S_0$}.
+
+Voici un circuit qui permet de réaliser la transformation $S_0$, dans le cas des $2$-qubits.
+Noter bien que la partie droite du circuit est un porte \mygate{CZ}.
+
+$$
+{\Large
+\raisebox{3ex}{
+\Qcircuit @C=1em @R=1em {
+& \gate{Z} & \ctrl{1} & \qw \\
+& \gate{Z} & \gate{Z} & \qw \\
+}}}
+\qquad\qquad
+\left\lbrace
+\begin{array}{l}
+\ket{0.0} \mapsto \ket{0.0} \\
+\ket{0.1} \mapsto -\ket{0.1} \\
+\ket{1.0} \mapsto -\ket{1.0} \\
+\ket{1.1} \mapsto -\ket{1.1} \\
+\end{array}\right.
+\qquad\qquad
+S_0 = \begin{pmatrix}
+1&0&0&0\\
+0&-1&0&0\\
+0&0&-1&0\\
+0&0&0&-1\\
+\end{pmatrix}
+$$
+
+\bigskip
+\textbf{Circuit pour $S_{\psi_H}$}.
+
+On sait par la proposition \ref{prop:psiH} que $S_{\psi_H} = H^{\otimes n} \cdot S_0 \cdot H^{\otimes n}$, il suffit juste d'appliquer la transformation de Hadamard avant et après le circuit précédent.
+
+$$
+{\Large
+\Qcircuit @C=1em @R=1em {
+  & \qw  & \multigate{1}{S_{\psi_H}} & \qw \\
+  & \qw  & \ghost{S_{\psi_H}}        & \qw \\
+}
+\qquad \raisebox{-2.5ex}{=} \qquad
+\Qcircuit @C=1em @R=1em {
+& \gate{H} & \qw     & \qw  & \gate{Z} & \ctrl{1} & \qw & \gate{H} & \qw      & \qw \\
+& \qw      & \gate{H}& \qw  & \gate{Z} & \gate{Z} & \qw & \qw      & \gate{H} & \qw \\
+}}
+$$
+
+%--------------------------------------------------------------------
+\subsection{Preuve autour de la transformation $S_{\psi_H}$}
+
+Cette section peut être passée lors d'une première lecture. Il s'agit de prouver la proposition \ref{prop:psiH} énoncée auparavant et que l'on rappelle ci-dessous.
+
+\begin{proposition}
+La transformation $S_{\psi_H}$ est définie par l'une des caractérisations équivalentes suivantes :
+\begin{itemize}
+  \item[(i)] $S_{\psi_H} = 2 \ket{\psi_H} \bra{\psi_H} - I$,
+c'est-à-dire $S_{\psi_H} \ket\phi = 2 \ket{\psi_H} \braket{\psi_H}{\phi} - \ket\phi$, pour tout qubit $\ket\phi$.
+
+  \item[(ii)]  $\left\{
+\begin{array}{l}
+\ket{\psi_H} \xmapsto{S_{\psi_H}} \ket{\psi_H} \\
+\ket\phi \xmapsto{S_{\psi_H}} -\ket\phi \quad \text{ si $\ket\phi$ est orthogonal à $\ket{\psi_H}$} \\
+\end{array}
+\right.$
+
+  \item[(iii)]  $S_{\psi_H} = H^{\otimes n} \cdot S_0 \cdot H^{\otimes n}$
+
+  \item[(iv)]  $S_{\psi_H}$ a pour matrice 
+$$\frac{2}{2^n} U - I \qquad \text{ où }  \quad 
+U = 
+\begin{pmatrix}
+1&1&\cdots&1\\
+1&\ddots &&1\\
+\vdots&&\ddots &\vdots\\
+1&\cdots&1&1\\
+\end{pmatrix}
+\in M_{2^n}$$
+\end{itemize}
+\end{proposition}
+
+\begin{proof}
+Définissons $S_{\psi_H}$ par $S_{\psi_H} = 2 \ket{\psi_H} \bra{\psi_H} - I$.
+On rappelle que $\ket{\psi_H}$ est de norme $1$.
+\begin{itemize}
+  \item Preuve que (i) $\iff$ (ii). 
+
+On a  $S_{\psi_H}\ket{\psi_H} = 2 \ket{\psi_H} \braket{\psi_H}{\psi_H} - \ket{\psi_H} = 2 \ket{\psi_H} - \ket{\psi_H} = \ket{\psi_H} $
+et $S_{\psi_H}\ket\phi = 2 \ket{\psi_H} \braket{\psi_H}{\phi} - \ket{\phi}
+= 2 \ket{\psi_H}  \cdot 0 - \ket{\phi} = -\ket{\phi}$ pour tout $\ket\phi$  orthogonal à $\ket{\psi_H}$, c'est-à-dire $\braket{\psi_H}{\phi}=0$.
+
+Réciproquement si on complète le vecteur $\ket{\psi_H}$ en une base orthogonale, alors la relation (ii) définit une unique application linéaire, qui est donc $S_{\psi_H}$.
+
+  \item Preuve que (ii) $\iff$ (iii). 
+
+Notons $T = H^{\otimes n} \cdot S_0 \cdot H^{\otimes n}$. On va montrer que $T=S_{\psi_H}$ en vérifiant que $T$ et $S_{\psi_H}$ vérifient les mêmes relations que celles vues en (ii).
+
+ On sait d'une part que  $\ket{\psi_H} = H^{\otimes n} \ket{\underline0}$,
+mais $H^{\otimes n}$ est unitaire alors $(H^{\otimes n})^{-1} = (H^{\otimes n})^* = H^{\otimes n}$, d'où $\ket{\underline0}= H^{\otimes n} \ket{\psi_H}$.
+Ainsi :
+\begin{align*}
+T \ket{\psi_H} 
+  &= H^{\otimes n} \cdot S_0 \cdot H^{\otimes n} \ket{\psi_H} \\
+  &= H^{\otimes n} \cdot S_0 \ket{\underline0} \\
+  &= H^{\otimes n} \ket{\underline0} \qquad \text{ car } S_0 \ket{\underline0} = \ket{\underline0}\\
+  &= \ket{\psi_H} \\
+\end{align*}
+
+Considérons maintenant un qubit $\ket\phi$ orthogonal à $\ket{\psi_H}$,
+alors $\braket{\psi_H}{\phi}=0$ et comme $H^{\otimes n}$ est unitaire alors
+il préserve le produit scalaire, donc on a aussi $\braket{H^{\otimes n}\ket{\psi_H}}{H^{\otimes n}\ket{\phi}}=0$,
+donc $\ket{\underline0}$ et $H^{\otimes n}\ket{\phi}$ sont orthogonaux.
+Ainsi 
+\begin{align*}
+T \ket{\phi} 
+  &= H^{\otimes n} \cdot S_0 \left( H^{\otimes n} \ket{\phi} \right) \\
+  &= H^{\otimes n}  \left(- H^{\otimes n} \ket{\phi} \right) \qquad \text{ car $\ket{\underline0}$ et $H^{\otimes n}\ket{\phi}$ sont orthogonaux, donc $S_0 \left( H^{\otimes n}\ket{\phi}\right) = - H^{\otimes n} \ket{\phi}$} \\
+  &= - H^{\otimes n} \cdot H^{\otimes n}  \ket{\phi} \\
+  &= -\ket{\phi} \qquad \text{ car $H^{\otimes n} \cdot H^{\otimes n} = \text{id}$ parce que $H^{\otimes n}$ est unitaire} \\
+\end{align*}
+
+Conclusion : $T$ et $S_{\psi_H}$  vérifient la même relation vue en (ii). Les applications sont donc égales :  $T=S_{\psi_H}$.
+
+  \item Preuve que (i) $\iff$ (iv).  Par construction l'état $\ket{\psi_H}$ est la superposition de tous les états de la base canonique, donc il s'écrit sous forme de vecteur $\left(\begin{smallmatrix}1\\\vdots\\1\end{smallmatrix}\right)$ à un facteur de normalisation près. 
+Plus précisément :
+$$\ket{\psi_H} = \frac{1}{\sqrt{2^n}}\begin{pmatrix}1\\1\\\vdots\\1\end{pmatrix}
+\qquad \text{ donc } \qquad \bra{\psi_H} = \ket{\psi_H}^* = \frac{1}{\sqrt{2^n}}\begin{pmatrix}1&1&\cdots&1\end{pmatrix}$$
+Ainsi :
+$$\ket{\psi_H}\bra{\psi_H}  = \frac{1}{\sqrt{2^n}}\begin{pmatrix}1\\1\\\vdots\\1\end{pmatrix} 
+\times  \frac{1}{\sqrt{2^n}}\begin{pmatrix}1&1&\cdots&1\end{pmatrix}
+= \frac{1}{2^n} \begin{pmatrix}
+1&1&\cdots&1\\
+1&\ddots &&1\\
+\vdots&&\ddots &\vdots\\
+1&\cdots&1&1\\
+\end{pmatrix}
+= \frac{1}{2^n}  U$$
+Conclusion : $S_{\psi_H} = 2 \ket{\psi_H} \bra{\psi_H} - I$ a pour matrice $\frac{2}{2^n} U - I$. (Réciproquement une matrice définit une unique application linéaire.)
+
+\end{itemize}
+
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\'Etapes de l'algorithme de Grover}
+
+%--------------------------------------------------------------------
+\subsection{Circuit}
+
+On note $G$ la transformation de Grover, elle prend en entrée un $(n+1)$-qubit, et est formée par la porte $O_f$ de l'oracle, suivie d'une porte associée à la transformation $S_{\psi_H}$.
+
+On représente cette porte $G$ avec $2$ lignes seulement, la première ligne correspond à un $n$-qubit (ligne symbolisée avec \og{}/\fg{}), la seconde à un $1$-qubit.
+{\large$$
+\Qcircuit @C=1em @R=1em {
+  & {/}\qw  & \multigate{1}{G} & \qw & \qw \\
+  & \qw  & \ghost{G}        & \qw & \qw \\
+}
+\qquad\qquad \raisebox{-2.5ex}{=} \qquad\qquad
+\Qcircuit @C=1em @R=1em {
+  & {/}\qw  & \multigate{1}{O_f} & \gate{S_{\psi_H}} & \qw & \qw \\
+  & \qw  & \ghost{O_f}       & \qw                & \qw & \qw \\
+}
+$$}
+
+
+\bigskip
+Voici le circuit de l'algorithme de Grover.
+
+{\large$$
+\Qcircuit @C=1.4em @R=1.4em {
+\lstick{\ket0^{\otimes n}} \barrier[-1em]{1} &{/}\qw & \gate{H^{\otimes n}} & \qw    & \qw \barrier[-2.5em]{1}& 
+\multigate{1}{G} & \multigate{1}{G} & \qw & \cdots &  & \multigate{1}{G} & \meter & \qwa \\
+\lstick{\ket1} & \qw  & \qw     & \gate{H} &\qw & 
+\ghost{G}        & \ghost{G} & \qw        & \cdots &  &   \ghost{G}    &  \qw   & \qw \\
+\hspace{1em} \ket{\psi_0} & &&\hspace{3em} \ket{\psi_1} &&& \\
+}
+$$}
+
+\bigskip
+
+La porte $G$ est itérée $\ell$ fois avec  $\ell \simeq \frac{\pi}{4}\sqrt{N}$ où $N=2^n$. La complexité de l'algorithme est d'ordre $\ell$, donc d'ordre $O(\sqrt{N})$.
+La mesure finale est la mesure d'un $n$-qubit (et correspond donc à $n$ mesures de $1$-qubits). Le circuit renvoie donc un $n$-bit classique $\underline{k}$ avec $0 \le k < 2^n$. Nous allons justifier que cet entier est très probablement le rang $k_0$ cherché.
+
+
+%--------------------------------------------------------------------
+\subsection{Données}
+
+Soit $n\ge1$ et $N=2^n$. 
+Supposons donné un entier $k_0$ vérifiant $0\le k_0 < N$.
+On considère la fonction $f : \Zz/N\Zz \to \Zz/2\Zz$, avec $f(k_0)=1$ et
+$f(k)=0$ pour tout $k\neq k_0$.
+
+%--------------------------------------------------------------------
+\subsection{Initialisation et transformation de Hadamard}
+
+Le circuit quantique est initialisé par le $(n+1)$-qubit
+$$\ket{\psi_0} = \ket{0\ldots0} \cdot \ket{1} 
+= \ket{\underline{0}} \cdot \ket{1}.$$
+
+Ensuite on applique la transformation de Hadamard pour obtenir le qubit 
+
+\begin{align*}
+\ket{\psi_1} 
+  &= H^{\otimes n+1} \ket{\psi_0} \\
+  &= H^{\otimes n}\ket{\underline{0}} \cdot H\ket{1} \\
+  &= \frac{1}{\sqrt{2^n}} \sum_{k=0}^{2^n-1} \ket{\underline k} \cdot \tfrac{1}{\sqrt{2}}\left(\ket0 - \ket1\right) \\
+  &= \ket{\psi_H} \cdot \tfrac{1}{\sqrt{2}}\left(\ket0 - \ket1\right)
+\end{align*}
+
+Dans la suite on oublie le dernier qubit et on s'intéresse seulement au $n$-qubit formé par les $n$ premières lignes.
+
+Dans $\ket{\psi_H}$ distinguons le qubit de base $\ket{\underline{k_0}}$ :
+$$\ket{\psi_H} = \frac{1}{\sqrt{2^n}} \sum_{k=0}^{2^n-1} \ket{\underline{k}}
+= \sqrt{\frac{N-1}{N}} \ket\chi + \frac{1}{\sqrt{N}} \ket{\underline{k_0}}$$
+que l'on récrit sous forme trigonométrique :
+$$\ket{\psi_H} = \cos\left(\tfrac\theta2\right) \ket\chi + \sin\left(\tfrac\theta2\right) \ket{\underline{k_0}}$$
+où $\frac\theta2$ est l'angle entre $\ket\chi$ et $\ket{\psi_H}$, également défini par la relation $\sin\left(\frac\theta2\right)=\frac{1}{\sqrt{N}}$.
+
+\myfigure{0.8}{
+  \tikzinput{geo10}
+}
+%--------------------------------------------------------------------
+\subsection{Itérations de la transformation de Grover}
+
+La transformation de Grover $G = S_{\psi_H} \circ O_f$, est une rotation d'angle $\theta$. Donc après $\ell$ itérations on obtient le $n$-qubit
+$$G^\ell\ket{\psi_H} = \cos(\theta_\ell) \ket\chi + \sin(\theta_\ell) \ket{\underline{k_0}}$$
+avec $\theta_\ell = \frac\theta2+\ell\theta$.
+
+On veut $\theta_\ell \simeq \frac\pi2$, c'est-à-dire $\frac\theta2+\ell\theta \simeq \frac\pi2$. Ainsi $\ell$ est défini comme l'entier le plus proche de $\frac{\pi}{2\theta}-\frac12$.
+
+\myfigure{0.8}{
+  \tikzinput{geo09}
+}
+
+Donnons une approximation du nombre $\ell$ d'itérations nécessaires. Pour cela nous considérons que $N=2^n$ est grand, et donc $\theta$ est petit.
+Comme $\sin\left(\frac\theta2\right)=\frac{1}{\sqrt{N}}$ alors
+$\frac\theta2 \simeq \frac{1}{\sqrt{N}}$ (car pour $x$ proche de $0$, $\sin(x)\simeq x$). On veut $\ell\theta \simeq\frac\pi2$ donc
+$\ell\simeq\frac\pi{2\theta}$ et ainsi
+\mybox{$\displaystyle \ell\simeq \frac{\pi}{4}\sqrt{N}$} 
+
+
+%--------------------------------------------------------------------
+\subsection{Mesure}
+
+Après ces $\ell$ itérations nous avons $\theta_\ell \simeq \frac\pi2$, donc
+$$G^\ell\ket{\psi_H} = \cos(\theta_\ell) \ket\chi + \sin(\theta_\ell) \ket{\underline{k_0}} \simeq \ket{\underline{k_0}}.$$
+
+La mesure de ce $n$-qubit conduit donc probablement au $n$-bit $\underline{k_0}$
+et permet alors d'identifier le rang $k_0$. Les détails des probabilités sont donnés ci-dessous.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Probabilités}
+
+
+Nous avons construit un qubit $G^\ell\ket{\psi_H}$ qui est proche de $\ket{\underline{k_0}}$. Ce qubit a donc de grandes chances d'être mesuré 
+en $\underline{k_0}$ et donc on retrouve le rang cherché $k_0$, mais ce n'est pas une certitude. Avec quelle probabilité obtient-on le résultat correct ?
+Nous allons calculer cette probabilité d'obtenir le bon résultat.
+
+\begin{proposition}
+L'algorithme de Grover renvoie le rang correct $k_0$ avec une probabilité supérieure 
+à $1-\frac4N$.
+\end{proposition}
+
+Ainsi la probabilité que l'algorithme renvoie un mauvais résultat est inférieure à $\frac4N$.
+Prenons par exemple $n=10$, alors $N=\frac{1}{2^n}=1024$ et l'algorithme fournit le résultat correct dans plus de $99,6\%$ des cas.
+
+\begin{proof}
+~
+\begin{itemize}
+  \item Le qubit final obtenu par l'algorithme de Grover est
+$$G^\ell\ket{\psi_H} = \cos(\theta_\ell) \ket\chi + \sin(\theta_\ell) \ket{\underline{k_0}}.$$
+Donc, lors de la mesure, la probabilité d'obtenir la bonne réponse $\underline{k_0}$ est
+$p = |\sin(\theta_\ell)|^2$.
+
+  \item Nous savons que la transformation de Grover $G$ est une rotation d'angle $\theta$ et nous avons itéré cette transformation $\ell$ fois de façon à construire un angle $\theta_\ell = \frac\theta2+\ell\theta$ le plus proche possible de l'angle $\frac\pi2$.
+Ainsi l'angle $\theta_\ell$ est dans un intervalle d'amplitude $\theta$ centré en $\frac\pi2$ :
+$$\frac\pi2-\frac\theta2 < \theta_\ell \le \frac\pi2+\frac\theta2.$$
+
+  \item Ainsi $\sin(\theta_\ell) \ge \sin \left( \frac\pi2-\frac\theta2 \right)$ (voir la figure ci-dessous).
+
+\myfigure{0.8}{
+  \tikzinput{proba01}
+} 
+Donc :
+$$\sin(\theta_\ell) 
+\ge \sin\left( \tfrac\pi2-\tfrac\theta2 \right)
+= \cos\left( \tfrac\theta2 \right)
+\ge 1 - \frac12\left(\frac\theta2\right)^2.$$
+Pour la dernière inégalité on connaît le développement limité $\cos(x) \simeq 1 - \frac{x^2}{2}$ (pour $x$ proche de $0$), mais on a en plus l'inégalité $\cos(x) \ge 1 - \frac{x^2}{2}$ (figure de gauche ci-dessous).
+
+\medskip
+
+\myfigure{0.55}{
+  \tikzinput{proba02}
+\qquad
+  \tikzinput{proba03}
+}  
+
+\medskip
+
+  \item L'angle $\theta$ est défini avec la relation $\sin \left( \frac\theta2 \right) = \frac{1}{\sqrt{N}}$.
+On sait que, pour $x$ proche de $0$, on a $\sin(x) \simeq x$, mais on a en plus
+l'inégalité $\sin(x) \ge \frac x2$ (figure de droite ci-dessus). 
+Ainsi, comme $\sin \left(\frac\theta2\right) = \frac{1}{\sqrt{N}}$, alors
+$\frac{1}{\sqrt{N}} \ge \frac\theta4$ donc $\frac{4}{N} \ge \left( \frac\theta2 \right)^2$
+et alors en reprenant les inégalités ci-dessus :
+$$\sin(\theta_\ell) \ge 1 - \frac12\left(\frac\theta2\right)^2
+\ge 1-\frac2N.$$
+Enfin on a $(1-x)^2 = 1-2x+x^2 \ge 1-2x$ quel que soit $x$, donc
+$$p = |\sin(\theta_\ell)|^2 \ge  \left(1-\frac2N\right)^2 \ge 1-\frac4N.$$
+
+\end{itemize}
+\end{proof}
+
+
+\end{document}

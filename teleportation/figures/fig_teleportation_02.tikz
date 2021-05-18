@@ -1,0 +1,98 @@
+﻿\begin{tikzpicture}[scale=1]
+
+\def\mymeter{
+\begin{tikzpicture}[scale=0.4]
+      \draw (1,0) arc (0:180:1);
+      \draw[->,>=latex] (0,0) -- ++(60:1.8); 
+    \end{tikzpicture}
+}
+
+% Mesure partielle Alice
+\fill[green!70!black!10] (2,-2) rectangle ++(6,4)  ;
+
+\node[rectangle,minimum height=5ex,minimum width=5ex,draw] (H1) at (5,1) {H};
+\node[circle,minimum height=2ex,draw] (C1) at (3,-1) {$+$};
+\node[rectangle,minimum height=4ex,minimum width=4ex,draw] (M1) at (7,1) {\mymeter};
+\node[rectangle,minimum height=4ex,minimum width=4ex,draw] (M2) at (7,-1) {\mymeter};
+
+
+% Préparation état de Bell
+\fill[blue!70!black!10] (-5,-4) rectangle ++(4,4)  ;
+
+\draw[line width=5pt,blue!70!black!30] (0,-0.5) --  ++(0,-3) node[below= 2ex,black]{
+\begin{tabular}{c}$2$-qubit $\ket{\Phi^+}$\\ état de Bell\end{tabular}};
+
+\draw[line width=5pt,green!70!black!30] (1,-3.75) --  ++(0,5.5) node[above,black]{\begin{tabular}{c}
+$3$-qubit\\
+ $\ket\phi=\ket\psi \otimes \ket{\Phi^+}$
+\end{tabular}};
+
+\node[rectangle,minimum height=5ex,minimum width=5ex,draw] (H2) at (-4,-1) {H};
+\node[circle,minimum height=2ex,draw] (C2) at (-2,-3) {$+$};
+
+% Bob
+\node[rectangle,minimum height=15ex,draw,scale=0.9] (B) at (10,-3) {
+\begin{tabular}{c}
+\it Action d'une porte\\
+I\\
+X\\
+Z\\
+XZ\\
+\end{tabular}
+
+};
+\draw[line width=2pt,green!70!black] (-6,1) -- (H1.west)  (H1.east) -- (M1.west);
+\draw[line width=2pt,green!70!black] (-6,-1) -- (H2.west) (H2.east) -- (C1.west) (C1.east) -- (M2.west);
+\draw[line width=2pt,green!70!black] (-6,-3) -- (C2.west) (C2.east) -- (B.west);
+\draw[line width=2pt,green!70!black] (C1.north) -- (3,1);
+
+\fill[green!70!black] (3,1) circle (4pt);
+\draw[line width=2pt,green!70!black] (C2.north) -- (-2,-1);
+\fill[green!70!black] (-2,-1) circle (4pt);
+
+\draw[line width=2pt,green!70!black] (C1.north) -- (3,1);
+\fill[green!70!black] (3,1) circle (4pt);
+
+% Texte
+\node [left,black] at (-6,1) {$\ket{\psi}$};
+\node [left,black] at (-6,-1) {$\ket{0}$};
+\node [left,black] at (-6,-3) {$\ket{0}$};
+
+\node (A) at (-3,5) {\it 1. Alice a un qubit $\ket\psi$};
+\draw[->,>=latex,gray,ultra thick] (A.west) to[bend right] (-6.5,1.5);
+\node[below,text width=15ex,align=center] at (-3,-4) {\it 2. Préparation de l'état de Bell};
+
+\node[above] at (5,2) {\bf Alice};
+\node[above] at (5,2.5) {\it 3. Mesure partielle};
+
+
+\node[below =0.5ex of B]  {\bf Bob};
+\node[below =3ex of B]  {\it 4. Reconstitution};
+\draw[line width=2pt,green!70!black] (B.west) to  ++(-9.2,0) ;
+\draw[->,>=latex,line width=2pt,green!70!black] (B.east) to  ++(2,0) 
+node (BB) [right,black]{$\ket{\psi}$};
+
+
+\draw[<-,>=latex,gray,ultra thick] (BB.south) to[bend left] ++(-1,-3) node[below,black]{\it Bob reconstitue le qubit $\ket\psi$};
+
+\draw[line width=5pt,orange!70!black!30] (8.5,1.5) --  ++(0,-3);
+
+\draw[->,>=latex,line width=2pt,orange!70!black] (M1.east)  -| ($(B.north)+(0.5,0)$);
+\draw[->,>=latex,line width=2pt,orange!70!black] (M2.east) -| ($(B.north)+(-0.5,0)$);
+
+\node[scale=0.9] (I) at (12,3) {
+\vphantom{\LARGE X}
+\begin{tabular}{c}
+\it Information 
+\it classique\\
+$0.0$\\
+$0.1$\\
+$1.0$\\
+$1.1$\\
+\end{tabular}
+};
+
+\draw[->,>=latex,gray,ultra thick] (I.west) to[bend right] (8.5,1.6);
+
+
+\end{tikzpicture}

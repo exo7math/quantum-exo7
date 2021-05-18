@@ -1,0 +1,641 @@
+\documentclass[11pt,class=report,crop=false]{standalone}
+\usepackage[screen]{../python}
+
+
+
+\begin{document}
+
+
+%====================================================================
+\chapitre{Code correcteur}
+%====================================================================
+
+
+\objectifs{Lors de la transmission d'un qubit il peut y avoir des erreurs. Les codes correcteurs permettent de détecter et corriger ces erreurs.}
+
+
+\index{code correcteur}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Un code correcteur classique}
+
+Lorsqu'on transmet un message électronique, le message reçu peut être différent du message envoyé à cause d'erreurs (erreurs de lecture/écriture, interférences,\ldots). Cela peut être sans conséquence, par exemple tout le monde comprend la phrase \og{}UN PETLT PAS PQUR L'HOMNE\fg{} malgré les fautes de frappe, mais pour envoyer un code d'identification du style \og{}562951413\fg{} une erreur sur un seul chiffre compromet le message.
+
+On distingue deux tâches : détecter s'il y a eu une erreur (si c'est le cas on pourrait envoyer à nouveau le message), mais on peut aussi utiliser des techniques qui permettent de corriger directement certaines erreurs.
+
+%--------------------------------------------------------------------
+\subsection{Répétition}
+
+L'idée la plus simple pour sécuriser la transmission est de répéter chaque partie du message.
+Dans toute cette section on considère que le message est composé de $0$ et de $1$ :
+\begin{itemize}
+  \item chaque \og{}0\fg{} est remplacé avant transmission par \og{}000\fg{},
+  \item chaque \og{}1\fg{} est remplacé par \og{}111\fg{}.
+\end{itemize}
+
+S'il y a une erreur lors de la transmission, le décodage se fait selon le principe de la majorité :
+\begin{itemize}
+  \item 000, 001, 010, 100 sont décodés en \og{}0\fg{},
+  \item 111, 110, 101, 011 sont décodés en \og{}1\fg{}.
+\end{itemize}
+
+
+Prenons l'exemple du message \og{}1.0.1\fg{} :
+\begin{itemize}
+  \item répétition de chaque bit : \og{}111.000.111\fg{},
+  \item le message est transmis mais des erreurs surviennent,
+  \item le message reçu est \og{}101.001.111\fg{},
+  \item selon la règle de la majorité, le message décodé est bien le message original \og{}1.0.1\fg{}.
+\end{itemize}
+
+Bien évidemment, s'il y a trop d'erreurs, par exemple \og{}000\fg{} est altéré en \og{}101\fg{}, alors le message décodé est erroné. 
+
+
+%--------------------------------------------------------------------
+\subsection{Efficacité}
+
+Nous allons comparer les erreurs suivant le codage utilisé.
+Considérons un message de $n$ bits, chaque bit transmis pouvant être altéré avec une probabilité $p$.
+
+\begin{proposition}
+\label{prop:erreur}
+\sauteligne
+\begin{itemize}
+  \item Sans utiliser de codage, le message transmis est entièrement correct avec probabilité $(1-p)^n$.
+  \item En utilisant le codage de répétition triple, le message décodé est entièrement correct avec probabilité $(1-p_3)^n$ où $p_3 = p^2(3-2p)$.
+\end{itemize}
+\end{proposition}
+
+Les tableaux suivants présentent les probabilités qu'un message de longueur $n$ soit transmis parfaitement correctement, selon différentes valeurs de $p$, avec ou sans répétition.
+
+\begin{center}
+\small
+\begin{minipage}{0.3\textwidth}
+\center
+
+Cas $p=0.1$ \\
+(10\% des bits sont altérés)
+
+\bigskip
+
+\begin{tabular}{c|cc}
+$n$  & \shortstack{sans \\ répétition} &  \shortstack{avec \\ répétition} \\ \hline
+10   & 35\% & 75\% \\
+100  & 0\% & 5\% \\
+1000 & 0\% & 0\% \\
+\end{tabular}
+\end{minipage}
+\qquad
+\begin{minipage}{0.3\textwidth}
+\center
+
+Cas $p=0.01$ \\
+(1\% des bits sont altérés)
+
+\bigskip
+
+\begin{tabular}{c|cc}
+$n$  & \shortstack{sans \\ répétition} &  \shortstack{avec \\ répétition} \\ \hline
+10   & 90\% & 99.7\% \\
+100  & 36\% & 97\% \\
+1000 & 0\% & 75\% \\
+\end{tabular}
+\end{minipage}
+\qquad
+\begin{minipage}{0.3\textwidth}
+\center
+
+Cas $p=0.001$ \\
+(1 bit sur mille est altéré)
+
+\bigskip
+
+\begin{tabular}{c|cc}
+$n$  & \shortstack{sans \\ répétition} &  \shortstack{avec \\ répétition} \\ \hline
+10   & 99\% & 99.99\% \\
+100  & 90\% & 99.97\% \\
+1000 & 37\% & 99.7\% \\
+\end{tabular}
+\end{minipage}
+\end{center}
+
+Conclusion : pour un message long, il est indispensable de mettre un place un système permettant de détecter puis de corriger les erreurs.
+
+
+\begin{proof}[Démonstration de la proposition \ref{prop:erreur}]
+~
+
+\begin{itemize}
+  \item Sans utiliser de codage, un bit est transmis correctement avec probabilité $1-p$, pour que le message reçu soit identique au message initial, il faut que les $n$ bits soient transmis sans être altérés, ce qui arrive avec probabilité $(1-p)^n$.
+
+  \item Pour le codage de répétition triple, prenons l'exemple de la transmission du bit \og{}0\fg{}. Le message reçu est :
+  \begin{itemize}
+    \item \og{}000\fg{} avec probabilité $(1-p)^3$ (trois bits corrects),
+    \item \og{}001\fg{}, \og{}010\fg{}, \og{}100\fg{}, chacun avec probabilité $p(1-p)^2$ (un bit faux, deux bits corrects),
+    \item \og{}110\fg{}, \og{}101\fg{}, \og{}011\fg{}, chacun avec probabilité $p^2(1-p)$ (deux bits faux, un bit correct),
+    \item \og{}111\fg{} avec probabilité $p^3$ (trois bits faux).
+  \end{itemize}
+  Pour les deux premiers cas, la règle de la majorité conduit au bon décodage \og{}0\fg{}.
+  Pour les deux derniers cas, le décodage donne \og{}1\fg{} et le bit est mal décodé.
+
+  La probabilité d'erreur (deux derniers cas) est donc :
+  $$p_3 = 3p^2(1-p) + p^3 = p^2(3-2p).$$
+
+  Chaque bit est donc transmis de façon correcte avec une probabilité $1-p_3$ ; les  $n$ bits d'une suite sont tous transmis correctement avec probabilité $(1-p_ 3)^n$.
+
+\end{itemize}
+\end{proof}
+
+\begin{exercicecours}
+Faire les calculs de la proposition \ref{prop:erreur} dans le cas d'une répétition de longueur $5$ :
+$0 \mapsto 00000$ et $1 \mapsto 11111$.
+\end{exercicecours}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Correction d'erreurs en informatique quantique}
+
+%--------------------------------------------------------------------
+\subsection{Obstacles}
+
+Les ordinateurs quantiques sont encore balbutiants et commettent beaucoup d'erreurs. Les codes correcteurs sont donc importants mais se confrontent à des problèmes spécifiques à l'informatique quantique :
+\begin{itemize}
+  \item on ne peut pas mesurer un qubit sans le perturber irrémédiablement (effondrement du paquet d'onde),
+  \item on ne peut pas cloner un qubit (voir le théorème de non-clonage quantique du chapitre \og{}Portes quantiques\fg{}),
+  \item enfin un qubit $\alpha\ket0+\beta\ket1$ peut prendre une infinité de valeurs ($\alpha,\beta$ étant des nombres complexes quelconques) à la différence du cas classique dans lequel l'information est codée par seulement deux valeurs $0$ et $1$.
+\end{itemize}
+
+Et pourtant, malgré toutes ces difficultés, il est possible de corriger des erreurs !
+
+Dans toute la suite, on suppose que l'on souhaite transmettre un message formé par un qubit $\ket{\psi_0} = \alpha\ket0+\beta\ket1$.
+On commence par expliquer deux idées importantes pour la suite.
+
+%--------------------------------------------------------------------
+\subsection{Augmentation d'un qubit}
+
+Nous avons vu que le fait de répéter un bit permet de corriger certaines erreurs. Comment faire pour 
+nos qubits ? 
+Nous allons généraliser une porte \mygate{FANOUT}\index{porte!FANOUT} (voir le chapitre \og{}Portes quantiques\fg{}) à l'aide de deux portes \mygate{CNOT}.
+
+Le circuit suivant transforme le $1$-qubit $\ket{\psi_0} = \alpha\ket0+\beta\ket1$
+en le $3$-qubit $\ket\psi = \alpha\ket{0.0.0}+\beta\ket{1.1.1}$.
+
+{\large$$
+\Qcircuit @C=1.5em @R=1.5em {
+\lstick{\ket{\psi_0} = \alpha\ket0+\beta\ket1} & \ctrl{1} & \ctrl{2}  & \qwa \\
+\lstick{\ket0}                             & \targ    & \qw       & \qwa \\
+\lstick{\ket0}                             & \qw      & \targ     & \qwa \\
+}
+\quad\raise-4.25ex\hbox{$\left. \raisebox{6.5ex}{} \right\} \ket\psi = \alpha\ket{0.0.0}+\beta\ket{1.1.1}$}
+$$}
+\medskip
+
+\begin{itemize}
+  \item Pour le circuit ci-dessus si $\ket{\psi_0} = \ket0$ alors $\ket\psi = \ket{0.0.0}$
+et si $\ket{\psi_0} = \ket1$ alors $\ket\psi = \ket{1.1.1}$. Par linéarité, cela donne le résultat $\ket{\psi}$ attendu pour $\ket{\psi_0} = \alpha\ket0+\beta\ket1$.
+ 
+  \item Noter qu'ici nous n'avons pas dupliqué les coefficients. Le théorème de non-clonage quantique montre qu'aucun circuit ne permettrait de réaliser le $3$-qubit $(\alpha\ket0+\beta\ket1)(\alpha\ket0+\beta\ket1)(\alpha\ket0+\beta\ket1)$.
+
+  \item Noter aussi que si on considère le circuit inverse (de la droite vers la gauche) alors on effectue la transformation inverse : on passe de $\ket\psi = \alpha\ket{0.0.0}+\beta\ket{1.1.1}$ à $(\alpha\ket{0}+\beta\ket{1})\ket0\ket0$. Ainsi après une mesure des deux derniers qubits, on obtiendrait sur la première ligne notre qubit $\ket{\psi_0} = \alpha\ket0+\beta\ket1$.
+\end{itemize}
+
+%--------------------------------------------------------------------
+\subsection{Décider si deux qubits de base sont égaux (sans les mesurer)}
+
+On considère ici un message composé de $1$-qubits de base de la forme $\ket0$ ou $\ket1$.
+On souhaite vérifier sans aucune mesure si deux qubits de base sont égaux.
+
+Pour cela on utilise un circuit à trois lignes quantiques : les deux premières sont les entrées à comparer, la troisième ligne est une ligne auxiliaire dont la sortie va répondre à la question \og{}Les deux qubits de base sont-ils égaux ?\fg{}
+\begin{center}
+{\large$$
+\Qcircuit @C=1.5em @R=1.5em {
+\lstick{\ket\phi} & \ctrl{2} & \qw       & \rstick{\ket\phi}\qwa \\
+\lstick{\ket\psi} & \qw      & \ctrl{1}  & \rstick{\ket\psi}\qwa \\
+\lstick{\ket0}    & \targ    & \targ     & \rstick{\ket\chi}\qwa \\
+}
+$$}
+\end{center}
+
+Vérifier que :
+\begin{itemize}
+  \item Si $\ket\phi=\ket0$ et $\ket\psi=\ket0$ alors $\ket\chi=\ket0$.
+  \item Si $\ket\phi=\ket1$ et $\ket\psi=\ket1$ alors $\ket\chi=\ket0$.
+  \item Si $\ket\phi=\ket0$ et $\ket\psi=\ket1$ alors $\ket\chi=\ket1$.
+  \item Si $\ket\phi=\ket1$ et $\ket\psi=\ket0$ alors $\ket\chi=\ket1$.
+\end{itemize}
+
+Noter que sur les deux premières lignes les qubits $\ket\phi$ et $\ket\psi$ restent inchangés. La sortie $\ket\chi$ vaut $\ket0$ si et seulement si $\ket\phi$ et $\ket\psi$ 
+sont les mêmes qubits de base. La sortie $\ket\chi$ vaut $\ket1$ si et seulement si $\ket\phi$ et $\ket\psi$ sont des qubits de base différents.
+
+Remarque : ce circuit permet de tester l'égalité de deux qubits de base, mais ne permet pas de comparer deux $1$-qubits quelconques.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Code correcteur pour le flip d'un qubit}
+
+\index{porte!X}
+
+%--------------------------------------------------------------------
+\subsection{Un circuit qui corrige les erreurs ?}
+
+On souhaite transmettre le qubit $\ket{\psi_0} = \alpha\ket0 + \beta\ket1$.
+On commence par augmenter le qubit en $\ket\psi = \alpha\ket{0.0.0} + \beta\ket{1.1.1}$ (on suppose que cette opération se fait sans erreur).
+
+Lors de la transmission de ce $3$-qubit il peut y avoir des erreurs. Commençons par le cas où l'erreur est un \og{}flip\fg{} d'un des qubits. Par exemple $\alpha\ket{0.0.0} + \beta\ket{1.1.1}$ est mal transmis en $\alpha\ket{0.0.1} + \beta\ket{1.1.0}$. 
+
+Noter qu'un flip correspond à une porte \mygate{X} sur l'un des trois qubits, porte qui change $\ket0$ en $\ket1$ et réciproquement.
+{\large$$
+\Qcircuit @C=1em @R=1em {
+& \gate{X} & \qw \\
+}
+$$}
+
+\smallskip
+
+Comment détecter et corriger cette erreur ?
+
+%--------------------------------------------------------------------
+\subsection{Circuit}
+
+Voici un circuit qui permet la transmission correct d'un qubit $\ket{\psi_0}$, même si lors de la transmission une erreur de type $X$ se produit. 
+
+{\large$$
+\Qcircuit @C=1.5em @R=1.5em {
+\lstick{\ket{\psi_0}} & \ctrl{1} & \ctrl{2}  & \multigate{2}{\quad \shortstack{\text{Erreur}\\$X_i$} \quad} & \ctrl{1} & \ctrl{2} & \targ     & \rstick{\ket{\psi_0}}\qwa \\
+\lstick{\ket0}    & \targ    & \qw       & \ghost{\quad \text{Erreur} \quad}        & \targ    & \qw      & \ctrl{-1} & \qwa \\
+\lstick{\ket0}    & \qw      & \targ     & \ghost{\quad \text{Erreur} \quad}        & \qw      & \targ    & \ctrl{-2} & \qwa \\
+}
+$$}
+\medskip
+
+
+\begin{itemize}
+  \item $X_i$ désigne l'action d'une porte \mygate{X} sur l'une des lignes $i \in \{1,2,3\}$.
+
+  \item Où que soit cette erreur, la première ligne du circuit renvoie toujours le qubit original $\ket{\psi_0}$.
+
+  \item Le circuit est composé de $4$ portes \mygate{CNOT} et terminé par une porte de Toffoli.
+
+  \item   On rappelle qu'une porte de Toffoli, est l'action d'une porte \mygate{X} (sur la ligne du \og{}$\oplus$\fg{}) à condition que les qubits des deux autres lignes soient tous les deux $\ket1$.
+\end{itemize}
+
+%--------------------------------------------------------------------
+\subsection{Calculs}
+
+Effectuons les calculs qui justifient que le qubit de sortie est bien le qubit original malgré l'erreur.
+
+\begin{itemize}
+  \item Cas erreur $X_1$ (flip sur la première ligne). 
+  
+  \begin{itemize}
+    \item Cas $\ket{\psi_0}=\ket0$. 
+    Le $3$-qubit avant l'erreur est $\ket{0.0.0}$.
+    Alors le $3$-qubit reçu est $\ket{1.0.0}$, les deux portes \mygate{CNOT} le transforment en $\ket{1.1.1}$ et la porte de Toffoli renvoie $\ket{0.1.1}$. Le premier qubit est bien $\ket0$.
+
+    \item Cas $\ket{\psi_0}=\ket1$. 
+    Le $3$-qubit avant l'erreur est $\ket{1.1.1}$, mais le qubit reçu est $\ket{0.1.1}$, les deux portes \mygate{CNOT} ne le changent pas, et la porte de Toffoli renvoie $\ket{1.1.1}$. Le premier qubit est bien $\ket1$.
+
+    \item Cas $\ket{\psi_0}=\alpha\ket0+\beta\ket1$. Par linéarité, les calculs précédents donnent comme sortie $\alpha\ket{0.1.1} + \beta\ket{1.1.1} = (\alpha\ket0+\beta\ket1)\ket{1.1}$. Si on ne retient que le premier qubit on obtient $\alpha\ket{0} + \beta\ket{1}$ qui est bien notre qubit initial $\ket{\psi_0}$.
+  \end{itemize}
+
+
+  \item Cas erreur $X_2$ (flip sur la deuxième ligne). 
+  
+  \begin{itemize}
+    \item Cas $\ket{\psi_0}=\ket0$. 
+    Avant l'erreur le $3$-qubit est $\ket{0.0.0}$, après erreur c'est $\ket{0.1.0}$, les deux portes \mygate{CNOT} et la porte de Toffoli ne changent rien. On obtient $\ket{0.1.0}$. 
+
+    \item Cas $\ket{\psi_0}=\ket1$. 
+    Avant l'erreur le $3$-qubit est $\ket{1.1.1}$, après erreur c'est $\ket{1.0.1}$, les deux portes \mygate{CNOT} donnent $\ket{1.1.0}$, la porte de Toffoli ne change rien. On obtient $\ket{1.1.0}$. 
+ 
+    \item Cas $\ket{\psi_0}=\alpha\ket0+\beta\ket1$. Par linéarité, la sortie vaut $\alpha\ket{0.1.0} + \beta\ket{1.1.0} = (\alpha\ket0+\beta\ket1)\ket{1.0}$. Le premier qubit est encore $\alpha\ket{0} + \beta\ket{1}$ qui est bien le qubit initial $\ket{\psi_0}$.
+  \end{itemize}
+
+  \item Cas erreur $X_3$ (flip sur la troisième ligne). 
+
+  Les calculs sont similaires. $\ket{\psi_0}=\alpha\ket0+\beta\ket1$
+  donne après erreur $\alpha\ket{0.0.1}+\beta\ket{1.1.0}$, et la fin du circuit renvoie
+  $\alpha\ket{0.0.1}+\beta\ket{1.0.1} = (\alpha\ket0+\beta\ket1)\ket{0.1}$. Le premier qubit est de nouveau $\ket{\psi_0}$.
+
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Code correcteur pour l'inversion de phase d'un qubit}
+
+\index{porte!Z}
+
+%--------------------------------------------------------------------
+\subsection{Circuit}
+
+
+Le flip n'est pas la seule erreur possible. 
+Une autre erreur est l'inversion de phase 
+qui est le changement de $\alpha\ket0 + \beta\ket1$ en  $\alpha\ket0 - \beta\ket1$.
+Le changement de phase correspond à une porte \mygate{Z}.
+{\large$$
+\Qcircuit @C=1em @R=1em {
+& \gate{Z} & \qw \\
+}
+$$}
+\smallskip
+
+On souhaite transmettre le qubit $\ket{\psi_0} = \alpha\ket0 + \beta\ket1$.
+On commence par augmenter le qubit en $\ket\psi = \alpha\ket{0.0.0} + \beta\ket{1.1.1}$. Ensuite, lors de la transmission, on suppose que se produit un changement de phase sur l'un des trois qubits.
+On se ramène à la situation précédente en notant qu'une porte \mygate{X} est équivalente à une porte \mygate{HZH}, où \mygate{H} est une porte de Hadamard :
+{\large$$
+  \Qcircuit @C=1em @R=1em {
+   & \gate{X} &  \qw  \\
+  }
+  \qquad=\qquad
+  \Qcircuit @C=1em @R=1em {
+  & \gate{H} & \gate{Z} & \gate{H} &  \qw  \\
+  }
+  $$}
+\medskip
+
+Voici le circuit qui détecte et corrige cette erreur.
+
+{\large$$
+\Qcircuit @C=1.5em @R=1.5em {
+\lstick{\ket{\psi_0}} & \ctrl{1} & \ctrl{2}  & \gate{H}  & \multigate{2}{\quad \shortstack{\text{Erreur}\\$Z_i$} \quad}  & \gate{H}  & \ctrl{1} & \ctrl{2} & \targ     & \rstick{\ket{\psi_0}} \qwa \\
+\lstick{\ket0}    & \targ    & \qw       & \gate{H}  & \ghost{\quad \text{Erreur} \quad}         & \gate{H}  & \targ    & \qw      & \ctrl{-1} & \qwa \\
+\lstick{\ket0}    & \qw      & \targ     & \gate{H}  & \ghost{\quad \text{Erreur} \quad}         & \gate{H}  & \qw      & \targ    & \ctrl{-2} & \qwa \\
+}
+$$}
+\medskip
+
+$Z_i$ désigne l'action d'une porte \mygate{Z} sur l'une des lignes $i \in \{1,2,3\}$.
+
+%--------------------------------------------------------------------
+\subsection{Calculs}
+
+Nous n'avons pas à faire les calculs puisque ce sont les mêmes que pour le flip.
+En effet, on a rappelé que $HZH=X$, donc l'ensemble des portes de Hadamard et l'erreur $Z_i$ correspondent à une erreur $X_i$.
+
+Une autre façon de voir les calculs est d'utiliser la notation $\ket+$ et $\ket-$.
+$$\ket+ = H\ket0 = \frac{1}{\sqrt2}\left(\ket0+\ket1\right) \qquad\qquad 
+\ket- = H\ket1 = \frac{1}{\sqrt2}\left(\ket0-\ket1\right)$$
+On a aussi réciproquement $H\ket+ = \ket0$ et $H\ket-=\ket1$.
+
+Un changement de phase $\mygate{Z}$ envoie $\alpha\ket0 + \beta\ket1$ sur $\alpha\ket0 - \beta\ket1$, et peut être simplement défini par :
+$$
+\ket{+} \xmapsto{\quad\mygate{Z}\quad} \ket{-} \qquad
+\ket{-} \xmapsto{\quad\mygate{Z}\quad} \ket{+}$$
+C'est donc une sorte de flip dans une autre base.
+
+Si au départ $\ket{\psi_0}=\ket0$ alors, après augmentation, on a $\ket\psi=\ket{0.0.0}$.
+Puis à l'aide des portes de Hadamard le $3$-qubit avant erreur est $\ket+\ket+\ket+$, 
+que l'on note $\ket{+.+.+}$.
+L'erreur $\mygate{Z_i}$ change l'un des signes, par exemple on obtient $\ket{-.+.+}$,
+les nouvelles portes de Hadamard le transforment en $\ket{1.0.0}$ (qui correspond bien à un flip classique de $\ket\psi$), qui est corrigé par la fin du circuit en $\ket{0.1.1}$ et ainsi le premier qubit est bien $\ket0$.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Détection d'un flip}
+
+Les circuits précédents font très bien leur travail : ils détectent et corrigent les erreurs. Mais ils ne sont pas très pédagogiques car les deux tâches sont effectuées en même temps. Nous allons modifier légèrement ces circuits afin qu'ils détectent les erreurs et on expliquera ensuite comment les corriger.
+
+%--------------------------------------------------------------------
+\subsection{Un circuit qui détecte les flips}
+
+Voici un circuit qui détecte un flip.
+
+{\large$$
+\Qcircuit @C=1.5em @R=1.5em {
+& & &  \hspace{-0.5em}\ket{\psi} && \hspace{0em}\ket{\tilde\psi}&&&&& \\
+\lstick{\ket{\psi_0}} & \ctrl{1} & \ctrl{2} & \barrier[-4.5em]{2}\qw  &  \multigate{2}{\quad \shortstack{\text{Erreur}\\$X_i$} \quad} & \barrier[-1.8em]{2}\qw  &  \ctrl{3} & \qw      & \ctrl{4} & \qw      & \qwa \\
+\lstick{\ket0}    & \targ    & \qw   & \qw    & \ghost{\quad \text{Erreur} \quad}     & \qw     & \qw      & \ctrl{2} & \qw      & \qw & \qwa \\
+\lstick{\ket0}    & \qw      & \targ & \qw       & \ghost{\quad \text{Erreur} \quad}  & \qw        & \qw      & \qw      & \qw      & \ctrl{2}      & \qwa \\
+\lstick{\ket0}    & \qw      & \qw   & \qw       & \qw                                & \qw        & \targ    & \targ    & \qw      & \qw      & \qwa \\
+\lstick{\ket0}    & \qw      & \qw   & \qw       & \qw                                & \qw        & \qw      & \qw      & \targ    & \targ    & \qwa \\
+}
+\quad\raise-21.5ex\hbox{$\Bigg\} \ket\phi$}
+$$}
+\medskip
+
+
+Ce circuit se décompose en deux registres :
+
+
+\emph{Premier registre.} Les trois premières lignes correspondent au qubit augmenté $\ket{000}$ ou $\ket{111}$, lors de la transmission survient une erreur qui est ici un flip sur une des trois lignes.
+
+
+\emph{Second registre.} Les deux dernières lignes servent à détecter l'erreur. On parle de \og{}lignes  auxiliaires\fg{}.
+
+
+%--------------------------------------------------------------------
+\subsection{Sortie}
+
+Notons $\ket{\tilde\psi}$ le $3$-qubit du premier registre après transmission (juste après l'erreur éventuelle). Notons $\ket\phi$ le $2$-qubit obtenu en sortie du second registre (à la fin du circuit).
+
+\begin{itemize}
+  \item \textbf{Pas d'erreur.}
+
+  Si $\ket{\psi_0}=\ket0$ et si $\ket{\tilde\psi} = \ket{0.0.0}$ alors $\ket\phi = \ket{0.0}$. Il n'y a pas d'erreur donc rien à corriger.
+  De même, si $\ket{\psi_0}=\ket1$ et $\ket{\tilde\psi} = \ket{1.1.1}$ alors de nouveau $\ket\phi = \ket{0.0}$. Il n'y a toujours pas d'erreur donc rien à corriger.
+  Par linéarité, si $\ket{\psi_0}=\alpha\ket0+\beta\ket1$ alors le $5$-qubit final est $(\alpha\ket{0.0.0}+\beta\ket{1.1.1})\ket{0.0}$.
+
+  \item  \textbf{Flip du premier qubit.}
+
+  Si $\ket{\tilde\psi} = \ket{1.0.0}$ (alors qu'on voulait transmettre $\ket{0.0.0}$) alors $\ket\phi = \ket{1.1}$. Il y a une erreur et cette erreur est sur la première ligne. On corrige l'erreur en rajoutant une porte \mygate{X} sur la première ligne. Ainsi après correction on obtient bien un premier registre qui vaut \ket{0.0.0}.
+
+  De même si $\ket{\tilde\psi} = \ket{0.1.1}$ (alors qu'on voulait transmettre $\ket{1.1.1}$) alors de nouveau $\ket\phi = \ket{1.1}$. Et on rajoute une porte \mygate{X} sur la première ligne.
+
+  Ainsi un qubit $\ket\psi = \alpha\ket{0.0.0} + \beta\ket{1.1.1}$ qui serait mal transmis en $\ket{\tilde\psi} =\alpha\ket{1.0.0} + \beta\ket{0.1.1}$, donnerait $\ket\phi = \ket{1.1}$ et serait bien corrigé en $\ket\psi$.
+
+  \item  \textbf{Flip du deuxième qubit.}
+
+  Si $\ket{\tilde\psi} = \alpha\ket{0.1.0} + \beta\ket{1.0.1}$ (au lieu de $\alpha\ket{0.0.0} + \beta\ket{1.1.1}$) alors $\ket\phi = \ket{1.0}$ et on rajoute une porte \mygate{X} sur la deuxième ligne.  
+
+  \item  \textbf{Flip du troisième qubit.}
+Si $\ket{\tilde\psi} = \alpha\ket{0.0.1} + \beta\ket{1.1.0}$ alors $\ket\phi = \ket{0.1}$. On corrige l'erreur en rajoutant une porte \mygate{X} sur la troisième.
+\end{itemize}
+
+Noter qu'on n'a jamais effectué de mesure sur le premier registre.
+
+\medskip
+
+Bilan : 
+\begin{itemize}
+  \item si $\ket\phi = \ket{0.0}$ pas d'erreur,
+  \item si $\ket\phi = \ket{1.1}$ erreur de flip sur la première ligne,
+  \item si $\ket\phi = \ket{1.0}$ erreur de flip sur la deuxième ligne,
+  \item si $\ket\phi = \ket{0.1}$ erreur de flip sur la troisième ligne.
+\end{itemize}
+Une fois qu'on sait sur quelle ligne est l'erreur par mesure de $\ket{\Phi}$, il est facile de la corriger en ajoutant une porte \mygate{X} en fin de circuit sur la ligne correspondante.
+
+
+%--------------------------------------------------------------------
+\subsection{Erreur par déformation}
+
+On souhaite envoyer l'information $\ket0$, augmentée en $\ket{0.0.0}$.
+On suppose que l'erreur est d'un type nouveau, le qubit est légèrement déformé. Prenons l'exemple d'une erreur qui, en sortie du premier registre, fournit :
+$$\ket{\tilde\psi} = \sqrt{1-\epsilon^2} \ket{0.0.0} + \epsilon\ket{0.0.1},$$
+où $\epsilon>0$ est un petit réel. 
+
+Le circuit suivant détecte ce type d'erreur. C'est le même que le circuit précédent avec en plus la mesure du second registre.
+
+
+
+{\large$$
+\Qcircuit @C=1.5em @R=1.5em {
+\lstick{\ket{\psi_0}} & \ctrl{1} & \ctrl{2}  & \multigate{2}{\quad \shortstack{\text{Erreur}\\$E$} \quad}  & \ctrl{3} & \qw      & \ctrl{4} & \qw  & \qw  & \qwa \\
+\lstick{\ket0}    & \targ    & \qw       & \ghost{\quad \text{Erreur} \quad}         & \qw      & \ctrl{2} & \qw      & \qw      & \qw & \qwa \\
+\lstick{\ket0}    & \qw      & \targ     & \ghost{\quad \text{Erreur} \quad}         & \qw      & \qw      & \qw      & \ctrl{2} & \qw & \qwa \\
+\lstick{\ket0}    & \qw      & \qw       & \qw                                       & \targ    & \targ    & \qw      & \qw      & \meter & \qwa \\
+\lstick{\ket0}    & \qw      & \qw       & \qw                                       & \qw      & \qw      & \targ    & \targ    & \meter & \qwa \\
+}
+\quad
+\raise-11ex\hbox{$\left. \raisebox{12ex}{} \right\} \ket\Phi$}
+$$}
+\medskip
+
+On a vu que juste avant la mesure, si $\ket{\tilde\psi} =\ket{0.0.0}$ alors le $5$-qubit de sortie est 
+$\ket\Phi = \ket{0.0.0} \ket{0.0}$ ; et si $\ket{\tilde\psi} =\ket{0.0.1}$ alors le $5$-qubit de sortie est 
+$\ket\Phi = \ket{0.0.1} \ket{0.1}$.
+
+Donc pour le qubit $\ket{\tilde\psi} = \sqrt{1-\epsilon^2} \ket{0.0.0} + \epsilon\ket{0.0.1}$, la sortie est (avant mesure) :
+$$\ket\Phi =  \sqrt{1-\epsilon^2}\ket{0.0.0} \ket{0.0} + \epsilon \ket{0.0.1} \ket{0.1}.$$
+
+Que se passe-t-il lorsque l'on mesure le second registre ? Deux mesures seulement sont possibles $0.0$ ou bien $0.1$.
+\begin{itemize}
+  \item Si on obtient la mesure $0.0$, alors on sait qu'il n'y a rien à corriger. Effectivement, dans ce cas le premier registre s'est effondré en $\ket\Psi = \ket{0.0.0}$, il n'y  a pas d'erreur.
+
+  \item Si on obtient la mesure $0.1$, alors on sait qu'il y a une erreur qu'il faut corriger en ajoutant un flip sur la troisième ligne. Effectivement dans ce cas le premier registre s'est effondré en $\ket\Psi = \ket{0.0.1}$. Après correction on obtient $\ket{0.0.0}$.
+\end{itemize}
+
+Dans tous les cas on obtient, après correction éventuelle, le $3$-qubit $\ket{0.0.0}$. 
+Il s'est passé un phénomène appelé \emph{discrétisation de l'erreur par la mesure} :
+même si l'erreur pouvait prendre une infinité de formes (car il y a une infinité de $\epsilon$ possibles), après mesure on se ramène à seulement deux possibilités.
+
+\begin{proposition}
+Le circuit précédent détecte n'importe quelle erreur du type $E = aI+bX$.
+\end{proposition}
+
+
+
+
+$I$ désigne l'identité et $X$ un flip.
+Une erreur $E = aI+bX$ transforme un qubit $\ket\psi = \alpha\ket0+\beta\ket1$ en
+$$E\ket\psi = (aI+bX)\ket\psi = a\ket\psi + bX\ket\psi.$$
+
+Si lors de la transmission, sur une seule des trois premières lignes, un qubit subit une telle erreur, alors la sortie du second permet de savoir comment corriger cette erreur.
+
+
+La preuve est la généralisation des calculs faits pour l'exemple avec les \og{}$\epsilon$\fg{}.
+\begin{proof}
+On note $\ket{\psi_0} = \alpha\ket0+\beta\ket1$ et $\ket\psi = \alpha\ket{0.0.0} + \beta\ket{1.1.1}$.
+Si $E=I$, alors il n'y pas d'erreur le qubit de sortie avant mesure est 
+$\ket{\Phi_0} = \ket{\psi} \ket{0.0}$.
+
+Si $E=X$, alors on a déjà vu que selon la ligne de l'erreur, le qubit de sortie avant mesure est l'un des $\ket{\tilde \psi_1} \ket{1.1}$, $\ket{\tilde \psi_2} \ket{1.0}$,
+$\ket{\tilde \psi_3} \ket{0.1}$.
+
+Si l'erreur est $aI+bX$ alors, par linéarité le qubit de sortie avant mesure est par exemple
+$$\ket\Phi = a \ket{\psi} \ket{0.0} + b \ket{\tilde \psi_1} \ket{1.1}$$
+(ou l'une des deux autres situations).
+
+Lors de la mesure du second registre :
+\begin{itemize}
+  \item Si on obtient $0.0$, alors on sait qu'il n'y a rien à corriger. Effectivement dans ce cas le premier registre s'est effondré en $\ket{\psi}$, il n'y a pas d'erreur.
+
+
+  \item Si on obtient $1.1$, alors on sait qu'il y a une erreur qu'il faut corriger en ajoutant un flip sur la première ligne. Effectivement dans ce cas le premier registre s'est effondré en $\ket{\tilde \psi_1} = \alpha\ket{1.0.0}+\beta\ket{0.1.1}$. Après correction on obtient $\ket\psi = \alpha\ket{0.0.0} + \beta\ket{1.1.1}$.
+
+  \item De même pour les deux autres situations.
+\end{itemize}
+\end{proof}
+
+
+\begin{exercicecours}
+Réaliser un circuit qui détecte une inversion de phase et expliquer ensuite comment corriger l'éventuelle erreur. Montrer que votre circuit détecte n'importe quelle erreur $aI+bZ$ sur une ligne.
+\end{exercicecours}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Code correcteur de Shor}
+
+%--------------------------------------------------------------------
+\subsection{Circuit}
+
+Nous terminons avec un circuit composé de $9$ lignes. Ce circuit détecte et corrige 
+une erreur de transmission qui se produirait sur une seule des $9$ lignes. 
+Cette erreur peut être un flip $X$, une inversion de phase $Z$, mais plus généralement n'importe quelle erreur sur un $1$-qubit (mais toujours sur une seule ligne).
+
+
+
+$$
+\Qcircuit @C=1em @R=1em {
+\lstick{\ket{\psi_0}} & \ctrl{3} & \ctrl{6} & \gate{H}  & \ctrl{1} & \ctrl{2} & \multigate{8}{\quad \shortstack{\text{Erreur}\\$E$} \quad} & \ctrl{1} & \ctrl{2} & \targ      & \gate{H}  & \ctrl{3} & \ctrl{6} & \targ     & \rstick{\ket{\psi_0}}\qwa \\
+\lstick{\ket0}    & \qw      & \qw      & \qw       & \targ    & \qw      & \ghost{\quad \text{Erreur} \quad}        & \targ    & \qw      & \ctrl{-1}  & \qw       & \qw      & \qw      & \qw       & \qwa \\
+\lstick{\ket0}    & \qw      & \qw      & \qw       & \qw      & \targ    & \ghost{\quad \text{Erreur} \quad}        & \qw      & \targ    & \ctrl{-2}  & \qw       & \qw      & \qw      & \qw       & \qwa \\
+\lstick{\ket0}    & \targ    & \qw      & \gate{H}  & \ctrl{1} & \ctrl{2} & \ghost{\quad \text{Erreur} \quad}        & \ctrl{1} & \ctrl{2} & \targ      & \gate{H}  & \targ    & \qw      & \ctrl{-3} & \qwa \\
+\lstick{\ket0}    & \qw      & \qw      & \qw       & \targ    & \qw      & \ghost{\quad \text{Erreur} \quad}        & \targ    & \qw      & \ctrl{-1}  & \qw       & \qw      & \qw      & \qw       & \qwa \\
+\lstick{\ket0}    & \qw      & \qw      & \qw       & \qw      & \targ    & \ghost{\quad \text{Erreur} \quad}        & \qw      & \targ    & \ctrl{-2}  & \qw       & \qw      & \qw      & \qw       & \qwa \\
+\lstick{\ket0}    & \qw      & \targ    & \gate{H}  & \ctrl{1} & \ctrl{2} & \ghost{\quad \text{Erreur} \quad}        & \ctrl{1} & \ctrl{2} & \targ      & \gate{H}  & \qw      & \targ    & \ctrl{-6} & \qwa \\
+\lstick{\ket0}    & \qw      & \qw      & \qw       & \targ    & \qw      & \ghost{\quad \text{Erreur} \quad}        & \targ    & \qw      & \ctrl{-1}  & \qw       & \qw      & \qw      & \qw       & \qwa \\
+\lstick{\ket0}    & \qw      & \qw      & \qw       & \qw      & \targ    & \ghost{\quad \text{Erreur} \quad}        & \qw      & \targ    & \ctrl{-2}  & \qw       & \qw      & \qw      & \qw       & \qwa \\
+}
+$$
+
+%--------------------------------------------------------------------
+\subsection{Calculs}
+
+
+\begin{proposition}
+Le circuit précédent détecte et corrige n'importe quelle erreur du type $E = aI+bX+cY+dZ$ qui arriverait sur une seule de ses lignes.
+\end{proposition}
+
+Avant de justifier ce résultat, il faut passer un peu de temps à comprendre que ce circuit est construit en regroupant le circuit qui corrige un flip et celui qui corrige une inversion de phase. Ensuite le mieux est de le programmer pour vérifier qu'il fonctionne !
+
+\bigskip
+
+Donnons maintenant des explications théoriques. Nous modélisons une erreur $E$ comme la transformation linéaire d'un qubit en un autre qubit.
+Autrement dit une erreur est définie par une matrice $2\times 2$, notée $E$.
+
+Rappelons la définition des matrices de Pauli auxquelles on ajoute l'identité :
+
+%\textbf{Porte \mygate{X}}
+$$
+I = \begin{pmatrix}1&0\\0&1\end{pmatrix}\qquad
+X = \begin{pmatrix}0&1\\1&0\end{pmatrix}\qquad
+Y = \begin{pmatrix}0&-\ii\\\ii&0\end{pmatrix}\qquad
+Z = \begin{pmatrix}1&0\\0&-1\end{pmatrix}
+$$
+
+Ces quatre matrices sont linéairement indépendantes et forment donc une base de l'espace vectoriel de dimension $4$,  $M_2(\Cc)$. Ainsi n'importe quelle $E \in M_2(\Cc)$ se décompose :
+$$E = aI+bX+cY+dZ$$
+où $a,b,c,d \in \Cc$.
+
+Par linéarité du circuit, on se ramène aux quatre cas $E=I$, $E=X$, $E=Y$, $E=Z$.
+La structure du circuit, qui regroupe la correction de flip et d'inversion de phase, fait qu'il corrige les erreurs $X$ et $Z$ (et aussi $I$).
+
+
+Il ne reste plus qu'à traiter le cas de $E=Y$.
+Mais nous avons l'égalité :
+$$Y = \ii X Z.$$
+\index{porte!Y}
+Ceci est une égalité de matrices, qui se traduit en une équivalence de portes :
+
+{\large$$
+  \Qcircuit @C=1em @R=1em {
+   & \gate{Y} &  \qw  \\
+  }
+  \qquad=\qquad
+  \Qcircuit @C=1em @R=1em {
+  & \gate{Z} & \gate{X} & \gate{\times \; \ii} &  \qw  \\
+  }
+  $$} 
+\medskip
+
+Ainsi une erreur $Y$ est la combinaison d'un flip et d'une inversion de phase et sera bien corrigée par notre circuit.
+
+
+
+\bigskip
+\bigskip
+
+\emph{Notes.} 
+Ce cours n'est qu'un aperçu d'un vaste domaine. La présentation adoptée ici est basée sur un cours en ligne du CERN \emph{Introduction to quantum computing} par Elias F.~ Combarro.  Une étude plus approfondie est faite dans le livre de Nielsen et Chuang \emph{Quantum computation and quantum information}.
+\end{document}

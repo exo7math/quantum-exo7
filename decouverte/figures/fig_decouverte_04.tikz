@@ -1,0 +1,15 @@
+\begin{tikzpicture}[scale=2]
+
+\draw[-,>=latex, very thick,gray] (-1.5,0)--(1.5,0); % node[below] {$x$};
+\draw[-,>=latex, very thick, gray] (0,-1.25)--(0,1.25); % node[left] {$y$};
+
+\draw[thick,blue] (0,0) circle (1);
+
+\draw[->,>=latex,red,ultra thick] (0,0) -- ++(1,0) node[above right]{$\ket0$};
+\draw[->,>=latex,red,ultra thick] (0,0) -- ++(0,1) node[above right]{$\ket1$};
+
+\draw[->,>=latex,red,ultra thick] (0,0) -- ++(145:1) node[left]{$\ket\psi=\alpha\ket0+\beta\ket1$};
+
+\draw[thick,blue] (0,0) circle (1);
+
+\end{tikzpicture}

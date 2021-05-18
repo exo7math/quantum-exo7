@@ -1,0 +1,35 @@
+\begin{tikzpicture}
+
+   %   \draw[lightgray] (-2,-2) grid (4,3);
+
+       \draw[->,>=latex, gray] (-4.5,0)--(4.5,0);
+       \draw[->,>=latex, gray] (0,-3.5)--(0,3.5);
+
+
+      \draw[blue] (0,0) circle (3cm);
+      \coordinate (A) at (135:3);
+      \coordinate (Ax) at (A-| 0,0);
+      \coordinate (Ay) at (0,0-|A);
+
+       \draw[blue,thin] (0,0)--(A) node[midway,left,scale=0.8] {$r'=3$};
+       \draw[blue,dashed] (A)--(Ax) node[below]{};
+       \draw[blue,dashed] (A)--(Ay);
+
+       \fill (1,0) circle (2pt);
+       \fill (0,0) circle (2pt);
+       \fill (0,1) circle (2pt);
+       \fill[blue] (A) circle (2pt);
+       \fill (0,0) circle (2pt);
+
+ %       \node at (0,-1) [below] {$\pi r^2$};
+       \node at (0,0) [below left] {$0$};
+       \node at (1,0) [below] {$1$};
+       \node at (0,1) [left] {$\ii$};
+       \node[blue] at (A) [above left] {$z$};
+       \node at (4.5,0) [below] {$\Rr$};
+       \node at (0,3.5) [left] {$\ii \Rr$};
+
+       \draw[->,>=latex,blue] (0:1.6) arc (0:135:1.6);
+       \node[blue,above right,scale=0.8] at (80:1.5) {$\theta'=\frac{3\pi}{4}$};
+
+\end{tikzpicture}

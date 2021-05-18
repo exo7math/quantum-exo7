@@ -1,0 +1,9 @@
+﻿\begin{tikzpicture}[node distance=0cm]
+\large
+\node[green!70!black] (A) at (0,0) {$0.1.0.1.0.0.1.0$};
+\node[red, right= of A] (B)  {$0.1.1.1.0.1.1.0.0.1.0.0.0.0.1.0$};
+
+\draw[thick,green!70!black,|-|,shorten >=2pt,shorten <=2pt] (A.south west) -- (A.south east) node[midway,below,black,scale=0.7]{échantillon};
+\draw[thick,red,|-|,shorten >=2pt,shorten <=2pt] (B.south west) -- (B.south east) node[midway,below,black,scale=0.7]{secret commun};
+
+\end{tikzpicture}

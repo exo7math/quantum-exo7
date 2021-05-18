@@ -38,7 +38,7 @@ Partie III - Algorithme de Shor
 * Arithmétique [Chapitre](arithmetique/arithmetique.pdf)
 * Algorithme de Shor [Chapitre](shor/shor.pdf)
 * Compléments d'arithmétique [Chapitre](complement/complement.pdf)
-*  Transformée de Fourier discrète[Chapitre](fourier/fourier.pdf)
+*  Transformée de Fourier discrète [Chapitre](fourier/fourier.pdf)
 
 
 Partie IV - Vivre dans un monde quantique

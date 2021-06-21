@@ -1,0 +1,36 @@
+Texte "Quantum -- Teaser"
+
+## 1 ##
+Page de titre
+
+## 2 ##
+
+Les ordinateurs quantiques sont presque parmi nous ! 
+Dans ces vidéos vous découvrirez l'informatique quantique et apprendrez à programmer sur un vrai ordinateur quantique.
+Même s'ils sont encore balbutiants et ne sont pas disponibles chez vous, vous avez accès en ligne à des machines quantiques pour tester de petits programmes. 
+
+
+Depuis quelques années il existe des ordinateurs quantiques effectuant des calculs sur des \og{}qubits\fg{}.
+Un qubit stocke l'information quantique : soit l'information $0$, notée $\ket0$, soit l'information $1$, notée $\ket1$, soit d'une certaine manière les deux en même temps ! 
+
+## 3 ##
+
+La physique quantique est difficile à comprendre et les ordinateurs quantiques sont compliqués à réaliser mais heureusement les mathématiques nécessaires pour s'initier à l'informatique quantique sont simples.
+
+
+Par exemple un qubit s'exprime en fait par l'expression mathématique :
+$$\alpha\ket0 + \beta\ket1.$$
+C'est cette combinaison des deux états $\ket0$ et $\ket1$ qu'on vulgarise par la phrase mystérieuse \og{}prendre à la fois la valeur $0$ et la valeur $1$\fg{}. 
+
+
+## 4 ##
+
+Ce cours offre une introduction douce à l'informatique quantique et aux mathématiques afin d'être en mesure de présenter l'algorithme de Shor. Cet algorithme a fait découvrir au monde la révolution que pourrait apporter un ordinateur quantique. Les communications sur internet sont pour la plupart sécurisées par un chiffrement qui repose sur la difficulté de factoriser de très grands entiers, même avec des ordinateurs très puissants. L'algorithme de Shor montre que sur un ordinateur quantique  ce problème deviendrait simple à résoudre.
+
+
+
+## 5 ##
+Pour démarrer l'étude de l'informatique quantique avec ce cours, vous n'avez pas besoin de connaître la physique quantique, vous n'avez pas non plus besoin de compétences avancées en programmation.
+Les mathématiques de ce cours sont d'un niveau première année d'études supérieures,et toutes les notions de bases sont introduites, en particulier les nombres complexes jouent un rôle important (d'ailleurs les nombre $\alpha$ et $\beta$ ci-dessus sont des nombres complexes) ainsi que les vecteurs et les matrices.
+
+L'informatique quantique est un monde déconcertant mais bien réel. À vous de le découvrir !

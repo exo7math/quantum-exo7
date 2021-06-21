@@ -7,6 +7,11 @@ Livre
 
 Vous pouvez télécharger le livre sur ce site : [Livre 'Quantum' (4 Mo)](livre-quantum.pdf).
 
+Vidéos
+======
+
+Tous les cours est aussi expliqué en vidéos ! [Chaîne Youtube "Quantum"](https://www.youtube.com/channel/UCgeO7CtfYSdWt0PPZ3vafqw/)
+
 
 Chapitres
 =========

@@ -9,7 +9,7 @@
    id="svg449"
    inkscape:version="1.1 (ce6663b3b7, 2021-05-25)"
    sodipodi:docname="titre_fin_quantum.svg"
-   inkscape:export-filename="/home/arnaud/Exo7/quantum/titre_fin_quantum.png"
+   inkscape:export-filename="/home/arnaud/VideosQuantum/Montage/titre_fin_quantum.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -23,14 +23,14 @@
      bordercolor="#666666"
      borderopacity="1.0"
      inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
+     inkscape:pageopacity="1"
+     inkscape:pagecheckerboard="false"
      inkscape:document-units="mm"
      showgrid="false"
      units="px"
-     inkscape:zoom="0.53165938"
-     inkscape:cx="964.90351"
-     inkscape:cy="589.66325"
+     inkscape:zoom="0.37593995"
+     inkscape:cx="634.40983"
+     inkscape:cy="626.42983"
      inkscape:window-width="1846"
      inkscape:window-height="1016"
      inkscape:window-x="74"
@@ -348,9 +348,9 @@
            transform="translate(-16.091844,6.9793194)"><tspan
              x="0"
              y="0"
-             id="tspan59417"><tspan
+             id="tspan1170"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-               id="tspan59415">O</tspan></tspan></text>
+               id="tspan1168">O</tspan></tspan></text>
         <text
            xml:space="preserve"
            id="text1917-0-33-4-9-0"
@@ -358,9 +358,9 @@
            transform="translate(36.866343,5.4253114)"><tspan
              x="0"
              y="0"
-             id="tspan59421"><tspan
+             id="tspan1174"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:Comfortaa;-inkscape-font-specification:'Comfortaa, Bold'"
-               id="tspan59419">|</tspan></tspan></text>
+               id="tspan1172">|</tspan></tspan></text>
         <text
            xml:space="preserve"
            id="text1917-0-3-8-8-6-4"
@@ -373,9 +373,9 @@
            transform="translate(10.731601,6.4575514)"><tspan
              x="0"
              y="0"
-             id="tspan59425"><tspan
+             id="tspan1178"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-               id="tspan59423">1</tspan></tspan></text>
+               id="tspan1176">1</tspan></tspan></text>
       </g>
       <g
          id="g334-5-4-2-2"
@@ -388,9 +388,9 @@
            transform="translate(-16.091844,6.9793194)"><tspan
              x="0"
              y="0"
-             id="tspan59429"><tspan
+             id="tspan1182"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-               id="tspan59427">O</tspan></tspan></text>
+               id="tspan1180">O</tspan></tspan></text>
         <text
            xml:space="preserve"
            id="text1917-0-6-9-6-0"
@@ -403,9 +403,9 @@
            transform="translate(66.491769,8.1431003)"><tspan
              x="0"
              y="0"
-             id="tspan59433"><tspan
+             id="tspan1186"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:Comfortaa;-inkscape-font-specification:'Comfortaa, Bold'"
-               id="tspan59431">&gt;</tspan></tspan></text>
+               id="tspan1184">&gt;</tspan></tspan></text>
         <text
            xml:space="preserve"
            id="text1917-05-7-00-1-3-5"
@@ -413,9 +413,9 @@
            transform="translate(10.731601,6.4575514)"><tspan
              x="0"
              y="0"
-             id="tspan59437"><tspan
+             id="tspan1190"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-               id="tspan59435">1</tspan></tspan></text>
+               id="tspan1188">1</tspan></tspan></text>
       </g>
     </g>
   </g>

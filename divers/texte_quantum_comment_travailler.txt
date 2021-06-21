@@ -1,0 +1,18 @@
+Texte "Quantum -- Comment travailler ?"
+
+Comment travailler ce cours pour apprendre l'informatique quantique ?
+Tout d'abord le premier chapitre présente un survol de ce qu'est l'informatique.
+Ensuite dans les chapitres suivant de la première partie, les principales notions sont reprises en détails.
+
+Dans la deuxième partie on découvre des premiers algorithmes quantiques classiques :
+l'algorithme de Deutsch-Josza ainsi que l'algorithme de Grover et la notion d'oracle.
+
+Dans la partie suivante on atteint le but du cours : comprendre l'algorithme de Shor qui permettrait de factoriser facilement des entiers très grands sur un ordinateur quantique.
+
+Pour travailler vous avez des vidéos, le livre avec davantage de précisions.
+
+Le cours reprend les notions mathématiques essentielles : les nombres complexes, les matrices en restant à un niveau accessible.
+
+Je vous expliquerai aussi comment programmer sur un véritable ordinateur quantique.
+Pour la pratique vous pouvez créer vos circuits avec Qiskit et Python ou bien utiliser un simulateur en ligne. Tous les codes sources sont bien sûr disponibles.
+

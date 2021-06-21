@@ -1,0 +1,735 @@
+
+QUANTUM
+Un peu de mathématiques pour l'informatique quantique
+
+ARNAUD BODIN
+
+
+Tags youtube
+Mathématiques, Informatique quantique, Qubit, 
+
+  (chaîne quantum) https://www.youtube.com/channel/UCgeO7CtfYSdWt0PPZ3vafqw
+  (chaîne exo7) https://www.youtube.com/user/Exo7Math
+
+
+#---------------------------
+Teaser
+
+[Quantum] Informatique quantique (teaser)
+https://youtu.be/a39BtVUYSQo
+
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+Page https://exo7math.github.io/quantum-exo7/
+
+Sources https://github.com/exo7math/quantum-exo7
+
+Vidéos "quantum" https://youtube.com/channel/UCgeO7CtfYSdWt0PPZ3vafqw   
+
+
+#---------------------------
+Comment travailler ?
+
+[Quantum] Comment travailler ?
+https://youtu.be/nzJCNOporyQ 
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#-----
+[Quantum] Quirk - Un simulateur quantique en ligne
+https://youtu.be/TzT6d-jeOx8
+
+Lien 'quirk' : https://algassert.com/quirk
+
+Plan : présentation ; circuit à une ligne ; circuit à deux lignes ; sortie ; plus de lignes.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#########################################
+#########################################
+PARTIE 1  Premiers pas quantiques
+
+
+#---------------------------
+Chapitre 1
+Découverte de l’informatique quantique
+
+#-----
+[Quantum] 1.1. Un qubit
+https://youtu.be/_jqJHMVcI_0
+
+Chapitre "Découverte de l’informatique quantique" - Partie 1.1. Un qubit
+
+Plan : ket 0 et ket 1 ; superposition ; coefficients ; norme ; mesure et probabilités ; bilan.
+
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+
+#---------------------------
+Chapitre 1
+Découverte de l’informatique quantique
+
+#-----
+[Quantum] 1.2. Portes quantiques
+https://youtu.be/wFzpe2O0qU0
+
+Chapitre "Découverte de l’informatique quantique" - Partie 1.2. Portes quantiques
+
+Plan : portes quantiques ; porte X ; porte H de Hadamard ;
+circuits ; portes X, Y, Z de Pauli.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+
+
+#---------------------------
+Chapitre 1
+Découverte de l’informatique quantique
+
+#-----
+[Quantum] 1.3. Les 2-qubits (partie 1)
+https://youtu.be/qlypFNg0LWA
+
+Chapitre "Découverte de l’informatique quantique" - Partie 1.3. Les 2-qubits  (partie 1)
+
+Plan : définition ; mesure ; exemple ; vecteurs ; notations.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+
+#---------------------------
+Chapitre 1
+Découverte de l’informatique quantique
+
+#-----
+[Quantum] 1.3. Les 2-qubits (partie 2)
+https://youtu.be/nJYTjviwfzg
+
+Chapitre "Découverte de l’informatique quantique" - Partie 1.3. Les 2-qubits (partie 2)
+
+Plan : porte CNOT ; l'état de Bell ; circuit ; addition de qubits ; multiplication de qubits.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+
+#---------------------------
+Chapitre 1
+Découverte de l’informatique quantique
+
+#-----
+[Quantum] 1.4. Plus de qubits
+https://youtu.be/zs4j359FRZA
+
+Chapitre "Découverte de l’informatique quantique" - Partie 1.4. Plus de qubits
+
+Plan : circuit quantique ; les n-qubits ; norme ; mesure ; porte de Toffoli (CCNOT) ; exercice.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#---------------------------
+Chapitre 1
+Découverte de l’informatique quantique
+
+#-----
+[Quantum] 1.5. Communication par codage super-dense
+https://youtu.be/7KIcISp7q_Q
+
+Chapitre "Découverte de l’informatique quantique" - Partie 1.5. Communication par codage super-dense
+
+Plan : motivation ; principe ; état de Bell ; intrication ; codage ; décodage ; preuve ; sûreté.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+
+#---------------------------
+Chapitre 2
+Utiliser un ordinateur quantique (avec Qiskit)
+
+
+#-----
+[Quantum] 2.1. Un premier circuit quantique
+https://youtu.be/yGzmA98D0eU
+
+Chapitre "Utiliser un ordinateur quantique (avec Qiskit)" - Partie 2.1. Un premier circuit quantique
+
+Plan : exécution ; circuit ; programme.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+#-----
+[Quantum] 2.2 Un qubit
+https://youtu.be/7tO15IFNtMQ
+
+Chapitre "Utiliser un ordinateur quantique (avec Qiskit)" - Partie 2.2 Un qubit
+
+Plan : nombres complexes avec Python ; circuit ; programme ; exécution.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+#-----
+[Quantum] 2.3 Deux qubits
+https://youtu.be/SL4nMgMwPbI
+
+Chapitre "Utiliser un ordinateur quantique (avec Qiskit)" - Partie 2.3 Deux qubits
+
+Plan : circuit ; programme ; exécution(s) ; 2-qubit de sortie ; piège de notation.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+#-----
+[Quantum] 2.4 Utiliser un vrai ordinateur quantique
+https://youtu.be/etra0QQUUOg
+
+Chapitre "Utiliser un ordinateur quantique (avec Qiskit)" - Partie 2.4 Utiliser un vrai ordinateur quantique
+
+Plan : circuit ; exécution sur un vrai ordinateur quantique ; qiskit ; jeton/token ; programme.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+
+#---------------------------
+Chapitre 3
+Nombres complexes
+
+#-----
+[Quantum] 3.1. Écriture algébrique
+https://youtu.be/WMnoIdZwqWs
+
+Chapitre "Nombres complexes" - Partie 3.1. Écriture algébrique
+
+Plan : z = a+ib ; multiplication ; partie réelle, partie imaginaire, conjugué, module ; nombres complexes de module 1 ; inverse.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+#-----
+[Quantum] 3.2. Qubit
+https://youtu.be/oRmd3Y0l52U
+
+Chapitre "Nombres complexes" - Partie 3.2. Qubit
+
+Plan : 1-qubit ; 2-qubits ; addition ; multiplication ; norme et normalisation.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+#-----
+[Quantum] 3.3. Module - Argument
+https://youtu.be/LvlqE14qJnw
+
+Chapitre "Nombres complexes" - Partie 3.3. Module - Argument
+
+Plan : module et argument ; multiplication ; notation exponentielle.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#-----
+[Quantum] 3.4. Écriture trigonométrique des qubits
+https://youtu.be/jChSroZEYPU
+
+Chapitre "Nombres complexes" - Partie 3.4. Écriture trigonométrique des qubits
+
+Plan : multiplication de qubits ; équivalence de qubits ; exemple ; écriture après équivalence ; exemple.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+#-----
+[Quantum] 3.5. Sphère de Bloch
+https://youtu.be/EffE7nZvWwI
+
+Chapitre "Nombres complexes" - Partie 3.5. Sphère de Bloch
+
+Erreur à 18:03 : c'est "une rotation d'angle pi" (et pas pi/2).
+
+Plan : latitude et longitude ; sphère de Bloch ; formule de passage ; ket 0 et ket 1 ; probabilités ; équateur ; portes de Pauli X, Y, Z.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#---------------------------
+Chapitre 4
+Vecteurs et matrices
+
+#-----
+[Quantum] 4.1. Vecteurs
+https://youtu.be/UMwX1iQFgsE
+
+Chapitre "Vecteurs et matrices" - Partie 4.1. Vecteurs
+
+Plan : vecteurs du plan ; vecteurs à coefficients complexes ; 1-qubit et n-qubit ; ket psi et bra psi.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+#-----
+[Quantum] 4.2. Produit scalaire hermitien 
+https://youtu.be/NueNF46JT9A
+
+Chapitre "Vecteurs et matrices" - Partie 4.2. Produit scalaire hermitien 
+Plan : formule du produit scalaire hermitien ; linéarité et anti-linéarité ; norme ; vecteurs orthogonaux ; sphère de Bloch.
+ 
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#-----
+[Quantum] 4.3. Produit tensoriel de vecteurs
+https://youtu.be/R8shuDvvpmU
+
+Chapitre "Vecteurs et matrices" - Partie 4.3. Produit tensoriel de vecteurs
+
+Plan : définition ; exemples ; linéarité ; produit de qubits ; exemple ; intrication quantique ; intrication de l'état de Bell.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#-----
+[Quantum] 4.4. Matrices 
+https://youtu.be/GZrSeyk0iAg
+
+Chapitre "Vecteurs et matrices" - Partie 4.4. Matrices
+
+Plan : généralités ; matrices 2x2 : produit, identité, inverse, déterminant. 
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#-----
+[Quantum] 4.5. Matrice adjointe 
+https://youtu.be/zvRhMk9xASo
+
+Chapitre "Vecteurs et matrices" - Partie 4.5. Matrice adjointe 
+
+Plan : définition ; exemple ; propriétés ; notation bra-ket ; produit scalaire et matrice adjointe.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#-----
+[Quantum] 4.6. Matrice unitaire
+https://youtu.be/Q_4gU7Lx6XQ
+
+Chapitre "Vecteurs et matrices" - Partie 4.6. Matrice unitaire 
+
+Plan : définition ; lien avec le produit scalaire ; cas des matrices 2x2 ; groupe des matrices unitaires ; longueur préservée.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+
+
+#---------------------------
+Chapitre 5
+Informatique classique
+
+
+
+#-----
+[Quantum] 5.1. Bits classiques
+https://youtu.be/yUgpElITYTg
+
+Chapitre "Informatique classique" - Partie 5.1. Bits classiques 
+
+Plan : bit ; écriture binaire : exemple et formule ; logarithme en base 2.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#-----
+[Quantum] 5.2. Portes logiques
+https://youtu.be/iET0snUXj0k
+
+Chapitre "Informatique classique" - Partie 5.2. Portes logiques 
+
+Plan : portes logiques ; fonctions logiques ; portes NOT, AND, OR, XOR ; circuit ; combinatoire ; la porte NAND est universelle.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#-----
+[Quantum] 5.3. Algorithme et complexité
+https://youtu.be/JKmC2u5kvKg
+
+Chapitre "Informatique classique" - Partie 5.3. Algorithme et complexité 
+
+Plan : "vitesse" d'un algorithme ; notation "grand O" ; exemples ; suites de références ; complexité ; complexité de la multiplication ; exemples d'algorithmes et leur comlplexité.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+
+#---------------------------
+Chapitre 6
+Physique quantique
+
+
+#-----
+[Quantum] 6.1. Particule
+https://youtu.be/e5K5bN2H8Mw
+
+Chapitre "Physique quantique" - Partie 6.1. Particule
+
+Plan : particules ; quantification ; principe d'incertitude d'Heisenberg.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#-----
+[Quantum] 6.2. Dualité onde/corpuscule
+https://youtu.be/5wTVAvC6q8U
+
+Chapitre "Physique quantique" - Partie 6.2. Dualité onde/corpuscule
+
+Plan : corpuscule ; onde ; superposition ; expérience à une fente ; expérience à deux fentes ; franges d'interférences ; expérience quantique à deux fentes.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#-----
+[Quantum] 6.3. Fonction d'onde et équation de Schrödinger
+https://youtu.be/hy_C1vnKeg0
+
+Chapitre "Physique quantique" - Partie 6.3. Fonction d'onde et équation de Schrödinger
+
+Plan : fonction d'onde ; mesure et probabilités ; équation de Schrödinger.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#-----
+[Quantum] 6.4. Qubits
+https://youtu.be/h3T3swzS1dw
+
+Chapitre "Physique quantique" - Partie 6.4. Qubits
+
+Plan : réalisation des qubits ; mesure ; intrication quantique.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+
+#---------------------------
+Chapitre 7
+Téléportation quantique
+
+
+#-----
+[Quantum] 7.1. Protocole de la téléportation
+https://youtu.be/PxiIF1kiDYA
+
+Chapitre "Téléportation quantique" - Partie 7.1. Protocole de la téléportation 
+
+Plan : schéma général ; protocole ; préparation ; étape d'Alice ; étape de Bob.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+#-----
+[Quantum] 7.2. Calculs
+https://youtu.be/qYHNrqmu09g
+
+Chapitre "Téléportation quantique" - Partie 7.2. Calculs 
+
+Plan : le 3-qubit ; étape d'Alice ; étape de Bob.
+
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+#-----
+[Quantum] 7.3. Mesure partielle
+https://youtu.be/bNrut1nNeV8
+
+Chapitre "Téléportation quantique" - Partie 7.3. Mesure partielle
+
+Plan : mesure classique ; mesure partielle d'un 2-qubit ; exemple ; formule ; mesure partielle d'un 3-qubit.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+#-----
+[Quantum] 7.4. Les états de Bell
+https://youtu.be/fpLTyeJ6Gyw
+
+Chapitre "Téléportation quantique" - Partie 7.4. Les états de Bell 
+
+Plan : les quatre états de Bell ; construction ; base canonique ; base de Bell ; changement de base.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+#-----
+[Quantum] 7.5. Mesure partielle dans la base de Bell
+https://youtu.be/zdLq1bAG1U0
+
+Chapitre "Téléportation quantique" - Partie 7.5. Mesure partielle dans la base de Bell
+
+Plan : mesure partielle dans une autre base ; mesure partielle dans la base de Bell ; calculs de la téléportation quantique.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#########################################
+#########################################
+PARTIE 2  Algorithmes quantiques
+
+#---------------------------
+Chapitre 8
+Un premier algorithme quantique
+
+#-----
+[Quantum] 8. Un premier algorithme quantique
+https://youtu.be/6oOd4Uy6vKI
+
+
+Chapitre "Un premier algorithme quantique" - Partie 8.
+
+Plan : algorithme sur un ordinateur quantique ; fonction constante vs équilibrée ; algorithme de Deutsch-Jozsa pour un cas simple ; circuit quantique ; complexité ; oracle ; preuve.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#---------------------------
+Chapitre 9
+Portes quantiques
+
+#-----
+[Quantum] 9.1. Portes quantiques - Théorie
+https://youtu.be/bYoEM5C_LPo
+
+Chapitre "Portes quantiques" - Partie 9.1. Théorie
+
+Plan : la porte de Toffoli est universelle ; définition d'une porte quantique ; théorème de réalisation des circuits quantiques ; théorème de non clonage quantique et sa preuve.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#-----
+[Quantum] 9.2. Portes quantiques - Oracle
+https://youtu.be/seNrAd0GqPA
+
+Chapitre "Portes quantiques" - Partie 9.2. Oracle
+
+Plan : définition de l'oracle ; l'oracle est bijectif ; exemple dans le cas Grover ; exemple dans le cas Deutsch-Jozsa.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+
+#---------------------------
+Chapitre 10
+Algorithme de Deutsch-Jozsa
+
+#-----
+[Quantum] 10. Algorithme de Deutsch-Jozsa
+https://youtu.be/w8SrEYSUjKA
+
+Chapitre 10. "Algorithme de Deutsch-Jozsa".
+
+Plan : cas général ; constante vs équilibrée ; complexité classique ; circuit quantique ; notation entière des qubits ; transformation de Hadamard et sa formule.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+
+#---------------------------
+Chapitre 11
+Algorithme de Grover
+
+#-----
+[Quantum] 11. Algorithme de Grover
+https://youtu.be/9uWiExuEndY
+
+Chapitre 11. "Algorithme de Grover".
+
+Erreur à 10:45 : sur le diagramme il manque une porte H sur la dernière ligne entre ket 1 et l'oracle.
+
+Plan : recherche dans une liste ; complexité ; algorithme probabiliste ; idée de l'algorithme ; circuit ; porte de Grover ; oracle ; symétrie ; rotation. 
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#########################################
+#########################################
+PARTIE 3  Algorithme de Shor
+
+#---------------------------
+Chapitre 12
+Arithmétique
+
+
+#-----
+[Quantum] 12.1. Éléments d'arithmétique
+https://youtu.be/qPgqcSA8dzc
+
+Chapitre "Arithmétique" - Partie 12.1. Éléments d'arithmétique 
+
+Plan : division ; théorème de Bézout ; algorithme d'Euclide ; nombres premiers ; petit théorème de Fermat ; algorithmes de primalité et de factorisation ; congruence ; indicatrice d'Euler ; théorème d'Euler.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+#-----
+[Quantum] 12.2. Cryptographie RSA
+https://youtu.be/gBHNuFq5PpI
+
+Chapitre "Arithmétique" - Partie 12.2. Cryptographie RSA 
+
+Plan : chiffrement à clé secrète ; chiffrement à clé publique ; chiffrement RSA ; détails du protocole RSA.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+
+#---------------------------
+Chapitre 13
+Algorithme de Shor
+
+#-----
+[Quantum] 13.1. Arithmétique pour l'algorithme de Shor
+
+Chapitre "Algorithme de Shor" - Partie 13.1. Arithmétique pour l'algorithme de Shor 
+
+Plan : factoriser N ; ordre d'un élément ; hypothèses 1 et 2 ; facteurs de N ; exemple N = 15.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+#-----
+[Quantum] 13.2. Début de l'algorithme de Shor
+
+Chapitre "Algorithme de Shor" - Partie 13.2. Début de l'algorithme de Shor 
+
+Plan : ordre et oracle ; début du circuit ; calculs ; mesures ; exemple N = 15.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#-----
+[Quantum] 13.3. Transformée de Fourier discrète (pour Shor)
+
+Chapitre "Algorithme de Shor" - Partie 13.3. Transformée de Fourier discrète 
+
+Plan : nombres complexes ; lemme crucial ; formule de la transformée de Fourier discrète ; exemple ; transformée de Fourier inverse.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#-----
+[Quantum] 13.4. Fin de l'algorithme de Shor
+
+Chapitre "Algorithme de Shor" - Partie 13.4. Fin de l'algorithme de Shor 
+
+Plan : circuit complet de l'algorithme de Shor ; calculs ; mesures ; ordre ; exemple N = 15.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+
+#---------------------------
+Chapitre 14
+Compléments d'arithmétique
+
+
+#-----
+[Quantum] 14.1. Fractions continues
+https://youtu.be/lTRK4CEh7nc
+
+Chapitre "Compléments d'arithmétique" - Partie 14.1. Fractions continues
+
+Plan : définition ; exemple ; approximation de pi ; algorithme de Shor pour N = 21.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+#-----
+[Quantum] 14.2. Algorithme de Shor pour n'importe quel ordre
+https://youtu.be/7m2HBBf8QPw
+
+Chapitre "Compléments d'arithmétique" - Partie 14.2. Algorithme de Shor pour n'importe quel ordre 
+
+Plan : cas d'un ordre pair quelconque ; calculs ; probabilités ; ordre. 
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#-----
+[Quantum] 14.3. L'algorithme de Shor fonctionne au moins une fois sur deux
+https://youtu.be/OWanCeO3Hqo
+
+Chapitre "Compléments d'arithmétique" - Partie 14.3. L'algorithme de Shor fonctionne au moins une fois sur deux 
+
+Plan : hypothèses 1 et 2 ; théorème ; racines carrées de 1 modulo N ; groupe des inversibles modulo p ; modulo une puissance de p ; modulo N.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+
+#---------------------------
+Chapitre 15
+Transformée de Fourier discrète
+
+#-----
+[Quantum] 15. Transformée de Fourier discrète (par des dessins)
+https://youtu.be/6h0c2jMuHUg
+
+Chapitre 15. "Transformée de Fourier discrète".
+
+Plan : motivation ; formule ; réprésentation circulaire ; exemple avec fonction ; centre de gravité ; autre exemple.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#########################################
+#########################################
+PARTIE 4  Vivre dans un monde quantique
+
+
+#---------------------------
+Chapitre 16
+Cryptographie quantique
+
+#-----
+[Quantum] 16. Cryptographie quantique
+https://youtu.be/9c86mzofHAk
+
+Chapitre "Cryptographie quantique" - Partie 16.
+
+Plan : le chiffrement parfait existe ;secret commun ; bases d'envoi ; bases de mesure ; protocole BB84 ; sûreté.
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#---------------------------
+Chapitre 17
+Code correcteur
+
+#-----
+[Quantum] 17. Code correcteur
+https://youtu.be/qVVTfBZTiFc
+
+
+Chapitre 17. "Code correcteur".
+
+Plan : code avec répétition ; augmentation d'un qubit ; détecter si deux qubits de base sont égaux (sans mesure) ; code correcteur d'un flip ; simulation circuit correcteur avec 'quirk' ; code correcteur inversion de phase ; code correcteur de Shor.
+
+Lien 'quirk' : https://algassert.com/quirk
+
+Retrouvez le livre sur http://exo7.emath.fr
+
+
+#---------------------------
+Chapitre 18
+Avantage quantique
+
+#-----
+[Quantum] 18. Avantage quantique
+https://youtu.be/g96r4mqopO8
+
+Chapitre 18. "Avantage quantique".
+
+Plan : définition avantage quantique et suprématie quantique ; factorisation des entiers ; théorème de Gottesman-Knill ; arbre de calculs.
+
+Retrouvez le livre sur http://exo7.emath.fr
+

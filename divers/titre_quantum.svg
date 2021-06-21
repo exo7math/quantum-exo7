@@ -20,18 +20,18 @@
      bordercolor="#666666"
      borderopacity="1.0"
      inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
+     inkscape:pageopacity="1"
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="false"
      units="px"
-     inkscape:zoom="0.37593996"
-     inkscape:cx="1029.4197"
-     inkscape:cy="565.24983"
+     inkscape:zoom="0.2658297"
+     inkscape:cx="562.39014"
+     inkscape:cy="566.15195"
      inkscape:window-width="1562"
      inkscape:window-height="752"
-     inkscape:window-x="171"
-     inkscape:window-y="254"
+     inkscape:window-x="257"
+     inkscape:window-y="134"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer2" />
   <defs
@@ -344,9 +344,9 @@
            transform="translate(-16.091844,6.9793194)"><tspan
              x="0"
              y="0"
-             id="tspan58100"><tspan
+             id="tspan196"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-               id="tspan58098">O</tspan></tspan></text>
+               id="tspan194">O</tspan></tspan></text>
         <text
            xml:space="preserve"
            id="text1917-0-33-4-9-0"
@@ -354,9 +354,9 @@
            transform="translate(36.866343,5.4253114)"><tspan
              x="0"
              y="0"
-             id="tspan58104"><tspan
+             id="tspan200"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:Comfortaa;-inkscape-font-specification:'Comfortaa, Bold'"
-               id="tspan58102">|</tspan></tspan></text>
+               id="tspan198">|</tspan></tspan></text>
         <text
            xml:space="preserve"
            id="text1917-0-3-8-8-6-4"
@@ -369,9 +369,9 @@
            transform="translate(10.731601,6.4575514)"><tspan
              x="0"
              y="0"
-             id="tspan58108"><tspan
+             id="tspan204"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-               id="tspan58106">1</tspan></tspan></text>
+               id="tspan202">1</tspan></tspan></text>
       </g>
       <g
          id="g334-5-4-2-2"
@@ -384,9 +384,9 @@
            transform="translate(-16.091844,6.9793194)"><tspan
              x="0"
              y="0"
-             id="tspan58112"><tspan
+             id="tspan208"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-               id="tspan58110">O</tspan></tspan></text>
+               id="tspan206">O</tspan></tspan></text>
         <text
            xml:space="preserve"
            id="text1917-0-6-9-6-0"
@@ -399,9 +399,9 @@
            transform="translate(66.491769,8.1431003)"><tspan
              x="0"
              y="0"
-             id="tspan58116"><tspan
+             id="tspan212"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:Comfortaa;-inkscape-font-specification:'Comfortaa, Bold'"
-               id="tspan58114">&gt;</tspan></tspan></text>
+               id="tspan210">&gt;</tspan></tspan></text>
         <text
            xml:space="preserve"
            id="text1917-05-7-00-1-3-5"
@@ -409,9 +409,9 @@
            transform="translate(10.731601,6.4575514)"><tspan
              x="0"
              y="0"
-             id="tspan58120"><tspan
+             id="tspan216"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-               id="tspan58118">1</tspan></tspan></text>
+               id="tspan214">1</tspan></tspan></text>
       </g>
     </g>
   </g>

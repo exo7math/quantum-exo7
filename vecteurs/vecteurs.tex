@@ -9,6 +9,22 @@
 \chapitre{Vecteurs et matrices}
 %====================================================================
 
+
+\insertvideo{UMwX1iQFgsE}{partie 4.1. Vecteurs}
+
+\insertvideo{NueNF46JT9A}{partie 4.2. Produit scalaire hermitien}
+
+\insertvideo{R8shuDvvpmU}{partie 4.3. Produit tensoriel de vecteurs}
+
+\insertvideo{GZrSeyk0iAg}{partie 4.4. Matrices}
+
+\insertvideo{zvRhMk9xASo}{partie 4.5. Matrice adjointe}
+
+\insertvideo{Q_4gU7Lx6XQ}{partie 4.6. Matrice unitaire}
+
+
+
+
 \objectifs{Un qubit est un vecteur et les opérations sur les qubits sont codées par des matrices. Nous étudions ici le calcul sur les vecteurs, les matrices et leur lien avec les qubits.}
 
 
@@ -63,10 +79,10 @@ Le \defi{vecteur nul} est :
 $$\begin{pmatrix}0\\0\\\vdots\\0\end{pmatrix}$$
 
 Nous allons voir plusieurs multiplications associées à des vecteurs.
-Pour l'instant on définit seulement la multiplication par un scalaire $k\in\Kk$ :
+Pour l'instant on définit seulement la multiplication par un scalaire $\lambda\in\Kk$ :
 $$u = \begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix}
 \qquad\qquad
-k \cdot u = \begin{pmatrix}kx_1 \\ kx_2 \\\vdots \\kx_n\end{pmatrix}.$$ 
+\lambda \cdot u = \begin{pmatrix}\lambda x_1 \\ \lambda x_2 \\\vdots \\\lambda x_n\end{pmatrix}.$$ 
 
 
 \emph{Rappels.} 
@@ -92,6 +108,8 @@ une puissance de $2$.
 Un $1$-qubit est un vecteur de taille $2$:
 $$\ket\psi = \begin{pmatrix}x_1 \\ x_2 \end{pmatrix}
 \qquad \text{ avec } x_1,x_2 \in \Cc.$$
+
+On note $\ket0 = \left(\begin{smallmatrix}1 \\ 0 \end{smallmatrix}\right)$ (qui n'est pas le vecteur nul!) et $\ket1 = \left(\begin{smallmatrix}0 \\ 1 \end{smallmatrix}\right)$ les deux $1$-qubits de base.
 
 Plus généralement un $n$-qubit est un vecteur de taille $2^n$ :
 
@@ -366,6 +384,7 @@ On développe l'expression $(u_1+u_2)\otimes(v_1+v_2)$ en deux temps :
 Si $\ket\phi$ est un $n$-qubit et $\ket\psi$ est un $m$-qubit, alors
 le \defi{produit} de $\ket\phi \cdot \ket\psi$ est défini par le produit tensoriel :
 \mybox{$\ket\phi \cdot \ket\psi = \ket \phi \otimes \ket \psi$}
+Le produit $\ket\phi \cdot \ket\psi$ est un $(n+m)$-qubit (un vecteur de taille $2^n\cdot 2^m = 2^{n+m}$).
 
 On rappelle que 
 $$\ket0 = \begin{pmatrix}1\\0\end{pmatrix}
@@ -1189,7 +1208,7 @@ $$\det(A) = 1.$$
 On note $SU_n$ l'ensemble des matrices spéciales unitaires de taille $n \times n$.
 \end{definition}
 
-\emph{Exemple.} Les matrices de Pauli (voir l'exemple plus haut) ne sont \emph{pas} unitaires car de déterminant $-1$, par contre en multipliant tous les coefficient par $\ii$, on obtient un déterminant $+1$, donc $\ii X, \ii Y, \ii Z \in SU_2$.
+\emph{Exemple.} Les matrices de Pauli (voir l'exemple plus haut) ne sont \emph{pas} spéciales unitaires car de déterminant $-1$, par contre en multipliant tous les coefficient par $\ii$, on obtient un déterminant $+1$, donc $\ii X, \ii Y, \ii Z \in SU_2$.
 
 \begin{proposition}
 L'ensemble des matrices spéciales unitaires forme un groupe pour la multiplication.

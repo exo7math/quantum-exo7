@@ -78,3 +78,5 @@ Je remercie Michel Bodin, Stéphanie Bodin, François Recher et Jean-Michel Torr
 Ce livre est diffusé sous la licence *Creative Commons -- BY-NC-SA -- 4.0 FR*.
 
 
+
+![Logo Quantum Exo7](divers/logo-quantum-coul.png "logo Quantum Exo7")

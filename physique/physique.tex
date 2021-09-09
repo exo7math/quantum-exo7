@@ -8,10 +8,20 @@
 \chapitre{Physique quantique}
 %====================================================================
 
+\insertvideo{e5K5bN2H8Mw}{partie 6.1. Particule}
+
+\insertvideo{5wTVAvC6q8U}{partie 6.2. Dualité onde/corpuscule}
+
+\insertvideo{hy_C1vnKeg0}{partie 6.3. Fonction d'onde et équation de Schrödinger}
+
+\insertvideo{h3T3swzS1dw}{partie 6.4. Qubits}
+
+
+
 \objectifs{L'objectif est de comprendre les notions de base de la physique quantique.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Particule et onde}
+\section{Particule}
 
 %--------------------------------------------------------------------
 \subsection{Bestiaire}
@@ -57,11 +67,30 @@ La \defi{formule de Bohr-Einstein} lie l'énergie à la fréquence :
 On rencontre aussi souvent la \defi{constante de Planck réduite}:
 \mybox{$\displaystyle \hbar = \frac{h}{2\pi}$}
 
-
-
-
 %--------------------------------------------------------------------
-\subsection{Dualité onde/corpuscule}
+\subsection{Principe d'incertitude d'Heisenberg}
+
+Le \defi{principe d'incertitude d'Heisenberg}\index{principe d'incertitude d'Heisenberg} s'énonce mathématiquement ainsi:
+\mybox{$\displaystyle \sigma_{\mathbf x}\cdot\sigma_{\mathbf v} \ge \frac{h}{4\pi m}$}
+où :
+\begin{itemize}
+    \item $\sigma_{\mathbf x}$ est l'écart-type d'une série de mesures de la position $\mathbf x = (x,y,z)$ d'une particule. Cet écart-type est obtenu en répétant plusieurs fois l'expérience suivante : on prépare la particule, toujours avec le même état initial, puis on mesure sa position.
+    
+    \item $\sigma_{\mathbf v}$ est l'écart-type de la mesure de la vitesse de la particule $\mathbf v = (v_x,v_y,v_z)$.
+\end{itemize}
+
+L'interprétation de la formule est la suivante : si on connaît avec une grande précision la position d'une particule alors on ne peut pas connaître très précisément sa vitesse. Et réciproquement si on connaît très précisément la vitesse, on ne peut pas connaître très précisément la position. 
+
+En effet, imaginons que l'on connaisse très précisément la position d'une particule,
+alors lorsque l'on va répéter la mesure de la position, on obtiendra presque toujours la même mesure. Autrement dit, les écarts entre les différentes mesures sont tout petits : $\sigma_{\mathbf x} \simeq 0$. Par le principe d'incertitude,
+$\sigma_{\mathbf v} \ge \frac{h}{4\pi m\sigma_{\mathbf x}}$
+doit être très grand. C'est-à-dire que les différentes mesures de la vitesse conduisent à des grands écarts.
+
+L'incertitude est d'autant plus grande que la masse $m$ est petite. Par contre la constante de Planck $h$ étant toute petite ($h \simeq 6.62 \cdot 10^{-34} \, J\cdot s$), cette incertitude ne concerne vraiment que les particules et pas les objets plus gros de la physique classique.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Dualité onde/corpuscule}
 
 \index{dualite onde corpuscule@dualité onde/corpuscule}
 
@@ -198,27 +227,6 @@ C'est assez perturbant !
 
 On retient que la mécanique quantique est une théorie qui s'applique aux particules de petite taille, et souvent sur de courtes périodes.
 
-
-%--------------------------------------------------------------------
-\subsection{Principe d'incertitude d'Heisenberg}
-
-Le \defi{principe d'incertitude d'Heisenberg}\index{principe d'incertitude d'Heisenberg} s'énonce mathématiquement ainsi:
-\mybox{$\displaystyle \sigma_{\mathbf x}\cdot\sigma_{\mathbf v} \ge \frac{h}{4\pi m}$}
-où :
-\begin{itemize}
-  \item $\sigma_{\mathbf x}$ est l'écart-type d'une série de mesures de la position $\mathbf x = (x,y,z)$ d'une particule. Cet écart-type est obtenu en répétant plusieurs fois l'expérience suivante : on prépare la particule, toujours avec le même état initial, puis on mesure sa position.
-
-  \item $\sigma_{\mathbf v}$ est l'écart-type de la mesure de la vitesse de la particule $\mathbf v = (v_x,v_y,v_z)$.
-\end{itemize}
-
-L'interprétation de la formule est la suivante : si on connaît avec une grande précision la position d'une particule alors on ne peut pas connaître très précisément sa vitesse. Et réciproquement si on connaît très précisément la vitesse, on ne peut pas connaître très précisément la position. 
-
-En effet, imaginons que l'on connaisse très précisément la position d'une particule,
-alors lorsque l'on va répéter la mesure de la position, on obtiendra presque toujours la même mesure. Autrement dit, les écarts entre les différentes mesures sont tout petits : $\sigma_{\mathbf x} \simeq 0$. Par le principe d'incertitude,
-$\sigma_{\mathbf v} \ge \frac{h}{4\pi m\sigma_{\mathbf x}}$
-doit être très grand. C'est-à-dire que les différentes mesures de la vitesse conduisent à des grands écarts.
-
-L'incertitude est d'autant plus grande que la masse $m$ est petite. Par contre la constante de Planck $h$ étant toute petite ($h \simeq 6.62 \cdot 10^{-34} \, J\cdot s$), cette incertitude ne concerne vraiment que les particules et pas les objets plus gros de la physique classique.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

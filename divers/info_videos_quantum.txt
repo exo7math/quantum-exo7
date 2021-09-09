@@ -292,7 +292,7 @@ Retrouvez le livre sur http://exo7.emath.fr
 
 
 #-----
-[Quantum] 4.4. Matrices 
+[Quantum] 4.4. Matrices
 https://youtu.be/GZrSeyk0iAg
 
 Chapitre "Vecteurs et matrices" - Partie 4.4. Matrices
@@ -590,6 +590,7 @@ Algorithme de Shor
 
 #-----
 [Quantum] 13.1. Arithmétique pour l'algorithme de Shor
+https://youtu.be/rcalVwNwvgw
 
 Chapitre "Algorithme de Shor" - Partie 13.1. Arithmétique pour l'algorithme de Shor 
 
@@ -599,6 +600,7 @@ Retrouvez le livre sur http://exo7.emath.fr
 
 #-----
 [Quantum] 13.2. Début de l'algorithme de Shor
+https://youtu.be/sfwpg_uCXOU
 
 Chapitre "Algorithme de Shor" - Partie 13.2. Début de l'algorithme de Shor 
 
@@ -609,6 +611,7 @@ Retrouvez le livre sur http://exo7.emath.fr
 
 #-----
 [Quantum] 13.3. Transformée de Fourier discrète (pour Shor)
+https://youtu.be/clviP2j4ojQ
 
 Chapitre "Algorithme de Shor" - Partie 13.3. Transformée de Fourier discrète 
 
@@ -619,6 +622,7 @@ Retrouvez le livre sur http://exo7.emath.fr
 
 #-----
 [Quantum] 13.4. Fin de l'algorithme de Shor
+https://youtu.be/b7wsWcQ94nU
 
 Chapitre "Algorithme de Shor" - Partie 13.4. Fin de l'algorithme de Shor 
 

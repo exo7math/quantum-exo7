@@ -8,13 +8,30 @@
 \chapitre{Téléportation quantique}
 %====================================================================
 
+\insertvideo{PxiIF1kiDYA}{partie 7.1. Protocole de la téléportation}
+
+\insertvideo{qYHNrqmu09g}{partie 7.2. Calculs}
+
+\insertvideo{bNrut1nNeV8}{partie 7.3. Mesure partielle}
+
+\insertvideo{fpLTyeJ6Gyw}{partie 7.4. Les états de Bell}
+
+\insertvideo{zdLq1bAG1U0}{partie 7.5. Mesure partielle dans la base de Bell}
+
+
+
 \objectifs{La téléportation quantique permet de transmettre un qubit d'un point $A$ à un point $B$.}
 
 \index{teleportation quantique@téléportation quantique}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Principe}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Téléportation}
+
+
+%--------------------------------------------------------------------
+\subsection{Principe}
 
 Alice possède un qubit $\ket\psi = \alpha \ket0 + \beta\ket1$ et souhaite le transmettre à Bob. C'est possible grâce à la téléportation quantique !
 C'est un protocole simple ayant des similarités avec le codage super-dense (voir le chapitre \og{}Découverte de l'informatique quantique\fg{}).
@@ -54,8 +71,8 @@ Remarques :
 \end{itemize}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Protocole de la téléportation}
+%--------------------------------------------------------------------
+\subsection{Protocole de la téléportation}
 
 Détaillons le protocole de téléportation.
 
@@ -443,7 +460,7 @@ $$}
 On connaît déjà la \defi{base canonique} des $2$-qubits, formée des quatre états :
 $$\ket{0.0}\quad\ket{0.1}\quad\ket{1.0}\quad\ket{1.1}$$
 
-Être une \defi{base} signifie que n'importe quel $2$-qubit $\ket\psi$ s'écrit de façon unique :
+Être une \defi{base} signifie que n'importe quel $2$-qubit $\ket\psi$ de norme $1$ s'écrit de façon unique :
 $$\ket\psi = \alpha\ket{0.0} + \beta\ket{0.1} + \gamma\ket{1.0} + \delta\ket{1.1}$$
 où $\alpha,\beta,\gamma,\delta$ sont des nombres complexes avec $|\alpha|^2 + |\beta|^2 + |\gamma|^2 + |\delta|^2 = 1$.
 
@@ -453,7 +470,7 @@ Les quatre états de Bell $\ket{\Phi^+},
 \ket{\Phi^-},
 \ket{\Psi^-}$
 forment aussi une base des $2$-qubits, appelée \defi{base de Bell}.
-Cela signifie que n'importe quel $2$-qubit $\ket\psi$ s'écrit de façon unique :
+Cela signifie que n'importe quel $2$-qubit $\ket\psi$ de norme $1$ s'écrit de façon unique :
 $$\ket\psi = \alpha'\ket{\Phi^+} + \beta'\ket{\Psi^+} + \gamma'\ket{\Phi^-} + \delta'\ket{\Psi^-}$$
 avec $|\alpha'|^2 + |\beta'|^2 + |\gamma'|^2 + |\delta'|^2 = 1$.
 \end{proposition}

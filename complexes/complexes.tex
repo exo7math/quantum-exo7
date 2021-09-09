@@ -13,6 +13,18 @@
 %====================================================================
 
 
+\insertvideo{WMnoIdZwqWs}{partie 3.1. Écriture algébrique}
+
+\insertvideo{oRmd3Y0l52U}{partie 3.2. Qubit}
+
+\insertvideo{LvlqE14qJnw}{partie 3.3. Module - Argument}
+
+\insertvideo{jChSroZEYPU}{partie 3.4. Écriture trigonométrique des qubits}
+
+\insertvideo{EffE7nZvWwI}{partie 3.5. Sphère de Bloch}
+
+
+
 \objectifs{Les nombres complexes sont les coefficients naturels des qubits. Nous détaillons les calculs avec les nombres complexes ainsi que sur les qubits.}
 
 
@@ -303,6 +315,10 @@ Nous définissons la \defi{notation exponentielle}\index{nombre complexe!exponen
 \mybox{$z = r e^{\ii  \theta}$}
 o\`u $r = \left| z \right|$ est son module et $\theta = \arg (z)$ est un de ses arguments.
 
+
+Exemples : $e^{\ii\frac\pi2} = \ii$, $e^{\ii\pi} = -1$, $e^{2\ii \pi} = e^0 = 1$.
+
+
 \bigskip
 
 Avec la notation exponentielle, les calculs s'effectuent avec les lois habituelles pour les puissances. 
@@ -330,6 +346,10 @@ autrement dit $z = \cos\theta +\ii\sin\theta$.
 \myfigure{1}{
 \tikzinput{fig_complexes_08}
 }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Écriture trigonométrique des qubits}
+
 
 %--------------------------------------------------------------------
 \subsection{Écriture des qubits}
@@ -433,7 +453,7 @@ De plus l'écriture est unique lorsque l'on a les conditions $0<\theta<\pi$ et $
   = \sqrt2\ket0 + \sqrt3(1-\ii)\ket1.$$
   La norme de ce dernier qubit est $2\sqrt2$, on divise donc par cette norme. Ainsi :
   $$\ket\psi \equiv \frac12\ket0 + \frac{\sqrt3}{2} \frac{1-\ii}{\sqrt2}\ket1.$$
-  On pose d'une part $\theta=\frac{2\pi}3$ pour lequel $\cos\left(\frac\theta2\right)=\frac12$ et $\sin\left(\frac\theta2\right)= \frac{\sqrt3}{2}$ et d'autre part $\phi=\frac{7\pi}{4}$ pour lequel
+  On pose d'une part $\theta=\frac{2\pi}3$ pour lequel $\cos\left(\frac\theta2\right)=\frac12$ et $\sin\left(\frac\theta2\right)= \frac{\sqrt3}{2}$ et d'autre part $\phi=-\frac{\pi}{4}$ pour lequel
   $e^{\ii\phi} = \frac{1-\ii}{\sqrt2}$.
   
  

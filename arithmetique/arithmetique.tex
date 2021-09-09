@@ -16,6 +16,11 @@
 \chapitre{Arithmétique}
 %====================================================================
 
+\insertvideo{qPgqcSA8dzc}{partie 12.1. Éléments d'arithmétique}
+
+\insertvideo{gBHNuFq5PpI}{partie 12.2. Cryptographie RSA}
+
+
 
 \objectifs{La sécurité des communications sur internet est basée sur l'arithmétique et en particulier sur le système de cryptographie RSA qui repose sur la difficulté de factoriser de très grands entiers avec un ordinateur classique. Nous présentons dans ce chapitre les notions essentielles d'arithmétique afin de comprendre plus tard l'algorithme de Shor qui permet de factoriser rapidement un entier à l'aide d'un ordinateur quantique.}
 
@@ -253,7 +258,7 @@ C'est une méthode efficace si les facteurs premiers sont grands, donc cette mé
 
 Aucun algorithme connu n'a de complexité polynomiale. Plus précisément, on ne connaît pas d'algorithme de factorisation ayant une complexité polynomiale, mais on ne sait pas non plus prouver qu'un tel algorithme n'existe pas.
 
-Le meilleur algorithme connu pour factoriser des grands entiers est l'algorithme GNFS (pour \emph{General Number Field Sieve}), sa complexité est environ $O(n^{\frac13})$.
+Le meilleur algorithme connu pour factoriser des grands entiers est l'algorithme GNFS (pour \emph{General Number Field Sieve}), sa complexité est environ $O(n^{\frac13})$ (c'est donc une complexité exponentielle par rapport à la taille de $n$ qui est d'ordre $\ln(n)$).
 
  
 
@@ -486,7 +491,7 @@ La grande difficulté est que Alice et Bob doivent d'abord se communiquer la cl�
 
   \node at (-6,1.7) {\prive{Message M}};
   \node at (6,1.7) {\prive{Message M}};
-  \node at (0,0.5) {\public{Message crypté X}};
+  \node at (0,0.5) {\public{Message chiffré X}};
   \node at (0,1.9) {\bf Clé C};
   \draw (-4,0)node[draw]{Chiffrement \public{$\mathcal{C}$}};
   \draw (4,0)node[draw]{Déchiffrement \public{$\mathcal{D}$}};
@@ -543,7 +548,7 @@ Si Bob veut envoyer un message secret à Alice, le processus se décompose ainsi
 
   \node at (-6,1.7) {\prive{Message M}};
   \node at (6,1.7) {\prive{Message M}};
-  \node at (0,0.5) {\public{Message crypté X}};
+  \node at (0,0.5) {\public{Message chiffré X}};
   \node at (2.5,2.3) {\bf Clé publique};
   \node at (2.5,1.7) {\bf Clé privée};
   \draw (-4,0)node[draw]{Chiffrement \public{$\mathcal{C}$}};

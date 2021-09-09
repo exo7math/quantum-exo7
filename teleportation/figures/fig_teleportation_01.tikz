@@ -1,6 +1,6 @@
 \begin{tikzpicture}[scale=1]
 
-\fill[green!70!black!20] (1,-3.5) rectangle ++(1,5)  ;
+\fill[green!70!black!30] (1,-3.5) rectangle ++(1,5)  ;
 
 \node[below] at (1.5,-3.5) {
 \begin{tabular}{c}
@@ -30,7 +30,7 @@ Reconstitution
 node  [right,black]{$\ket{\psi}$};
 
 
-\draw[line width=6pt,green!70!black!30] (-0.35,-0.5) --  ++(0,-3) node[midway,left,black]{
+\draw[line width=6pt,green!70!black!40] (-0.35,-0.5) --  ++(0,-3) node[midway,left,black]{
 \begin{tabular}{c}$2$-qubit $\ket{\Phi^+}$\\ état de Bell\end{tabular}};
 
 \draw[->,>=latex,line width=2pt,orange!70!black] ($(A.east)+(0,1)$)  -| ($(B.north)+(0.5,0)$);

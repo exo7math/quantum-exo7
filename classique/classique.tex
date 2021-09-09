@@ -10,6 +10,15 @@
 \chapitre{Informatique classique}
 %====================================================================
 
+
+\insertvideo{yUgpElITYTg}{partie 5.1. Bits classiques}
+
+\insertvideo{iET0snUXj0k}{partie 5.2. Portes logiques}
+
+\insertvideo{JKmC2u5kvKg}{partie 5.3. Algorithme et complexité}
+
+
+
 \objectifs{Nous rappelons quelques principes de base du fonctionnement d'un ordinateur classique avec les notions de bits, de portes logiques et de complexité d'un algorithme.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -51,6 +60,10 @@ $$
     =\ & 64 + 16 + 8 + 1 \\
     =\ & 89
     \end{align*}
+
+Plus généralement un \defi{$n$-bit}, $b_{n-1}\ldots b_2.b_1.b_0$, est l'écriture en base $2$ de l'entier :
+$$N = \sum_{i=0}^{n-1}b_i 2^i = b_{n-1} \cdot 2^{n-1} + \cdots + b_2  \cdot 2^2 + b_1  \cdot 2 + b_0$$
+avec $b_i = 0$ ou $b_i=1$.
     
 %--------------------------------------------------------------------
 \subsection{Codage}
@@ -67,7 +80,7 @@ Une succession de bits peut aussi représenter :
 Plus généralement, on formalise un ordinateur par une \defi{machine de Turing} qui est un modèle abstrait d'ordinateur qui lit et écrit des $0$ et des $1$ sur un ruban.
 
 %--------------------------------------------------------------------
-\subsection{Dénombrement}
+\subsection{Logarithme}
 
 
 Avec $n$ bits, il y a $2^n$ combinaisons possibles.
@@ -77,7 +90,7 @@ On va utiliser le \defi{logarithme en base $2$} qui est défini par la relation 
 $$N = 2^n \iff n = \log_2(N).$$
 
 On peut également le définir à l'aide du logarithme népérien $\ln(x)$ :
-$$\log_2(n) = \frac{\ln(n)}{\ln(2)}.$$
+$$\log_2(x) = \frac{\ln(x)}{\ln(x)}.$$
 
 Ainsi pour énumérer $N$ objets, il faut au moins $n = \log_2(N)$ bits d'information. 
 Dans la pratique on arrondit à l'entier supérieur : $n = \lceil \log_2(N) \rceil$ 

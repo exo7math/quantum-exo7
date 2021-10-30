@@ -6,115 +6,45 @@
    height="297mm"
    viewBox="0 0 210 297"
    version="1.1"
-   id="svg435"
-   inkscape:version="1.1 (ce6663b3b7, 2021-05-25)"
+   id="svg522"
+   inkscape:version="1.1.1 (eb90963e84, 2021-10-02)"
    sodipodi:docname="logo-quantum-coul.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:dc="http://purl.org/dc/elements/1.1/">
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview524"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.75187991"
+     inkscape:cx="397.00489"
+     inkscape:cy="561.92484"
+     inkscape:window-width="1848"
+     inkscape:window-height="1016"
+     inkscape:window-x="72"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
   <defs
-     id="defs429">
+     id="defs519">
     <linearGradient
-       x1="2.8571429"
-       y1="102.36218"
-       x2="634.28571"
-       y2="102.36218"
-       id="linearGradient28894"
-       xlink:href="#linearGradient28888"
+       inkscape:collect="always"
+       xlink:href="#r"
+       id="linearGradient6073"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.950226,0,0,0.868966,0.142211,18.84154)" />
-    <linearGradient
-       id="linearGradient28888">
-      <stop
-         style="stop-color:black;stop-opacity:1"
-         offset="0"
-         id="stop28890" />
-      <stop
-         style="stop-color:#35005e;stop-opacity:1"
-         offset="0.05"
-         id="stop29799" />
-      <stop
-         style="stop-color:#5000a2;stop-opacity:1"
-         offset="0.1"
-         id="stop28896" />
-      <stop
-         style="stop-color:#4a00d3;stop-opacity:1"
-         offset="0.15000001"
-         id="stop29801" />
-      <stop
-         style="stop-color:#2802e9;stop-opacity:1"
-         offset="0.2"
-         id="stop28898" />
-      <stop
-         style="stop-color:#0e3af8;stop-opacity:1"
-         offset="0.25"
-         id="stop29803" />
-      <stop
-         style="stop-color:#018de6;stop-opacity:1"
-         offset="0.30000001"
-         id="stop28900" />
-      <stop
-         style="stop-color:#00cea0;stop-opacity:1"
-         offset="0.35000002"
-         id="stop29805" />
-      <stop
-         style="stop-color:#00d24a;stop-opacity:1"
-         offset="0.40000001"
-         id="stop28902" />
-      <stop
-         style="stop-color:#00bc0d;stop-opacity:1"
-         offset="0.44999999"
-         id="stop29807" />
-      <stop
-         style="stop-color:#00b700;stop-opacity:1"
-         offset="0.5"
-         id="stop28904" />
-      <stop
-         style="stop-color:#00bc0d;stop-opacity:1"
-         offset="0.55000001"
-         id="stop29809" />
-      <stop
-         style="stop-color:#65d200;stop-opacity:1"
-         offset="0.60000002"
-         id="stop28906" />
-      <stop
-         style="stop-color:#bad600;stop-opacity:1"
-         offset="0.64999998"
-         id="stop29811" />
-      <stop
-         style="stop-color:#f9b700;stop-opacity:1"
-         offset="0.69999999"
-         id="stop28908" />
-      <stop
-         style="stop-color:#ff7a00;stop-opacity:1"
-         offset="0.75"
-         id="stop29813" />
-      <stop
-         style="stop-color:#f40;stop-opacity:1"
-         offset="0.80000001"
-         id="stop28910" />
-      <stop
-         style="stop-color:#ff2501;stop-opacity:1"
-         offset="0.85000002"
-         id="stop29815" />
-      <stop
-         style="stop-color:#d00e00;stop-opacity:1"
-         offset="0.89999998"
-         id="stop28912" />
-      <stop
-         style="stop-color:#7b0200;stop-opacity:1"
-         offset="0.94999999"
-         id="stop29817" />
-      <stop
-         style="stop-color:black;stop-opacity:1"
-         offset="1"
-         id="stop28892" />
-    </linearGradient>
+       gradientTransform="matrix(0.48500425,0,0,0.17192817,204.68912,12.764069)"
+       x1="0"
+       y1="0"
+       x2="212.13203"
+       y2="0" />
     <linearGradient
        id="r"
        gradientTransform="matrix(0.37417734,0,0,0.18708867,16.171063,-143.01527)"
@@ -154,720 +84,134 @@
     </linearGradient>
     <clipPath
        clipPathUnits="userSpaceOnUse"
-       id="clipPath4746">
+       id="clipPath6377">
       <g
-         id="g4764"
-         transform="rotate(-90,13.058639,-7.2553538)">
+         id="g6395"
+         transform="matrix(1.1268773,-1.1268773,1.1268773,1.1268773,-163.72149,-64.891224)">
         <flowRoot
            transform="matrix(0.36246608,-0.36246608,0.36246608,0.36246608,-221.57916,-10.773623)"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="flowRoot4754"
+           id="flowRoot6385"
            xml:space="preserve"><flowRegion
-             id="flowRegion4750"><rect
+             id="flowRegion6381"><rect
                y="811.09113"
                x="66.428574"
                height="67.430771"
                width="147.35341"
-               id="rect4748" /></flowRegion><flowPara
+               id="rect6379" /></flowRegion><flowPara
              style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.3333px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="flowPara4752">1</flowPara></flowRoot>
+             id="flowPara6383">1</flowPara></flowRoot>
         <flowRoot
            transform="matrix(0.86006551,0,0,0.86006551,8.2289262,-493.1126)"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="flowRoot4762"
+           id="flowRoot6393"
            xml:space="preserve"><flowRegion
-             id="flowRegion4758"><rect
+             id="flowRegion6389"><rect
                y="811.09113"
                x="66.428574"
                height="75.336922"
                width="138.5688"
-               id="rect4756" /></flowRegion><flowPara
+               id="rect6387" /></flowRegion><flowPara
              style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.3333px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="flowPara4760">O</flowPara></flowRoot>
-      </g>
-    </clipPath>
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath4918">
-      <g
-         id="g4928"
-         transform="rotate(-90,19.209923,-25.73234)">
-        <g
-           aria-label="1"
-           transform="matrix(0.36246608,-0.36246608,0.36246608,0.36246608,-262.25308,-31.428577)"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="g4922">
-          <path
-             d="m 128.86751,858.2793 v -3.15104 h 7.29167 v -31.45834 l -8.09896,4.79167 v -3.88021 l 9.76563,-5.88542 h 8.20312 v 36.4323 h 7.31771 v 3.15104 z"
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.33333588px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="path4920"
-             inkscape:connector-curvature="0" />
-        </g>
-        <g
-           aria-label="O"
-           transform="matrix(0.86006551,0,0,0.86006551,-32.444991,-513.76755)"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="g4926">
-          <path
-             d="m 135.68685,855.88347 q 4.97396,0 7.39583,-4.19271 2.42188,-4.19271 2.42188,-12.8125 0,-8.64584 -2.42188,-12.83855 -2.42187,-4.1927 -7.39583,-4.1927 -4.94792,0 -7.39583,4.24479 -2.42188,4.21875 -2.42188,12.78646 0,8.54166 2.42188,12.78646 2.44791,4.21875 7.39583,4.21875 z m 0,3.15104 q -9.81771,0 -15.39063,-5.36459 -5.57291,-5.36458 -5.57291,-14.79166 0,-9.42709 5.57291,-14.79167 5.59896,-5.39063 15.39063,-5.39063 9.81771,0 15.39062,5.36459 5.57292,5.36458 5.57292,14.81771 0,9.42708 -5.59896,14.79166 -5.57291,5.36459 -15.36458,5.36459 z"
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.33333588px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="path4924"
-             inkscape:connector-curvature="0" />
-        </g>
-      </g>
-    </clipPath>
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath4918-5">
-      <g
-         id="g4928-2"
-         transform="rotate(-90,19.209923,-25.73234)">
-        <g
-           aria-label="1"
-           transform="matrix(0.36246608,-0.36246608,0.36246608,0.36246608,-262.25308,-31.428577)"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="g4922-1">
-          <path
-             d="m 128.86751,858.2793 v -3.15104 h 7.29167 v -31.45834 l -8.09896,4.79167 v -3.88021 l 9.76563,-5.88542 h 8.20312 v 36.4323 h 7.31771 v 3.15104 z"
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.33333588px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="path4920-3"
-             inkscape:connector-curvature="0" />
-        </g>
-        <g
-           aria-label="O"
-           transform="matrix(0.86006551,0,0,0.86006551,-32.444991,-513.76755)"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="g4926-0">
-          <path
-             d="m 135.68685,855.88347 q 4.97396,0 7.39583,-4.19271 2.42188,-4.19271 2.42188,-12.8125 0,-8.64584 -2.42188,-12.83855 -2.42187,-4.1927 -7.39583,-4.1927 -4.94792,0 -7.39583,4.24479 -2.42188,4.21875 -2.42188,12.78646 0,8.54166 2.42188,12.78646 2.44791,4.21875 7.39583,4.21875 z m 0,3.15104 q -9.81771,0 -15.39063,-5.36459 -5.57291,-5.36458 -5.57291,-14.79166 0,-9.42709 5.57291,-14.79167 5.59896,-5.39063 15.39063,-5.39063 9.81771,0 15.39062,5.36459 5.57292,5.36458 5.57292,14.81771 0,9.42708 -5.59896,14.79166 -5.57291,5.36459 -15.36458,5.36459 z"
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.33333588px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="path4924-9"
-             inkscape:connector-curvature="0" />
-        </g>
-      </g>
-    </clipPath>
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath4918-5-6">
-      <g
-         id="g4928-2-3"
-         transform="rotate(-90,19.209923,-25.73234)">
-        <g
-           aria-label="1"
-           transform="matrix(0.36246608,-0.36246608,0.36246608,0.36246608,-262.25308,-31.428577)"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="g4922-1-6">
-          <path
-             d="m 128.86751,858.2793 v -3.15104 h 7.29167 v -31.45834 l -8.09896,4.79167 v -3.88021 l 9.76563,-5.88542 h 8.20312 v 36.4323 h 7.31771 v 3.15104 z"
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.33333588px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="path4920-3-1"
-             inkscape:connector-curvature="0" />
-        </g>
-        <g
-           aria-label="O"
-           transform="matrix(0.86006551,0,0,0.86006551,-32.444991,-513.76755)"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="g4926-0-0">
-          <path
-             d="m 135.68685,855.88347 q 4.97396,0 7.39583,-4.19271 2.42188,-4.19271 2.42188,-12.8125 0,-8.64584 -2.42188,-12.83855 -2.42187,-4.1927 -7.39583,-4.1927 -4.94792,0 -7.39583,4.24479 -2.42188,4.21875 -2.42188,12.78646 0,8.54166 2.42188,12.78646 2.44791,4.21875 7.39583,4.21875 z m 0,3.15104 q -9.81771,0 -15.39063,-5.36459 -5.57291,-5.36458 -5.57291,-14.79166 0,-9.42709 5.57291,-14.79167 5.59896,-5.39063 15.39063,-5.39063 9.81771,0 15.39062,5.36459 5.57292,5.36458 5.57292,14.81771 0,9.42708 -5.59896,14.79166 -5.57291,5.36459 -15.36458,5.36459 z"
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.33333588px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="path4924-9-5"
-             inkscape:connector-curvature="0" />
-        </g>
-      </g>
-    </clipPath>
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath4918-5-8">
-      <g
-         id="g4928-2-1"
-         transform="rotate(-90,19.209923,-25.73234)">
-        <g
-           aria-label="1"
-           transform="matrix(0.36246608,-0.36246608,0.36246608,0.36246608,-262.25308,-31.428577)"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="g4922-1-1">
-          <path
-             d="m 128.86751,858.2793 v -3.15104 h 7.29167 v -31.45834 l -8.09896,4.79167 v -3.88021 l 9.76563,-5.88542 h 8.20312 v 36.4323 h 7.31771 v 3.15104 z"
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.33333588px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="path4920-3-3"
-             inkscape:connector-curvature="0" />
-        </g>
-        <g
-           aria-label="O"
-           transform="matrix(0.86006551,0,0,0.86006551,-32.444991,-513.76755)"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="g4926-0-1">
-          <path
-             d="m 135.68685,855.88347 q 4.97396,0 7.39583,-4.19271 2.42188,-4.19271 2.42188,-12.8125 0,-8.64584 -2.42188,-12.83855 -2.42187,-4.1927 -7.39583,-4.1927 -4.94792,0 -7.39583,4.24479 -2.42188,4.21875 -2.42188,12.78646 0,8.54166 2.42188,12.78646 2.44791,4.21875 7.39583,4.21875 z m 0,3.15104 q -9.81771,0 -15.39063,-5.36459 -5.57291,-5.36458 -5.57291,-14.79166 0,-9.42709 5.57291,-14.79167 5.59896,-5.39063 15.39063,-5.39063 9.81771,0 15.39062,5.36459 5.57292,5.36458 5.57292,14.81771 0,9.42708 -5.59896,14.79166 -5.57291,5.36459 -15.36458,5.36459 z"
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.33333588px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="path4924-9-58"
-             inkscape:connector-curvature="0" />
-        </g>
-      </g>
-    </clipPath>
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath1913">
-      <path
-         inkscape:connector-curvature="0"
-         id="path1915"
-         d="m 235.2009,-126.50862 h 42.80103 v 60.532885 H 235.2009 Z"
-         clip-path="url(#clipPath4918-5-8)"
-         style="fill:#000000;stroke-width:0.203814"
-         transform="matrix(-1.4062408,0,0,1.4062408,127.65667,45.361519)" />
-    </clipPath>
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath1913-0">
-      <path
-         inkscape:connector-curvature="0"
-         id="path1915-6"
-         d="m 235.2009,-126.50862 h 42.80103 v 60.532885 H 235.2009 Z"
-         clip-path="url(#clipPath4918-5-8)"
-         style="fill:#000000;stroke-width:0.203814"
-         transform="matrix(-1.4062408,0,0,1.4062408,127.65667,45.361519)" />
-    </clipPath>
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath1913-9">
-      <path
-         inkscape:connector-curvature="0"
-         id="path1915-60"
-         d="m 235.2009,-126.50862 h 42.80103 v 60.532885 H 235.2009 Z"
-         clip-path="url(#clipPath4918-5-8)"
-         style="fill:#000000;stroke-width:0.203814"
-         transform="matrix(-1.4062408,0,0,1.4062408,127.65667,45.361519)" />
-    </clipPath>
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath42163">
-      <g
-         id="g42181"
-         transform="matrix(0,-1.4161498,-1.4161498,0,86.983753,35.991268)">
-        <flowRoot
-           transform="matrix(0.36246608,-0.36246608,0.36246608,0.36246608,-221.57916,-10.773623)"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="flowRoot42171"
-           xml:space="preserve"><flowRegion
-             id="flowRegion42167"><rect
-               y="811.09113"
-               x="66.428574"
-               height="67.430771"
-               width="147.35341"
-               id="rect42165" /></flowRegion><flowPara
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.3333px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="flowPara42169">1</flowPara></flowRoot>
-        <flowRoot
-           transform="matrix(0.86006551,0,0,0.86006551,8.2289262,-493.1126)"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="flowRoot42179"
-           xml:space="preserve"><flowRegion
-             id="flowRegion42175"><rect
-               y="811.09113"
-               x="66.428574"
-               height="75.336922"
-               width="138.5688"
-               id="rect42173" /></flowRegion><flowPara
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.3333px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="flowPara42177">O</flowPara></flowRoot>
-      </g>
-    </clipPath>
-    <linearGradient
-       id="r-5"
-       gradientTransform="matrix(0.75041814,0,0,0.18708867,-19.519445,-3.1573167)"
-       x1="0"
-       y1="0"
-       x2="212.13203"
-       y2="0"
-       gradientUnits="userSpaceOnUse">
-      <stop
-         offset="0"
-         stop-color="red"
-         id="stop1107" />
-      <stop
-         offset="0.333"
-         stop-color="#ff0"
-         id="stop1109" />
-      <stop
-         offset="0.5"
-         stop-color="#0f0"
-         id="stop1111" />
-      <stop
-         offset="0.666"
-         stop-color="cyan"
-         id="stop1113" />
-      <stop
-         offset="0.833"
-         stop-color="blue"
-         id="stop1115" />
-      <stop
-         offset="1"
-         stop-color="#f0f"
-         id="stop1117" />
-    </linearGradient>
-    <linearGradient
-       id="r-4"
-       gradientTransform="matrix(1.4163835,0,0,0.18708867,0,-38.893749)"
-       x1="0"
-       y1="0"
-       x2="212.13203"
-       y2="0"
-       gradientUnits="userSpaceOnUse">
-      <stop
-         offset="0"
-         stop-color="red"
-         id="stop4-6" />
-      <stop
-         offset="0.333"
-         stop-color="#ff0"
-         id="stop6-2" />
-      <stop
-         offset="0.5"
-         stop-color="#0f0"
-         id="stop8-5" />
-      <stop
-         offset="0.666"
-         stop-color="cyan"
-         id="stop10-8" />
-      <stop
-         offset="0.833"
-         stop-color="blue"
-         id="stop12-6" />
-      <stop
-         offset="1"
-         stop-color="#f0f"
-         id="stop14-2" />
-    </linearGradient>
-    <linearGradient
-       id="r-47"
-       gradientTransform="matrix(0.37417734,0,0,0.18708867,-236.42411,-479.25492)"
-       x1="0"
-       y1="0"
-       x2="212.13203"
-       y2="0"
-       gradientUnits="userSpaceOnUse">
-      <stop
-         offset="0"
-         stop-color="red"
-         id="stop4-2" />
-      <stop
-         offset="0.333"
-         stop-color="#ff0"
-         id="stop6-4" />
-      <stop
-         offset="0.5"
-         stop-color="#0f0"
-         id="stop8-0" />
-      <stop
-         offset="0.666"
-         stop-color="cyan"
-         id="stop10-6" />
-      <stop
-         offset="0.833"
-         stop-color="blue"
-         id="stop12-2" />
-      <stop
-         offset="1"
-         stop-color="#f0f"
-         id="stop14-9" />
-    </linearGradient>
-    <linearGradient
-       id="r-9"
-       gradientTransform="matrix(0.37417734,0,0,0.18708867,-13.796127,-51.007887)"
-       x1="0"
-       y1="0"
-       x2="212.13203"
-       y2="0"
-       gradientUnits="userSpaceOnUse">
-      <stop
-         offset="0"
-         stop-color="red"
-         id="stop4-0" />
-      <stop
-         offset="0.333"
-         stop-color="#ff0"
-         id="stop6-8" />
-      <stop
-         offset="0.5"
-         stop-color="#0f0"
-         id="stop8-1" />
-      <stop
-         offset="0.666"
-         stop-color="cyan"
-         id="stop10-3" />
-      <stop
-         offset="0.833"
-         stop-color="blue"
-         id="stop12-1" />
-      <stop
-         offset="1"
-         stop-color="#f0f"
-         id="stop14-1" />
-    </linearGradient>
-    <linearGradient
-       id="r-0"
-       gradientTransform="matrix(0.2224815,0,0,0.31465242,-11.339284,-37.306248)"
-       x1="0"
-       y1="0"
-       x2="66.077002"
-       y2="0"
-       gradientUnits="userSpaceOnUse">
-      <stop
-         offset="0"
-         stop-color="red"
-         id="stop1617" />
-      <stop
-         offset="0.333"
-         stop-color="#ff0"
-         id="stop1619" />
-      <stop
-         offset="0.5"
-         stop-color="#0f0"
-         id="stop1621" />
-      <stop
-         offset="0.666"
-         stop-color="cyan"
-         id="stop1623" />
-      <stop
-         offset="0.833"
-         stop-color="blue"
-         id="stop1625" />
-      <stop
-         offset="1"
-         stop-color="#f0f"
-         id="stop1627" />
-    </linearGradient>
-    <linearGradient
-       id="r-3"
-       gradientTransform="matrix(0.2224815,0,0,0.31465242,-32.127974,-10.564432)"
-       x1="0"
-       y1="0"
-       x2="66.077002"
-       y2="0"
-       gradientUnits="userSpaceOnUse">
-      <stop
-         offset="0"
-         stop-color="red"
-         id="stop1783" />
-      <stop
-         offset="0.333"
-         stop-color="#ff0"
-         id="stop1785" />
-      <stop
-         offset="0.5"
-         stop-color="#0f0"
-         id="stop1787" />
-      <stop
-         offset="0.666"
-         stop-color="cyan"
-         id="stop1789" />
-      <stop
-         offset="0.833"
-         stop-color="blue"
-         id="stop1791" />
-      <stop
-         offset="1"
-         stop-color="#f0f"
-         id="stop1793" />
-    </linearGradient>
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath15063">
-      <rect
-         width="28.983576%"
-         height="19.747293%"
-         id="rect15065"
-         x="-272.35773"
-         y="-171.79466"
-         style="fill:#000000;stroke-width:0.239237"
-         transform="matrix(0.7289305,0.7289305,0.68713275,-0.68713275,0.27298091,0.00806162)"
-         clip-path="url(#clipPath42163)" />
-    </clipPath>
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath15448">
-      <g
-         id="g15466"
-         transform="matrix(0.68977302,-0.68977302,0.70459617,0.70459617,26.176534,20.705555)">
-        <flowRoot
-           transform="matrix(0.36246608,-0.36246608,0.36246608,0.36246608,-221.57916,-10.773623)"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="flowRoot15456"
-           xml:space="preserve"><flowRegion
-             id="flowRegion15452"><rect
-               y="811.09113"
-               x="66.428574"
-               height="67.430771"
-               width="147.35341"
-               id="rect15450" /></flowRegion><flowPara
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.3333px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="flowPara15454">1</flowPara></flowRoot>
-        <flowRoot
-           transform="matrix(0.86006551,0,0,0.86006551,8.2289262,-493.1126)"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="flowRoot15464"
-           xml:space="preserve"><flowRegion
-             id="flowRegion15460"><rect
-               y="811.09113"
-               x="66.428574"
-               height="75.336922"
-               width="138.5688"
-               id="rect15458" /></flowRegion><flowPara
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.3333px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="flowPara15462">O</flowPara></flowRoot>
-      </g>
-    </clipPath>
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath15448-7">
-      <g
-         id="g15466-5"
-         transform="matrix(0.68977302,-0.68977302,0.70459617,0.70459617,26.176534,20.705555)">
-        <flowRoot
-           transform="matrix(0.36246608,-0.36246608,0.36246608,0.36246608,-221.57916,-10.773623)"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="flowRoot15456-8"
-           xml:space="preserve"><flowRegion
-             id="flowRegion15452-7"><rect
-               y="811.09113"
-               x="66.428574"
-               height="67.430771"
-               width="147.35341"
-               id="rect15450-0" /></flowRegion><flowPara
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.3333px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="flowPara15454-4">1</flowPara></flowRoot>
-        <flowRoot
-           transform="matrix(0.86006551,0,0,0.86006551,8.2289262,-493.1126)"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="flowRoot15464-8"
-           xml:space="preserve"><flowRegion
-             id="flowRegion15460-0"><rect
-               y="811.09113"
-               x="66.428574"
-               height="75.336922"
-               width="138.5688"
-               id="rect15458-4" /></flowRegion><flowPara
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.3333px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="flowPara15462-2">O</flowPara></flowRoot>
-      </g>
-    </clipPath>
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath16231">
-      <path
-         id="path16233"
-         clip-path="url(#clipPath15448)"
-         style="fill:#000000;stroke:#000000;stroke-width:5.00057;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         transform="matrix(0.99994349,-0.01063013,-0.01063013,0.99994349,0,0)"
-         d="m 254.13156,61.388107 h 44.93391 V 124.9375 h -44.93391 z" />
-    </clipPath>
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#r"
-       id="linearGradient516-0-2-9"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.30260073,0,0,0.15130036,254.13157,61.388132)"
-       x1="0"
-       y1="0"
-       x2="212.13203"
-       y2="0" />
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath15448-7-3">
-      <g
-         id="g15466-5-1"
-         transform="matrix(0.68977302,-0.68977302,0.70459617,0.70459617,26.176534,20.705555)">
-        <flowRoot
-           transform="matrix(0.36246608,-0.36246608,0.36246608,0.36246608,-221.57916,-10.773623)"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="flowRoot15456-8-1"
-           xml:space="preserve"><flowRegion
-             id="flowRegion15452-7-9"><rect
-               y="811.09113"
-               x="66.428574"
-               height="67.430771"
-               width="147.35341"
-               id="rect15450-0-0" /></flowRegion><flowPara
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.3333px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="flowPara15454-4-5">1</flowPara></flowRoot>
-        <flowRoot
-           transform="matrix(0.86006551,0,0,0.86006551,8.2289262,-493.1126)"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
-           id="flowRoot15464-8-6"
-           xml:space="preserve"><flowRegion
-             id="flowRegion15460-0-7"><rect
-               y="811.09113"
-               x="66.428574"
-               height="75.336922"
-               width="138.5688"
-               id="rect15458-4-7" /></flowRegion><flowPara
-             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.3333px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
-             id="flowPara15462-2-4">O</flowPara></flowRoot>
+             id="flowPara6391">O</flowPara></flowRoot>
       </g>
     </clipPath>
   </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="517.14286"
-     inkscape:cy="684.28572"
-     inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1522"
-     inkscape:window-height="920"
-     inkscape:window-x="301"
-     inkscape:window-y="72"
-     inkscape:window-maximized="0"
-     inkscape:pagecheckerboard="0"
-     inkscape:lockguides="false">
-    <inkscape:grid
-       type="xygrid"
-       id="grid5393" />
-  </sodipodi:namedview>
-  <metadata
-     id="metadata432">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
   <g
      inkscape:label="Calque 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <text
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-6)"
-       id="text1917-05-4"
-       xml:space="preserve"
-       x="-99.428047"
-       y="147.14117"><tspan
-         x="0"
-         y="0"
-         id="tspan1045"><tspan
-           style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-           id="tspan1043">O</tspan></tspan></text>
-    <text
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-9-1)"
-       id="text1917-0-3-6"
-       xml:space="preserve"
-       x="-16.844437"
-       y="148.30495" />
-    <text
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-6-7)"
-       id="text1917-05-7-2"
-       xml:space="preserve"
-       x="-72.604607"
-       y="146.6194"><tspan
-         x="0"
-         y="0"
-         id="tspan1049"><tspan
-           style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-           id="tspan1047">1</tspan></tspan></text>
     <g
-       id="g15913-0"
-       transform="matrix(1.5246967,0,0,1.5246967,57.283407,-319.73435)"
-       inkscape:export-filename="/home/arnaud/git/quantum-exo7/divers/logo-quantum-coul.png"
-       inkscape:export-xdpi="300"
-       inkscape:export-ydpi="300">
+       id="g6420"
+       transform="translate(-59.370785,-61.068893)">
       <rect
-         width="21.3971%"
-         height="21.3971%"
-         id="rect21-6-9-6"
-         x="254.13156"
-         y="61.388107"
-         style="fill:url(#linearGradient516-0-2-9);stroke:#000000;stroke-width:1.01411;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         transform="matrix(0.71458346,0.69955019,-0.71458346,0.69955019,-100.41144,14.718088)"
-         clip-path="url(#clipPath15448-7-3)" />
+         width="34.294979%"
+         height="24.314312%"
+         id="rect21-0-8"
+         x="204.68913"
+         y="12.764026"
+         style="fill:url(#linearGradient6073);stroke-width:0.288766"
+         transform="rotate(45,1.1679273,1.012938)"
+         clip-path="url(#clipPath6377)" />
       <g
-         id="g334-6-7-2-6-4"
-         transform="matrix(1.5921085,0,0,1.7433838,-65.735484,277.65957)"
+         id="g334-6-1"
+         transform="matrix(2.5738018,0,0,2.8183534,-18.963159,210.31671)"
          style="fill:#999999">
         <text
            xml:space="preserve"
-           id="text1917-05-9-0-9-1-7"
+           id="text1917-05-9-0"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-6);fill:#999999"
            transform="translate(-16.091844,6.9793194)"><tspan
              x="0"
              y="0"
-             id="tspan1053"><tspan
+             id="tspan871"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-               id="tspan1051">O</tspan></tspan></text>
+               id="tspan869">O</tspan></tspan></text>
         <text
            xml:space="preserve"
-           id="text1917-0-33-4-9-0-4"
+           id="text1917-0-33-6"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-9);fill:#999999"
            transform="translate(36.866343,5.4253114)"><tspan
              x="0"
              y="0"
-             id="tspan1057"><tspan
+             id="tspan875"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:Comfortaa;-inkscape-font-specification:'Comfortaa, Bold'"
-               id="tspan1055">|</tspan></tspan></text>
+               id="tspan873">|</tspan></tspan></text>
         <text
            xml:space="preserve"
-           id="text1917-0-3-8-8-6-4-8"
+           id="text1917-0-3-8-3"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-9-1);fill:#999999"
            transform="translate(66.491769,8.1431003)" />
         <text
            xml:space="preserve"
-           id="text1917-05-7-0-0-0-2-5"
+           id="text1917-05-7-0-20"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-6-7);fill:#999999"
            transform="translate(10.731601,6.4575514)"><tspan
              x="0"
              y="0"
-             id="tspan1061"><tspan
+             id="tspan879"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-               id="tspan1059">1</tspan></tspan></text>
+               id="tspan877">1</tspan></tspan></text>
       </g>
       <g
-         id="g334-5-4-2-2-8"
-         transform="matrix(0.97813288,0,0,3.2342965,-15.405574,277.91953)"
+         id="g334-5-6"
+         transform="matrix(1.5812492,0,0,5.2285624,62.378408,209.54205)"
          style="fill:#999999">
         <text
            xml:space="preserve"
-           id="text1917-05-6-2-7-2-2"
+           id="text1917-05-6-1"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-6);fill:#999999"
            transform="translate(-16.091844,6.9793194)"><tspan
              x="0"
              y="0"
-             id="tspan1065"><tspan
+             id="tspan883"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-               id="tspan1063">O</tspan></tspan></text>
+               id="tspan881">O</tspan></tspan></text>
         <text
            xml:space="preserve"
-           id="text1917-0-6-9-6-0-6"
+           id="text1917-0-6-5"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-9);fill:#999999"
            transform="translate(36.866343,5.4253114)" />
         <text
            xml:space="preserve"
-           id="text1917-0-3-4-6-1-5-0"
+           id="text1917-0-3-4-5"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-9-1);fill:#999999"
            transform="translate(66.491769,8.1431003)"><tspan
              x="0"
              y="0"
-             id="tspan1069"><tspan
+             id="tspan887"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:Comfortaa;-inkscape-font-specification:'Comfortaa, Bold'"
-               id="tspan1067">&gt;</tspan></tspan></text>
+               id="tspan885">&gt;</tspan></tspan></text>
         <text
            xml:space="preserve"
-           id="text1917-05-7-00-1-3-5-6"
+           id="text1917-05-7-00-4"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-6-7);fill:#999999"
            transform="translate(10.731601,6.4575514)"><tspan
              x="0"
              y="0"
-             id="tspan1073"><tspan
+             id="tspan891"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-               id="tspan1071">1</tspan></tspan></text>
+               id="tspan889">1</tspan></tspan></text>
       </g>
     </g>
   </g>

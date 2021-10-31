@@ -98,7 +98,7 @@ En physique classique, on sépare l'étude des corpuscules (un objet matériel c
 
 \textbf{Corpuscule.} 
 Un \og{}corpuscule\fg{} est un petit objet aux propriétés physiques bien déterminées : comme sa position $(x,y,z)$, sa vitesse $(v_x,v_y,v_z)$, sa masse\ldots{} Il peut avoir une taille mais est souvent modélisé par un point.
-La mécanique d'un point matériel est bien connue, même si on verra plus tard, avec le principe d'incertitude d'Heisenberg, que la mesure de la position et celle de la vitesse ne sont pas si évidentes que cela !
+La mécanique d'un point matériel est bien connue, même si on a vu, avec le principe d'incertitude d'Heisenberg, que la mesure de la position et celle de la vitesse ne sont pas si évidentes que cela !
 
 \myfigure{0.5}{
 \tikzinput{fig-physique-08}
@@ -123,7 +123,7 @@ Voici deux vues d'une onde sinusoïdale : la première vue en une vue en coupe (
 Une des propriétés fondamentales des ondes est le principe de superposition.
 Deux ondes se superposent (figure de gauche), ce qui peut conduire à une onde renforcée (figure centrale), ou bien à annulation (figure de droite).
 
-\myfigure{0.5}{
+\myfigure{0.45}{
 \tikzinput{fig-physique-09a}
 \tikzinput{fig-physique-09b}
 \tikzinput{fig-physique-09c}
@@ -168,7 +168,7 @@ C'est ce qu'il se passe ci-dessous au point $P$ où les deux sinusoïdes arriven
 \tikzinput{fig-physique-12a}
 }
 
-Mais les ondes peuvent s'annuler ce qui correspond aux franges sombres (rien n'est capté). C'est le cas au point de la configuration ci-dessous. En ce nouveau point $P$ la sinusoïde rouge présente une crête alors que la sinusoïde verte est à un creux (de même amplitude), la résultante des deux est nulle (et reste nulle au fil du temps).
+Mais les ondes peuvent s'annuler ce qui correspond aux franges sombres (rien n'est capté). C'est le cas au point de la configuration ci-dessous. En ce nouveau point $P$ une sinusoïde  présente une crête alors que l'autre sinusoïde est à un creux (de même amplitude), la résultante des deux est nulle (et reste nulle au fil du temps).
 
 
 \myfigure{0.5}{
@@ -177,8 +177,8 @@ Mais les ondes peuvent s'annuler ce qui correspond aux franges sombres (rien n'e
 
 Mathématiquement si le signal issu de $F_1$ est $f_1(t) = \sin(\omega t)$
 alors le signal issu de $F_2$ est $f_2(t) = \sin(\omega t + \phi_P)$ où $\phi_P$ est le \defi{déphasage}, sa valeur dépend de la position du point $P$.
-Si $\phi_p$ est de la forme $2k\pi$ alors $f_2(t) = \sin(\omega t)$ et donc les ondes s'ajoutent pour donner $f(t) = f_1(t)+f_2(t) = 2\sin(\omega t)$.
-Par contre si $\phi_p$ est de la forme $\pi + 2k\pi$ alors $f_2(t) = -\sin(\omega t)$ et donc les ondes s'annulent pour donner $f(t) = f_1(t)+f_2(t) = 0$.
+Si $\phi_P$ est de la forme $2k\pi$ alors $f_2(t) = \sin(\omega t)$ et donc les ondes s'ajoutent pour donner $f(t) = f_1(t)+f_2(t) = 2\sin(\omega t)$.
+Par contre si $\phi_P$ est de la forme $\pi + 2k\pi$ alors $f_2(t) = -\sin(\omega t)$ et donc les ondes s'annulent pour donner $f(t) = f_1(t)+f_2(t) = 0$.
 
 
 \bigskip
@@ -259,10 +259,9 @@ qui signifie que la somme des probabilités (pour toutes les positions possibles
 \textbf{Mesure de la position.}
 Il faut bien comprendre que l'on ne connaît pas la position de la particule. Ce n'est pas un défaut ou un manque de précision mais la base de la mécanique quantique. 
 La notion de position n'a pas de sens avant la mesure. On pourrait dire que la particule est \og{}partout\fg{}, et que c'est la mesure qui détermine une position $(x,y,z)$. 
-
 Enfin, même si la particule peut être mesurée à n'importe quelle position, certaines positions sont cependant plus probables que d'autres.
 
-Voici la répartition des mesures d'une position $x$ (on se limite à la mesure de la seule coordonnée $x$) obtenue en répétant l'expérience : je prépare la particule, puis je mesure la position $x$. On note que certaines positions sont plus fréquentes que d'autres.
+Voici un exemple de répartition des mesures d'une position $x$ (on se limite à la mesure de la seule coordonnée $x$) obtenue en répétant l'expérience : je prépare la particule, puis je mesure la position $x$. On note que certaines positions sont plus fréquentes que d'autres.
 
 \myfigure{1}{
 \tikzinput{fig-physique-04}
@@ -315,9 +314,11 @@ $$\Psi = \alpha \Psi_1 + \beta \Psi_2 \qquad \text{ avec } \alpha, \beta \in \Cc
 
 Par contre en termes de probabilités, c'est plus compliqué. Si on note $P_1 = |\Psi_1|^2$ et $P_2 = |\Psi_2|^2$ les densités de probabilité associées aux deux fonctions d'onde et avec par exemple $\Psi = \frac{1}{\sqrt2} (\Psi_1+\Psi_2)$, 
 alors on pourrait penser que la densité de probabilité $P = |\Psi|^2$ est $\frac12(P_1+P_2)$ mais ce n'est pas le cas. En effet :
-$$P = |\Psi|^2 = |\Psi_1+\Psi_2|^2 = \frac12(\Psi_1+\Psi_2)(\Psi_1+\Psi_2)^*
-= \frac12(|\Psi_1|^2+|\Psi_2|^2 + \Psi_1\Psi_2^* + \Psi_1^*\Psi_2)
-= \frac12(P_1+P_2 + \Psi_1\Psi_2^* + \Psi_1^*\Psi_2).$$
+\begin{align*}
+P &= |\Psi|^2 = |\Psi_1+\Psi_2|^2 = \frac12(\Psi_1+\Psi_2)(\Psi_1+\Psi_2)^* \\
+&= \frac12(|\Psi_1|^2+|\Psi_2|^2 + \Psi_1\Psi_2^* + \Psi_1^*\Psi_2)
+= \frac12(P_1+P_2 + \Psi_1\Psi_2^* + \Psi_1^*\Psi_2).
+\end{align*}
 
 Le terme $\Psi_1\Psi_2^* + \Psi_1^*\Psi_2$ est un terme d'interférence entre les deux fonctions d'ondes.
 
@@ -363,7 +364,6 @@ Par contre après une mesure, la fonction d'onde est changée définitivement, o
 
 La théorie de la décohérence quantique tente d'expliquer le passage du monde quantique à la physique classique.
 Un état quantique ne reste \og{}cohérent\fg{} que s'il n'est pas perturbé. Une particule vit dans un environnement complexe et perd sa cohérence quantique plus ou moins rapidement. En particulier une mesure physique vient déranger la cohérence, et la particule change d'état quantique.
-
 Par exemple une molécule (de taille environ $10^{-7}$ m) dans un vide de laboratoire conserve sa cohérence quantique seulement environ $10^{-17}$ seconde.
 
 

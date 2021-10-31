@@ -285,7 +285,7 @@ On obtient l'ordre $r$, ou l'un de ses facteurs, à partir du développement en 
 \begin{itemize}
   \item Si la mesure donne un entier $j$ proche de $0$, alors on n'obtient aucune information sur l'ordre $r$, il faut recommencer.
   \item Si la mesure donne un entier $j$ proche de $85$ ou proche de $427$, alors le développement en fraction continue de $\frac{j}{512}$ donne l'ordre $r=6$.
-  \item Si la mesure donne un entier proche $j$ proche de $171$ ou $341$ alors on n'obtient pas $r$ mais le facteur $r'=3$ ; si la mesure donne un entier proche $j$ proche de $256$ alors on n'obtient pas $r$ mais le facteur $r''=2$. Dans ces cas on relance l'algorithme pour obtenir la factorisation complète.
+  \item Si la mesure donne un entier proche $j$ proche de $171$ ou $341$ alors on n'obtient pas $r$ mais le facteur $r'=3$ ; si la mesure donne un entier $j$ proche de $256$ alors on n'obtient pas $r$ mais le facteur $r''=2$. Dans ces cas on relance l'algorithme pour obtenir la factorisation complète.
 \end{itemize}
 
 
@@ -596,7 +596,7 @@ Dans $(\Zz/p^\alpha\Zz)^*$, avec $p\ge3$, la moitié au moins des éléments son
 
 \begin{proof}
 Le preuve est similaire à celle de la proposition \ref{prop:ordrezp}.
-L'ordre de $(2k+1,\ell)$ est pair dans $\Zz/(p-1)\Zz \times \Zz/p^{\alpha-1}\Zz$, quel que soit l'entier impair $2k+1$ et quelque soit $\ell$. Donc la moitié au moins des éléments de $\Zz/(p-1)\Zz \times \Zz/p^{\alpha-1}\Zz$ sont d'ordre pair. 
+L'ordre de $(2k+1,\ell)$ est pair dans $\Zz/(p-1)\Zz \times \Zz/p^{\alpha-1}\Zz$, quel que soit l'entier impair $2k+1$ et quel que soit $\ell$. Donc la moitié au moins des éléments de $\Zz/(p-1)\Zz \times \Zz/p^{\alpha-1}\Zz$ sont d'ordre pair. 
 Par l'isomorphisme du théorème \ref{th:zpalpha}, il en est de même pour $(\Zz/p^\alpha\Zz)^*$.
 \end{proof}
 
@@ -827,7 +827,7 @@ $$\mathcal{R} = \big\{ x \in \Zz/n\Zz \mid x^2 \equiv 1 \pmod n \big\}.$$
 On rappelle que :
 \begin{itemize}
   \item Une racine carrée est nécessairement inversible (son inverse est elle-même), donc $\mathcal{R} \subset (\Zz/n\Zz)^*$.
-  \item $1$ et $-1$ sont deux racines carrées évidentes.
+  \item $1$ et $-1$ sont les deux racines carrées évidentes.
   \item Il y a exactement $2^\ell$ racines carrées : $\Card \mathcal{R} = 2^\ell$, où $\ell$ est le nombre de facteurs premiers distincts de $n$. Et il y a donc $2^\ell-2$ racines carrées non triviales.
 \end{itemize}
 
@@ -910,8 +910,8 @@ Nous terminons la preuve du théorème \ref{th:Shor}.
 
 \begin{proof}[Preuve du théorème \ref{th:Shor}]
 
-Nous avons déjà calculé dans la proposition \ref{prop:ordrezn}, le nombre d'éléments d'ordre pair, que l'on note $P(\Zz/n\Zz)^*$ :
-$$\frac{\Card P(\Zz/n\Zz)^*}{\Card (\Zz/n\Zz)^*} = 1-\frac{1}{2^\ell} = \frac{2^\ell-1}{2^\ell}.$$
+Nous avons déjà estimé dans la proposition \ref{prop:ordrezn}, le nombre d'éléments d'ordre pair, que l'on note $P(\Zz/n\Zz)^*$ :
+$$\frac{\Card P(\Zz/n\Zz)^*}{\Card (\Zz/n\Zz)^*} \ge 1-\frac{1}{2^\ell} = \frac{2^\ell-1}{2^\ell}.$$
 
 Nous allons maintenant déterminer la proportion d'éléments vérifiant l'hypothèse 2 parmi les éléments d'ordre pair.
 Pour tout ordre pair $r$, on note $s=\frac{r}{2}$. Ainsi si un élément $x$ est d'ordre pair $r$, on a $(x^s)^2 \equiv 1 \pmod n$, avec $x^s \not\equiv 1 \pmod n$. Autrement dit $x^s \in \mathcal{R} \setminus \{1\}$, c'est-à-dire $x \in \mathcal{S}_s$. Ainsi l'ensemble des éléments d'ordre pair $P(\Zz/n\Zz)^*$ (c'est-à-dire satisfaisant l'hypothèse 1) est l'union des $\mathcal{S}_s$ (pour $1 \le s \le \frac{\varphi(n)}{2}$). 

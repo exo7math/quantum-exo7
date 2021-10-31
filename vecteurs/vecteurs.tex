@@ -412,8 +412,8 @@ $$\ket\phi = (1+2\ii)\ket0 + \ii\ket1\qquad
 \ket \phi \otimes \ket \psi
   &= \left((1+2\ii)\begin{pmatrix}1\\0\end{pmatrix} + \ii\begin{pmatrix}0\\1\end{pmatrix}\right) \otimes \left(2\begin{pmatrix}1\\0\end{pmatrix} + (3-4\ii)\begin{pmatrix}0\\1\end{pmatrix}\right)  \\
   &=  (1+2\ii)\begin{pmatrix}1\\0\end{pmatrix} \otimes 2\begin{pmatrix}1\\0\end{pmatrix} 
-  + (1+2\ii)\begin{pmatrix}1\\0\end{pmatrix} \otimes (3-4\ii)\begin{pmatrix}0\\1\end{pmatrix}
-  + \ii\begin{pmatrix}0\\1\end{pmatrix} \otimes 2\begin{pmatrix}1\\0\end{pmatrix} 
+  + (1+2\ii)\begin{pmatrix}1\\0\end{pmatrix} \otimes (3-4\ii)\begin{pmatrix}0\\1\end{pmatrix} \\
+  &\qquad \qquad + \ii\begin{pmatrix}0\\1\end{pmatrix} \otimes 2\begin{pmatrix}1\\0\end{pmatrix} 
   + \ii\begin{pmatrix}0\\1\end{pmatrix} \otimes   (3-4\ii)\begin{pmatrix}0\\1\end{pmatrix} \\
   &= 2(1+2\ii) \ket{0.0} + (1+2\ii)(3-4\ii)\ket{0.1} + 2\ii\ket{1.0}+ (4+3\ii)\ket{1.1} \\
 \end{align*}
@@ -434,6 +434,7 @@ $$\ket\phi = (1+2\ii)\ket0 + \ii\ket1\qquad
 On note l'intérêt de la notation $\ket{\cdot}$ qui permet d'écrire les calculs de façon condensée, mais il faut bien comprendre que la justification théorique qui nous permet cette écriture est le calcul tensoriel sur les vecteurs.
   
 \end{exemple}
+
 
 %--------------------------------------------------------------------
 \subsection{Intrication quantique}
@@ -678,7 +679,7 @@ $$
 
 
 On dispose d'abord le produit correctement (à gauche) : la matrice obtenue
-est de taille $2\times2$.
+sera de taille $2\times2$.
 Puis on calcule chacun des coefficients,
 en commençant par le premier coefficient $c_{11} = 1\times 1\ +\ 2\times(-1)\ +\ 3\times1=2$ (au milieu),
 puis les autres (à droite).
@@ -1138,7 +1139,7 @@ $$\|Au\| = \|u\|.$$
 \end{proposition}
 
 
-\myfigure{1}{
+\myfigure{0.9}{
 \tikzinput{fig-vecteurs-05}
 }
 
@@ -1185,7 +1186,7 @@ $$\left\| A\left(\begin{smallmatrix}1\\0\end{smallmatrix}\right) \right\| = \lef
    &\implies \braket{u}{u+\ii v} + \braket{\ii v}{u+\ii v} = 2 \\
    &\implies \braket{u}{u} + \ii\braket{u}{v} -\ii\braket{v}{u} +\braket{v}{v} = 2 \\
    &\implies \|u\|^2 + \ii\braket{u}{v} - \ii(\braket{u}{v})^* + \|v\|^2 = 2 \\
-   &\implies 2\ii\Im\big( \braket{u}{v} \big) = 0 \quad \text{ sachant que } z-z^* = 2\Im(z)\\
+   &\implies 2\Im\big( \braket{u}{v} \big) = 0 \quad \text{ sachant que } z-z^* = 2\ii\Im(z)\\
   \end{align*}
   
   \item On a prouvé que la partie réelle et la partie imaginaire de $\braket{u}{v}$ sont nulles. Ainsi $\braket{u}{v} = 0$.

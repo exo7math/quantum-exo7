@@ -8,5 +8,119 @@
 \begin{document}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Titre + préface + sommaire
+\renewcommand{\contentsname}{Sommaire}
+
+% Préface
+\pagenumbering{roman}
+\import{divers/}{preface_livre_quantum.tex}
+\debutchapitres
+\pagenumbering{arabic}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearemptydoublepage
+
+%======================================
+% Partie 1 - Premiers pas quantiques
+%======================================
+
+\part{Premiers pas quantiques}
+
+% 1 - Découverte
+%\import{decouverte/}{decouverte.tex}
+
+% 2 - Utiliser un ordinateur quantique (avec Qiskit)
+%\import{ordinateur/}{ordinateur.tex}
+
+% 3 - Nombres complexes
+%\import{complexes/}{complexes.tex}
+
+% 4 - Vecteurs et matrices
+%\import{vecteurs/}{vecteurs.tex}
+
+% 5 - Informatique classique
+\import{classique/}{classique.tex}
+
+% 6 - Physique quantique
+%\import{physique/}{physique.tex}
+
+% 7 - Téléportation quantique
+%\import{teleportation/}{teleportation.tex}
+
+\end{document}
+
+%======================================
+% Partie 2 - Algorithmes quantiques
+%======================================
+
+\part{Algorithmes quantiques}
+
+% 8 - Un premier algorithme quantique
+\import{algorithme/}{algorithme.tex}
+
+% 9 - Portes quantiques
+\import{portes/}{portes.tex}
+
+% 10 - Algorithme de Deutsch--Jozsa
+\import{deutsch/}{deutsch.tex}
+
+% 11 - Algorithme de Grover
+\import{grover/}{grover.tex}
+
+%======================================
+% Partie 3 - Algorithme de Shor
+%======================================
+
+\part{Algorithme de Shor}
+
+% 12 - Arithmétique
+\import{arithmetique/}{arithmetique.tex}
+
+% 13 - Algorithme de Shor
+\import{shor/}{shor.tex}
+
+% 14 -Compléments d'arithmétique 
+\import{complement/}{complement.tex}
+
+% 15 - Transformée de Fourier discrète
+\import{fourier/}{fourier.tex}
+
+%======================================
+% Partie 4 - Vivre dans un monde quantique
+%======================================
+
+\part{Vivre dans un monde quantique}
+
+% 16 - Cryptographie quantique
+\import{crypto/}{crypto.tex}
+
+% 17 - Code correcteur
+\import{code/}{code.tex}
+
+% 18 - Avantage quantique
+\import{avantage/}{avantage.tex}
+
+
+\clearemptydoublepage
+
+%======================================
+% Postface et index
+%======================================
+
+% \import{annexe/}{annexe.tex}
+
+\import{divers/}{postface_livre_quantum.tex}
+
+
+\newpage
+\vfill
+\bigskip
+\bigskip
+
+\mycenterline{Version 1.00 -- Novembre 2021}
+
+
 \end{document}
 

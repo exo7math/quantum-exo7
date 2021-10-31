@@ -170,46 +170,28 @@ headsep=21pt, heightrounded,
 % ----------------------------------------------------------------------
 % Les chapitres
 
-% Pour figure titre \part deepmath
-\newcommand\mynetwork[1]{
-\def\numpart{\the\numexpr\value{part}}
-\begin{center} 
-\begin{tikzpicture}
-\pgfmathsetmacro\k{1+2*\numpart}  
-\pgfmathsetmacro\kk{\k +2}
-\pgfmathsetmacro\halfk{\k/2}
-\pgfmathsetmacro\halfkk{\kk/2}
-\pgfmathsetmacro\scale{3/\k}
-   \def\layersep{4 cm}
-    \tikzstyle{every pin edge}=[<-,shorten <=1pt,thick]
-    \tikzstyle{neuron}=[circle,fill=black!25,minimum size=10*\scale pt,inner sep=0pt]
-    \tikzstyle{entree}=[];
-    \tikzstyle{input neuron}=[neuron, fill=green!50];
-    \tikzstyle{output neuron}=[neuron, fill=red!50];
-    \tikzstyle{hidden neuron}=[neuron, fill=blue!50];
-    \tikzstyle{annot} = [text width=4em, text centered]
-    % Premiere couche
-    \foreach \name / \y in {1,...,\k}{
-    % This is the same as writing \foreach \name / \y in {1/1,2/2,3/3,4/4}
-   \path[yshift=-\halfk*\scale cm,yshift=-0.5*\scale cm]
-        node[input neuron] (I-\name) at (0,\y*\scale) {};
-}
-    %Seconde couche
-     \foreach \name / \y in {1,...,\kk}{
-         \path[yshift=-\halfkk*\scale cm,yshift=-0.5*\scale cm]
-             node[hidden neuron] (H-\name) at (\layersep,\y*\scale cm) {};
-      }
-    % Connect every node in the input layer with every node in the
-    % hidden layer.
-    \foreach \source in {1,...,\k}{
-        \foreach \dest in {1,...,\kk}{
-            \path[thick] (I-\source) edge (H-\dest);
-        }
-    }        
-\end{tikzpicture}  
-\end{center}
+% Pour figure titre \part quantum
+\newcommand\myqubit{
+    \def\numpart{\the\numexpr\value{part}}
+    \begin{center}
+        
+        \begin{tikzpicture}
+        %\fontfamily{phv}\bfseries
+        \pgfmathsetmacro\k{\numpart-1};
+        % From front picture Tikz/pgf manual by Till Tantau
+        % binary notation
+        \ifnum \k=0 \def\bink{0}\fi;
+        \ifnum \k=1 \def\bink{1}\fi;
+        \ifnum \k=2 \def\bink{1.0}\fi;
+        \ifnum \k=3 \def\bink{1.1}\fi;
+        \ifnum \k=4 \def\bink{1.0.0}\fi;
+        \def\bbink{\raisebox{2.5pt}{\scalebox{1}[0.9]{|}}\bink\,\raisebox{-2pt}{\scalebox{0.5}[1.5]{>}}};
+        \node[scale=2,font=\bfseries,above,at={(0,0)},yslant=0.15,]{\bbink};
+        \node[scale=2,font=\bfseries,above,at={(0,0)},yslant=0.15,yscale=-1,yshift=-4,scope fading=south,opacity=0.3,]{\bbink};
+        \end{tikzpicture}  
+    \end{center}
 }  
-% Fin figure \part deepmath
+% Fin figure \part quantum
 
 
 
@@ -228,7 +210,7 @@ headsep=21pt, heightrounded,
   {\Huge\center\scshape}% format
   {\titlerule[3pt]\vspace{3pt}\titlerule[1pt]\vspace{20pt}%
   \partname~\thepart\\[25pt]%
-  \mynetwork{\value{part}}
+  \myqubit%{\value{part}}
   %\includegraphics[width = 6cm]{divers/logoScratchAuCollege}\\
   \MakeLowercase{#1}}% label
   {15pt}% sep
@@ -358,14 +340,15 @@ headsep=21pt, heightrounded,
 {}% Theorem head spec (can be left empty, meaning ‘normal’ )
 
 \newtheoremstyle{definitionexo7}% name
-{5cm plus 1cm minus 2cm}% Space above
-{3pt}% Space below
-{\upshape}% Body font
-{}% Indent amount
-{\bfseries}% Theorem head font
-{.\newline}% Punctuation after theorem head
-{0pt\Needspace{3\baselineskip}}% Space after theorem head
-{}% Theorem head spec (can be left empty, meaning ‘normal’ )
+{\dimexpr\topsep/2\relax} % space above
+{\dimexpr\topsep/2\relax} % space below
+{\upshape}          % body font
+{}          % indent amount
+{\bfseries} % theorem head font
+{.\newline}         % punctuation after theorem head
+{0pt\Needspace{3\baselineskip}}      % space after theorem head
+{}          % theorem hed spec. (empty = "normal")
+
 
 \theoremstyle{theoremeexo7}
 \newtheorem{theoreme}{Théorème}

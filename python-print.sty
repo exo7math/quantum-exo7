@@ -131,8 +131,10 @@ headsep=21pt, heightrounded,
 \usepackage[titles]{tocloft}  % pour l'indentation des pages > 100
 \setlength{\cftchapnumwidth}{2.55em}
 \setlength{\cftsecindent}{2.55em}
-\renewcommand\cftchapafterpnum{\vskip-4pt}
-%\renewcommand\cftsecafterpnum{\vskip15pt}
+\renewcommand\cftchapafterpnum{\vskip-2pt}
+\renewcommand\cftsecafterpnum{\vskip5pt}
+\setlength{\cftbeforesecskip}{4pt}
+\setlength{\cftbeforechapskip}{1pt}
 %\usepackage{titletoc}  % Inutile
 %\addto\captionsfrancais{\def\contentsname{Sommaire}}  % Ne marche pas !
 \AtBeginDocument{\renewcommand{\contentsname}{Sommaire}}

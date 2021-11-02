@@ -1,23 +1,25 @@
 Quatrième de couverture
 
-L'intelligence artificielle a fait d'énormes progrès grâce aux réseaux de neurones. Les ordinateurs jouent maintenant aux échecs, pilotent des voitures et détectent des maladies, souvent mieux que les humains !
-Ce livre détaille les bases mathématiques qui se cachent derrière ces réseaux et vous explique comment programmer simplement des réseaux de neurones.
+Les ordinateurs quantiques permettront bientôt des avancées spectaculaires pour accélérer les calculs. Ce livre explique en détails les bases mathématiques pour comprendre l'informatique quantique, découvrir les principaux algorithmes et programmer un ordinateur quantique.
 
 
- • Dérivée
- • Python : numpy et matplotlib avec une variable
- • Fonctions de plusieurs variables
- • Python : numpy et matplotlib avec deux variables
- • Réseau de neurones
- • Python : tensorflow avec keras - partie 1
- • Gradient
- • Descente de gradient
+ • Découverte de l’informatique quantique
+ • Utiliser un ordinateur quantique (avec Qiskit)
+ • Nombres complexes
+ • Vecteurs et matrices
+ • Informatique classique
+ • Physique quantique
+ • Téléportation quantique
+ • Un premier algorithme quantique
+ • Portes quantiques
 
- • Rétropropagation
- • Python : tensorflow avec keras - partie 2
- • Convolution : une dimension
- • Convolution
- • Convolution avec Python
- • Convolution avec tensorflow/keras
- • Tenseurs
- • Probabilités
+ • Algorithme de Deutsch–Jozsa
+ • Algorithme de Grover
+ • Arithmétique
+ • Algorithme de Shor
+ • Compléments d’arithmétique
+ • Transformée de Fourier discrète
+ • Cryptographie quantique
+ • Code correcteur
+ • Avantage quantique
+

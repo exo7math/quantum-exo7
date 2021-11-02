@@ -16,6 +16,60 @@
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs59">
+    <rect
+       x="460.98518"
+       y="180.48059"
+       width="262.62256"
+       height="166.96599"
+       id="rect37499" />
+    <rect
+       x="72.073087"
+       y="177.45897"
+       width="338.01268"
+       height="172.9149"
+       id="rect28211" />
+    <rect
+       x="68.275558"
+       y="58.306657"
+       width="595.68712"
+       height="58.106477"
+       id="rect8345" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient1859">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop1855" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop1857" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3169">
+      <stop
+         style="stop-color:#cccccc;stop-opacity:1;"
+         offset="0"
+         id="stop3165" />
+      <stop
+         style="stop-color:#cccccc;stop-opacity:0;"
+         offset="1"
+         id="stop3167" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient2149">
+      <stop
+         style="stop-color:#b3b3b3;stop-opacity:0"
+         offset="0"
+         id="stop2145" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop2147" />
+    </linearGradient>
     <linearGradient
        inkscape:collect="always"
        xlink:href="#r"
@@ -129,6 +183,114 @@
          values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"
          in="fbSourceGraphic" />
     </filter>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath6377-6">
+      <g
+         id="g6395-8"
+         transform="matrix(1.1268773,-1.1268773,1.1268773,1.1268773,-163.72149,-64.891224)">
+        <flowRoot
+           transform="matrix(0.36246608,-0.36246608,0.36246608,0.36246608,-221.57916,-10.773623)"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
+           id="flowRoot6385-0"
+           xml:space="preserve"><flowRegion
+             id="flowRegion6381-2"><rect
+               y="811.09113"
+               x="66.428574"
+               height="67.430771"
+               width="147.35341"
+               id="rect6379-1" /></flowRegion><flowPara
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.3333px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
+             id="flowPara6383-0">1</flowPara></flowRoot>
+        <flowRoot
+           transform="matrix(0.86006551,0,0,0.86006551,8.2289262,-493.1126)"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
+           id="flowRoot6393-5"
+           xml:space="preserve"><flowRegion
+             id="flowRegion6389-1"><rect
+               y="811.09113"
+               x="66.428574"
+               height="75.336922"
+               width="138.5688"
+               id="rect6387-1" /></flowRegion><flowPara
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.3333px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
+             id="flowPara6391-0">O</flowPara></flowRoot>
+      </g>
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath6377-6-9">
+      <g
+         id="g6395-8-9"
+         transform="matrix(1.1268773,-1.1268773,1.1268773,1.1268773,-163.72149,-64.891224)">
+        <flowRoot
+           transform="matrix(0.36246608,-0.36246608,0.36246608,0.36246608,-221.57916,-10.773623)"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
+           id="flowRoot6385-0-0"
+           xml:space="preserve"><flowRegion
+             id="flowRegion6381-2-8"><rect
+               y="811.09113"
+               x="66.428574"
+               height="67.430771"
+               width="147.35341"
+               id="rect6379-1-1" /></flowRegion><flowPara
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.3333px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
+             id="flowPara6383-0-3">1</flowPara></flowRoot>
+        <flowRoot
+           transform="matrix(0.86006551,0,0,0.86006551,8.2289262,-493.1126)"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle"
+           id="flowRoot6393-5-1"
+           xml:space="preserve"><flowRegion
+             id="flowRegion6389-1-1"><rect
+               y="811.09113"
+               x="66.428574"
+               height="75.336922"
+               width="138.5688"
+               id="rect6387-1-0" /></flowRegion><flowPara
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:53.3333px;font-family:'Bitstream Vera Serif';-inkscape-font-specification:'Bitstream Vera Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle"
+             id="flowPara6391-0-3">O</flowPara></flowRoot>
+      </g>
+    </clipPath>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2149"
+       id="radialGradient2443"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-1.5228793,0.00520258,-0.00491609,-1.4390176,1216.4835,1032.5982)"
+       cx="506.85779"
+       cy="376.75415"
+       fx="506.85779"
+       fy="376.75415"
+       r="405.16586" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3169"
+       id="linearGradient3171"
+       x1="85.533562"
+       y1="206.04994"
+       x2="188.04213"
+       y2="206.04994"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3169"
+       id="radialGradient1189"
+       cx="441.96198"
+       cy="487.76663"
+       fx="441.96198"
+       fy="487.76663"
+       r="405.16586"
+       gradientTransform="matrix(1.2960949,0.00885393,-0.00917698,1.3433843,-125.60031,-166.09182)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1859"
+       id="linearGradient1861"
+       x1="793.67914"
+       y1="452.3732"
+       x2="735.82648"
+       y2="453.2186"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="namedview57"
@@ -141,20 +303,20 @@
      showgrid="false"
      units="mm"
      inkscape:zoom="0.71787887"
-     inkscape:cx="1169.4173"
-     inkscape:cy="371.23255"
+     inkscape:cx="690.92436"
+     inkscape:cy="546.74962"
      inkscape:window-width="1848"
      inkscape:window-height="1016"
      inkscape:window-x="72"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer4"
+     inkscape:current-layer="layer7"
      inkscape:document-units="mm" />
   <g
      inkscape:groupmode="layer"
      inkscape:label="FondKDP"
      id="g61"
-     style="display:inline"
+     style="display:none"
      sodipodi:insensitive="true">
     <image
        width="1526.72"
@@ -165,11 +327,129 @@
   </g>
   <g
      inkscape:groupmode="layer"
+     id="layer6"
+     inkscape:label="Fond quatrième"
+     style="display:inline"
+     sodipodi:insensitive="true">
+    <rect
+       style="opacity:1;mix-blend-mode:normal;fill:url(#radialGradient1189);fill-opacity:1;stroke:url(#radialGradient2443)"
+       id="rect812"
+       width="809.33295"
+       height="958.77301"
+       x="-17.692171"
+       y="-22.760517" />
+    <g
+       id="g6420-8"
+       transform="matrix(5.2044423,0,0,5.2044423,-329.05506,-529.02285)"
+       style="fill:#e6e6e6;fill-opacity:1">
+      <rect
+         width="34.294979%"
+         height="24.314312%"
+         id="rect21-0-8-5"
+         x="204.68913"
+         y="12.764026"
+         style="fill:#e6e6e6;fill-opacity:1;stroke-width:0.288766"
+         transform="rotate(45,1.1679273,1.012938)"
+         clip-path="url(#clipPath6377-6-9)" />
+      <g
+         id="g334-6-1-0"
+         transform="matrix(2.5738018,0,0,2.8183534,-18.963159,210.31671)"
+         style="fill:#e6e6e6;fill-opacity:1">
+        <text
+           xml:space="preserve"
+           id="text1917-05-9-0-6"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-6);fill:#e6e6e6;fill-opacity:1"
+           transform="translate(-16.091844,6.9793194)"><tspan
+             x="0"
+             y="0"
+             id="tspan76767"><tspan
+               style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
+               id="tspan76765">O</tspan></tspan></text>
+        <text
+           xml:space="preserve"
+           id="text1917-0-33-6-4"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-9);fill:#e6e6e6;fill-opacity:1"
+           transform="translate(36.866343,5.4253114)"><tspan
+             x="0"
+             y="0"
+             id="tspan76771"><tspan
+               style="font-weight:bold;font-size:25.4px;font-family:Comfortaa;-inkscape-font-specification:'Comfortaa, Bold'"
+               id="tspan76769">|</tspan></tspan></text>
+        <text
+           xml:space="preserve"
+           id="text1917-0-3-8-3-6"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-9-1);fill:#e6e6e6;fill-opacity:1"
+           transform="translate(66.491769,8.1431003)" />
+        <text
+           xml:space="preserve"
+           id="text1917-05-7-0-20-2"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-6-7);fill:#e6e6e6;fill-opacity:1"
+           transform="translate(10.731601,6.4575514)"><tspan
+             x="0"
+             y="0"
+             id="tspan76775"><tspan
+               style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
+               id="tspan76773">1</tspan></tspan></text>
+      </g>
+      <g
+         id="g334-5-6-5"
+         transform="matrix(1.5812492,0,0,5.2285624,62.378408,209.54205)"
+         style="fill:#e6e6e6;fill-opacity:1">
+        <text
+           xml:space="preserve"
+           id="text1917-05-6-1-8"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-6);fill:#e6e6e6;fill-opacity:1"
+           transform="translate(-16.091844,6.9793194)"><tspan
+             x="0"
+             y="0"
+             id="tspan76779"><tspan
+               style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
+               id="tspan76777">O</tspan></tspan></text>
+        <text
+           xml:space="preserve"
+           id="text1917-0-6-5-6"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-9);fill:#e6e6e6;fill-opacity:1"
+           transform="translate(36.866343,5.4253114)" />
+        <text
+           xml:space="preserve"
+           id="text1917-0-3-4-5-2"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-9-1);fill:#e6e6e6;fill-opacity:1"
+           transform="translate(66.491769,8.1431003)"><tspan
+             x="0"
+             y="0"
+             id="tspan76783"><tspan
+               style="font-weight:bold;font-size:25.4px;font-family:Comfortaa;-inkscape-font-specification:'Comfortaa, Bold'"
+               id="tspan76781">&gt;</tspan></tspan></text>
+        <text
+           xml:space="preserve"
+           id="text1917-05-7-00-4-8"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.29167px;line-height:1.25;font-family:Caladea;-inkscape-font-specification:'Caladea, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect1919-6-7);fill:#e6e6e6;fill-opacity:1"
+           transform="translate(10.731601,6.4575514)"><tspan
+             x="0"
+             y="0"
+             id="tspan76787"><tspan
+               style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
+               id="tspan76785">1</tspan></tspan></text>
+      </g>
+    </g>
+    <rect
+       style="fill:url(#linearGradient1861);fill-opacity:1;stroke-width:25.5636;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0"
+       id="rect1725"
+       width="63.88176"
+       height="1062.6302"
+       x="730.9231"
+       y="-77.866112"
+       ry="0" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="Logo Q">
+     inkscape:label="Logo Q"
+     sodipodi:insensitive="true"
+     style="display:inline">
     <g
        id="g6420"
-       transform="matrix(5.2044423,0,0,5.2044423,443.51877,-646.37499)">
+       transform="matrix(5.2044423,0,0,5.2044423,445.51877,-622.37499)">
       <rect
          width="34.294979%"
          height="24.314312%"
@@ -190,9 +470,9 @@
            transform="translate(-16.091844,6.9793194)"><tspan
              x="0"
              y="0"
-             id="tspan71704"><tspan
+             id="tspan76791"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-               id="tspan71702">O</tspan></tspan></text>
+               id="tspan76789">O</tspan></tspan></text>
         <text
            xml:space="preserve"
            id="text1917-0-33-6"
@@ -200,9 +480,9 @@
            transform="translate(36.866343,5.4253114)"><tspan
              x="0"
              y="0"
-             id="tspan71708"><tspan
+             id="tspan76795"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:Comfortaa;-inkscape-font-specification:'Comfortaa, Bold'"
-               id="tspan71706">|</tspan></tspan></text>
+               id="tspan76793">|</tspan></tspan></text>
         <text
            xml:space="preserve"
            id="text1917-0-3-8-3"
@@ -215,9 +495,9 @@
            transform="translate(10.731601,6.4575514)"><tspan
              x="0"
              y="0"
-             id="tspan71712"><tspan
+             id="tspan76799"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-               id="tspan71710">1</tspan></tspan></text>
+               id="tspan76797">1</tspan></tspan></text>
       </g>
       <g
          id="g334-5-6"
@@ -230,9 +510,9 @@
            transform="translate(-16.091844,6.9793194)"><tspan
              x="0"
              y="0"
-             id="tspan71716"><tspan
+             id="tspan76803"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-               id="tspan71714">O</tspan></tspan></text>
+               id="tspan76801">O</tspan></tspan></text>
         <text
            xml:space="preserve"
            id="text1917-0-6-5"
@@ -245,9 +525,9 @@
            transform="translate(66.491769,8.1431003)"><tspan
              x="0"
              y="0"
-             id="tspan71720"><tspan
+             id="tspan76807"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:Comfortaa;-inkscape-font-specification:'Comfortaa, Bold'"
-               id="tspan71718">&gt;</tspan></tspan></text>
+               id="tspan76805">&gt;</tspan></tspan></text>
         <text
            xml:space="preserve"
            id="text1917-05-7-00-4"
@@ -255,16 +535,17 @@
            transform="translate(10.731601,6.4575514)"><tspan
              x="0"
              y="0"
-             id="tspan71724"><tspan
+             id="tspan76811"><tspan
                style="font-weight:bold;font-size:25.4px;font-family:'Bitstream Charter';-inkscape-font-specification:'Bitstream Charter, Bold'"
-               id="tspan71722">1</tspan></tspan></text>
+               id="tspan76809">1</tspan></tspan></text>
       </g>
     </g>
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer1"
-     inkscape:label="Quantum">
+     inkscape:label="Quantum"
+     sodipodi:insensitive="true">
     <flowRoot
        xml:space="preserve"
        id="flowRoot444"
@@ -282,48 +563,10 @@
   </g>
   <g
      inkscape:groupmode="layer"
-     id="layer3"
-     inkscape:label="Texte couverture">
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.3333px;line-height:1.25;font-family:'Liberation Serif';-inkscape-font-specification:'Liberation Serif Bold';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;display:inline;fill:#4d4d4d"
-       x="1383.2212"
-       y="832.16345"
-       id="text4710"><tspan
-         sodipodi:role="line"
-         id="tspan4708"
-         x="1383.2212"
-         y="832.16345"
-         style="text-align:center;text-anchor:middle;fill:#4d4d4d">Arnaud Bodin</tspan><tspan
-         sodipodi:role="line"
-         x="1383.2212"
-         y="858.83008"
-         id="tspan4712"
-         style="text-align:center;text-anchor:middle;fill:#4d4d4d" /></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:22.7103px;line-height:1.25;font-family:'Liberation Serif';-inkscape-font-specification:'Liberation Serif Bold';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;display:inline;fill:#4d4d4d;stroke-width:1.06455"
-       x="1155.4343"
-       y="181.94505"
-       id="text4710-6"
-       inkscape:transform-center-x="178.7248"
-       inkscape:transform-center-y="25.153495"><tspan
-         sodipodi:role="line"
-         x="1155.4343"
-         y="181.94505"
-         style="font-weight:bold;text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:1.06455"
-         id="tspan33200">Un peu de mathématiques pour l'informatique quantique</tspan><tspan
-         sodipodi:role="line"
-         x="1155.4343"
-         y="210.33293"
-         id="tspan4712-5"
-         style="text-align:center;text-anchor:middle;fill:#4d4d4d;stroke-width:1.06455" /></text>
-  </g>
-  <g
-     inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="Logo Exo7 couverture"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <g
        id="g29-3"
        transform="matrix(0.6482009,0,0,0.6482009,881.88389,834.61563)"
@@ -361,7 +604,8 @@
   <g
      inkscape:groupmode="layer"
      id="layer5"
-     inkscape:label="Tranche">
+     inkscape:label="Tranche"
+     sodipodi:insensitive="true">
     <g
        id="g29-6"
        transform="matrix(0.37179168,0,0,0.37179168,755.92418,831.38575)">
@@ -408,5 +652,146 @@
            y="-174.44278"
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:100px;font-family:'Liberation Serif';-inkscape-font-specification:'Liberation Serif Bold';letter-spacing:11px;fill:#808080" /></flowRegion><flowPara
          id="flowPara450-0">QUANTUM</flowPara></flowRoot>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Texte couverture"
+     sodipodi:insensitive="true">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:21.3333px;line-height:1.25;font-family:'Liberation Serif';-inkscape-font-specification:'Liberation Serif Bold';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;display:inline;fill:#000000"
+       x="1383.2212"
+       y="832.16345"
+       id="text4710"><tspan
+         sodipodi:role="line"
+         id="tspan4708"
+         x="1383.2212"
+         y="832.16345"
+         style="text-align:center;text-anchor:middle;fill:#000000">Arnaud Bodin</tspan><tspan
+         sodipodi:role="line"
+         x="1383.2212"
+         y="858.83008"
+         id="tspan4712"
+         style="text-align:center;text-anchor:middle;fill:#000000" /></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:22.7103px;line-height:1.25;font-family:'Liberation Serif';-inkscape-font-specification:'Liberation Serif Bold';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;display:inline;fill:#000000;stroke-width:1.06455"
+       x="1155.4343"
+       y="181.94505"
+       id="text4710-6"
+       inkscape:transform-center-x="178.7248"
+       inkscape:transform-center-y="25.153495"><tspan
+         sodipodi:role="line"
+         x="1155.4343"
+         y="181.94505"
+         style="font-weight:bold;text-align:center;text-anchor:middle;fill:#000000;stroke-width:1.06455"
+         id="tspan33200">Un peu de mathématiques pour l'informatique quantique</tspan><tspan
+         sodipodi:role="line"
+         x="1155.4343"
+         y="210.33293"
+         id="tspan4712-5"
+         style="text-align:center;text-anchor:middle;fill:#000000;stroke-width:1.06455" /></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer7"
+     inkscape:label="Texte quatrième">
+    <text
+       xml:space="preserve"
+       id="text8343"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;line-height:1.25;font-family:'Liberation Serif';-inkscape-font-specification:'Liberation Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;white-space:pre;shape-inside:url(#rect8345);fill:#000000;fill-opacity:1;stroke:none"
+       x="283.74414"
+       y="0"
+       transform="translate(14,4)"><tspan
+         x="72.269507"
+         y="71.262293"
+         id="tspan76813">Les ordinateurs quantiques permettront bientôt des avancées spectaculaires pour accélérer les </tspan><tspan
+         x="74.962222"
+         y="89.595667"
+         id="tspan76815">calculs. Ce livre explique en détails les bases mathématiques pour comprendre l'informatique </tspan><tspan
+         x="84.920252"
+         y="107.92904"
+         id="tspan76817">quantique, découvrir les principaux algorithmes et programmer un ordinateur quantique.</tspan></text>
+    <text
+       xml:space="preserve"
+       id="text28209"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;line-height:1.25;font-family:'Liberation Serif';-inkscape-font-specification:'Liberation Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect28211);fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(12,-24.84602)"><tspan
+         x="72.072266"
+         y="190.41464"
+         id="tspan76819"> • Découverte de l’informatique quantique
+</tspan><tspan
+         x="72.072266"
+         y="208.74801"
+         id="tspan76821"> • Utiliser un ordinateur quantique (avec Qiskit)
+</tspan><tspan
+         x="72.072266"
+         y="227.08138"
+         id="tspan76823"> • Nombres complexes
+</tspan><tspan
+         x="72.072266"
+         y="245.41476"
+         id="tspan76825"> • Vecteurs et matrices
+</tspan><tspan
+         x="72.072266"
+         y="263.74813"
+         id="tspan76827"> • Informatique classique
+</tspan><tspan
+         x="72.072266"
+         y="282.08151"
+         id="tspan76829"> • Physique quantique
+</tspan><tspan
+         x="72.072266"
+         y="300.41488"
+         id="tspan76831"> • Téléportation quantique
+</tspan><tspan
+         x="72.072266"
+         y="318.74825"
+         id="tspan76833"> • Un premier algorithme quantique
+</tspan><tspan
+         x="72.072266"
+         y="337.08163"
+         id="tspan76835"> • Portes quantiques</tspan></text>
+    <text
+       xml:space="preserve"
+       id="text37497"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:14.6667px;line-height:1.25;font-family:'Liberation Serif';-inkscape-font-specification:'Liberation Serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect37499);fill:#000000;fill-opacity:1;stroke:none"
+       transform="translate(-10,-28)"><tspan
+         x="460.98438"
+         y="193.43612"
+         id="tspan76837"> • Algorithme de Deutsch–Jozsa
+</tspan><tspan
+         x="460.98438"
+         y="211.76949"
+         id="tspan76839"> • Algorithme de Grover
+</tspan><tspan
+         x="460.98438"
+         y="230.10287"
+         id="tspan76841"> • Arithmétique
+</tspan><tspan
+         x="460.98438"
+         y="248.43624"
+         id="tspan76843"> • Algorithme de Shor
+</tspan><tspan
+         x="460.98438"
+         y="266.76962"
+         id="tspan76845"> • Compléments d’arithmétique
+</tspan><tspan
+         x="460.98438"
+         y="285.10299"
+         id="tspan76847"> • Transformée de Fourier discrète
+</tspan><tspan
+         x="460.98438"
+         y="303.43637"
+         id="tspan76849"> • Cryptographie quantique
+</tspan><tspan
+         x="460.98438"
+         y="321.76974"
+         id="tspan76851"> • Code correcteur
+</tspan><tspan
+         x="460.98438"
+         y="340.10311"
+         id="tspan76853"> • Avantage quantique</tspan></text>
   </g>
 </svg>

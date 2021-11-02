@@ -7,21 +7,27 @@ Algorithmes et mathématiques
 
 Livres Exo7 7
 
+Arnaud Bodin
 
 Livre Quantum
-? pages
+290 pages
 
+Broché
 Size 7.5 x 9.25 in (190.5mm x 234.9mm)
 
 Mathématiques
 Algorithmes
 Informatique quantique
+Qubit
 
 
-Non-fiction > Ordinateurs > ??
 Non-fiction > Mathématiques > Général
+Non-fiction > Ordinateurs > Programmation > Algorithmes
 
-Code ISBN : 
+% Non-fiction > Sciences > Physique > Théorie quantique
+
+
+Code ISBN : 9798758133095
 Marque éditoriale : Independently published 
 
 

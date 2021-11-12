@@ -7,6 +7,10 @@ Livre
 
 Vous pouvez télécharger le livre sur ce site : [Livre 'Quantum' (4 Mo)](livre-quantum.pdf).
 
+Vous pouvez obtenir une version papier en *noir et blanc* sur [Amazon](https://www.amazon.fr/dp/B09LGNKZY5/) à prix coûtant.
+
+[![Image Deepmath](divers/img_quantum_medium.png "Image Quantum")](https://www.amazon.fr/dp/B09LGNKZY5/)
+
 Vidéos
 ======
 

@@ -13,7 +13,7 @@
 
 \node (B1) at (0,0) {\bf Charlie};
 
-\node[rectangle,draw] (B2) at (8,0) {
+\node[rectangle,draw] (B2) at (7.5,0) {
 Selon
 \begin{tabular}{l}
 Noir $=0.0$\\
@@ -34,7 +34,7 @@ portes $X$ puis $Z$\\
 
 \draw[->,>=latex,line width=2pt,green!70!black] (B1) to node  [midway, above left,black]{$\ket{\psi_A}$} (B2);
 
-\node (B3) at (16,0) {\bf Bob};
+\node (B3) at (15,0) {\bf Bob};
 
 
 

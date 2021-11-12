@@ -77,7 +77,7 @@ Remarques :
 Détaillons le protocole de téléportation.
 
 
-\myfigure{0.7}{
+\myfigure{0.65}{
   \footnotesize
   \tikzinput{fig_teleportation_02}
 } 
@@ -419,8 +419,8 @@ On rappelle que $\ket{\Phi^+}$ est un état intriqué (ce n'est pas le produit d
 {\large$$
 \raise2.3ex\hbox{
 \Qcircuit @C=1em @R=1em {
-0 && \qw & \gate{H} & \ctrl{1} & \qw & \qwa  \\
-0 && \qw & \qw & \targ &  \qw &\qwa
+\ket{0} && \qw & \gate{H} & \ctrl{1} & \qw & \qwa  \\
+\ket{0} && \qw & \qw & \targ &  \qw &\qwa
 }}
 \quad \ket{\Phi^+}
 $$}
@@ -608,9 +608,9 @@ On recommence le calcul de la section \ref{sec:calculs} qui explique la télépo
 
 On rappelle :
 \begin{itemize}
-  \item le qubit à téléporter est $\ket\psi = \alpha\ket0 + \beta\ket1$ ; 
+  \item le qubit à téléporter est $\ket\psi = \alpha\ket0 + \beta\ket1$,
 
-  \item l'état de Bell est $\ket{\Phi^+} = \frac{1}{\sqrt2}(\ket{0.0}+\ket{1.1})$ ; 
+  \item l'état de Bell est $\ket{\Phi^+} = \frac{1}{\sqrt2}(\ket{0.0}+\ket{1.1})$,
 
   \item le $3$-qubit composé de $\ket\psi$ et $\ket{\Phi^+}$ est  $\ket \phi = \ket\psi \otimes \ket{\Phi^+}$.
 \end{itemize}

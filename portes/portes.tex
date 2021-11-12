@@ -274,7 +274,7 @@ $$}
 % [[Toffoli à partir de CNOT (voir Nielsen -- Chuang, p. 182).]]
 On peut réaliser une porte de Toffoli à partir de plusieurs portes \mygate{CNOT} et de portes élémentaires \mygate{S}, \mygate{H}, \mygate{T} et son adjointe $\mygate{T^*}$.
 
-{\large$$
+{$$
 \raisebox{-1.5ex}{
 \Qcircuit @C=1em @R=1em {
  & \ctrl{2} & \qw \\
@@ -573,7 +573,7 @@ avec $\alpha_i \in \Cc$,
 on obtient le $(k+1)$-qubit :
 $$\tilde F(\ket\psi) = \sum_{i=0}^{2^{k+1}-1} \alpha_i \ket{f_i}.$$
 
-Comme $F$ est bijective alors $\tilde F$ envoie l'ensemble des vecteurs de la base canonique sur ces même vecteurs de la base canonique (autrement dit $\tilde F$ permute les vecteurs de la base). Ainsi $\tilde F$ est une transformation unitaire (voir la section \ref{sec:matunitaire}).
+Comme $F$ est bijective alors $\tilde F$ envoie l'ensemble des vecteurs de la base canonique sur ces mêmes vecteurs de la base canonique (autrement dit $\tilde F$ permute les vecteurs de la base). Ainsi $\tilde F$ est une transformation unitaire (voir la section \ref{sec:matunitaire}).
 
 
 \begin{exemple} 
@@ -901,7 +901,7 @@ Les assertions suivantes sont équivalentes :
 \end{align*}
 Comme $\|f_i+f_j\|^2 =2$, $\|f_i\|^2=1$ et $\|f_j\|^2=1$ alors $2\Re\big( \braket{f_i}{f_j}\big)=0$.
 
-De même $$\|f_i+\ii f_j\|^2 =  \|f_i\|^2 + 2\Im\big( \braket{f_i}{f_j} \big) + \|f_j\|^2 $$ alors $2\Im\big( \braket{f_i}{f_j}\big)=0$. Ainsi $\braket{f_i}{f_j}=0$ et $(f_i)$ forment une base orthonormée.
+De même $$\|f_i+\ii f_j\|^2 =  \|f_i\|^2 - 2\Im\big( \braket{f_i}{f_j} \big) + \|f_j\|^2 $$ alors $2\Im\big( \braket{f_i}{f_j}\big)=0$. Ainsi $\braket{f_i}{f_j}=0$ et $(f_i)$ forment une base orthonormée.
 
   \item (iv) $\implies$ (v) Soit $(e_i)$ la base canonique, alors les $f_i = Ae_i$ sont les vecteurs colonnes de $A$. Comme $(e_i)$ est une base orthonormale, alors $(f_i)$ l'est aussi.
 
@@ -1061,7 +1061,7 @@ Conclusion : une telle matrice $A$ qui réalise le clonage ne peut exister.
 \subsection{Cas général}
 
 
-\begin{theoreme}\index{theoreme de non-clonage quantique@théorème de non-clonage quantique}
+\begin{theoreme}%\index{theoreme de non-clonage quantique@théorème de non-clonage quantique}
 Il n'existe pas de porte quantique qui réalise le clonage d'un $n$-qubit, c'est-à-dire telle que pour tout $n$-qubit $\ket\psi$ on ait:
 \myfigure{0.5}{
 \tikzinput{portes_nonclonage}

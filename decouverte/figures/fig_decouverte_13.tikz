@@ -13,7 +13,7 @@
 \node[rectangle,draw] (B2) at (3,1.5) {
 \begin{tabular}{c}
 \it 2. Codage  \\
-de l'information
+\it de l'information
 \end{tabular}
 };
 \node[above =2ex of B2] {\bf Alice};

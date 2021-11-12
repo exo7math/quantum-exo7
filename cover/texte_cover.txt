@@ -1,0 +1,25 @@
+Quatrième de couverture
+
+Les ordinateurs quantiques permettront bientôt des avancées spectaculaires pour accélérer les calculs. Ce livre explique en détails les bases mathématiques pour comprendre l'informatique quantique, découvrir les principaux algorithmes et programmer un ordinateur quantique.
+
+
+ • Découverte de l’informatique quantique
+ • Utiliser un ordinateur quantique (avec Qiskit)
+ • Nombres complexes
+ • Vecteurs et matrices
+ • Informatique classique
+ • Physique quantique
+ • Téléportation quantique
+ • Un premier algorithme quantique
+ • Portes quantiques
+
+ • Algorithme de Deutsch–Jozsa
+ • Algorithme de Grover
+ • Arithmétique
+ • Algorithme de Shor
+ • Compléments d’arithmétique
+ • Transformée de Fourier discrète
+ • Cryptographie quantique
+ • Code correcteur
+ • Avantage quantique
+

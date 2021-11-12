@@ -10,7 +10,7 @@
 \chapitre{Algorithme de Deutsch--Jozsa}
 %====================================================================
 
-\insertvideo{w8SrEYSUjKA}{partie 10. Algorithme de Deutsch-Jozsa}
+\insertvideo{w8SrEYSUjKA}{partie 10. Algorithme de Deutsch--Jozsa}
 
 
 \objectifs{Nous expliquons et prouvons l'algorithme de Deutsch--Jozsa dans le cas général. C'est notre premier algorithme quantique qui supplante les algorithmes classiques et c'est aussi l'occasion d'introduire plusieurs notions utiles pour la suite.}
@@ -33,8 +33,10 @@ ou bien si pour tout $(x_1,\ldots,x_n)$ on a $f(x_1,\ldots,x_n)=1$.
 Il existe donc deux fonctions constantes.
 
   \item $f$ est \defi{équilibrée} s'il y a autant de $n$-uplets $(x_1,\ldots,x_n)$ tels que $f(x_1,\ldots,x_n)=0$ que de $n$-uplets $(x_1,\ldots,x_n)$ tels que $f(x_1,\ldots,x_n)=1$, autrement dit 
-$$\operatorname{Card}\big\{ (x_1,\ldots,x_n) \in (\Zz/2\Zz)^n \mid f(x_1,\ldots,x_n)=0 \big\}
-= \operatorname{Card}\big\{ (x_1,\ldots,x_n) \in (\Zz/2\Zz)^n \mid f(x_1,\ldots,x_n)=1 \big\}.$$
+\begin{align*}
+&\operatorname{Card}\big\{ (x_1,\ldots,x_n) \in (\Zz/2\Zz)^n \mid f(x_1,\ldots,x_n)=0 \big\} \\
+&\qquad\qquad= \ \operatorname{Card}\big\{ (x_1,\ldots,x_n) \in (\Zz/2\Zz)^n \mid f(x_1,\ldots,x_n)=1 \big\}.
+\end{align*}
 
 Il y a en tout $\binom{2^n}{2^{n-1}} = \frac{2^n!}{(2^{n-1}!)^2}$ telles fonctions. 
 
@@ -73,7 +75,7 @@ Bien sûr pour certaines fonctions $f$ on pourrait obtenir une réponse plus rap
 Voici le circuit qui fournit l'algorithme quantique répondant au problème.
 
 
-{\large$$
+{\large$$\ \ 
 \Qcircuit @C=0.7em @R=1em {
 \lstick{\ket0} & \gate{H} & \qw      & \qw      & \qw     & \qw & \qw      & \qw    & \multigate{5}{\qquad O_f \qquad} & \qw
 & \gate{H} & \qw      & \qw      & \qw     & \qw & \qw      & \qw  & \meter & \qw & \qwa \\
@@ -147,12 +149,12 @@ Notons $\underline{k}$ l'écriture binaire de l'entier $k$ sur $n$ bits.
 L'\defi{écriture entière} $\ket{\underline{k}}$ désigne le $n$-qubit de la base canonique associé à l'écriture binaire de $k$.
 
 $$\begin{array}{rcl}
-\ket{\underline{0}} &=& \ket{0.0\ldots0.0.0} \\
-\ket{\underline{1}} &=& \ket{0.0\ldots0.0.1} \\
-\ket{\underline{2}} &=& \ket{0.0\ldots0.1.0} \\
+\ket{\underline{0}} &=& \ket{0.0\ldots0.0.0} \\[2pt]
+\ket{\underline{1}} &=& \ket{0.0\ldots0.0.1} \\[2pt]
+\ket{\underline{2}} &=& \ket{0.0\ldots0.1.0} \\[2pt]
 \ket{\underline{3}} &=& \ket{0.0\ldots0.1.1} \\
 & \vdots &  \\
-\ket{\underline{2^{n}-2}} &=& \ket{1.1\ldots1.1.0} \\
+\ket{\underline{2^{n}-2}} &=& \ket{1.1\ldots1.1.0} \\[2pt]
 \ket{\underline{2^{n}-1}} &=& \ket{1.1\ldots1.1.1} \\
 \end{array}
 $$
@@ -172,9 +174,9 @@ $\ket{\underline{0}} = \ket{0}$ et $\ket{\underline{1}} = \ket{1}$.
 \begin{exemple}
 Pour $n = 2$.
 $$\begin{array}{rcl}
-\ket{\underline{0}} &=& \ket{0.0} \\
-\ket{\underline{1}} &=& \ket{0.1} \\
-\ket{\underline{2}} &=& \ket{1.0} \\
+\ket{\underline{0}} &=& \ket{0.0} \\[2pt]
+\ket{\underline{1}} &=& \ket{0.1} \\[2pt]
+\ket{\underline{2}} &=& \ket{1.0} \\[2pt]
 \ket{\underline{3}} &=& \ket{1.1} \\
 \end{array}
 $$
@@ -183,14 +185,14 @@ $$
 \begin{exemple}
 Pour $n = 3$.
 $$\begin{array}{rcl}
-\ket{\underline{0}} &=& \ket{0.0.0} \\
-\ket{\underline{1}} &=& \ket{0.0.1} \\
-\ket{\underline{2}} &=& \ket{0.1.0} \\
+\ket{\underline{0}} &=& \ket{0.0.0} \\[2pt]
+\ket{\underline{1}} &=& \ket{0.0.1} \\[2pt]
+\ket{\underline{2}} &=& \ket{0.1.0} \\[2pt]
 \ket{\underline{3}} &=& \ket{0.1.1} \\
 \end{array}\qquad\qquad\qquad\begin{array}{rcl}
-\ket{\underline{4}} &=& \ket{1.0.0} \\
-\ket{\underline{5}} &=& \ket{1.0.1} \\
-\ket{\underline{6}} &=& \ket{1.1.0} \\
+\ket{\underline{4}} &=& \ket{1.0.0} \\[2pt]
+\ket{\underline{5}} &=& \ket{1.0.1} \\[2pt]
+\ket{\underline{6}} &=& \ket{1.1.0} \\[2pt]
 \ket{\underline{7}} &=& \ket{1.1.1} \\
 \end{array}
 $$
@@ -206,7 +208,7 @@ $$
 \subsection{Définition}
 
 On rappelle que la porte de Hadamard est définie pour les $1$-qubits par la formule :
-$$H\ket 0 = \frac1{\sqrt2} (\ket0+\ket1) \qquad \text{ et } \qquad H\ket 1\frac1{\sqrt2} (\ket0-\ket1).$$
+$$H\ket 0 = \frac1{\sqrt2} (\ket0+\ket1) \qquad \text{ et } \qquad H\ket 1 = \frac1{\sqrt2} (\ket0-\ket1).$$
 {\Large$$
 \Qcircuit @C=1em @R=1em {
 & \gate{H} & \qw \\
@@ -252,7 +254,31 @@ $$\begin{array}{rcl}
 \subsection{Formule de la transformation de Hadamard}
 
 Quelle est la formule qui permet de calculer la transformation de Hadamard sur les qubits de base ?
-La réponse est donnée par la proposition suivante.
+
+
+\begin{exemple}
+Calculons $H^{\otimes n} \ket{\underline{0}}$ pour $n$ quelconque. 
+Comme $\ket{\underline 0} = \ket{0.0\ldots0}$ alors
+$H^{\otimes n} \ket{\underline{0}} = \frac{1}{\sqrt{2^n}} \ket{0+1} \cdot \ket{0+1} \cdots \ket{0+1}$.
+En développant ce produit, on obtient toutes les combinaisons possibles de $0$ et de $1$ :
+    \mybox{$\displaystyle
+    H^{\otimes n} \ket{\underline{0}} 
+    = \frac{1}{\sqrt{2^n}} \left( 
+      \ket{0\ldots0.0} +
+      \ket{0\ldots0.1} +
+      \ket{0\ldots1.0} +
+      \quad \cdots \quad + 
+      \ket{1\ldots1.1}    
+     \right)$}
+Autrement dit :
+    \mybox{$\displaystyle
+    H^{\otimes n} \ket{\underline{0}} 
+    = \frac{1}{\sqrt{2^n}} \sum_{\ell=0}^{2^n-1} \ket{\underline\ell}$}
+
+
+\end{exemple}
+
+La formule générale est donnée par la proposition suivante.
 
 \begin{proposition}
 Pour $0 \le k \le 2^{n}-1$, on a :
@@ -278,7 +304,7 @@ Une preuve détaillée se fait par récurrence.
 
 
 %--------------------------------------------------------------------
-\subsection{Exemples}
+\subsection{Exemple}
 
 
 \begin{exemple}
@@ -287,7 +313,7 @@ un calcul direct donne :
 \begin{align*}
 H^{\otimes 3} \ket{\underline{5}} 
   &= H^{\otimes 3}\ket{1.0.1} \\
-  &= H^{\otimes 3}\tfrac{1}{2\sqrt2} \ket{(0-1).(0+1).(0-1)} \\
+  &= \tfrac{1}{2\sqrt2} \ket{(0-1).(0+1).(0-1)} \\
   &= \tfrac{1}{2\sqrt2}\big( \ket{0.0.0} - \ket{0.0.1} + \ket{0.1.0} - \ket{0.1.1} 
 -  \ket{1.0.0} + \ket{1.0.1} - \ket{1.1.0} + \ket{1.1.1}\big) \\
 \end{align*}
@@ -305,16 +331,13 @@ On retrouve bien la formule annoncée car avec $\underline{k} = \underline{5} = 
 \end{itemize}
 \end{exemple}
 
-\begin{exemple}
-Pour $n$ quelconque, comme $\ket{\underline 0} = \ket{0.0\ldots0}$ alors
-$$H^{\otimes n} \ket{\underline{0}} = \frac{1}{\sqrt{2^n}} \sum_{\ell=0}^{2^n-1} \ket{\underline\ell}.$$
-\end{exemple}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Preuve de l'algorithme de Deutsch--Jozsa}
 
-{\large$$
+{$$
 \Qcircuit @C=1em @R=1em {
 \lstick{\ket0} \barrier[-1.2em]{5} & \gate{H} & \qw      & \qw      & \qw     & \qw & \qw      & \barrier[-4.3em]{5}\qw    & \multigate{5}{\qquad O_f \qquad} 
 & \barrier[-1.4em]{5} \qw  & \gate{H} & \qw      & \qw      & \qw     & \qw & \qw      & \qw\barrier[-1.8em]{5}  & \meter & \qw & \qwa \\

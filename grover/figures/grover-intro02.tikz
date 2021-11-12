@@ -2,7 +2,7 @@
 
 \filldraw[black,thick, fill=red!80] (6,0) rectangle ++ (0.5,-1.5);
 \foreach \k in {1,2,3,4,5,7,8}{
-   \fill[blue!60] (\k,0) rectangle ++ (0.5,1.5);
+   \fill[blue!40] (\k,0) rectangle ++ (0.5,1.5);
 }
 
 \draw[->,>=latex, very thick,gray] (-1,0)--(10,0);

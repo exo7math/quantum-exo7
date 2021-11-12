@@ -80,6 +80,9 @@ Là où cela se complique un peu, c'est que les coefficients $\alpha$ et $\beta$
 \mybox{$\alpha \in \Cc$ \quad  et \quad $\beta \in \Cc$}
 Ainsi $\ket{\psi}$ est un vecteur de $\Cc^2$, défini par ses deux coordonnées complexes $\alpha$ et $\beta$. 
 
+
+
+
 \myfigure{0.7}{
   \tikzinput{fig_decouverte_03}
 } 
@@ -87,12 +90,20 @@ Ainsi $\ket{\psi}$ est un vecteur de $\Cc^2$, défini par ses deux coordonnées 
 
 
 Sur la figure ci-dessus, on a représenté un vecteur à coordonnées complexes comme un vecteur du plan. Cette figure aide à la compréhension mais ne correspond pas tout à fait à la réalité. Comme chacun des axes correspond à une coordonnée complexe (de dimension $2$), un dessin réaliste nécessiterait quatre dimensions. 
+`
+\bigskip
 
 \begin{exemple}
 \sauteligne
 \begin{itemize}
   \item $\ket\psi = (3+4\ii)\ket0 + (2-8\ii)\ket1$. On rappelle que $\ii$ est le nombre complexe tel que $\ii^2=-1$.
+  
+
+  
   \item $\ket\psi = \frac{1}{\sqrt2} \ket0 + \frac{\ii}{\sqrt2}\ket1$.
+  
+
+  
   \item On peut superposer des états par addition, par exemple :
   $$\big( 2\ket0+(1+\ii)\ket1\big) + \big( \ii\ket0+(2-3\ii)\ket1\big)
   = (2+\ii)\ket0+(3-2\ii)\ket1,$$
@@ -100,7 +111,9 @@ Sur la figure ci-dessus, on a représenté un vecteur à coordonnées complexes 
   $$\begin{pmatrix}2\\1+\ii\end{pmatrix}+ \begin{pmatrix}\ii\\2-3\ii\end{pmatrix}
   =\begin{pmatrix}2+\ii\\3-2\ii\end{pmatrix}.$$
 \end{itemize}
+
 \end{exemple}
+
 
 \begin{remarque*}
 \sauteligne
@@ -125,20 +138,24 @@ On rappelle que si $z = a+\ii b$ est un nombre complexe (avec $a,b\in\Rr$), alor
 \begin{exemple}
 \sauteligne
 \begin{itemize}
+\item     
+$\ket\psi = \frac{1}{\sqrt2} \ket0 + \frac{1}{\sqrt2}\ket1$.  
 
-  \item $\ket\psi = \frac{1}{\sqrt2} \ket0 + \frac{1}{\sqrt2}\ket1$.  
   Alors 
-  $$|\alpha|^2 + |\beta|^2 = \left|\frac{1}{\sqrt2}\right|^2+\left|\frac{1}{\sqrt2}\right|^2
-  = \frac12+\frac12 = 1.$$
+  $$|\alpha|^2 + |\beta|^2 = \left|\tfrac{1}{\sqrt2}\right|^2+\left|\tfrac{1}{\sqrt2}\right|^2
+  = \tfrac12+\tfrac12 = 1.$$
   Ainsi cet état $\ket\psi$ est bien de norme $1$.
-  
-  \item $\ket\psi = (3+4\ii)\ket0 + (2-8\ii)\ket1$.
-   $$|\alpha|^2 + |\beta|^2 = |3+4\ii|^2 + |2-8\ii|^2 = 25 + 68 = 93.$$
-   Ainsi la norme de $\ket\psi$ est $\sqrt{|\alpha|^2 + |\beta|^2} = \sqrt{93}$ et
-   n'est pas égale à $1$. En divisant par la norme, on transforme facilement $\ket\psi$ en un état $\ket{\psi'}$ de norme $1$ :
-   $$\ket{\psi'} = \frac{3+4\ii}{\sqrt{93}}  \ket0 + \frac{2-8\ii}{\sqrt{93}}\ket1.$$
+
+\item
+$\ket\psi = (3+4\ii)\ket0 + (2-8\ii)\ket1$.
+
+        $$|\alpha|^2 + |\beta|^2 = |3+4\ii|^2 + |2-8\ii|^2 = 25 + 68 = 93.$$
+        Ainsi la norme de $\ket\psi$ est $\sqrt{|\alpha|^2 + |\beta|^2} = \sqrt{93}$ et
+        n'est pas égale à $1$. En divisant par la norme, on transforme facilement $\ket\psi$ en un état $\ket{\psi'}$ de norme $1$ :
+        $$\ket{\psi'} = \frac{3+4\ii}{\sqrt{93}}  \ket0 + \frac{2-8\ii}{\sqrt{93}}\ket1.$$
 \end{itemize}
 \end{exemple}
+
 
 \begin{remarque*}
 On peut schématiser de façon imparfaite les états de norme $1$ par le dessin du cercle ci-dessous.
@@ -182,9 +199,7 @@ Si on mesure $\ket \psi$ alors on obtient $0$ avec une probabilité $\frac23$ et
 Autrement dit, si je peux répéter $100$ fois l'expérience \og{}je prépare l'état initial $\ket \psi$, puis je le mesure\fg{}, alors pour environ $66$ cas sur $100$ j'obtiendrai pour mesure $0$ et pour environ  $33$ cas sur $100$ j'obtiendrai~$1$.
 \end{exemple}
 
-La mesure d'un état quantique $\ket \psi$ le perturbe de façon irrémédiable. C'est un phénomène physique appelé \og{}réduction du paquet d'ondes\fg{}. Si la mesure a donné le bit $0$, alors l'état $\ket \psi$ est devenu $\ket 0$, si la mesure a donné le bit $1$ alors $\ket \psi$ est devenu $\ket 1$. Autrement dit, une fois qu'il est mesuré, un qubit ne sert plus à grand chose !
-
-
+La mesure d'un état quantique $\ket \psi$ le perturbe de façon irrémédiable. C'est un phénomène physique appelé \og{}réduction du paquet d'onde\fg{}. Si la mesure a donné le bit $0$, alors l'état $\ket \psi$ est devenu $\ket 0$, si la mesure a donné le bit $1$ alors $\ket \psi$ est devenu $\ket 1$. Autrement dit, une fois qu'il est mesuré, un qubit ne sert plus à grand chose !
 
 
 \begin{remarque*}
@@ -193,8 +208,7 @@ Dans ce cours nous faisons le choix qu'une mesure renvoie un bit classique $0$ o
 \end{remarque*}
 
 
-\bigskip
-
+~
 \mybox{
 \begin{minipage}{0.9\textwidth}
 \textbf{Bilan.}
@@ -466,7 +480,7 @@ $$
   $$  
 
 %  
-  \item Pour l'entrée $\ket\psi = \frac12\ket0 + i\frac{\sqrt3}{2}\ket1$, que donne la sortie après la porte $\sqrt{NOT}$ ? Que donne ensuite une mesure ?
+  \item Pour l'entrée $\ket\psi = \frac12\ket0 + \ii\frac{\sqrt3}{2}\ket1$, que donne la sortie après la porte $\sqrt{NOT}$ ? Que donne ensuite une mesure ?
   $$
   \Qcircuit @C=1em @R=1em {
   \lstick{\ket\psi} & \gate{\sqrt{NOT}} & \rstick{?} \qwa  \\
@@ -1106,7 +1120,7 @@ $\ket\psi = \frac1{\sqrt2}(\ket0+\ket1)$ est mesuré en $0$ ou $1$ (une chance s
 %--------------------------------------------------------------------
 \subsection{Schéma général du protocole}
 
-Le reste de la section est consacrée au protocole appelé \og{}codage super-dense\fg{}.
+Le reste de la section est consacré au protocole appelé \og{}codage super-dense\fg{}.
 Alice souhaite transmettre de façon sécurisée à Bob une information constituée de deux bits classiques, en envoyant un seul qubit.
 
 Voici les trois étapes de ce protocole :
@@ -1180,7 +1194,7 @@ Alice souhaite envoyer un des quatre messages suivants à Bob, codés chacun par
 Elle reçoit de Charlie le qubit $\ket{\psi_A} = \frac1{\sqrt2} \ket{0_A} + \frac1{\sqrt2} \ket{1_A}$
 et lui applique une des quatre transformations en fonction de l'information qu'elle souhaite transmettre :
 \begin{itemize}
-  \item Si elle veut transmettre l'information \og{}Noir/$0.0$\fg{} elle applique l'identité \mygate{I} (elle ne fait rien conserve $\ket{\psi_A}$).
+  \item Si elle veut transmettre l'information \og{}Noir/$0.0$\fg{} elle applique l'identité \mygate{I} (elle ne fait rien et conserve $\ket{\psi_A}$).
   \item Si elle veut transmettre \og{}Rouge/$0.1$\fg{}, elle applique la porte \mygate{X} à $\ket{\psi_A}$.
   \item Si elle veut transmettre \og{}Bleu/$1.0$\fg{}, elle applique la porte \mygate{Z} à $\ket{\psi_A}$.
   \item Si elle veut transmettre \og{}Blanc/$1.1$\fg{}, elle applique la porte \mygate{X}, suivie de la porte \mygate{Z}  à $\ket{\psi_A}$.
@@ -1252,10 +1266,12 @@ Mais pour l'état de Bell $\tfrac{1}{\sqrt2}(\ket{0_A.0_B} + \ket{1_A.1_B})$ ini
 correspond au nouvel état $\tfrac{1}{\sqrt2}(\ket{1_A.0_B} + \ket{0_A.1_B})$.
 Ainsi Bob reçoit le $2$-qubit $\ket{\psi} = \tfrac{1}{\sqrt2}(\ket{1_A.0_B} + \ket{0_A.1_B})$.
 Bob applique une porte  \mygate{CNOT}, suivie d'une porte \mygate{H} sur le premier qubit:
-$$\tfrac{1}{\sqrt2}(\ket{1_A.0_B} + \tfrac{1}{\sqrt2}\ket{0_A.1_B}) 
-\xmapsto{\quad\mygate{CNOT}\quad}  \tfrac{1}{\sqrt2}\ket{1_A.1_B}+\tfrac{1}{\sqrt2}\ket{0_A.1_B}
-\xmapsto{\quad\mygate{H}_A\quad} \tfrac{1}{2}\ket{(0_A-1_A).1_B} + \tfrac{1}{2}\ket{(0_A+1_A).1_B}
-= \ket{0_A.1_B}.$$
+\begin{align*}
+\tfrac{1}{\sqrt2}(\ket{1_A.0_B} + \tfrac{1}{\sqrt2}\ket{0_A.1_B}) 
+&\xmapsto{\quad\mygate{CNOT}\quad}  \tfrac{1}{\sqrt2}\ket{1_A.1_B}+\tfrac{1}{\sqrt2}\ket{0_A.1_B}\\
+&\qquad\xmapsto{\quad\mygate{H}_A\quad} \tfrac{1}{2}\ket{(0_A-1_A).1_B} + \tfrac{1}{2}\ket{(0_A+1_A).1_B}
+= \ket{0_A.1_B}.
+\end{align*}
 Ainsi Bob mesure $0.1$ ce qui est le message d'Alice.
 
 \bigskip
@@ -1263,10 +1279,12 @@ Ainsi Bob mesure $0.1$ ce qui est le message d'Alice.
 Alice applique la porte \mygate{Z} au premier qubit de l'état de Bell,
 Bob reçoit donc $\ket{\psi} = \tfrac{1}{\sqrt2}(\ket{0_A.0_B} - \ket{1_A.1_B})$.
 Bob applique une porte  \mygate{CNOT}, suivie d'une porte \mygate{H} sur le premier qubit:
-$$\tfrac{1}{\sqrt2}(\ket{0_A.0_B} - \ket{1_A.1_B}) 
-\xmapsto{\quad\mygate{CNOT}\quad}  \tfrac{1}{\sqrt2}\ket{0_A.0_B} - \tfrac{1}{\sqrt2}\ket{1_A.0_B}
-\xmapsto{\quad\mygate{H}_A\quad} \tfrac{1}{2}\ket{(0_A+1_A).0_B} - \tfrac{1}{2}\ket{(0_A-1_A).0_B}
-= \ket{1_A.0_B}.$$
+\begin{align*}
+\tfrac{1}{\sqrt2}(\ket{0_A.0_B} - \ket{1_A.1_B}) 
+&\xmapsto{\quad\mygate{CNOT}\quad}  \tfrac{1}{\sqrt2}\ket{0_A.0_B} - \tfrac{1}{\sqrt2}\ket{1_A.0_B}\\
+&\qquad\xmapsto{\quad\mygate{H}_A\quad} \tfrac{1}{2}\ket{(0_A+1_A).0_B} - \tfrac{1}{2}\ket{(0_A-1_A).0_B}
+= \ket{1_A.0_B}.
+\end{align*}
 Ainsi Bob mesure $1.0$ ce qui est le message d'Alice.
 
 
@@ -1277,10 +1295,12 @@ Alice applique la porte \mygate{X} sur le premier qubit, ce qui donne
 $\tfrac{1}{\sqrt2}(\ket{1_A.0_B} + \ket{0_A.1_B})$, puis une porte \mygate{Z} sur le premier qubit.
  Ainsi Bob reçoit $\ket{\psi} = \tfrac{1}{\sqrt2}(-\ket{1_A.0_B} + \ket{0_A.1_B})$.
 Bob applique une porte  \mygate{CNOT}, suivie d'une porte \mygate{H} sur le premier qubit:
-$$\tfrac{1}{\sqrt2}(-\ket{1_A.0_B} + \ket{0_A.1_B})
-\xmapsto{\quad\mygate{CNOT}\quad}  -\tfrac{1}{\sqrt2}\ket{1_A.1_B}+\tfrac{1}{\sqrt2}\ket{0_A.1_B}
-\xmapsto{\quad\mygate{H}_A\quad} -\tfrac{1}{2}\ket{(0_A-1_A).1_B} + \tfrac{1}{2}\ket{(0_A+1_A).1_B}
-= \ket{1_A.1_B}.$$
+\begin{align*}
+\tfrac{1}{\sqrt2}(-\ket{1_A.0_B} + \ket{0_A.1_B})
+&\xmapsto{\quad\mygate{CNOT}\quad}  -\tfrac{1}{\sqrt2}\ket{1_A.1_B}+\tfrac{1}{\sqrt2}\ket{0_A.1_B}\\
+&\qquad\xmapsto{\quad\mygate{H}_A\quad} -\tfrac{1}{2}\ket{(0_A-1_A).1_B} + \tfrac{1}{2}\ket{(0_A+1_A).1_B}
+= \ket{1_A.1_B}.
+\end{align*}
 Ainsi Bob mesure $1.1$ ce qui est le message d'Alice.
 
 

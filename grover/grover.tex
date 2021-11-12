@@ -37,13 +37,13 @@ Expliquons l'algorithme de Grover avec des dessins.
   \tikzinput{grover-intro04}
 } 
 
-Figure (a). Il s'agit de distinguer un rang parmi les autres, ici le rang du rectangle rouge. On considère que les hauteurs des rectangles représentent les coefficients d'un qubit : ici il y a $8$ coefficients pour l'expression d'un $3$-qubit comme somme des $8$ états de base. Une mesure de ce qubit 
+Figure (a). Il s'agit de distinguer un rang parmi les autres, ici le rang du rectangle \couleurnb{rouge}{sombre}. On considère que les hauteurs des rectangles représentent les coefficients d'un qubit : ici il y a $8$ coefficients pour l'expression d'un $3$-qubit comme somme des $8$ états de base. Une mesure de ce qubit 
 ne donnerait aucune information, chacun des rangs s'obtenant avec la même probabilité, car les hauteurs des rectangles sont égales.
 
 \smallskip
 
-Figure (b). On rend le coefficient du rang qui nous intéresse négatif. (Cela peut se faire sans connaître le rang : je regarde la couleur du rectangle, s'il est rouge je change le signe).
-Une mesure de ce nouveau qubit ne donnerait toujours aucune information, car en valeur absolue les hauteurs des rectangles sont encore égales.
+Figure (b). On rend le coefficient du rang qui nous intéresse négatif. (Cela peut se faire sans connaître le rang : je regarde la couleur du rectangle, s'il est \couleurnb{rouge}{sombre} je change le signe).
+Une mesure de nouveau qubit ne donnerait toujours aucune information, car en valeur absolue les hauteurs des rectangles sont encore égales.
 
 \smallskip
 
@@ -51,11 +51,11 @@ Figure (c). On calcule la moyenne des coefficients
 
 \smallskip
 
-Figure (d). On effectue une symétrie par rapport à la moyenne. Les rectangles bleus ont maintenant des hauteurs petites alors que le rectangle rouge a une grande hauteur. Que donne une mesure de ce nouveau qubit ? Il y a beaucoup plus de chances d'obtenir l'état de base correspondant au rectangle rouge et donc d'obtenir le rang souhaité.
+Figure (d). On effectue une symétrie par rapport à la moyenne. Les rectangles \couleurnb{bleus}{clairs} ont maintenant des hauteurs petites alors que le rectangle \couleurnb{rouge}{sombre} a une grande hauteur. Que donne une mesure de ce nouveau qubit ? Il y a beaucoup plus de chances d'obtenir l'état de base correspondant au rectangle \couleurnb{rouge}{sombre} et donc d'obtenir le rang souhaité.
 
 \smallskip
 
-L'algorithme de Grover est l'itération de ce procédé : à partir du dernier état obtenu avant mesure, on recommence les étapes (b), (c) et (d). Le rectangle rouge devient de plus en plus grand et les rectangles bleus de plus en plus petits. Ainsi après plusieurs itérations, une mesure donne avec une très forte probabilité, le rang du rectangle rouge.
+L'algorithme de Grover est l'itération de ce procédé : à partir du dernier état obtenu avant mesure, on recommence les étapes (b), (c) et (d). Le rectangle \couleurnb{rouge}{sombre} devient de plus en plus grand et les rectangles \couleurnb{bleus}{clairs} de plus en plus petits. Ainsi après plusieurs itérations, une mesure donne avec une très forte probabilité, le rang du rectangle \couleurnb{rouge}{sombre}.
 
 
 %--------------------------------------------------------------------
@@ -164,7 +164,7 @@ Remarques.
 
 \index{oracle}
 
-On se place dans cas où $N$ est une puissance de $2$ : $N = 2^n$.
+On se place dans le cas où $N$ est une puissance de $2$ : $N = 2^n$.
 On rappelle que pour $0 \le k \le N-1$, alors $\underline{k}$ est l'écriture binaire de $k$ sur $n$ bits. Ainsi $\ket{\underline{k}}$, pour $k=0,\ldots, 2^n-1$, désigne les $n$-qubits de la base canonique : 
 $\ket{\underline{0}} = \ket{0.0\ldots0}$, $\ket{\underline{1}} = \ket{0.0\ldots1}$,
 \ldots, $\ket{\underline{2^n-1}} = \ket{1.1\ldots1}$.
@@ -180,7 +180,7 @@ $F(x,y) = (x_1,\ldots,x_n, y \oplus f(x_1,\ldots,x_n) )$. On rappelle que $y\opl
   & \qw  & \ustick{\scriptstyle x_1}\qw & \multigate{4}{O_f} & \ustick{\scriptstyle x_1}\qw & \qw &  \qwa \\
   & \qw  & \ustick{\scriptstyle x_2}\qw & \ghost{O_f}   & \ustick{\scriptstyle x_2}\qw & \qw &  \qwa \\
   & \qw  & \ustick{\scriptstyle \vdots}\qw & \ghost{O_f}   & \ustick{\vdots}\qw & \qw &  \qwa \\
-  & \qw  & \ustick{\scriptstyle x_k}\qw & \ghost{O_f}   & \ustick{\scriptstyle x_k}\qw & \qw &  \qwa \\
+  & \qw  & \ustick{\scriptstyle x_n}\qw & \ghost{O_f}   & \ustick{\scriptstyle x_n}\qw & \qw &  \qwa \\
  & \qw   & \dstick{\scriptstyle y}\qw & \ghost{O_f}           & \dstick{\scriptstyle \hspace{0.5em} y \oplus f(x_1,\ldots,x_n)}\qw & \qw &  \qwa
 }
 $$}
@@ -344,7 +344,7 @@ $$\ket\phi = \alpha \ket{\underline{k_0}} + \sum_{k\neq k_0} \alpha_k \ket{\unde
 L'action de l'oracle $O_f$ donne :
 $$O_f \ket\phi = -\alpha \ket{\underline{k_0}} + \sum_{k\neq k_0} \alpha_k \ket{\underline{k}}$$
 
-Géométriquement cette transformation est une symétrie par rapport à l'axe formé des qubits de base autres que $\ket{\underline{k_0}}$ que l'on regroupe schématiquement par l'axe $\ket{\text{reste}}$ ci-dessous. Sur la figure, la transformation est représentée comme une symétrie par rapport à une droite (mais en réalité c'est une symétrie par rapport un un hyperplan de dimension $2^n-1$).
+Géométriquement cette transformation est une symétrie par rapport à l'axe formé des qubits de base autres que $\ket{\underline{k_0}}$ que l'on regroupe schématiquement par l'axe $\ket{\text{reste}}$ ci-dessous. Sur la figure, la transformation est représentée comme une symétrie par rapport à une droite (mais en réalité c'est une symétrie par rapport à un hyperplan de dimension $2^n-1$).
 
 \myfigure{0.8}{
   \tikzinput{geo01}
@@ -452,19 +452,19 @@ $$\ket{\psi_H} =  H^{\otimes n} \ket{\underline{0}}.$$
 \label{prop:psiH}
 La transformation $S_{\psi_H}$ est définie par l'une des caractérisations équivalentes suivantes :
 \begin{itemize}
-  \item $S_{\psi_H} = 2 \ket{\psi_H} \bra{\psi_H} - I$,
+  \item[(i)] $S_{\psi_H} = 2 \ket{\psi_H} \bra{\psi_H} - I$,
 c'est-à-dire $S_{\psi_H} \ket\phi = 2 \ket{\psi_H} \braket{\psi_H}{\phi} - \ket\phi$, pour tout qubit $\ket\phi$.
 
-  \item $\left\{
+  \item[(ii)] $\left\{
 \begin{array}{l}
 \ket{\psi_H} \xmapsto{S_{\psi_H}} \ket{\psi_H} \\
 \ket\phi \xmapsto{S_{\psi_H}} -\ket\phi \quad \text{ si $\ket\phi$ est orthogonal à $\ket{\psi_H}$} \\
 \end{array}
 \right.$
 
-  \item $S_{\psi_H} = H^{\otimes n} \cdot S_0 \cdot H^{\otimes n}$
+  \item[(iii)] $S_{\psi_H} = H^{\otimes n} \cdot S_0 \cdot H^{\otimes n}$
 
-  \item $S_{\psi_H}$ a pour matrice 
+  \item[(iv)] $S_{\psi_H}$ a pour matrice 
 $$\frac{2}{2^n} U - I \qquad \text{ où } \quad
 U = 
 \begin{pmatrix}
@@ -513,7 +513,7 @@ où $\frac\theta2$ est l'angle entre $\ket\chi$ et $\ket{\psi_H}$.
 } 
 
 Comme dans la pratique $N=2^n$ est grand, alors l'angle $\frac\theta2$ est petit. Pour plus de lisibilité le dessin ne reflète pas à quel point $\frac\theta2$ est petit.
-Autrement dit $\frac\theta2$ est l'angle défini par :
+Ainsi $\frac\theta2$ est l'angle défini par :
 $$\cos \left(\tfrac\theta2\right) = \sqrt{\frac{N-1}{N}}\qquad \text{ et } \qquad \sin \left(\tfrac\theta2\right) = \frac{1}{\sqrt{N}}.$$
 
 \begin{proposition}
@@ -752,15 +752,16 @@ T \ket{\psi_H}
 
 Considérons maintenant un qubit $\ket\phi$ orthogonal à $\ket{\psi_H}$,
 alors $\braket{\psi_H}{\phi}=0$ et comme $H^{\otimes n}$ est unitaire alors
-il préserve le produit scalaire, donc on a aussi $\braket{H^{\otimes n}\ket{\psi_H}}{H^{\otimes n}\ket{\phi}}=0$,
+il préserve le produit scalaire, donc on a aussi 
+$\braket{ \; H^{\otimes n}\ket{\psi_H} \; }{ \; H^{\otimes n}\ket{\phi} \; }=0$,
 donc $\ket{\underline0}$ et $H^{\otimes n}\ket{\phi}$ sont orthogonaux.
 Ainsi 
 \begin{align*}
 T \ket{\phi} 
   &= H^{\otimes n} \cdot S_0 \left( H^{\otimes n} \ket{\phi} \right) \\
-  &= H^{\otimes n}  \left(- H^{\otimes n} \ket{\phi} \right) \qquad \text{ car $\ket{\underline0}$ et $H^{\otimes n}\ket{\phi}$ sont orthogonaux, donc $S_0 \left( H^{\otimes n}\ket{\phi}\right) = - H^{\otimes n} \ket{\phi}$} \\
+  &= H^{\otimes n}  \left(- H^{\otimes n} \ket{\phi} \right) \qquad \text{\small car $\ket{\underline0}$ et $H^{\otimes n}\ket{\phi}$ sont orthogonaux, donc $S_0 \left( H^{\otimes n}\ket{\phi}\right) = - H^{\otimes n} \ket{\phi}$} \\
   &= - H^{\otimes n} \cdot H^{\otimes n}  \ket{\phi} \\
-  &= -\ket{\phi} \qquad \text{ car $H^{\otimes n} \cdot H^{\otimes n} = \text{id}$ parce que $H^{\otimes n}$ est unitaire} \\
+  &= -\ket{\phi} \qquad \text{\small car $H^{\otimes n} \cdot H^{\otimes n} = \text{id}$ parce que $H^{\otimes n}$ est unitaire} \\
 \end{align*}
 
 Conclusion : $T$ et $S_{\psi_H}$  vérifient la même relation vue en (ii). Les applications sont donc égales :  $T=S_{\psi_H}$.
@@ -792,7 +793,6 @@ Conclusion : $S_{\psi_H} = 2 \ket{\psi_H} \bra{\psi_H} - I$ a pour matrice $\fra
 \subsection{Circuit}
 
 On note $G$ la transformation de Grover, elle prend en entrée un $(n+1)$-qubit, et est formée par la porte $O_f$ de l'oracle, suivie d'une porte associée à la transformation $S_{\psi_H}$.
-
 On représente cette porte $G$ avec $2$ lignes seulement, la première ligne correspond à un $n$-qubit (ligne symbolisée avec \og{}/\fg{}), la seconde à un $1$-qubit.
 {\large$$
 \Qcircuit @C=1em @R=1em {

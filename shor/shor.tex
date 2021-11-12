@@ -93,7 +93,7 @@ Nous allons faire plusieurs hypothèses au cours de ce chapitre. Nous discuteron
 
 Nous verrons dans le chapitre suivant \og{}Compléments d'arithmétique\fg{} que c'est le cas pour plus de la moitié des entiers $a$ choisis au départ.
 Si $r$ n'est pas pair, alors on arrête l'algorithme et on choisit une nouvelle valeur de $a$.
-À l'aide de l'identité $a^2-b^2 = (a-b)(a+b)$ et sachant que $a^r-1 \equiv 0 \pmod N$, on obtient alors 
+Si $r$ est pair, à l'aide de l'identité $a^2-b^2 = (a-b)(a+b)$ et sachant que $a^r-1 \equiv 0 \pmod N$, on obtient alors 
 \mybox{$(a^{r/2}-1)(a^{r/2}+1) \equiv 0 \pmod N$}
 
 Cette décomposition est la clé pour une factorisation de $N$.
@@ -110,7 +110,7 @@ Encore une fois nous verrons dans le chapitre suivant que c'est la cas pour une 
 
 \begin{proposition}
 Avec les hypothèses 1 et 2, les entiers
-$$d = \pgcd(a^{r/2}-1,N) \qquad \text{ et } \qquad d' = \pgcd(a^{r/2}+1,N)$$
+\mybox{$d = \pgcd(a^{r/2}-1,N) \qquad \text{ et } \qquad d' = \pgcd(a^{r/2}+1,N)$}
 sont des facteurs non triviaux de $N$.
 \end{proposition}
 
@@ -127,7 +127,7 @@ $2 \times  3 \equiv 0 \pmod 6$.
 Supposons $ab \equiv 0 \pmod N$, c'est-à-dire $N$ divise $ab$.
 \begin{itemize}
 	\item Si on avait $\pgcd(a,N) = 1$, comme $N|ab$, par le lemme de Gauss on a $N|b$, donc $b\equiv 0 \pmod N$, ce qui donnerait une contradiction.
-	\item Par un raisonnement similaire, on ne peut pas avoir $\pgcd(b,N)=1$.
+	\item Bien sûr $d =\pgcd(a,N)$ est plus petit que $N$, et d'autre part $d \neq N$ car sinon $a \equiv 0 \pmod{N}$.
 \end{itemize}
 Ainsi $d=\pgcd(a,N)$ est un diviseur de $N$ avec $1<d<N$, de même pour $d'=\pgcd(b,N)$.
 \end{proof}
@@ -342,7 +342,7 @@ $\left\{ \raisebox{6ex}{} \right.$
 $\left. \raisebox{6ex}{} \right\} \ket{\bar \psi_3} $
 }
 \kern-7ex\raise-19ex\hbox{
-$\left. \raisebox{6ex}{} \right\}$mesure du second registre
+$\left. \raisebox{6ex}{} \right\}$\begin{tabular}{c}mesure du \\second registre\end{tabular}
 }
 $$
 
@@ -624,7 +624,7 @@ Alors les $\omega^k$ forment les sommets d'un polygone régulier à $n$ côtés.
 Le barycentre de ces points a pour coordonnées $\frac1n \sum_{k=0}^{n-1} \omega^k = 0$ par le lemme, c'est donc bien l'origine !
 D'un point de vue physique on parle d'interférence destructive.
 
-\myfigure{0.8}{
+\myfigure{0.7}{
   \tikzinput{fig_polyg1}
 \qquad
   \tikzinput{fig_polyg2}

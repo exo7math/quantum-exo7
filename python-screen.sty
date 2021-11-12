@@ -116,7 +116,7 @@
 % ----------------------------------------------------------------------
 % Les chapitres
 
-% Pour figure titre \part deepmath
+% Pour figure titre \part quantum
 \newcommand\myqubit{
 \def\numpart{\the\numexpr\value{part}}
 \begin{center}
@@ -137,7 +137,7 @@
 \end{tikzpicture}  
 \end{center}
 }  
-% Fin figure \part deepmath
+% Fin figure \part quantum
 
 \newcommand{\debutchapitres}{\cleardoublepage\pagestyle{main}\thispagestyle{empty}\setcounter{page}{1}
 % Pour la numerotation coherente pdf/latex
@@ -293,14 +293,14 @@
 {}% Theorem head spec (can be left empty, meaning ‘normal’ )
 
 \newtheoremstyle{definitionexo7}% name
-{3pt}% Space above
-{3pt}% Space below
-{\upshape}% Body font
-{}% Indent amount
-{\bfseries}% Theorem head font
-{.\newline}% Punctuation after theorem head
-{0pt\Needspace{3\baselineskip}}% Space after theorem head
-{}% Theorem head spec (can be left empty, meaning ‘normal’ )
+{\dimexpr\topsep/2\relax} % space above
+{\dimexpr\topsep/2\relax} % space below
+{\upshape}          % body font
+{}          % indent amount
+{\bfseries} % theorem head font
+{.\newline}         % punctuation after theorem head
+{0pt\Needspace{3\baselineskip}}      % space after theorem head
+{}          % theorem hed spec. (empty = "normal")
 
 
 \theoremstyle{theoremeexo7}

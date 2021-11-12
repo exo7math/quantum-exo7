@@ -26,11 +26,13 @@ La transformée de Fourier, c'est la magie de pouvoir récupérer chacune des co
 %--------------------------------------------------------------------
 \subsection{Les transformées de Fourier}
 
+\begin{center}
+    \includegraphics[scale=\myscale,scale=0.7]{figures/fourier-1}
+\end{center}
+
 Voici un exemple : on prend trois fonctions sinusoïdales $f_1, f_2, f_3$ (figure du bas) que l'on additionne pour obtenir une fonction compliquée $f(x) = f_1(x) + f_2(x) + f_3(x)$ (figure du haut). Alors la transformée de Fourier permet de retrouver chacune des composantes $f_1, f_2, f_3$ à partir de $f$.
 
-\begin{center}
-\includegraphics[scale=\myscale,scale=0.7]{figures/fourier-1}
-\end{center}
+\bigskip
 
 Le monde de Fourier est assez vaste, voici un petit lexique :
 \begin{itemize}
@@ -342,7 +344,7 @@ où $x_j = f\left(\frac{j}{n}\right)$
 \nopagebreak
 
 \begin{minipage}{0.8\textwidth}
-\center\emph{Graphe de de la fonction $t \mapsto \Re(X_t)$ qui mesure l'abscisse du centre de gravité de l'enroulement de la fonction $f(x)$ sur l'intervalle $[0,2\pi]$ pour différentes valeurs de $t$.\\ On remarque des pics en $t=3$ et $t=5$.
+\center\emph{Graphe de la fonction $t \mapsto \Re(X_t)$ qui mesure l'abscisse du centre de gravité de l'enroulement de la fonction $f(x)$ sur l'intervalle $[0,2\pi]$ pour différentes valeurs de $t$.\\ On remarque des pics en $t=3$ et $t=5$.
 }
 \end{minipage}
 \end{center}
@@ -720,7 +722,7 @@ Il est clair que $\ket{\psi_0}$ est le même qubit que dans le cas $n=1$ ci-dess
 
 Calculons le qubit $\ket{\psi_1}$.
 Si $\ket{k_0} = \ket0$ alors la seconde ligne est juste une porte \mygate{H} car la porte \mygate{R_2} n'est pas activée.
-Donc si $k_0 = 0$, on a donc comme ci-dessus pour le cas $n=1$ :
+Donc si $k_0 = 0$, on a comme ci-dessus pour le cas $n=1$ :
 \begin{equation}
 \label{eq:psi1a}
 \ket{\psi_1} = H\ket{k_1} = \ket{0} +  e^{2\ii \pi \frac{k_1}{2}}\ket{1}
@@ -994,7 +996,7 @@ $$}
 
 La phase $\theta_0$ est un réel qui vérifie $0 \le \theta_0 < 1$.
 Supposons qu'il admette l'écriture binaire :
-$$\theta_0 = 0..j_1.j_2\ldots.j_n = \frac{j_1}{2} + \frac{j_2}{2^2} + \cdots + \frac{j_n}{2^n}.$$
+$$\theta_0 = 0..j_1.j_2\ldots j_n = \frac{j_1}{2} + \frac{j_2}{2^2} + \cdots + \frac{j_n}{2^n}.$$
 
 \begin{lemme}
 \label{lem:blocphase}
@@ -1032,7 +1034,7 @@ Donc pour l'entrée du bloc $\frac{1}{\sqrt2}(\ket0+\ket1)\otimes \ket{\psi_0}$ 
 
 \begin{minipage}{0.9\textwidth}
 $$
-\raise-9.5ex\hbox{
+\kern-10ex{\raise-9.5ex\hbox{
 premier registre \quad
 $\left\{ \raisebox{11.5ex}{} \right.$
 }
@@ -1047,7 +1049,7 @@ $\left\{ \raisebox{3ex}{} \right.$
 \lstick{\ket{0}}      & \qw     & \gate{H}  & \qw            & \ctrl{2}        & \qw            & \qw & \cdots  &  & \qw                & \qw  & \rstick{\ket{0} + e^{2\ii \pi 0..j_2 \ldots j_n} \ket{1}}\qwa \\
 \lstick{\ket{0}}      & \qw     & \gate{H}  & \ctrl{1}       & \qw             & \qw            & \qw & \cdots  &  & \qw                & \qw  & \rstick{\ket{0} + e^{2\ii \pi 0..j_1 \ldots j_n} \ket{1}}\qwa \\
 \lstick{\ket{\psi_0}} & {/}\qw  & \qw       & \gate{A^{2^0}} & \gate{A^{2^1}}  & \gate{A^{2^2}} & \qw & \cdots  &  & \gate{A^{2^{n-1}}} & \qw  & \rstick{\ket{\psi_0}}\qwa \\
-}
+}}
 $$
 \end{minipage}
 
@@ -1081,7 +1083,7 @@ en $\frac{1}{\sqrt2}\left(\ket0+ e^{2\ii\pi 0..j_{\ell+1} \ldots j_n}\ket1\right
 Par le circuit de la section \ref{sec:fouriercircuit} qui réalise la transformée de Fourier, on vérifie immédiatement que la sortie $P$ du premier registre est $\hat F\ket{j_1.j_2\ldots j_n}$.
 Ainsi
 $\ket{j_1.j_2\ldots j_n} = \hat F^{-1}(P)$.  
-Nous savons réaliser un circuit quantique pour $\hat F$. Comment réaliser un circuit pour $\hat F^{-1}$ ? Tout simplement en reprenant le circuit de $\hat F$ et en le lisant de droite à gauche (au lieu de la lecture habituelle de gauche à droite). Cette opération est possible car toutes les portes quantiques sont inversibles : donc obtenir la porte $A^{-1}$, c'est lire une porte $A$ de droite à gauche.
+Nous savons réaliser un circuit quantique pour $\hat F$. Comment réaliser un circuit pour $\hat F^{-1}$ ? Tout simplement en reprenant le circuit de $\hat F$ et en le lisant de droite à gauche (au lieu de la lecture habituelle de gauche à droite). Cette opération est possible car toutes les portes quantiques sont inversibles : donc obtenir la porte $A^{-1}$, c'est lire l'action dune porte $A$ de droite à gauche.
 
 Nous obtenons donc l'état quantique de base $\ket{j_1.j_2\ldots j_n}$ dont la mesure donne les bits $j_1,j_2,\ldots,j_n$ qui permettent ainsi de retrouver la phase $\theta_0
 = \frac{j_1}{2}+\frac{j2}{4}+\cdots$ et donc la valeur propre $\lambda_0$.

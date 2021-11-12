@@ -225,7 +225,7 @@ Pour tester si un entier $n$ est premier, on fixe un entier $1 < a < n$, on calc
   \item Si $a^{n-1} \equiv 1 \pmod{n}$ alors on dit que $n$ valide le test de Fermat pour l'entier $a$ et qu'il est probablement premier. Cependant il existe des exceptions : certains entiers valident le test de Fermat mais ne sont pas des nombres premiers. Par exemple parmi tous les entiers $n \le 1\,000\,000$, tous ceux qui passent le test de Fermat à la fois pour $a=2$, $a=3$, $a=5$ et $a=7$ sont des nombres premiers (il y en a $78\,498$) à l'exceptions de $19$ entiers (le premier de la liste est $n=29\,341=13\times37\times61$).
 \end{itemize}
 
-Le test de Fermat permet de produire des entiers très grands qui sont probablement des nombres premiers : on choisit un entier $n$ au hasard, on effectue un test de Fermat, si le test est concluant alors $n$ est probablement un nombre premier, sinon on essaie l'entier $n+1$\ldots
+Le test de Fermat permet de produire des entiers très grands qui sont probablement des nombres premiers : on choisit un entier impair $n$ au hasard, on effectue un test de Fermat, si le test est concluant alors $n$ est probablement un nombre premier, sinon on essaie l'entier $n+2$\ldots
 
 \bigskip
 \textbf{Algorithmes modernes.}
@@ -344,7 +344,7 @@ Le groupe $(\Zz/n\Zz)^*$ possède $\varphi(n)$ éléments (où $\varphi(n)$ est 
 
 \begin{definition}
 Soit $n\ge1$. L'\defi{indicatrice d'Euler}\index{indicatrice d'Euler} $\varphi(n)$ est le nombre d'entiers $a$ 
-premiers avec $n$, tels que $1 \le a \le n$ .
+premiers avec $n$, tels que $1 \le a \le n$.
 \end{definition}
 
 Une conséquence immédiate est que $\varphi(n)$ est le nombre d'éléments inversibles modulo $n$ : $\varphi(n) = \operatorname{Card} (\Zz/n\Zz)^*$.

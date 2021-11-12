@@ -1,9 +1,9 @@
 \begin{tikzpicture}
   \node[draw,minimum height=1cm, align=center] (P) at (0,0.75){AND};
-  \node[draw,minimum height=0.5cm, align=center] (Q) at (0,-0.25){NOT};
+  \node[draw,minimum height=0.5cm, align=center] (Q) at (0,-0.5){NOT};
  \node (A) at (-2,1) {A};
  \node (B) at (-2,0.5) {B};
- \node (C) at (-2,-0.25) {C};
+ \node (C) at (-2,-0.5) {C};
 
   \draw ($(P.west)+(0,0.25)$) -- (A);
   \draw ($(P.west)+(0,-0.25)$) -- (B);

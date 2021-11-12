@@ -38,7 +38,7 @@ node  [right,black]{$\ket{\psi}$};
 
 
 
-\node[rectangle,draw,scale=0.6] at (8,-0) {
+\node[rectangle,draw,scale=0.55] at (8,-0) {
 \vphantom{\LARGE X}
 \begin{tabular}{c}
 \it Information \\

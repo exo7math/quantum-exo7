@@ -1,7 +1,6 @@
 import qiskit as q
 
 from qiskit_ibm_provider import IBMProvider
-# from qiskit.tools.monitor import job_monitor
 import matplotlib.pyplot as plt
 
 ### Partie A. Préparation
@@ -11,7 +10,7 @@ IBMProvider.save_account(token='ce5a6210bb21...')
 
 provider = IBMProvider()
 
-# print(provider.backends()) # Affiche les ordinateurs disponibles
+print(provider.backends()) # Affiche les ordinateurs disponibles
 
 backend = provider.get_backend('ibm_kyoto') # Choix d'un ordinateur disponible
 

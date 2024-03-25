@@ -1,7 +1,6 @@
 import qiskit as q
 
 from qiskit_ibm_provider import IBMProvider
-# from qiskit.tools.monitor import job_monitor
 import matplotlib.pyplot as plt
 
 ### Partie A. Préparation

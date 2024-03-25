@@ -523,21 +523,19 @@ $$
 Et voici le programme qui s'exécute à distance sur un vrai ordinateur quantique.
 \begin{lstlisting}
 import qiskit as q
-from qiskit.tools.monitor import job_monitor
+from qiskit_ibm_provider import IBMProvider
 import matplotlib.pyplot as plt
 
 ### Partie A. Préparation
 
-# Code à donner une fois seulement, ensuite commenter la ligne
-q.IBMQ.save_account('ce5a6210bb21...')
+# Clé à donner une fois seulement, ensuite commenter cette ligne
+IBMProvider.save_account(token='ce5a6210bb21...')
 
-q.IBMQ.load_account()
+provider = IBMProvider()
 
-provider = q.IBMQ.get_provider(group='open')
+print(provider.backends()) # Affiche les ordinateurs disponibles
 
-print(provider.backends())  # Affiche les ordinateurs disponibles
-
-backend = provider.get_backend('ibmq_essex')  # Choix d'un ordi disponible
+backend = provider.get_backend('ibm_kyoto') # Choix d'un ordinateur disponible
 
 ### Partie B. Construction du circuit
 
@@ -548,16 +546,16 @@ circuit.measure([0,1], [0,1])
 
 ### Partie C. Exécution 
 
-job_exp = q.execute(circuit, backend=backend, shots=1000)
-job_monitor(job_exp)
+tcircuit = q.transpile(circuit, backend)
+job = backend.run(tcircuit, shots=1000)
 
-# Partie D. Résultats et visualisation
+### Partie D. Résultats et visualisation
 
-result_exp = job_exp.result()
-counts_exp = result_exp.get_counts(circuit)
-print(counts_exp)
+result = job.result()
+counts = result.get_counts(tcircuit)
+print("Nombre de '00', '01', '10' et de '11' :", counts)
 
-q.visualization.plot_histogram(counts_exp)
+q.visualization.plot_histogram(counts)
 plt.show()
 \end{lstlisting}
 
@@ -565,21 +563,11 @@ plt.show()
 %--------------------------------------------------------------------
 \subsection{Explications}
 
-\textbf{Partie A. Préparation.} La préparation consiste à donner son code d'accès (une seule fois), à choisir un accès libre (groupe \ci{'open'}), puis à choisir un ordinateur quantique parmi une liste disponible (ici \ci{'ibmq_essex'}).
+\textbf{Partie A. Préparation.} La préparation consiste à donner son code d'accès (une seule fois), à choisir un ordinateur quantique en accès (ici \ci{'ibmq_kyoto'}).
 
 \textbf{Partie B. Construction du circuit.} Comme d'habitude !
 
-\textbf{Partie C. Exécution.} Presque comme d'habitude sauf qu'il faut être un peu plus patient pour disposer de l'accès et attendre la fin des calculs.
-
-Voici la liste des messages qui informent l'utilisateur de l'avancement du travail :
-\begin{lstlisting}
-Job Status: job is being validated
-Job Status: job is queued
-Job Status: job is actively running
-Job Status: job has successfully run
-\end{lstlisting}
-
-Si l'attente semble trop longue il existe un moyen de retrouver les résultats plus tard (à l'aide de la commande \ci{retrieve_job}).
+\textbf{Partie C. Exécution.} Presque comme d'habitude sauf qu'il faut être un peu plus patient pour disposer de l'accès et attendre la fin des calculs. On retrouve aussi les résultats sur la page de son compte.
 
 %--------------------------------------------------------------------
 \subsection{Résultats}

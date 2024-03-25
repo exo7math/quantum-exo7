@@ -22,11 +22,11 @@ circuit.x(0)
 # Sauvegarder l'état du qubit
 circuit.save_statevector()
 
-# Partie C. Exécution 
+### Partie C. Exécution 
 tcircuit = q.transpile(circuit, simulator)
 job = simulator.run(tcircuit)
 
-# Partie D. Résultats
+### Partie D. Résultats
 
 result = job.result()
 

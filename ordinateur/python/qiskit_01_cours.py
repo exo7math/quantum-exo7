@@ -32,7 +32,7 @@ result = job.result()
 
 # Comptage
 counts = result.get_counts(tcircuit)
-print("Nombre de '0' et de '1':",counts)
+print("Nombre de '0' et de '1' :", counts)
 
 # Diagramme en barres
 import matplotlib.pyplot as plt

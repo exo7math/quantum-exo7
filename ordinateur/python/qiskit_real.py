@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 ### Partie A. Préparation
 
 # Clé à donner une fois seulement, ensuite commenter cette ligne
-# IBMProvider.save_account(token='804787a1d87195e221738e2e3e9fc1290bc4bcd92c2f5ace24b0e2f41d11d0b6df7fe908470d1342088ed831c7c30c25104678021fa032f1c7c5b9d6d7e04da7')
+IBMProvider.save_account(token='ce5a6210bb21...')
 
 provider = IBMProvider()
 
@@ -49,7 +49,7 @@ print("Calculs terminés.")
 
 # Comptage
 counts = result.get_counts(tcircuit)
-print(counts)
+print("Nombre de '00', '01', '10' et de '11' :", counts)
 
 # Diagramme en barres
 q.visualization.plot_histogram(counts)

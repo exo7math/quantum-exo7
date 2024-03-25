@@ -34,8 +34,7 @@ circuit.save_statevector()
 
 print(circuit.draw(output='text'))
 
-img_circuit = circuit.draw(output='mpl', style="iqp",filename='fig-circuit-latex.png')
-# img_circuit = circuit.draw(output='mpl', style="iqp")
+img_circuit = circuit.draw(output='mpl', style="iqp", filename='fig-circuit.png')
 img_circuit.show()
 
 ### Partie C. Execution 

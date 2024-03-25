@@ -63,11 +63,12 @@ $$
 
 \begin{lstlisting}
 import qiskit as q
+from qiskit_aer import QasmSimulator
 
 ### Partie A. Préparation
 
 # On simule un ordinateur quantique
-simulator = q.Aer.get_backend('qasm_simulator')
+simulator = QasmSimulator()
 
 ### Partie B. Construction du circuit
 
@@ -86,15 +87,16 @@ print(circuit.draw(output='text'))
 ### Partie C. Exécution 
 
 # Lancer de 1000 simulations
-job = q.execute(circuit, simulator, shots=1000)
+tcircuit = q.transpile(circuit, simulator)
+job = simulator.run(tcircuit, shots=1000)
 
 ### Partie D. Résultats et visualisation
 
 result = job.result()
 
 # Comptage
-counts = result.get_counts(circuit)
-print("Nombre de '0' et de '1':",counts)
+counts = result.get_counts(tcircuit)
+print("Nombre de '0' et de '1' :", counts)
 
 # Diagramme en barres
 import matplotlib.pyplot as plt
@@ -111,7 +113,7 @@ On reprend pas à pas le programme ci-dessus avec des explications et les résul
 
 \begin{itemize}
   \item Le module \Python{} à importer au préalable est le module \qiskit{}, on abrège son nom par la seule lettre \ci{q}.
-  \item Pour l'instant on n'utilise pas un véritable ordinateur quantique, mais on transforme notre machine en un simulateur avec l'option \ci{'qasm_simulator'}.
+  \item Pour l'instant on n'utilise pas un véritable ordinateur quantique, mais on transforme notre machine en un simulateur avec l'option \ci{'QasmSimulator'}.
 \end{itemize}
 
 \bigskip
@@ -136,9 +138,12 @@ Comme l'entrée n'a pas été précisée, c'est, comme mentionné sur l'affichag
 \bigskip
 \textbf{Partie C. \'Exécution}
 
+On transforme notre circuit en un circuit adapté à une machine quantique via une opération appelée \emph{transpilation} :
+\mycenterline{\ci{tcircuit = q.transpile(circuit, simulator)}}
+
 Le travail de simulation commence. 
 Un test du circuit conduit à une mesure, avec une sortie $0$ ou $1$  (la valeur exacte du qubit dans le circuit n'est pas accessible). Une seule valeur ne permet pas de conclure sur la nature du circuit, c'est pourquoi on effectue une simulation avec un grand nombre de lancers (\emph{shots}). 
-\mycenterline{\ci{job = q.execute(circuit, simulator, shots=1000)}}
+\mycenterline{\ci{job = simulator.run(tcircuit, shots=1000)}}
 
 
 
@@ -213,9 +218,11 @@ Deux différences majeures cependant :
 \label{ssec:progstate}
 
 \begin{lstlisting}
+from qiskit_aer import AerSimulator
+
 ### Partie A. Préparation
 
-simulator = q.Aer.get_backend('statevector_simulator')
+simulator = AerSimulator(method="statevector")
 
 ### Partie B. Construction du circuit
 
@@ -227,17 +234,19 @@ beta0 = 1-2j
 norme = np.sqrt(abs(alpha0)**2 + abs(beta0)**2)
 alpha, beta = alpha0/norme, beta0/norme
 etat_initial = [alpha,beta]
-qubit_initial = q.extensions.Initialize(etat_initial)
-circuit.append(qubit_initial, [0])
+qubit_initial = circuit.initialize(etat_initial, [0])
 
 # Circuit : une porte X
 circuit.x(0)
 
-# Partie C. Exécution 
+# Sauvegarder l'état du qubit
+circuit.save_statevector()
 
-job = q.execute(circuit, simulator)
+### Partie C. Exécution 
+tcircuit = q.transpile(circuit, simulator)
+job = simulator.run(tcircuit)
 
-# Partie D. Résultats
+### Partie D. Résultats
 
 result = job.result()
 
@@ -260,7 +269,7 @@ print("Coefficient beta :", coefficients[1])
   
   Afin que l'entrée soit acceptée, il faut normaliser le qubit $\ket\psi$.
   On calcule donc la norme $\|\psi\| = \sqrt{|\alpha_0|^2+|\beta_0|^2}$. Et on définit
-  $\alpha = \alpha_0/\|\psi\|$ et $\beta = \beta_0/\|\psi\|$. Ce qui nous permet de définir le qubit initial à l'aide de la commande \ci{Initialise([alpha,beta])}.
+  $\alpha = \alpha_0/\|\psi\|$ et $\beta = \beta_0/\|\psi\|$. Ce qui nous permet de définir le qubit initial à l'aide de la commande \ci{initialise([alpha,beta],[0])}.
   
   \item On rajoute une porte de Pauli $X$ (qui échange les coefficients $\alpha$ et $\beta$ du qubit).
   
@@ -322,7 +331,7 @@ $$
 
 \begin{lstlisting}
 ### Partie A. Préparation
-simulator = q.Aer.get_backend('qasm_simulator')
+simulator = QasmSimulator()
 
 ### Partie B. Construction du circuit
 circuit = q.QuantumCircuit(2, 2)  # 2 qubits et 2 mesures
@@ -331,20 +340,20 @@ circuit.h(0)  # Porte de Hadamard sur le premier qubit
 circuit.x(1)  # Porte X sur le second qubit
 circuit.cx(0, 1) # CNOT
 circuit.h(1)  # Porte de Hadamard sur le second qubit
-circuit.measure([0,1], [0,1]) # Mesure (q0->c0,q1->c1)
+circuit.measure([0,1], [0,1]) # Mesure (q0->c0, q1->c1)
 
 # Affichage graphique du circuit
-import PIL
-img_circuit = circuit.draw(output='latex')
+img_circuit = circuit.draw(output='mpl')
 img_circuit.show()
 
 ### Partie C. Exécution 
-job = q.execute(circuit, simulator, shots=1000)
+tcircuit = q.transpile(circuit, simulator)
+job = simulator.run(tcircuit, shots=1000)
 
 ### Partie D. Résultats et visualisation
 result = job.result()
-counts = result.get_counts(circuit)
-print("Nombre de '00', '01', '10' et de '11':",counts)
+counts = result.get_counts(tcircuit)
+print("Nombre de '00', '01', '10' et de '11':", counts)
 
 # Diagramme en barres
 q.visualization.plot_histogram(counts)
@@ -360,12 +369,12 @@ Voici les quelques points nouveaux.
   \item Il faut préciser le numéro de ligne du circuit lorsque l'on ajoute une porte, par exemple \ci{circuit.h(i)}. L'ajout se fait toujours de la gauche vers la droite.
   \item Pour une porte \mygate{CNOT}, il faut bien sûr préciser deux numéros de lignes.
   \item Pour la mesure, on précise d'abord la liste des lignes de qubits à lire et ensuite la liste des destinations.
-  \item Ici on propose un affichage graphique du circuit construit (qui nécessite LaTeX).
+  \item Ici on propose un affichage graphique du circuit construit. 
   
   \medskip
   
 \begin{center}
-\includegraphics[scale=\myscale,scale=0.4]{figures/fig-circuit-latex}
+\includegraphics[scale=\myscale,scale=0.6]{figures/fig-circuit-mpl}
 \end{center}
 
 \end{itemize}  
@@ -436,7 +445,7 @@ $$
 }
 Voici les étapes.
 \begin{enumerate}
-  \item Utiliser le moteur \ci{'statevector_simulator'}.
+  \item Utiliser le moteur \ci{AerSimulator(method='statevector')}.
   \item Définir au hasard un qubit de norme $1$, $\ket{\psi_1}$. 
   Pour cela, on suit la méthode utilisée dans le programme de la section \ref{ssec:progstate} :
   \begin{itemize}
@@ -618,9 +627,11 @@ $$
 
 \begin{lstlisting}
 import qiskit as q
+from qiskit_aer import QasmSimulator
 
 ### Partie A. Préparation
-simulator = q.Aer.get_backend('qasm_simulator')
+
+simulator = QasmSimulator()
 
 ### Partie B. Construction du circuit
 
@@ -634,15 +645,14 @@ message_alice = '01'  # choix entre '00', '01', '10', '11'
 
 ## B.2 Porte d'Alice selon message à transmettre
 if message_alice == '00':
-	circuit.iden(0)  # identité
+circuit.iden(0)  # identité
 elif message_alice == '01':
-	circuit.z(0)     # porte Z
+circuit.z(0)     # porte Z
 elif message_alice == '10':
-	circuit.x(0)     # porte X
+circuit.x(0)     # porte X
 elif message_alice == '11':
-	circuit.x(0)     # porte X
-	circuit.z(0)     # suivi de porte Z	
-
+circuit.x(0)     # porte X
+circuit.z(0)     # suivi de porte Z	
 
 ## B.3 Décodage
 circuit.cx(0, 1) # CNOT
@@ -656,15 +666,16 @@ print(circuit.draw(output='text'))
 ### Partie C. Exécution 
 
 # Lancer de 1000 simulations
-job = q.execute(circuit, simulator, shots=1000)
+tcircuit = q.transpile(circuit, simulator)
+job = simulator.run(tcircuit, shots=1000)
 
 # Partie D. Résultats
 
 result = job.result()
 
 # Comptage
-counts = result.get_counts(circuit)
-print("Nombre de '00', '01', '10' '11':",counts)
+counts = result.get_counts(tcircuit)
+print("Nombre de '00', '01', '10' '11' :", counts)
 \end{lstlisting}
 
 

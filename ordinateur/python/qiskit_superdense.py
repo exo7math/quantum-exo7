@@ -47,5 +47,5 @@ result = job.result()
 
 # Comptage
 counts = result.get_counts(tcircuit)
-print("Nombre de '00', '01', '10' '11':",counts)
+print("Nombre de '00', '01', '10' '11' :", counts)
 

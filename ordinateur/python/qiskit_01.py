@@ -23,7 +23,7 @@ circuit.measure(0, 0)
 print(circuit.draw(output='text'))  
 
 # circuit.draw(output='mpl', style="iqp")
-plt.show()
+# plt.show()
 
 ### Partie C. Exécution 
 
@@ -37,7 +37,7 @@ result = job.result()
 
 # Comptage
 counts = result.get_counts(tcircuit)
-print("Nombre de '0' et de '1':", counts)
+print("Nombre de '0' et de '1' :", counts)
 
 # Diagramme en barres
 q.visualization.plot_histogram(counts)

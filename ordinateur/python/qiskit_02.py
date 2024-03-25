@@ -35,13 +35,13 @@ circuit.save_statevector()
 print(circuit.draw(output='text'))
 
 
-# Partie C. Exécution 
+### Partie C. Exécution 
 
 tcircuit = q.transpile(circuit, simulator)
 job = simulator.run(tcircuit)
 
 
-# Partie D. Résultats
+### Partie D. Résultats
 
 result = job.result()
 

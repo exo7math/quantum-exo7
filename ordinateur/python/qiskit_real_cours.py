@@ -31,7 +31,7 @@ job = backend.run(tcircuit, shots=1000)
 
 result = job.result()
 counts = result.get_counts(tcircuit)
-print(counts)
+print("Nombre de '00', '01', '10' et de '11' :", counts)
 
 q.visualization.plot_histogram(counts)
 plt.show()

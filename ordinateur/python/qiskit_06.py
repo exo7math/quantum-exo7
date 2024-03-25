@@ -33,7 +33,7 @@ result = job.result()
 
 # Comptage
 counts = result.get_counts(tcircuit)
-print("Nombre de '000', '001', ... '111':",counts)
+print("Nombre de '000', '001', ... '111':", counts)
 
 # Plot a histogram
 q.visualization.plot_histogram(counts)

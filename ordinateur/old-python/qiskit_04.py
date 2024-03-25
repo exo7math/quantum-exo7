@@ -1,11 +1,10 @@
 import qiskit as q
-from qiskit_aer import QasmSimulator
 import matplotlib.pyplot as plt
 
 ### Partie A. Préparation
 
 # On simule un ordinateur quantique
-simulator = QasmSimulator()
+simulator = q.Aer.get_backend('qasm_simulator')
 
 ### Partie B. Construction du circuit
 
@@ -19,10 +18,11 @@ circuit.cx(0, 1) # CNOT
 circuit.measure([0,1], [0,1]) # Mesure
 
 
-print(circuit.draw(output='text'))
+# print(circuit.draw(output='text'))
 
-img_circuit = circuit.draw(output='mpl', style="iqp",filename='fig-circuit-latex.png')
-# img_circuit = circuit.draw(output='mpl', style="iqp")
+import PIL
+# img_circuit = circuit.draw(output='latex',filename='fig-circuit-latex.png')
+img_circuit = circuit.draw(output='latex')
 img_circuit.show()
 
 
@@ -31,15 +31,14 @@ img_circuit.show()
 ### Partie C. Exécution 
 
 # Lancer de 1000 simulations
-tcircuit = q.transpile(circuit, simulator)
-job = simulator.run(tcircuit, shots=1000)
+job = q.execute(circuit, simulator, shots=1000)
 
 ### Partie D. Résultats et visualisation
 
 result = job.result()
 
 # Comptage
-counts = result.get_counts(tcircuit)
+counts = result.get_counts(circuit)
 print("Nombre de '00', '01', '10' et de '11':",counts)
 
 # # Diagramme en barres

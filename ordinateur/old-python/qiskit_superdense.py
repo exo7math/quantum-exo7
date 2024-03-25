@@ -1,9 +1,7 @@
 import qiskit as q
-from qiskit_aer import QasmSimulator
 
 ### Partie A. Préparation
-
-simulator = QasmSimulator()
+simulator = q.Aer.get_backend('qasm_simulator')
 
 ### Partie B. Construction du circuit
 
@@ -38,14 +36,13 @@ print(circuit.draw(output='text'))
 ### Partie C. Exécution 
 
 # Lancer de 1000 simulations
-tcircuit = q.transpile(circuit, simulator)
-job = simulator.run(tcircuit, shots=1000)
+job = q.execute(circuit, simulator, shots=1000)
 
 # Partie D. Résultats
 
 result = job.result()
 
 # Comptage
-counts = result.get_counts(tcircuit)
+counts = result.get_counts(circuit)
 print("Nombre de '00', '01', '10' '11':",counts)
 

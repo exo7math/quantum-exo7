@@ -1,11 +1,10 @@
 import qiskit as q
-from qiskit_aer import QasmSimulator
 import matplotlib.pyplot as plt
 
 # Partie A. Préparation
 
 # On simule un ordinateur quantique
-simulator = QasmSimulator()
+simulator = q.Aer.get_backend('qasm_simulator')
 
 # Partie B. Construction du circuit
 
@@ -24,15 +23,14 @@ print(circuit.draw(output='text'))
 # Partie C. Execution 
 
 # Lancer de 1000 simulations
-tcircuit = q.transpile(circuit, simulator)
-job = simulator.run(tcircuit, shots=1000)
+job = q.execute(circuit, simulator, shots=1000)
 
 # Partie D. Résultats et visualisation
 
 result = job.result()
 
 # Comptage
-counts = result.get_counts(tcircuit)
+counts = result.get_counts(circuit)
 print("Nombre de '000', '001', ... '111':",counts)
 
 # Plot a histogram

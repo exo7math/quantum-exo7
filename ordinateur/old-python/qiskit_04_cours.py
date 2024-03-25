@@ -1,6 +1,6 @@
 
 ### Partie A. Préparation
-simulator = QasmSimulator()
+simulator = q.Aer.get_backend('qasm_simulator')
 
 ### Partie B. Construction du circuit
 circuit = q.QuantumCircuit(2, 2)  # 2 qubits et 2 mesures
@@ -12,16 +12,17 @@ circuit.h(1)  # Porte de Hadamard sur le second qubit
 circuit.measure([0,1], [0,1]) # Mesure (q0->c0,q1->c1)
 
 # Affichage graphique du circuit
-img_circuit = circuit.draw(output='mpl')
+import PIL
+img_circuit = circuit.draw(output='latex')
 img_circuit.show()
 
+
 ### Partie C. Exécution 
-tcircuit = q.transpile(circuit, simulator)
-job = simulator.run(tcircuit, shots=1000)
+job = q.execute(circuit, simulator, shots=1000)
 
 ### Partie D. Résultats et visualisation
 result = job.result()
-counts = result.get_counts(tcircuit)
+counts = result.get_counts(circuit)
 print("Nombre de '00', '01', '10' et de '11':",counts)
 
 # Diagramme en barres

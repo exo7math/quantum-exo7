@@ -1,20 +1,19 @@
-
 import qiskit as q
-from qiskit.tools.monitor import job_monitor
+
+from qiskit_ibm_provider import IBMProvider
+# from qiskit.tools.monitor import job_monitor
 import matplotlib.pyplot as plt
 
 ### Partie A. Préparation
 
-# Code à donner une fois seulement, ensuite commenter la ligne
-q.IBMQ.save_account('ce5a6210bb21...')
+# Clé à donner une fois seulement, ensuite commenter cette ligne
+IBMProvider.save_account(token='ce5a6210bb21...')
 
-q.IBMQ.load_account()
+provider = IBMProvider()
 
-provider = q.IBMQ.get_provider(group='open')
+# print(provider.backends()) # Affiche les ordinateurs disponibles
 
-print(provider.backends())  # Affiche les ordinateurs disponibles
-
-backend = provider.get_backend('ibmq_essex')  # Choix d'un ordinateur disponible
+backend = provider.get_backend('ibm_kyoto') # Choix d'un ordinateur disponible
 
 ### Partie B. Construction du circuit
 
@@ -25,14 +24,14 @@ circuit.measure([0,1], [0,1])
 
 ### Partie C. Exécution 
 
-job_exp = q.execute(circuit, backend=backend, shots=1000)
-job_monitor(job_exp)
+tcircuit = q.transpile(circuit, backend)
+job = backend.run(tcircuit, shots=1000)
 
-# Partie D. Résultats et visualisation
+### Partie D. Résultats et visualisation
 
-result_exp = job_exp.result()
-counts_exp = result_exp.get_counts(circuit)
-print(counts_exp)
+result = job.result()
+counts = result.get_counts(tcircuit)
+print(counts)
 
-q.visualization.plot_histogram(counts_exp)
+q.visualization.plot_histogram(counts)
 plt.show()

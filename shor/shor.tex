@@ -280,7 +280,7 @@ Choisissons un entier $n$ tel que $2^n \ge N$. (Ce sera suffisant pour le cas é
 
 
 On peut alors coder n'importe quel entier plus petit que $2^n$ à l'aide d'un  $n$-bit :
-pour $0 \le x < 2^n$, on note $\underline{x} = x_0.x_1 \ldots x_{n-1}$ son écriture binaire sur $n$ bits.
+pour $0 \le x < 2^n$, on note $\underline{x} = x_{n-1}\ldots x_1.x_0$ son écriture binaire sur $n$ bits.
 
 
 {\large$$
@@ -428,7 +428,7 @@ $$\ket{\psi_3} = \ket{\bar \psi_3} \otimes \ket{ \underline{a^{\beta_0}} }$$
 \subsection{Que donnerait la mesure du premier registre ?}
 
 
-Le qubit $\ket{\psi_3}$ est une somme de $\ket{\underline{\alpha r + \beta_0}}$, $\alpha=0,\ldots, \frac{2^n}{r}-1$.
+Le qubit $\ket{\bar \psi_3}$ est une somme de $\ket{\underline{\alpha r + \beta_0}}$, $\alpha=0,\ldots, \frac{2^n}{r}-1$.
 Si on mesurait ensuite le premier registre, c'est-à-dire le qubit $\ket{\bar \psi_3}$ alors on obtiendrait l'un des états 
 $$\ket{\underline{\alpha r + \beta_0}} \qquad \text{ pour un certain } 0 \le \alpha < 2^n/r,$$
 ou plus exactement, un $n$-bit $\underline{\alpha r + \beta_0}$, c'est-à-dire l'un des entiers 

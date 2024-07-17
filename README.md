@@ -14,7 +14,7 @@ Vous pouvez obtenir une version papier en *noir et blanc* sur [Amazon](https://w
 Vidéos
 ======
 
-Tous les cours est aussi expliqué en vidéos ! [Chaîne Youtube "Quantum"](https://www.youtube.com/channel/UCgeO7CtfYSdWt0PPZ3vafqw/)
+Tout le cours est aussi expliqué en vidéos ! [Chaîne Youtube "Quantum"](https://www.youtube.com/channel/UCgeO7CtfYSdWt0PPZ3vafqw/)
 
 
 Chapitres

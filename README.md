@@ -16,6 +16,13 @@ Vidéos
 
 Tout le cours est aussi expliqué en vidéos ! [Chaîne Youtube "Quantum"](https://www.youtube.com/channel/UCgeO7CtfYSdWt0PPZ3vafqw/)
 
+Expérimentations
+================
+
+* [Qiskit](https://www.ibm.com/quantum/qiskit) : programmation de circuits quantiques
+* [QAlgo](https://qalgo.org/) : création graphique et facile de petits circuits en ligne (en français)
+* [Quirk](https://algassert.com/quirk) : création graphique et facile de petits circuits en ligne (en anglais)
+
 
 Chapitres
 =========

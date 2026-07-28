@@ -680,13 +680,97 @@ $$}
 \subsection{Circuit}
 {\small$$\hspace*{-6em}
 \Qcircuit @C=1em @R=1em {
-\lstick{\ket{k_0}}     & \qw     & \qw       & \ctrl{4}  & \qw        & \qw     & \qw        & \qw        & \qw       & \ctrl{3}  & \qw        & \qw        & \qw   &\qw           & \qw       &  \ctrl{1}  & \gate{H}  & \qw  & \rstick{\ket{0} + e^{2\ii \pi 0..k_0} \ket{1} }\qwa \\
-\lstick{\ket{k_1}}     & \qw     & \qw       & \qw       & \ctrl{3}   & \qw     & \qw        & \qw        & \qw       & \qw       & \ctrl{2}   & \qw        & \qw     & \qw        & \gate{H}  & \gate{R_2} & \qw       & \qw  & \rstick{\ket{0} + e^{2\ii \pi 0..k_1.k_0} \ket{1} }\qwa \\
-                       & \vdots  &           &           &      &  \vdots       &            &            &           &           &            &            &                 &           &            &           &      &   \\
-\lstick{\ket{k_{n-2}}} & \qw     & \qw       & \qw       & \qw        & \qw     & \qw        & \ctrl{1}   & \gate{H}  & \gate{R_2}& \gate{R_3} & \cdots  &   &  \gate{R_{n-1}} & \qw       & \qw        & \qw       & \qw  & \rstick{\ket{0} + e^{2\ii \pi 0..k_{n-2}\ldots k_1.k_0} \ket{1} }\qwa \\
-\lstick{\ket{k_{n-1}}} & \qw     & \gate{H}  & \gate{R_2}& \gate{R_3} & \cdots  &         & \gate{R_n} & \qw       & \qw       & \qw        & \qw        & \qw             & \qw       & \qw        & \qw    &\qw   & \qw  & \rstick{\ket{0} + e^{2\ii \pi 0..k_{n-1} \ldots k_1.k_0} \ket{1} }\qwa\\
+\lstick{\ket{k_0}}
+ & \qw & \qw & \qw       & \qw    & \qw       & \qw    & \qw
+ & \ctrl{4}
+ & \qw & \qw       & \qw    & \qw       & \qw    & \qw
+ & \ctrl{3}
+ & \qw
+ & \ctrl{1}
+ & \gate{H}
+ & \qw
+ & \rstick{\ket{0} + e^{2\ii \pi 0..k_0}\ket{1}}\qwa
+\\
+\lstick{\ket{k_1}}
+ & \qw & \qw & \qw       & \qw    & \qw       & \qw
+ & \ctrl{3}
+ & \qw
+ & \qw & \qw       & \qw    & \qw       & \qw
+ & \ctrl{2}
+ & \qw
+ & \gate{H}
+ & \gate{R_2}
+ & \qw
+ & \qw
+ & \rstick{\ket{0} + e^{2\ii \pi 0..k_1.k_0}\ket{1}}\qwa
+\\
+ & \vdots
+ & 
+ & 
+ & 
+ & \vdots
+ & 
+ & 
+ & 
+ & 
+ & 
+ & 
+ & 
+ & 
+ & 
+ & 
+ & 
+ & 
+ & 
+ & 
+\\
+\lstick{\ket{k_{n-2}}}
+ & \qw
+ & \qw
+ & \ctrl{1}
+ & \qw
+ & \qw
+ & \qw
+ & \qw
+ & \qw
+ & \gate{H}
+ & \gate{R_2}
+ & 
+ & \cdots
+ & 
+ & \gate{R_{n-2}}
+ & \gate{R_{n-1}}
+ & \qw
+ & \qw
+ & \qw
+ & \qw
+ & \rstick{\ket{0} + e^{2\ii \pi 0..k_{n-2}\ldots k_1.k_0}\ket{1}}\qwa
+\\
+\lstick{\ket{k_{n-1}}}
+ & \qw
+ & \gate{H}
+ & \gate{R_2}
+ & 
+ & \cdots
+ & 
+ & \gate{R_{n-1}}
+ & \gate{R_n}
+ & \qw
+ & \qw
+ & \qw
+ & \qw
+ & \qw
+ & \qw
+ & \qw
+ & \qw
+ & \qw
+ & \qw
+ & \qw
+ & \rstick{\ket{0} + e^{2\ii \pi 0..k_{n-1}\ldots k_1.k_0}\ket{1}}\qwa
+\\
 }
 $$}
+
 
 \bigskip
 \bigskip
@@ -767,9 +851,9 @@ $$\ket{\psi_1} = \ket{0} + e^{2\ii \pi 0..k_1.k_0}\ket{1}.$$
 
 $$
 \Qcircuit @C=1em @R=1em {
-\lstick{\ket{k_0}} & \qw  & \qw      & \ctrl{2}   & \qw        & \qw      &  \ctrl{1}  & \gate{H}  & \qw  & \rstick{\ket{\psi_0}}\qwa \\
-\lstick{\ket{k_1}} & \qw  & \qw      & \qw        & \ctrl{1}   & \gate{H} & \gate{R_2} & \qw       & \qw  & \rstick{\ket{\psi_1}}\qwa \\
-\lstick{\ket{k_2}} & \qw  & \gate{H} & \gate{R_2} & \gate{R_3} & \qw      & \qw        & \qw       & \qw  & \rstick{\ket{\psi_2}}\qwa \\
+\lstick{\ket{k_0}} & \qw & \qw      & \qw        & \ctrl{2}   & \qw      & \ctrl{1}  & \gate{H} & \qw & \rstick{\ket{\psi_0}}\qwa \\
+\lstick{\ket{k_1}} & \qw & \qw      & \ctrl{1}   & \qw        & \gate{H} & \gate{R_2} & \qw      & \qw & \rstick{\ket{\psi_1}}\qwa \\
+\lstick{\ket{k_2}} & \qw & \gate{H} & \gate{R_2} & \gate{R_3} & \qw      & \qw        & \qw      & \qw & \rstick{\ket{\psi_2}}\qwa \\
 }
 $$
 
@@ -801,11 +885,24 @@ Cela se fait avec une porte \mygate{SWAP} que l'on a vue lors du chapitre \og{}P
 Ainsi le circuit complet pour l'exemple de $n=3$ devient :
 $$
 \Qcircuit @C=1em @R=1em {
-\lstick{\ket{k_2}} & \qw & \multigate{2}{SWAP} & \qw & \qw      & \ctrl{2}   & \qw        & \qw      &  \ctrl{1}  & \gate{H}  & \qw  & \rstick{\ket{\psi_0}}\qwa \\
-\lstick{\ket{k_1}} & \qw & \ghost{SWAP}        & \qw & \qw      & \qw        & \ctrl{1}   & \gate{H} & \gate{R_2} & \qw       & \qw  & \rstick{\ket{\psi_1}}\qwa \\
-\lstick{\ket{k_0}} & \qw & \ghost{SWAP}        & \qw & \gate{H} & \gate{R_2} & \gate{R_3} & \qw      & \qw        & \qw       & \qw  & \rstick{\ket{\psi_2}}\qwa \\
+\lstick{\ket{k_2}} & \qw & \multigate{2}{SWAP} & \qw
+ & \qw      & \qw        & \ctrl{2}
+ & \qw      & \ctrl{1}   & \gate{H}
+ & \qw      & \rstick{\ket{\psi_0}}\qwa
+\\
+\lstick{\ket{k_1}} & \qw & \ghost{SWAP}        & \qw
+ & \qw      & \ctrl{1}   & \qw
+ & \gate{H} & \gate{R_2} & \qw
+ & \qw      & \rstick{\ket{\psi_1}}\qwa
+\\
+\lstick{\ket{k_0}} & \qw & \ghost{SWAP}        & \qw
+ & \gate{H} & \gate{R_2} & \gate{R_3}
+ & \qw      & \qw        & \qw
+ & \qw      & \rstick{\ket{\psi_2}}\qwa
+\\
 }
 $$
+
 
 En incluant une porte \mygate{SWAP}, nous avons construit un circuit qui réalise la transformée de Fourier :
 {\large$$

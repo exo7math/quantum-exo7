@@ -1,3 +1,5 @@
+﻿\begingroup
+\tracinglostchars=0   % bug dans blochsphere
 %\begin{tikzpicture}
 \begin{blochsphere}[radius=3 cm,tilt=20,rotation=-20,opacity=0.1]
 
@@ -118,3 +120,4 @@
 
 \end{blochsphere}
 %\end{tikzpicture}
+\endgroup

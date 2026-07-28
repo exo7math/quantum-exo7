@@ -1,7 +1,6 @@
 % \mainfolder est ../ si compilation d'un chapitre, sinon c'est vide
 \ProvidesPackage{\mainfolder python-common}
 % --------------------------------------------------------------------
-
 % ===================================================================
 % La partie commune aux options : minimal, screen, print, test
 % ----------------------------------------------------------------------
@@ -20,13 +19,13 @@
 % ----------------------------------------------------------------------
 % Pour la francisation du LaTeX
 \usepackage[french]{babel}   % 'french' au lieu de 'francais'
+% \shorthandoff{;}
   % Pour ne pas modifier les espacements standard dans les listes et les retraits
   %\frenchbsetup{StandardLayout=true}
   \frenchbsetup{ReduceListSpacing=true}
   %\frenchbsetup{IndentFirst=false}
   \renewcommand{\Frlabelitemi}{\raisebox{-0.2ex}{\textbullet}}
   \setlength{\listindentFB}{0pt}
-
 % ----------------------------------------------------------------------
 % Principaux packages de math (mathtools charge amsmath, amssymb charge amsfonts)
 \usepackage{mathtools}
@@ -115,6 +114,7 @@
 \usetikzlibrary{positioning}
 \usetikzlibrary{arrows}
 \usetikzlibrary{backgrounds}
+\usetikzlibrary{babel}
 \newcommand{\tikzinput}[1]{%
   %\tikzsetnextfilename{\import@path tikzcach/#1\cachsuffix}%
   \input{figures/#1.tikz}%
@@ -274,12 +274,14 @@
 \newcommand{\mygate}[1]{\ensuremath{#1}}
 \usepackage[braket, qm]{qcircuit}
 \newcommand{\braket}[2]{\ip{#1}{#2}}
+% \shorthandoff{;}
 \usepackage{blochsphere}
+% \shorthandon{;}
 
 \usepackage{multirow}
 
 \usepackage{tikzsymbols}
-\usetikzlibrary{babel}
+
 
 %% Attention les figures sont commentées car longuettes à calculer !!
 %\newcommand{\commentfigure}[1]{\centerline{\emph{Ici une figure.}}}  % sans les figures compliquées
